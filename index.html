@@ -1,0 +1,75 @@
+﻿<!--
+このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
+-->
+<script src="js/remark-latest.min.js"></script>
+<!--
+このファイルだけコピペして動かすには上の script タグをコメントアウトし、下の script タグのコメントアウトを解除してください。
+-->
+<!-- script src="https://remarkjs.com/downloads/remark-latest.min.js"></script -->
+<script>
+var sourceUrl = (location.href +"?index.md").split("?")[1];
+var request = window.XMLHttpRequest ? new XMLHttpRequest(): new ActiveXObject("Microsoft.XMLHTTP");
+request.open('GET', sourceUrl, true);
+request.onreadystatechange = function() {
+    if (4 === request.readyState && 200 === request.status)
+    {
+        //  source
+        var source = request.responseText.replace(/\r\n/g,"\n");
+
+        //  title
+        var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
+        if ("" === title)
+        {
+            var sourceUrlParts = sourceUrl.split("/");
+            title = sourceUrlParts[sourceUrlParts.length -1];
+            if ("" === title)
+            {
+                title = sourceUrlParts[sourceUrlParts.length -2];
+            }
+            if ("" === title)
+            {
+                title = sourceUrl;
+            }
+        }
+        document.title = title;
+
+        //  favicon
+        var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();
+        if (favicon)
+        {
+            var link = document.createElement("link");
+            link.rel = "shortcut icon";
+            link.type = "image/x-icon";
+            link.href = favicon;
+            document.head.appendChild(link);
+        }
+
+        //  theme
+        (source+"<!--[THEME] -->").split("<!--[THEME]").slice(1).forEach(i => {
+            var theme = i.split("-->")[0].trim();
+            if (theme)
+            {
+                var link = document.createElement("link");
+                link.rel = "stylesheet";
+                link.type = "text/css";
+                link.href = theme;
+                document.head.appendChild(link);
+            }
+        });
+
+        //  style
+        var style = document.createElement("style");
+        style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
+        document.head.appendChild(style);
+
+        //  link within a page
+        //  not yet implemented
+
+        //  remark
+        var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
+        config.source = source;
+        var slideshow = remark.create(config);
+    }
+};
+request.send(null);
+</script>

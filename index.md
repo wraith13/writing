@@ -1,11 +1,12 @@
-## writing by [@wraith13](https://twitter.com/wraith13)
+# writing by [@wraith13](https://twitter.com/wraith13)
 
+- [README](?README.md)
 - [demo](?demo.md)
 
-<!--REMARK-CONFIG
+<!--[TITLE] writing by @wraith13 -->
+<!--[THEME] theme/default.css -->
+<!--[REMARK-CONFIG]
 {
     "slideNumberFormat": ""
 }
--->
-<!--STYLE
 -->

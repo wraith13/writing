@@ -7,69 +7,136 @@
 -->
 <!-- script src="https://remarkjs.com/downloads/remark-latest.min.js"></script -->
 <script>
-var sourceUrl = (location.href +"?index.md").split("?")[1];
-var request = window.XMLHttpRequest ? new XMLHttpRequest(): new ActiveXObject("Microsoft.XMLHTTP");
-request.open('GET', sourceUrl, true);
-request.onreadystatechange = function() {
-    if (4 === request.readyState && 200 === request.status)
+(function()
+{
+    var makeAbsoluteUrl = function(base, url)
     {
-        //  source
-        var source = request.responseText.replace(/\r\n/g,"\n");
-
-        //  title
-        var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
-        if ("" === title)
+        var baseParts = base.split("?")[0].split("/");
+        if (4 <= baseParts.length && "" !== baseParts[baseParts.length -1])
         {
-            var sourceUrlParts = sourceUrl.split("/");
-            title = sourceUrlParts[sourceUrlParts.length -1];
-            if ("" === title)
+            // ファイル名部分の除去
+            baseParts = baseParts.slice(0, -1);
+        }
+        if (4 <= baseParts.length && "" === baseParts[baseParts.length -1])
+        {
+            // 末尾の空要素を除去(しておかないと結合時に余分に / が挟まる)
+            baseParts = baseParts.slice(0, -1);
+        }
+        var urlParts = url.split("/");
+        if (0 <= urlParts[0].indexOf(":"))
+        {
+            //  絶対パスなので base 側は全て破棄
+            baseParts = [];
+        }
+        else
+        {
+            if ("" === urlParts[0])
             {
-                title = sourceUrlParts[sourceUrlParts.length -2];
+                urlParts = urlParts.slice(1);
+                if ("" === urlParts[1])
+                {
+                    //  プロトコルだけ利用
+                    baseParts = baseParts.slice(0, 1);
+                }
+                else
+                {
+                    //  サーバー名まで利用
+                    baseParts = baseParts.slice(0, 3);
+                }
             }
-            if ("" === title)
+            else
             {
-                title = sourceUrl;
+                while(true)
+                {
+                    if ("." === urlParts[0])
+                    {
+                        urlParts = urlParts.slice(1);
+                        continue;
+                    }
+                    if (".." === urlParts[0])
+                    {
+                        urlParts = urlParts.slice(1);
+                        if (4 <= baseParts.length)
+                        {
+                            baseParts = baseParts.slice(0, -1);
+                        }
+                        continue;
+                    }
+                    break;
+                }
             }
         }
-        document.title = title;
-
-        //  favicon
-        var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();
-        if (favicon)
+        return baseParts.concat(urlParts).join("/");
+    }
+    var sourceUrl = makeAbsoluteUrl(location.href, (location.href +"?index.md").split("?")[1]);
+    var request = window.XMLHttpRequest ? new XMLHttpRequest(): new ActiveXObject("Microsoft.XMLHTTP");
+    request.open('GET', sourceUrl, true);
+    request.onreadystatechange = function()
+    {
+        if (4 === request.readyState && 200 === request.status)
         {
-            var link = document.createElement("link");
-            link.rel = "shortcut icon";
-            link.type = "image/x-icon";
-            link.href = favicon;
-            document.head.appendChild(link);
-        }
+            //  source
+            var source = request.responseText.replace(/\r\n/g,"\n");
 
-        //  theme
-        (source+"<!--[THEME] -->").split("<!--[THEME]").slice(1).forEach(i => {
-            var theme = i.split("-->")[0].trim();
-            if (theme)
+            //  title
+            var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
+            if ("" === title)
+            {
+                var sourceUrlParts = sourceUrl.split("/");
+                title = sourceUrlParts[sourceUrlParts.length -1];
+                if ("" === title)
+                {
+                    title = sourceUrlParts[sourceUrlParts.length -2];
+                }
+                if ("" === title)
+                {
+                    title = sourceUrl;
+                }
+            }
+            document.title = title;
+
+            //  favicon
+            var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();
+            if (favicon)
             {
                 var link = document.createElement("link");
-                link.rel = "stylesheet";
-                link.type = "text/css";
-                link.href = theme;
+                link.rel = "shortcut icon";
+                link.type = "image/x-icon";
+                link.href = makeAbsoluteUrl(sourceUrl, favicon);
                 document.head.appendChild(link);
             }
-        });
 
-        //  style
-        var style = document.createElement("style");
-        style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
-        document.head.appendChild(style);
+            //  theme
+            (source+"<!--[THEME] -->").split("<!--[THEME]").slice(1).forEach
+            (
+                function(i)
+                {
+                    var theme = i.split("-->")[0].trim();
+                    if (theme)
+                    {
+                        var link = document.createElement("link");
+                        link.rel = "stylesheet";
+                        link.type = "text/css";
+                        link.href = makeAbsoluteUrl(sourceUrl, theme);
+                        document.head.appendChild(link);
+                    }
+                }
+            );
 
-        //  link within a page
-        //  not yet implemented
+            //  style
+            var style = document.createElement("style");
+            style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
+            document.head.appendChild(style);
 
-        //  remark
-        var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-        config.source = source;
-        var slideshow = remark.create(config);
-    }
-};
-request.send(null);
+            //  link within a page
+            //  not yet implemented
+
+            //  remark
+            var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
+            config.source = source;
+            var slideshow = remark.create(config);
+        }
+    };
+    request.send(null);
+})();
 </script>

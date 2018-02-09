@@ -9,9 +9,30 @@ h1, h2, h3 {
 }
 .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
 
-.remark-slide-content {
+.remark-slide-content
+{
     font-size: 35px;
 }
-.remark-code {
+.remark-code
+{
     font-size: 30px;
+}
+
+blockquote
+{
+    opacity: 0.6;
+    background-color: #DDDDDD;
+    padding: 8px;
+}
+blockquote::before
+{
+    margin-top: -30px;
+    opacity: 0.3;
+    content: "“";
+    font-size: 180px;
+    float: left;
+}
+blockquote > p
+{
+    margin-left: 100px;
 }

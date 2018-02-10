@@ -67,7 +67,82 @@
             }
         }
         return baseParts.concat(urlParts).join("/");
-    }
+    };
+    var translateLinkWithinPage = function(source)
+    {
+        var lines = source.split("\n");
+        var anchors = [ ];
+        var isInEscape = false;
+        var page = 1;
+        var isLayout = false;
+        lines.forEach
+        (
+            function(line)
+            {
+                var trimed_line = line.trim();
+                var isEscape = "```" === trimed_line.slice(0, 3);
+                if (isEscape)
+                {
+                    isInEscape = !isInEscape;
+                }
+                else
+                if (!isInEscape)
+                {
+                    if ("--" === line || "---" === line)
+                    {
+                        if (!isLayout)
+                        {
+                            ++page;
+                        }
+                        isLayout = false;
+                    }
+                    else
+                    if ("#" === trimed_line.slice(0, 1))
+                    {
+                        var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\(\)]/g,"").replace(/ /g,"-");
+                        anchors.push
+                        (
+                            {
+                                anchor: "](#" +anchor +")",
+                                page: "](#" +page +")"
+                            }
+                        );
+                    }
+                    else
+                    if ("layout:" === trimed_line.slice(0, 7) && "true" === trimed_line.slice(7).trim())
+                    {
+                        isLayout = true;
+                    }
+                }
+            }
+        );
+        isInEscape = false;
+        lines = lines.map
+        (
+            function(line)
+            {
+                var trimed_line = line.trim();
+                var isEscape = "```" === trimed_line.slice(0, 3);
+                if (isEscape)
+                {
+                    isInEscape = !isInEscape;
+                }
+                else
+                if (!isInEscape)
+                {
+                    anchors.forEach
+                    (
+                        function(i)
+                        {
+                            line = line.split(i.anchor).join(i.page);
+                        }
+                    );
+                }
+                return line;
+            }
+        );
+        return lines.join("\n");
+    };
     var sourceUrl = makeAbsoluteUrl(location.href, unescape((location.href +"?index.md").split("#")[0].split("?")[1]));
     var request = window.XMLHttpRequest ? new XMLHttpRequest(): new ActiveXObject("Microsoft.XMLHTTP");
     request.open('GET', sourceUrl, true);
@@ -128,12 +203,9 @@
             style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
             document.head.appendChild(style);
 
-            //  link within a page
-            //  not yet implemented
-
             //  remark
             var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-            config.source = source;
+            config.source = translateLinkWithinPage(source);
             var slideshow = remark.create(config);
         }
     };

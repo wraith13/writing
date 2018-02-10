@@ -143,7 +143,7 @@
         );
         return lines.join("\n");
     };
-    var sourceUrl = makeAbsoluteUrl(location.href, unescape((location.href +"?index.md").split("#")[0].split("?")[1]));
+    var sourceUrl = makeAbsoluteUrl(location.href, unescape((location.href.split("#")[0] +"?index.md").split("?")[1]));
     var request = window.XMLHttpRequest ? new XMLHttpRequest(): new ActiveXObject("Microsoft.XMLHTTP");
     request.open('GET', sourceUrl, true);
     request.onreadystatechange = function()

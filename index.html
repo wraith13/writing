@@ -144,69 +144,91 @@
         return lines.join("\n");
     };
     var sourceUrl = makeAbsoluteUrl(location.href, unescape((location.href.split("#")[0] +"?index.md").split("?")[1]));
+    console.log("loading: " +sourceUrl);
     var request = window.XMLHttpRequest ? new XMLHttpRequest(): new ActiveXObject("Microsoft.XMLHTTP");
     request.open('GET', sourceUrl, true);
     request.onreadystatechange = function()
     {
-        if (4 === request.readyState && 200 === request.status)
+        if (4 === request.readyState)
         {
-            //  source
-            var source = request.responseText.replace(/\r\n/g,"\n");
-
-            //  title
-            var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
-            if ("" === title)
+            if (200 <= request.status && request.status < 300)
             {
-                var sourceUrlParts = sourceUrl.split("/");
-                title = sourceUrlParts[sourceUrlParts.length -1];
+                //  source
+                var source = request.responseText.replace(/\r\n/g,"\n");
+
+                //  title
+                var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
                 if ("" === title)
                 {
-                    title = sourceUrlParts[sourceUrlParts.length -2];
-                }
-                if ("" === title)
-                {
-                    title = sourceUrl;
-                }
-            }
-            document.title = title;
-
-            //  favicon
-            var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();
-            if (favicon)
-            {
-                var link = document.createElement("link");
-                link.rel = "shortcut icon";
-                link.type = "image/x-icon";
-                link.href = makeAbsoluteUrl(sourceUrl, favicon);
-                document.head.appendChild(link);
-            }
-
-            //  theme
-            (source+"<!--[THEME] -->").split("<!--[THEME]").slice(1).forEach
-            (
-                function(i)
-                {
-                    var theme = i.split("-->")[0].trim();
-                    if (theme)
+                    var sourceUrlParts = sourceUrl.split("/");
+                    title = sourceUrlParts[sourceUrlParts.length -1];
+                    if ("" === title)
                     {
-                        var link = document.createElement("link");
-                        link.rel = "stylesheet";
-                        link.type = "text/css";
-                        link.href = makeAbsoluteUrl(sourceUrl, theme);
-                        document.head.appendChild(link);
+                        title = sourceUrlParts[sourceUrlParts.length -2];
+                    }
+                    if ("" === title)
+                    {
+                        title = sourceUrl;
                     }
                 }
-            );
+                document.title = title;
 
-            //  style
-            var style = document.createElement("style");
-            style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
-            document.head.appendChild(style);
+                //  favicon
+                var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();
+                if (favicon)
+                {
+                    var link = document.createElement("link");
+                    link.rel = "shortcut icon";
+                    link.type = "image/x-icon";
+                    link.href = makeAbsoluteUrl(sourceUrl, favicon);
+                    document.head.appendChild(link);
+                }
 
-            //  remark
-            var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-            config.source = translateLinkWithinPage(source);
-            var slideshow = remark.create(config);
+                //  theme
+                (source+"<!--[THEME] -->").split("<!--[THEME]").slice(1).forEach
+                (
+                    function(i)
+                    {
+                        var theme = i.split("-->")[0].trim();
+                        if (theme)
+                        {
+                            var link = document.createElement("link");
+                            link.rel = "stylesheet";
+                            link.type = "text/css";
+                            link.href = makeAbsoluteUrl(sourceUrl, theme);
+                            document.head.appendChild(link);
+                        }
+                    }
+                );
+
+                //  style
+                var style = document.createElement("style");
+                style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
+                document.head.appendChild(style);
+
+                //  remark
+                var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
+                config.source = translateLinkWithinPage(source);
+                var slideshow = remark.create(config);
+            }
+            else
+            {
+                var div = document.createElement("div");
+                div.style = "color: #AA3322; white-space: pre-wrap; font-size: 2.0rem";
+                div.innerText = "loading failed: " +JSON.stringify
+                (
+                    {
+                        method: "GET",
+                        url: sourceUrl, 
+                        status: request.status,
+                        responseText: request.responseText
+                    },
+                    null,
+                    4
+                );
+                document.body.appendChild(div);
+                document.body.style = "background-color: #442211";
+            }
         }
     };
     request.send(null);

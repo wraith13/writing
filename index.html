@@ -213,21 +213,29 @@
             }
             else
             {
-                var div = document.createElement("div");
-                div.style = "color: #AA3322; white-space: pre-wrap; font-size: 2.0rem";
-                div.innerText = "loading failed: " +JSON.stringify
-                (
+                document.body.style = "margin: 0px;";
+                var errorDiv = document.createElement("div");
+                errorDiv.style = "color: #AA3322; background-color: #442211; font-size: 1.5rem; padding: 0.4rem; text-align: center;";
+                errorDiv.innerHTML = "loading failed: { \"method\": \"GET\", \"url\": \"<a href=\"" +sourceUrl.replace(/\"/g, "%25") +" \" style=\"color: #6666FF;\">" + sourceUrl.replace(/</g, "&lt;").replace(/>/g, "&gt;") +"</a>\", \"status\": "+ request.status + "};";
+                document.body.appendChild(errorDiv);
+                var responseDiv = document.createElement("div");
+                if (request.responseText)
+                {
+                    responseDiv.innerHTML = request.responseText;
+                }
+                else
+                {
+                    responseDiv.style = "white-space: pre-wrap; font-size: 1.5rem; padding: 20px;"
+                    if (0 === request.status)
                     {
-                        method: "GET",
-                        url: sourceUrl, 
-                        status: request.status,
-                        responseText: request.responseText
-                    },
-                    null,
-                    4
-                );
-                document.body.appendChild(div);
-                document.body.style = "background-color: #442211";
+                        responseDiv.innerText = "There ia a possibility that server not found or it happened cross-domain issue.\nサーバーが見つからないかクロスドメインの問題が発生した可能性があります。";
+                    }
+                    else
+                    {
+                        responseDiv.innerText = JSON.stringify(request.getAllResponseHeaders(), null, 4);
+                    }
+                }
+                document.body.appendChild(responseDiv);
             }
         }
     };

@@ -2,12 +2,26 @@
 @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
 @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
 
-body { font-family: 'Droid Serif'; }
-h1, h2, h3 {
+body
+{
+    font-family: 'Droid Serif';
+}
+h1, h2, h3, h4, h5, h6, h7, h8, h9
+{
     font-family: 'Yanone Kaffeesatz';
     font-weight: normal;
 }
-.remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+.remark-code,
+.remark-inline-code
+{
+    font-family: 'Ubuntu Mono';
+}
+
+.remark-inline-code
+{
+    border-radius: 6px;
+    background-color: #EEEEAA;
+}
 
 .remark-slide-content
 {
@@ -15,11 +29,28 @@ h1, h2, h3 {
 }
 .remark-code
 {
+    border-radius: 8px;
     font-size: 30px;
+}
+
+a
+{
+    color: #4444DD;
+}
+
+a:hover
+{
+    color: #DD4444;
+}
+
+a:active
+{
+    color: #DD44DD;
 }
 
 blockquote
 {
+    border-radius: 12px;
     opacity: 0.6;
     background-color: #DDDDDD;
     padding: 8px;
@@ -35,4 +66,6 @@ blockquote::before
 blockquote > p
 {
     margin-left: 100px;
+    margin-top: 20px;
+    margin-bottom: 15px;
 }

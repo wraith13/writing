@@ -1,0 +1,21 @@
+@import url(default.css);
+
+.remark-container
+{
+    background-color: #444444;
+}
+.remark-slide-content
+{
+    background-color: #333333;
+    color: #AA9988;
+}
+
+a
+{
+    color: #CCCCAA;
+}
+
+blockquote
+{
+    color: #776655;
+}

@@ -11,6 +11,7 @@ class: center, middle
 - [README](#readme)
 - [remark HTML](#remark-html)
 - [remark themes](#remark-themes)
+- [GitHub Pages](#github-pages)
 
 ---
 
@@ -182,6 +183,24 @@ layout: true
 <https://github.com/wraith13/writing/tree/master/theme>
 
 > これは remark 用のテーマ集であり、 remark HTML には依存しません。
+
+---
+
+<!--
+layout: true
+-->
+
+## GitHub Pages
+
+---
+
+GitHub にはリポジトリに格納されてるファイルを https 経由で直接的にアクセスできる機能が提供されおり、このリポジトリもその機能を用いて <https://wraith13.github.io/writing/> からアクセスできるようにしてあります。
+
+---
+
+設定方法は GitHub 上のリポジトリに Web ブラウザでアクセスし、 `Settings`(→`Options`)→`GitHub Pages` のところの `Source` をドロップダウンから選択して `Save` するだけです。
+
+> このプロジェクトでは master ブランチのルートをそのまま公開してるので `Source` は `master branch` にしてあります。
 
 ---
 

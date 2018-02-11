@@ -1,12 +1,15 @@
-# writing by [@wraith13](https://twitter.com/wraith13)
+# writing index
 
 - [README](?README.md)
+- [@wraith13](?wraith13.md)
 - [demo](?demo.md)
 
-<!--[TITLE] writing by @wraith13 -->
+<!--[TITLE] writing index -->
+<!--[FAVICON] https://github.com/wraith13.png -->
 <!--[THEME] theme/default.css -->
 <!--[REMARK-CONFIG]
 {
+    "ratio": "16:9",
     "slideNumberFormat": ""
 }
 -->

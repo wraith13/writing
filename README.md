@@ -22,7 +22,7 @@ layout: true
 
 ---
 
-ここは [@wraith13](https://twitter.com/wraith13) 用の markdown ソースのスライド形式ドキュメント置き場です。
+ここは [@wraith13](https://wraith13.github.io/writing/?wraith13.md) 用の markdown ソースのスライド形式ドキュメント置き場です。
 
 - スライド一覧: <https://wraith13.github.io/writing/>
 - GitHub: <https://github.com/wraith13/writing/>

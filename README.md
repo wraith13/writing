@@ -11,6 +11,7 @@ class: center, middle
 - [README](#readme)
 - [remark HTML](#remark-html)
 - [remark themes](#remark-themes)
+- [remark animation themes](#remark-animation-themes)
 - [GitHub Pages](#github-pages)
 
 ---
@@ -183,6 +184,22 @@ layout: true
 <https://github.com/wraith13/writing/tree/master/theme>
 
 > これは remark 用のテーマ集であり、 remark HTML には依存しません。
+
+---
+
+<!--
+layout: true
+-->
+
+## remark animation themes
+
+---
+
+remark 用のアニメーションテーマ(CSS)として fade.css と slide.css を用意しました。
+ページ遷移時にエフェクトがかかるヤツです。
+単独であるいは remark themes と合わせてご利用ください。
+
+<https://github.com/wraith13/writing/tree/master/animation>
 
 ---
 

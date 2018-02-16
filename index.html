@@ -156,6 +156,15 @@
                 //  source
                 var source = request.responseText.replace(/\r\n/g,"\n");
 
+                //  conditional comment
+                source = source
+                    .replace(/<!--\[NOMD\](.*)-->/g, "$1")
+                    .replace(/<!--\[MD\]-->(.*)<!--\[\/MD\]-->/g, "")
+                    .replace(/<!--\[REMARK\](.*)-->/g, "$1")
+                    .replace(/<!--\[NOREMARK\]-->(.*)<!--\[\/NOREMARK\]-->/g, "")
+                    .replace(/<!--\[REVEAL\](.*)-->/g, "")
+                    .replace(/<!--\[NOREVEAL\]-->(.*)<!--\[\/NOREVEAL\]-->/g, "$1");
+
                 //  title
                 var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
                 if ("" === title)

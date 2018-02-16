@@ -143,111 +143,122 @@
         );
         return lines.join("\n");
     };
-    var sourceUrl = makeAbsoluteUrl(location.href, unescape((location.href.split("#")[0] +"?index.md").split("?")[1]));
-    console.log("loading: " +sourceUrl);
-    var request = window.XMLHttpRequest ? new XMLHttpRequest(): new ActiveXObject("Microsoft.XMLHTTP");
-    request.open('GET', sourceUrl, true);
-    request.onreadystatechange = function()
+    var renderSlide = function(baseUrl, source)
     {
-        if (4 === request.readyState)
+        //  regulate return code
+        source = source.replace(/\r\n/g,"\n");
+
+        //  conditional comment
+        source = source
+            .replace(/<!--\[NOMD\](.*)-->/g, "$1")
+            .replace(/<!--\[MD\]-->(.*)<!--\[\/MD\]-->/g, "")
+            .replace(/<!--\[REMARK\](.*)-->/g, "$1")
+            .replace(/<!--\[NOREMARK\]-->(.*)<!--\[\/NOREMARK\]-->/g, "")
+            .replace(/<!--\[REVEAL\](.*)-->/g, "")
+            .replace(/<!--\[NOREVEAL\]-->(.*)<!--\[\/NOREVEAL\]-->/g, "$1");
+
+        //  title
+        var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
+        if ("" === title)
         {
-            if (200 <= request.status && request.status < 300)
+            title = source
+                .split("\n---\n")[0]
+                .replace(/^#+\s+/mg, "")
+                .replace(/\s+/g," ")
+                .replace(/<!--.*?-->/g, "")
+                .trim()
+                .slice(0, 64);
+console.log("title: " +title);
+        }
+        document.title = title;
+
+        //  favicon
+        var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();
+        if (favicon)
+        {
+            var link = document.createElement("link");
+            link.rel = "shortcut icon";
+            link.type = "image/x-icon";
+            link.href = makeAbsoluteUrl(baseUrl, favicon);
+            document.head.appendChild(link);
+        }
+
+        //  theme
+        (source+"<!--[THEME] -->").split("<!--[THEME]").slice(1).forEach
+        (
+            function(i)
             {
-                //  source
-                var source = request.responseText.replace(/\r\n/g,"\n");
-
-                //  conditional comment
-                source = source
-                    .replace(/<!--\[NOMD\](.*)-->/g, "$1")
-                    .replace(/<!--\[MD\]-->(.*)<!--\[\/MD\]-->/g, "")
-                    .replace(/<!--\[REMARK\](.*)-->/g, "$1")
-                    .replace(/<!--\[NOREMARK\]-->(.*)<!--\[\/NOREMARK\]-->/g, "")
-                    .replace(/<!--\[REVEAL\](.*)-->/g, "")
-                    .replace(/<!--\[NOREVEAL\]-->(.*)<!--\[\/NOREVEAL\]-->/g, "$1");
-
-                //  title
-                var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
-                if ("" === title)
-                {
-                    var sourceUrlParts = sourceUrl.split("/");
-                    title = sourceUrlParts[sourceUrlParts.length -1];
-                    if ("" === title)
-                    {
-                        title = sourceUrlParts[sourceUrlParts.length -2];
-                    }
-                    if ("" === title)
-                    {
-                        title = sourceUrl;
-                    }
-                }
-                document.title = title;
-
-                //  favicon
-                var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();
-                if (favicon)
+                var theme = i.split("-->")[0].trim();
+                if (theme)
                 {
                     var link = document.createElement("link");
-                    link.rel = "shortcut icon";
-                    link.type = "image/x-icon";
-                    link.href = makeAbsoluteUrl(sourceUrl, favicon);
+                    link.rel = "stylesheet";
+                    link.type = "text/css";
+                    link.href = makeAbsoluteUrl(baseUrl, theme);
                     document.head.appendChild(link);
                 }
-
-                //  theme
-                (source+"<!--[THEME] -->").split("<!--[THEME]").slice(1).forEach
-                (
-                    function(i)
-                    {
-                        var theme = i.split("-->")[0].trim();
-                        if (theme)
-                        {
-                            var link = document.createElement("link");
-                            link.rel = "stylesheet";
-                            link.type = "text/css";
-                            link.href = makeAbsoluteUrl(sourceUrl, theme);
-                            document.head.appendChild(link);
-                        }
-                    }
-                );
-
-                //  style
-                var style = document.createElement("style");
-                style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
-                document.head.appendChild(style);
-
-                //  remark
-                var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-                config.source = translateLinkWithinPage(source);
-                var slideshow = remark.create(config);
             }
-            else
+        );
+
+        //  style
+        var style = document.createElement("style");
+        style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
+        document.head.appendChild(style);
+
+        //  remark
+        var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
+        config.source = translateLinkWithinPage(source);
+        var slideshow = remark.create(config);
+    }
+    var sourceUrl = makeAbsoluteUrl(location.href, unescape(decodeURI((location.href.split("#")[0] +"?").split("?")[1])) || "index.md");
+    console.log("loading: " +sourceUrl);
+    if ("text:" === sourceUrl.slice(0, 5))
+    {
+        setTimeout(function(){
+            renderSlide(location.href, sourceUrl.slice(5));
+        }, 0)
+    }
+    else
+    {
+        var request = window.XMLHttpRequest ? new XMLHttpRequest(): new ActiveXObject("Microsoft.XMLHTTP");
+        request.open('GET', sourceUrl, true);
+        request.onreadystatechange = function()
+        {
+            if (4 === request.readyState)
             {
-                document.body.style = "margin: 0px;";
-                var errorDiv = document.createElement("div");
-                errorDiv.style = "color: #AA3322; background-color: #442211; font-size: 1.5rem; padding: 0.4rem; text-align: center;";
-                errorDiv.innerHTML = "loading failed: { \"method\": \"GET\", \"url\": \"<a href=\"" +sourceUrl.replace(/\"/g, "%25") +" \" style=\"color: #6666FF;\">" + sourceUrl.replace(/</g, "&lt;").replace(/>/g, "&gt;") +"</a>\", \"status\": "+ request.status + "};";
-                document.body.appendChild(errorDiv);
-                var responseDiv = document.createElement("div");
-                if (request.responseText)
+                if (200 <= request.status && request.status < 300)
                 {
-                    responseDiv.innerHTML = request.responseText;
+                    renderSlide(sourceUrl, request.responseText);
                 }
                 else
                 {
-                    responseDiv.style = "white-space: pre-wrap; font-size: 1.5rem; padding: 20px;"
-                    if (0 === request.status)
+                    document.body.style = "margin: 0px;";
+                    var errorDiv = document.createElement("div");
+                    errorDiv.style = "color: #AA3322; background-color: #442211; font-size: 1.5rem; padding: 0.4rem; text-align: center;";
+                    errorDiv.innerHTML = "loading failed: { \"method\": \"GET\", \"url\": \"<a href=\"" +sourceUrl.replace(/\"/g, "%25") +" \" style=\"color: #6666FF;\">" + sourceUrl.replace(/</g, "&lt;").replace(/>/g, "&gt;") +"</a>\", \"status\": "+ request.status + "};";
+                    document.body.appendChild(errorDiv);
+                    var responseDiv = document.createElement("div");
+                    if (request.responseText)
                     {
-                        responseDiv.innerText = "There ia a possibility that server not found or it happened cross-domain issue.\nサーバーが見つからないかクロスドメインの問題が発生した可能性があります。";
+                        responseDiv.innerHTML = request.responseText;
                     }
                     else
                     {
-                        responseDiv.innerText = JSON.stringify(request.getAllResponseHeaders(), null, 4);
+                        responseDiv.style = "white-space: pre-wrap; font-size: 1.5rem; padding: 20px;"
+                        if (0 === request.status)
+                        {
+                            responseDiv.innerText = "There ia a possibility that server not found or it happened cross-domain issue.\nサーバーが見つからないかクロスドメインの問題が発生した可能性があります。";
+                        }
+                        else
+                        {
+                            responseDiv.innerText = JSON.stringify(request.getAllResponseHeaders(), null, 4);
+                        }
                     }
+                    document.body.appendChild(responseDiv);
                 }
-                document.body.appendChild(responseDiv);
             }
-        }
-    };
-    request.send(null);
+        };
+        request.send(null);
+    }
 })();
 </script>

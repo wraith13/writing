@@ -54,14 +54,17 @@ blockquote
     opacity: 0.6;
     background-color: #DDDDDD;
     padding: 8px;
+    min-height: 57px;
 }
 blockquote::before
 {
-    margin-top: -30px;
+    margin-top: -35px;
     opacity: 0.3;
     content: "“";
     font-size: 180px;
     float: left;
+    overflow-y: hidden;
+    max-height: 92;
 }
 blockquote > p
 {

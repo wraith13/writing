@@ -4,7 +4,7 @@ class: center, middle
 
 # @wraith13
 
----
+<!--[NOMD]----->
 
 ## Contents
 
@@ -13,13 +13,13 @@ class: center, middle
 - [SNS](#sns)
 - [writing](#writing)
 
----
+<!--[NOMD]----->
 
 ## image
 
 ![wraith13](https://github.com/wraith13.png)
 
----
+<!--[NOMD]----->
 
 ## alias
 
@@ -27,14 +27,14 @@ class: center, middle
 - Wraith the Trickster
 - とつげきたろうex+
 
----
+<!--[NOMD]----->
 
 ## SNS
 
 - Twitter: <https://twitter.com/wraith13>
 - GitHub: <https://github.com/wraith13>
 
----
+<!--[NOMD]----->
 
 ## writing
 

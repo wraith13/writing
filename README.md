@@ -4,7 +4,7 @@ class: center, middle
 
 # writing
 
----
+<!--[NOMD]----->
 
 ## Contents
 
@@ -14,7 +14,7 @@ class: center, middle
 - [remark animation themes](#remark-animation-themes)
 - [GitHub Pages](#github-pages)
 
----
+<!--[NOMD]----->
 
 <!--
 layout: true
@@ -22,27 +22,27 @@ layout: true
 
 ## README
 
----
+<!--[NOMD]----->
 
 ここは [@wraith13](https://wraith13.github.io/writing/?wraith13.md) 用の markdown ソースのスライド形式ドキュメント置き場です。
 
 - スライド一覧: <https://wraith13.github.io/writing/>
 - GitHub: <https://github.com/wraith13/writing/>
 
----
+<!--[NOMD]----->
 
 この README は markdown としてもスライドとしても表示できます
 
 - markdown: <https://github.com/wraith13/writing/blob/master/README.md>
 - スライド: <https://wraith13.github.io/writing/?README.md>
 
----
+<!--[NOMD]----->
 
 スライドのレンダリングエンジンには remark を使ってます
 
 - remark: <https://github.com/gnab/remark>
 
----
+<!--[NOMD]----->
 
 remark 特有の
 
@@ -53,24 +53,24 @@ class: center, middle
 
 のような指定は HTML コメント内に記述することで markdown として表示する際にも表示されないようにしています。
 
----
+<!--[NOMD]----->
 
 > この README.md では使用していませんが remark において CSS クラスを指定する `.class[ テキスト ]` のような指定は markdown として表示される際にそのまま表示されてしまいますが、これは潔く諦めましょう。
 
----
+<!--[NOMD]----->
 <!--
    layout:    true   
 -->
 
 ## remark HTML
 
----
+<!--[NOMD]----->
 
 remark をよりお手軽に利用する為の HTML を用意しました。
 
 - <https://github.com/wraith13/writing/blob/master/index.html>
 
----
+<!--[NOMD]----->
 
 remark を使い始めたばっかりで remark 本体にある機能を実装してしまってるかもしれません。
 
@@ -78,7 +78,7 @@ HTML と言っても中身は script タグだけです。
 
 > この HTML ファイルのライセンスは [Boost Software License](http://www.boost.org/LICENSE_1_0.txt) となります。
 
----
+<!--[NOMD]----->
 
 ### URL引数で指定された markdown を remark でスライド表示
 
@@ -87,13 +87,13 @@ HTML と言っても中身は script タグだけです。
 
 > 指定が無い場合は同じディレクトリ内の index.md を表示します。
 
----
+<!--[NOMD]----->
 
 ### markdown ページ内リンクの自動変換
 
 `#section-title` のような形の markdown ページ内リンクを自動的にスライド表示用に `#n` のような形のページ番号のリンクに変換します。
 
----
+<!--[NOMD]----->
 
 ### markdown 内コメントによる指定
 
@@ -103,7 +103,7 @@ HTML と言っても中身は script タグだけです。
 - [HTML のスタイル(CSS直書き)を記述](#markdown-内コメントで-html-のスタイルcss直書きを指定)
 - [remark のオプションを指定](#markdown-内コメントで-remark-のオプションを指定)
 
----
+<!--[NOMD]----->
 
 #### markdown 内コメントでの指定形式
 
@@ -111,11 +111,11 @@ HTML と言っても中身は script タグだけです。
 
 > 最初は `[XXX]` ではなく `XXX:` の形にしていたのですが remark の挙動とコンフリクトするのでこの形にしました。
 
----
+<!--[NOMD]----->
 
 かなり雑な実装をしている為、以下の記述サンプルはこの README.md の本物の指定となってます。
 
----
+<!--[NOMD]----->
 
 #### markdown 内コメントで HTML のタイトルを指定
 
@@ -123,7 +123,7 @@ HTML と言っても中身は script タグだけです。
 <!--[TITLE] writing README -->
 ```
 
----
+<!--[NOMD]----->
 
 #### markdown 内コメントで HTML の favicon を指定
 
@@ -133,7 +133,7 @@ HTML と言っても中身は script タグだけです。
 
 > markdown からの相対パスでも絶対パスでも構いません。
 
----
+<!--[NOMD]----->
 
 #### markdown 内コメントで HTML のテーマ(CSSファイル)を指定
 
@@ -143,7 +143,7 @@ HTML と言っても中身は script タグだけです。
 
 > markdown からの相対パスでも絶対パスでも構いません。
 
----
+<!--[NOMD]----->
 
 #### markdown 内コメントで HTML のスタイル(CSS直書き)を指定
 
@@ -155,7 +155,7 @@ HTML と言っても中身は script タグだけです。
 -->
 ```
 
----
+<!--[NOMD]----->
 
 #### markdown 内コメントで remark のオプションを指定
 
@@ -169,7 +169,7 @@ HTML と言っても中身は script タグだけです。
 
 ⚠ JSONでの指定となる為、項目名をダブルクォーテーションで括るのを忘れないように注意してください。
 
----
+<!--[NOMD]----->
 
 <!--
 layout: true
@@ -177,7 +177,7 @@ layout: true
 
 ## remark themes
 
----
+<!--[NOMD]----->
 
 🚧 remark 用のテーマ(CSS)もいくつか準備中です。
 
@@ -185,7 +185,7 @@ layout: true
 
 > これは remark 用のテーマ集であり、 remark HTML には依存しません。
 
----
+<!--[NOMD]----->
 
 <!--
 layout: true
@@ -193,7 +193,7 @@ layout: true
 
 ## remark animation themes
 
----
+<!--[NOMD]----->
 
 remark 用のアニメーションテーマ(CSS)として fade.css と slide.css を用意しました。
 ページ遷移時にエフェクトがかかるヤツです。
@@ -201,7 +201,7 @@ remark 用のアニメーションテーマ(CSS)として fade.css と slide.css
 
 <https://github.com/wraith13/writing/tree/master/animation>
 
----
+<!--[NOMD]----->
 
 <!--
 layout: true
@@ -209,23 +209,23 @@ layout: true
 
 ## GitHub Pages
 
----
+<!--[NOMD]----->
 
 GitHub にはリポジトリに格納されてるファイルを https 経由で直接的にアクセスできる機能が提供されおり、このリポジトリもその機能を用いて <https://wraith13.github.io/writing/> からアクセスできるようにしてあります。
 
----
+<!--[NOMD]----->
 
 設定方法は GitHub 上のリポジトリに Web ブラウザでアクセスし、 `Settings`(→`Options`)→`GitHub Pages` のところの `Source` をドロップダウンから選択して `Save` するだけです。
 
 > このプロジェクトでは master ブランチのルートをそのまま公開してるので `Source` は `master branch` にしてあります。
 
----
+<!--[NOMD]----->
 
 <!--
 layout: true
 -->
 
----
+<!--[NOMD]----->
 
 <!--
 class: center, middle

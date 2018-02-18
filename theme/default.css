@@ -91,3 +91,48 @@ blockquote > p
         /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
     }
 }
+
+@media (min-width: 60.0rem)
+{
+    body.marked {
+        font-size: calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem);
+    }
+}
+
+@media (min-width: 360px) and (max-width: 720px)
+{
+    body.marked blockquote
+    {
+        margin-left: calc(calc(calc(100vw - 360px) / 11.25) + 8px);
+        margin-right: calc(calc(calc(100vw - 360px) / 11.25) + 8px);
+    }
+    body.marked blockquote::before
+    {
+        margin-top: calc(calc(calc(100vw - 360px) / -12.41) - 6px);
+        font-size: calc(calc(calc(100vw - 360px) / 2.4) + 30px);
+    }
+
+    blockquote > p
+    {
+        margin-left: calc(calc(calc(100vw - 360px) / 4.5) + 20px);
+    }
+}
+
+@media (max-width: 360px)
+{
+    body.marked blockquote
+    {
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+    body.marked blockquote::before
+    {
+        margin-top: -6px;
+        font-size: 30px;
+    }
+
+    blockquote > p
+    {
+        margin-left: 20px;
+    }
+}

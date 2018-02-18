@@ -73,11 +73,15 @@ blockquote > p
     margin-bottom: 15px;
 }
 
-@media (min-width: 30.0rem) and (max-width: 60.0rem)
+body.marked
+{
+    margin: 0px;
+}
+@media (max-width: 60.0rem)
 {
     body.marked
     {
-        padding: calc(calc(100vw - 30.0rem) / 15);
+        padding: calc(calc(100vw / 40) + 0.5rem);
     }
 }
 
@@ -90,13 +94,6 @@ blockquote > p
         padding-right: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
         /* 3.2360679774 ????(1.6180339887) * 2.0 */
         /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
-    }
-}
-
-@media (min-width: 60.0rem)
-{
-    body.marked
-    {
         font-size: calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem);
     }
 }

@@ -72,3 +72,22 @@ blockquote > p
     margin-top: 20px;
     margin-bottom: 15px;
 }
+
+@media (min-width: 30.0rem) and (max-width: 60.0rem)
+{
+    body.marked
+    {
+        padding: calc(calc(100vw - 30.0rem) / 15);
+    }
+}
+
+@media (min-width: 60.0rem)
+{
+    body.marked {
+        padding-top: 2.0rem;
+        padding-left: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
+        padding-right: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
+        /* 3.2360679774 ????(1.6180339887) * 2.0 */
+        /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
+    }
+}

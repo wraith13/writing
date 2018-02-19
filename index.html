@@ -1,12 +1,8 @@
 ﻿<!--
 このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 -->
-<script src="js/remark-latest.min.js"></script>
-<!--
-このファイルだけコピペして動かすには上の script タグをコメントアウトし、下の script タグのコメントアウトを解除してください。
--->
-<!-- script src="https://remarkjs.com/downloads/remark-latest.min.js"></script -->
 <script>
+'use strict';
 (function()
 {
     var makeAbsoluteUrl = function(base, url)
@@ -143,7 +139,7 @@
         );
         return lines.join("\n");
     };
-    var renderSlide = function(baseUrl, source)
+    var render = function(baseUrl, source)
     {
         //  regulate return code
         source = source.replace(/\r\n/g,"\n");
@@ -207,16 +203,22 @@
         document.head.appendChild(style);
 
         //  remark
-        var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-        config.source = translateLinkWithinPage(source);
-        var slideshow = remark.create(config);
+        var script = document.createElement("script");
+        script.src = "js/remark-latest.min.js";
+        script.onload = function()
+        {
+            var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
+            config.source = translateLinkWithinPage(source);
+            var slideshow = remark.create(config);
+        };
+        document.head.appendChild(script);
     }
     var sourceUrl = makeAbsoluteUrl(location.href, unescape(decodeURI((location.href.split("#")[0] +"?").split("?")[1])) || "index.md");
     console.log("loading: " +sourceUrl);
     if ("text:" === sourceUrl.slice(0, 5))
     {
         setTimeout(function(){
-            renderSlide(location.href, sourceUrl.slice(5));
+            render(location.href, sourceUrl.slice(5));
         }, 0)
     }
     else
@@ -229,7 +231,7 @@
             {
                 if (200 <= request.status && request.status < 300)
                 {
-                    renderSlide(sourceUrl, request.responseText);
+                    render(sourceUrl, request.responseText);
                 }
                 else
                 {

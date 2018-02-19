@@ -1,10 +1,45 @@
 ﻿<!--
 このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 -->
+<style>
+/* こうやって静的にこのスタイルを読み込んでいないとなぜか highlightjs が正常に機能しない。 CSS で外出しにするだけならまだ機能するんだけど、動的に読む込む形だとダメ。意味不明すぎる・・・ */
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+body
+{
+    font-family: 'Droid Serif';
+}
+</style>
 <script>
 'use strict';
 (function()
 {
+    var showError = function(innerHTML)
+    {
+        document.body.style = "margin: 0px;";
+        var errorDiv = document.createElement("div");
+        errorDiv.style = "color: #AA3322; background-color: #442211; font-size: 1.5rem; padding: 0.4rem; text-align: center;";
+        errorDiv.innerHTML = innerHTML;
+        document.body.appendChild(errorDiv);
+    }
+    var appendLink = function(args)
+    {
+        var link = document.createElement("link");
+        link.rel = args.rel;
+        link.type = args.type;
+        link.href = args.href;
+        document.head.appendChild(link);
+    }
+    var appendTheme = function(href)
+    {
+        appendLink
+        (
+            {
+                rel: "stylesheet",
+                type: "text/css",
+                href: href
+            }
+        );
+    }
     var makeAbsoluteUrl = function(base, url)
     {
         var baseParts = base.split("?")[0].split("/");
@@ -139,19 +174,42 @@
         );
         return lines.join("\n");
     };
-    var render = function(baseUrl, source)
+    var render = function(renderer, baseUrl, source)
     {
         //  regulate return code
         source = source.replace(/\r\n/g,"\n");
 
+        if (!renderer)
+        {
+            renderer = /<!--\[RENDERER\]\s*(.*?)\s*-->/.exec(source +"<!--[RENDERER]MARKDOWN-->")[1].toLowerCase();
+            console.log("renderer: " +(renderer || "null"));
+        }
+        var isMarkdown = "markdown" === renderer;
+        var isRemark = "remark" === renderer;
+        //var isReveal = "reveal" === renderer;
+        var isReveal = false;
+        //var isEdit = "edit" === renderer;
+        var isEdit = false;
+        if (!isMarkdown && !isRemark && !isReveal && !isEdit)
+        {
+            //var message = "Unknown Rederer Name: \"" +renderer +"\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
+            var message = "Unknown Rederer Name: \"" +renderer +"\" ( Rederer Names: \"markdown\"(default), \"remark\" )";
+            showError(message);
+            console.error(message);
+            return;
+        }
+
         //  conditional comment
-        source = source
-            .replace(/<!--\[NOMD\](.*)-->/g, "$1")
-            .replace(/<!--\[MD\]-->(.*)<!--\[\/MD\]-->/g, "")
-            .replace(/<!--\[REMARK\](.*)-->/g, "$1")
-            .replace(/<!--\[NOREMARK\]-->(.*)<!--\[\/NOREMARK\]-->/g, "")
-            .replace(/<!--\[REVEAL\](.*)-->/g, "")
-            .replace(/<!--\[NOREVEAL\]-->(.*)<!--\[\/NOREVEAL\]-->/g, "$1");
+        if (!isEdit)
+        {
+            source = source
+                .replace(/<!--\[MD\]-->([\s\S]*?)<!--\[\/MD\]-->/g, isMarkdown ? "$1": "")
+                .replace(/<!--\[NOMD\]([\s\S]*?)-->/g, !isMarkdown ? "$1": "")
+                .replace(/<!--\[REMARK\]([\s\S]*?)-->/g, isRemark ? "$1": "")
+                .replace(/<!--\[NOREMARK\]-->([\s\S]*?)<!--\[\/NOREMARK\]-->/g, !isRemark ? "$1": "")
+                .replace(/<!--\[REVEAL\]([\s\S]*?)-->/g, isReveal ? "$1": "")
+                .replace(/<!--\[NOREVEAL\]-->([\s\S]*?)<!--\[\/NOREVEAL\]-->/g, !isReveal ? "$1": "");
+        }
 
         //  title
         var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
@@ -173,27 +231,32 @@
         var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();
         if (favicon)
         {
-            var link = document.createElement("link");
-            link.rel = "shortcut icon";
-            link.type = "image/x-icon";
-            link.href = makeAbsoluteUrl(baseUrl, favicon);
-            document.head.appendChild(link);
+            appendLink
+            (
+                {
+                    rel: "shortcut icon",
+                    type: "image/x-icon",
+                    href: makeAbsoluteUrl(baseUrl, favicon)
+                }
+            );
         }
 
         //  theme
-        (source+"<!--[THEME] -->").split("<!--[THEME]").slice(1).forEach
+        var themes = (source+"<!--[THEME] -->").split("<!--[THEME]")
+            .slice(1)
+            .map
+            (
+                function(i)
+                {
+                    return i.split("-->")[0].trim();
+                }
+            )
+            .filter(function(i) { return "" !== i });
+        themes.forEach
         (
             function(i)
             {
-                var theme = i.split("-->")[0].trim();
-                if (theme)
-                {
-                    var link = document.createElement("link");
-                    link.rel = "stylesheet";
-                    link.type = "text/css";
-                    link.href = makeAbsoluteUrl(baseUrl, theme);
-                    document.head.appendChild(link);
-                }
+                appendTheme(makeAbsoluteUrl(baseUrl, i));
             }
         );
 
@@ -202,23 +265,71 @@
         style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
         document.head.appendChild(style);
 
-        //  remark
-        var script = document.createElement("script");
-        script.src = "js/remark-latest.min.js";
-        script.onload = function()
+        if (isMarkdown)
         {
-            var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-            config.source = translateLinkWithinPage(source);
-            var slideshow = remark.create(config);
-        };
-        document.head.appendChild(script);
+            //  marked
+            if (0 === themes.length)
+            {
+                appendTheme("theme/default.css");
+            }
+            var markedScript = document.createElement("script");
+            markedScript.src = "js/marked.js";
+            markedScript.onload = function()
+            {
+                document.body.className = "marked";
+                document.body.innerHTML = marked(source);
+                //  highlight
+                appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
+                var highlightScript = document.createElement("script");
+                highlightScript.src = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js";
+                highlightScript.onload = function()
+                {
+                    hljs.initHighlightingOnLoad();
+                };
+                document.head.appendChild(highlightScript);
+            };
+            document.head.appendChild(markedScript);
+        }
+        if (isRemark)
+        {
+            //  remark
+            var script = document.createElement("script");
+            script.src = "js/remark-latest.min.js";
+            script.onload = function()
+            {
+                var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
+                config.source = translateLinkWithinPage(source);
+                var slideshow = remark.create(config);
+            };
+            document.head.appendChild(script);
+        }
     }
-    var sourceUrl = makeAbsoluteUrl(location.href, unescape(decodeURI((location.href.split("#")[0] +"?").split("?")[1])) || "index.md");
+    var renderer = null; 
+    var sourceUrl = null;
+    var urlArgs = (location.href.split("#")[0] +"?").split("?")[1].split("&");
+    if (1 <= urlArgs.length)
+    {
+        if (2 <= urlArgs.length)
+        {
+            renderer = urlArgs[0];
+            sourceUrl = urlArgs[1];
+        }
+        else
+        {
+            sourceUrl = urlArgs[0];
+        }
+    }
+    if (!sourceUrl)
+    {
+        sourceUrl = "index.md";
+    }
+    //var sourceUrl = makeAbsoluteUrl(location.href, unescape(decodeURI((location.href.split("#")[0] +"?").split("?")[1])) || "index.md");
+    console.log("renderer(forced by url param): " +(renderer || "null"));
     console.log("loading: " +sourceUrl);
     if ("text:" === sourceUrl.slice(0, 5))
     {
         setTimeout(function(){
-            render(location.href, sourceUrl.slice(5));
+            render(renderer, location.href, sourceUrl.slice(5));
         }, 0)
     }
     else
@@ -231,14 +342,11 @@
             {
                 if (200 <= request.status && request.status < 300)
                 {
-                    render(sourceUrl, request.responseText);
+                    render(renderer, makeAbsoluteUrl(location.href, sourceUrl), request.responseText);
                 }
                 else
                 {
-                    document.body.style = "margin: 0px;";
-                    var errorDiv = document.createElement("div");
-                    errorDiv.style = "color: #AA3322; background-color: #442211; font-size: 1.5rem; padding: 0.4rem; text-align: center;";
-                    errorDiv.innerHTML = "loading failed: { \"method\": \"GET\", \"url\": \"<a href=\"" +sourceUrl.replace(/\"/g, "%25") +" \" style=\"color: #6666FF;\">" + sourceUrl.replace(/</g, "&lt;").replace(/>/g, "&gt;") +"</a>\", \"status\": "+ request.status + "};";
+                    showError("loading failed: { \"method\": \"GET\", \"url\": \"<a href=\"" +sourceUrl.replace(/\"/g, "%25") +" \" style=\"color: #6666FF;\">" + sourceUrl.replace(/</g, "&lt;").replace(/>/g, "&gt;") +"</a>\", \"status\": "+ request.status + "};");
                     document.body.appendChild(errorDiv);
                     var responseDiv = document.createElement("div");
                     if (request.responseText)

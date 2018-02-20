@@ -1,7 +1,7 @@
 ﻿<!--
 このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 -->
-<style>
+<style id="style-for-highlight-on-marked">
 /* こうやって静的にこのスタイルを読み込んでいないとなぜか highlightjs が正常に機能しない。 CSS で外出しにするだけならまだ機能するんだけど、動的に読む込む形だとダメ。意味不明すぎる・・・ */
 @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
 body
@@ -13,6 +13,35 @@ body
 'use strict';
 (function()
 {
+    var objectAssign = function(target, source)
+    {
+        //  copy from https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
+        if (typeof Object.assign !== 'function') {
+            (function () {
+                Object.assign = function (target) {
+                'use strict';
+                if (target === undefined || target === null) {
+                    throw new TypeError('Cannot convert undefined or null to object');
+                }
+                var output = Object(target);
+                for (var index = 1; index < arguments.length; index++) {
+                    var source = arguments[index];
+                    if (source !== undefined && source !== null) {
+                        for (var nextKey in source) {
+                            if (Object.prototype.hasOwnProperty.call(source, nextKey)) {
+                                output[nextKey] = source[nextKey];
+                            }
+                        }
+                    }
+                }
+                return output;
+                };
+            })();
+        }
+
+        Object.assign(target, source);
+        return target;
+    }
     var showError = function(innerHTML)
     {
         document.body.style = "margin: 0px;";
@@ -27,16 +56,21 @@ body
         link.rel = args.rel;
         link.type = args.type;
         link.href = args.href;
+        if (undefined !== args.id)
+        {
+            link.id = args.id;
+        }
         document.head.appendChild(link);
     }
-    var appendTheme = function(href)
+    var appendTheme = function(href, id)
     {
         appendLink
         (
             {
                 rel: "stylesheet",
                 type: "text/css",
-                href: href
+                href: href,
+                id: id
             }
         );
     }
@@ -99,7 +133,7 @@ body
         }
         return baseParts.concat(urlParts).join("/");
     };
-    var translateLinkWithinPage = function(source)
+    var translateLinkWithinPageForRemark = function(source)
     {
         var lines = source.split("\n");
         var anchors = [ ];
@@ -174,6 +208,71 @@ body
         );
         return lines.join("\n");
     };
+    var translateLinkWithinPageForReveal = function(source)
+    {
+        var lines = source.split("\n");
+        var anchors = [ ];
+        var isInEscape = false;
+        var page = 0;
+        lines.forEach
+        (
+            function(line)
+            {
+                var trimed_line = line.trim();
+                var isEscape = "```" === trimed_line.slice(0, 3);
+                if (isEscape)
+                {
+                    isInEscape = !isInEscape;
+                }
+                else
+                if (!isInEscape)
+                {
+                    if ("--" === line || "---" === line)
+                    {
+                        ++page;
+                    }
+                    else
+                    if ("#" === trimed_line.slice(0, 1))
+                    {
+                        var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\(\)]/g,"").replace(/ /g,"-");
+                        anchors.push
+                        (
+                            {
+                                anchor: "](#" +anchor +")",
+                                page: "](#/" +page +")"
+                            }
+                        );
+                    }
+                }
+            }
+        );
+        isInEscape = false;
+        lines = lines.map
+        (
+            function(line)
+            {
+                var trimed_line = line.trim();
+                var isEscape = "```" === trimed_line.slice(0, 3);
+                if (isEscape)
+                {
+                    isInEscape = !isInEscape;
+                }
+                else
+                if (!isInEscape)
+                {
+                    anchors.forEach
+                    (
+                        function(i)
+                        {
+                            line = line.split(i.anchor).join(i.page);
+                        }
+                    );
+                }
+                return line;
+            }
+        );
+        return lines.join("\n");
+    };
     var render = function(renderer, baseUrl, source)
     {
         //  regulate return code
@@ -186,17 +285,22 @@ body
         }
         var isMarkdown = "markdown" === renderer;
         var isRemark = "remark" === renderer;
-        //var isReveal = "reveal" === renderer;
-        var isReveal = false;
+        var isReveal = "reveal" === renderer;
         //var isEdit = "edit" === renderer;
         var isEdit = false;
         if (!isMarkdown && !isRemark && !isReveal && !isEdit)
         {
             //var message = "Unknown Rederer Name: \"" +renderer +"\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
-            var message = "Unknown Rederer Name: \"" +renderer +"\" ( Rederer Names: \"markdown\"(default), \"remark\" )";
+            var message = "Unknown Rederer Name: \"" +renderer +"\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\" )";
             showError(message);
             console.error(message);
             return;
+        }
+
+        if (!isMarkdown)
+        {
+            var style = document.getElementById("style-for-highlight-on-marked");
+            style.parentElement.removeChild(style);
         }
 
         //  conditional comment
@@ -204,10 +308,13 @@ body
         {
             source = source
                 .replace(/<!--\[MD\]-->([\s\S]*?)<!--\[\/MD\]-->/g, isMarkdown ? "$1": "")
-                .replace(/<!--\[NOMD\]([\s\S]*?)-->/g, !isMarkdown ? "$1": "")
-                .replace(/<!--\[REMARK\]([\s\S]*?)-->/g, isRemark ? "$1": "")
+                .replace(/<!--\[NOMD\/\]([\s\S]*?)-->/g, !isMarkdown ? "$1": "")
+                .replace(/<!--\[NOMD\]-->([\s\S]*?)<!--\[\/NOMD\]-->/g, isMarkdown ? "$1": "")
+                .replace(/<!--\[REMARK\/\]([\s\S]*?)-->/g, isRemark ? "$1": "")
+                .replace(/<!--\[REMARK\]-->([\s\S]*?)<!--\[\/REMARK\]-->/g, isRemark ? "$1": "")
                 .replace(/<!--\[NOREMARK\]-->([\s\S]*?)<!--\[\/NOREMARK\]-->/g, !isRemark ? "$1": "")
-                .replace(/<!--\[REVEAL\]([\s\S]*?)-->/g, isReveal ? "$1": "")
+                .replace(/<!--\[REVEAL\/\]([\s\S]*?)-->/g, isReveal ? "$1": "")
+                .replace(/<!--\[REVEAL\]-->([\s\S]*?)<!--\[\/REVEAL\]-->/g, isReveal ? "$1": "")
                 .replace(/<!--\[NOREVEAL\]-->([\s\S]*?)<!--\[\/NOREVEAL\]-->/g, !isReveal ? "$1": "");
         }
 
@@ -252,18 +359,24 @@ body
                 }
             )
             .filter(function(i) { return "" !== i });
-        themes.forEach
-        (
-            function(i)
-            {
-                appendTheme(makeAbsoluteUrl(baseUrl, i));
-            }
-        );
+        if (!isReveal)
+        {
+            themes.forEach
+            (
+                function(i)
+                {
+                    appendTheme(makeAbsoluteUrl(baseUrl, i));
+                }
+            );
+        }
 
         //  style
-        var style = document.createElement("style");
-        style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
-        document.head.appendChild(style);
+        if (!isReveal)
+        {
+            var style = document.createElement("style");
+            style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
+            document.head.appendChild(style);
+        }
 
         if (isMarkdown)
         {
@@ -298,10 +411,91 @@ body
             script.onload = function()
             {
                 var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-                config.source = translateLinkWithinPage(source);
+                config.source = translateLinkWithinPageForRemark(source);
                 var slideshow = remark.create(config);
             };
             document.head.appendChild(script);
+        }
+        if (isReveal)
+        {
+            //  reveal
+            appendTheme("css/reveal.css");
+            var revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-THEME]league-->")[1].toLowerCase();
+            console.log("reveal-theme: " +revealTheme);
+            appendTheme("css/theme/" +revealTheme +".css", "theme");
+            var documentTheme = document.getElementById("theme");
+            appendTheme("lib/css/zenburn.css");
+            appendTheme(window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
+
+            themes.forEach
+            (
+                function(i)
+                {
+                        appendTheme(makeAbsoluteUrl(baseUrl, i));
+                }
+            );
+            var style = document.createElement("style");
+            style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
+            document.head.appendChild(style);
+
+            //  paste markdown
+            var pasteMarkdown = function(markdown)
+            {
+                var div = document.createElement("div");
+                div.className = "reveal";
+                div.innerHTML =
+                    "<div class=\"slides\">"
+                        +"<section data-markdown data-separator=\"^\\n---$\" data-vertical=\"^\\n>>>$\">"
+                            +"<script type=\"text/template\">"
+                                +markdown
+                            +"</" +"script>"
+                        +"</section>"
+                    +"</div>";
+                document.body.appendChild(div);
+            };
+            pasteMarkdown(translateLinkWithinPageForReveal(source));
+            var headScript = document.createElement("script");
+            headScript.src = "lib/js/head.min.js";
+            headScript.onload = function()
+            {
+                var script = document.createElement("script");
+                script.src = "js/reveal.js";
+                script.onload = function()
+                {
+                    var revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
+                    console.log("reveal-transition: " +revealTransition);
+                    console.log("reveal-theme(forced by url param): " +Reveal.getQueryHash().theme);
+                    console.log("reveal-transition(forced by url param): " +Reveal.getQueryHash().transition);
+                    var forceTheme = Reveal.getQueryHash().theme;
+                    if (forceTheme)
+                    {
+                        documentTheme.href = "css/theme/" +forceTheme +".css";
+                    }
+                    // More info about config & dependencies:
+                    // - https://github.com/hakimel/reveal.js#configuration
+                    // - https://github.com/hakimel/reveal.js#dependencies
+                    var config = JSON.parse((source+"<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
+                    console.log("reveal-config: " +JSON.stringify(config, null, 4));
+                    var defaultConfig =
+                    {
+                        controls: true,
+                        progress: true,
+                        history: true,
+                        center: true,
+                        transition: Reveal.getQueryHash().transition || revealTransition, 
+                        dependencies:
+                        [
+                            { src: 'plugin/markdown/marked.js' },
+                            { src: 'plugin/markdown/markdown.js' },
+                            { src: 'plugin/notes/notes.js', async: true },
+                            { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                        ]
+                    };
+                    Reveal.initialize(objectAssign(defaultConfig, config));
+                };
+                document.head.appendChild(script);
+            };
+            document.head.appendChild(headScript);
         }
     }
     var renderer = null; 
@@ -309,6 +503,7 @@ body
     var urlArgs = (location.href.split("#")[0] +"?")
         .split("?")[1]
         .split("&")
+        .filter(function(i) { return i.indexOf("=") < 0 })
         .map(function(i) { return unescape(decodeURI(i));});
     if (1 <= urlArgs.length)
     {

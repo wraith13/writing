@@ -309,7 +309,7 @@ body
             source = source
                 .replace(/<!--\[MD\]-->([\s\S]*?)<!--\[\/MD\]-->/g, isMarkdown ? "$1": "")
                 .replace(/<!--\[NOMD\/\]([\s\S]*?)-->/g, !isMarkdown ? "$1": "")
-                .replace(/<!--\[NOMD\]-->([\s\S]*?)<!--\[\/NOMD\]-->/g, isMarkdown ? "$1": "")
+                .replace(/<!--\[NOMD\]-->([\s\S]*?)<!--\[\/NOMD\]-->/g, !isMarkdown ? "$1": "")
                 .replace(/<!--\[REMARK\/\]([\s\S]*?)-->/g, isRemark ? "$1": "")
                 .replace(/<!--\[REMARK\]-->([\s\S]*?)<!--\[\/REMARK\]-->/g, isRemark ? "$1": "")
                 .replace(/<!--\[NOREMARK\]-->([\s\S]*?)<!--\[\/NOREMARK\]-->/g, !isRemark ? "$1": "")

@@ -12,12 +12,14 @@
 - [README](?README.md)
 - [@wraith13](?wraith13.md)
 
+<!--[NOMD]
 ## remark themes demo
 
 - [themes demo](#themes-demo)
 - [animation themes demo](#animation-themes-demo)
+-->
 
----
+<!--[NOMD]----->
 
 ## themes demo
 
@@ -25,7 +27,7 @@
 - [chocolate](?demo/chocolate.md)
 - [wine](?demo/wine.md)
 
----
+<!--[NOMD]----->
 
 ## animation themes demo
 

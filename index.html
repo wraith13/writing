@@ -306,7 +306,10 @@ body
     }
     var renderer = null; 
     var sourceUrl = null;
-    var urlArgs = (location.href.split("#")[0] +"?").split("?")[1].split("&");
+    var urlArgs = (location.href.split("#")[0] +"?")
+        .split("?")[1]
+        .split("&")
+        .map(function(i) { return unescape(decodeURI(i));});
     if (1 <= urlArgs.length)
     {
         if (2 <= urlArgs.length)
@@ -323,7 +326,6 @@ body
     {
         sourceUrl = "index.md";
     }
-    //var sourceUrl = makeAbsoluteUrl(location.href, unescape(decodeURI((location.href.split("#")[0] +"?").split("?")[1])) || "index.md");
     console.log("renderer(forced by url param): " +(renderer || "null"));
     console.log("loading: " +sourceUrl);
     if ("text:" === sourceUrl.slice(0, 5))

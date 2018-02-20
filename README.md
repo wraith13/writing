@@ -33,8 +33,8 @@ layout: true
 
 この README は markdown としてもスライドとしても表示できます
 
-- markdown: <https://github.com/wraith13/writing/blob/master/README.md>
-- スライド: <https://wraith13.github.io/writing/?README.md>
+- markdown: <https://wraith13.github.io/writing/?README.md>
+- スライド: <https://wraith13.github.io/writing/?remark&README.md>
 
 <!--[NOMD]----->
 

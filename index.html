@@ -1,14 +1,6 @@
 ﻿<!--
 このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 -->
-<style id="style-for-highlight-on-marked">
-/* こうやって静的にこのスタイルを読み込んでいないとなぜか highlightjs が正常に機能しない。 CSS で外出しにするだけならまだ機能するんだけど、動的に読む込む形だとダメ。意味不明すぎる・・・ */
-@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
-body
-{
-    font-family: 'Droid Serif';
-}
-</style>
 <script>
 'use strict';
 (function()
@@ -297,12 +289,6 @@ body
             return;
         }
 
-        if (!isMarkdown)
-        {
-            var style = document.getElementById("style-for-highlight-on-marked");
-            style.parentElement.removeChild(style);
-        }
-
         //  conditional comment
         if (!isEdit)
         {
@@ -381,6 +367,7 @@ body
         if (isMarkdown)
         {
             //  marked
+            appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
             if (0 === themes.length)
             {
                 appendTheme("theme/default.css");
@@ -392,7 +379,6 @@ body
                 document.body.className = "marked";
                 document.body.innerHTML = marked(source);
                 //  highlight
-                appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
                 var highlightScript = document.createElement("script");
                 highlightScript.src = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js";
                 highlightScript.onload = function()

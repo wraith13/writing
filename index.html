@@ -376,8 +376,13 @@
             markedScript.src = "js/marked.js";
             markedScript.onload = function()
             {
+                var config = JSON.parse((source+"<!--[MARKED-CONFIG] { } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
+                console.log("marked-config: " +JSON.stringify(config, null, 4));
+                marked.setOptions(config);
+
                 document.body.className = "marked";
                 document.body.innerHTML = marked(source);
+
                 //  highlight
                 var highlightScript = document.createElement("script");
                 highlightScript.src = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js";

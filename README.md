@@ -4,17 +4,17 @@ class: center, middle
 
 # writing
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 ## Contents
 
 - [README](#readme)
-- [remark HTML](#remark-html)
+- [writing HTML](#writing-html)
 - [remark themes](#remark-themes)
 - [remark animation themes](#remark-animation-themes)
 - [GitHub Pages](#github-pages)
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 <!--
 layout: true
@@ -22,27 +22,30 @@ layout: true
 
 ## README
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 ここは [@wraith13](https://wraith13.github.io/writing/?wraith13.md) 用の markdown ソースのスライド形式ドキュメント置き場です。
 
 - スライド一覧: <https://wraith13.github.io/writing/>
 - GitHub: <https://github.com/wraith13/writing/>
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 この README は markdown としてもスライドとしても表示できます
 
-- markdown: <https://wraith13.github.io/writing/?README.md>
-- スライド: <https://wraith13.github.io/writing/?remark&README.md>
+- markdown(marked): <https://wraith13.github.io/writing/?README.md>
+- スライド(remark): <https://wraith13.github.io/writing/?remark&README.md>
+- スライド(reveal): <https://wraith13.github.io/writing/?reveal&README.md>
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
-スライドのレンダリングエンジンには remark を使ってます
+markdown とスライドのレンダリングエンジンには marked, remark, reveal を使ってます
 
+- marked: <https://github.com/markedjs/marked>
 - remark: <https://github.com/gnab/remark>
+- reveal: <https://github.com/hakimel/reveal.js/>
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 remark 特有の
 
@@ -51,49 +54,72 @@ layout: true
 class: center, middle
 ```
 
-のような指定は HTML コメント内に記述することで markdown として表示する際にも表示されないようにしています。
+のような指定は HTML コメント内に記述することで markdown として表示する際に表示されないようにしています。
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 > この README.md では使用していませんが remark において CSS クラスを指定する `.class[ テキスト ]` のような指定は markdown として表示される際にそのまま表示されてしまいますが、これは潔く諦めましょう。
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 <!--
    layout:    true   
 -->
 
-## remark HTML
+## writing HTML
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
-remark をよりお手軽に利用する為の HTML を用意しました。
+marked, remark, reveal を手軽に利用する為の HTML を用意しました。
 
 - <https://github.com/wraith13/writing/blob/master/index.html>
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
-remark を使い始めたばっかりで remark 本体にある機能を実装してしまってるかもしれません。
+HTML と言っても中身はほぼ script タグだけです。
 
-HTML と言っても中身は script タグだけです。
+<!--[REVEAL/]>>>-->
 
 > この HTML ファイルのライセンスは [Boost Software License](http://www.boost.org/LICENSE_1_0.txt) となります。
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
-### URL引数で指定された markdown を remark でスライド表示
+### URL引数で指定された markdown を表示
 
 - 相対パスでの指定: <https://wraith13.github.io/writing/?README.md>
 - 絶対パスでの指定: <https://wraith13.github.io/writing/?https://wraith13.github.io/writing/README.md>
 
-> 指定が無い場合は同じディレクトリ内の index.md を表示します。
+<!--[REVEAL/]>>>-->
 
-<!--[NOMD]----->
+markdown 内のコメントで明示されたレンダラーでレンダリングされます。明示されてない場合は markdown で表示されます。
+
+<!--[NOMD/]----->
+
+### URL引数で指定された markdown を marked で表示
+
+- 相対パスでの指定: <https://wraith13.github.io/writing/?markdown&README.md>
+- 絶対パスでの指定: <https://wraith13.github.io/writing/?markdown&https://wraith13.github.io/writing/README.md>
+
+<!--[NOMD/]----->
+
+### URL引数で指定された markdown を remark でスライド表示
+
+- 相対パスでの指定: <https://wraith13.github.io/writing/?markdown&README.md>
+- 絶対パスでの指定: <https://wraith13.github.io/writing/?markdown&https://wraith13.github.io/writing/README.md>
+
+<!--[NOMD/]----->
+
+### URL引数で指定された markdown を reveal でスライド表示
+
+- 相対パスでの指定: <https://wraith13.github.io/writing/?reveal&README.md>
+- 絶対パスでの指定: <https://wraith13.github.io/writing/?reveal&https://wraith13.github.io/writing/README.md>
+
+<!--[NOMD/]----->
 
 ### markdown ページ内リンクの自動変換
 
-`#section-title` のような形の markdown ページ内リンクを自動的にスライド表示用に `#n` のような形のページ番号のリンクに変換します。
+`#section-title` のような形の markdown ページ内リンクを自動的にレンダリングシステムに合わせたリンクに変換します。
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 ### markdown 内コメントによる指定
 
@@ -103,19 +129,21 @@ HTML と言っても中身は script タグだけです。
 - [HTML のスタイル(CSS直書き)を記述](#markdown-内コメントで-html-のスタイルcss直書きを指定)
 - [remark のオプションを指定](#markdown-内コメントで-remark-のオプションを指定)
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 #### markdown 内コメントでの指定形式
 
 `<!--[XXX]*-->` の形式で `XXX` が項目名で `*` が指定内容となります。 `*` は前後に空白,タブ,改行があっても構いません。
 
+<!--[REVEAL/]>>>-->
+
 > 最初は `[XXX]` ではなく `XXX:` の形にしていたのですが remark の挙動とコンフリクトするのでこの形にしました。
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 かなり雑な実装をしている為、以下の記述サンプルはこの README.md の本物の指定となってます。
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 #### markdown 内コメントで HTML のタイトルを指定
 
@@ -123,7 +151,7 @@ HTML と言っても中身は script タグだけです。
 <!--[TITLE] writing README -->
 ```
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 #### markdown 内コメントで HTML の favicon を指定
 
@@ -133,7 +161,7 @@ HTML と言っても中身は script タグだけです。
 
 > markdown からの相対パスでも絶対パスでも構いません。
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 #### markdown 内コメントで HTML のテーマ(CSSファイル)を指定
 
@@ -141,9 +169,14 @@ HTML と言っても中身は script タグだけです。
 <!--[THEME] theme/default.css -->
 ```
 
+<!--[REVEAL]-->
+<!--[REVEAL-THEME] league -->
+<!--[REVEAL-TRANSITION] zoom -->
+<!--[/REVEAL]-->
+
 > markdown からの相対パスでも絶対パスでも構いません。
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 #### markdown 内コメントで HTML のスタイル(CSS直書き)を指定
 
@@ -155,7 +188,7 @@ HTML と言っても中身は script タグだけです。
 -->
 ```
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 #### markdown 内コメントで remark のオプションを指定
 
@@ -169,7 +202,7 @@ HTML と言っても中身は script タグだけです。
 
 ⚠ JSONでの指定となる為、項目名をダブルクォーテーションで括るのを忘れないように注意してください。
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 <!--
 layout: true
@@ -177,7 +210,7 @@ layout: true
 
 ## remark themes
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 🚧 remark 用のテーマ(CSS)もいくつか準備中です。
 
@@ -185,7 +218,7 @@ layout: true
 
 > これは remark 用のテーマ集であり、 remark HTML には依存しません。
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 <!--
 layout: true
@@ -193,7 +226,7 @@ layout: true
 
 ## remark animation themes
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 remark 用のアニメーションテーマ(CSS)として fade.css と slide.css を用意しました。
 ページ遷移時にエフェクトがかかるヤツです。
@@ -201,7 +234,7 @@ remark 用のアニメーションテーマ(CSS)として fade.css と slide.css
 
 <https://github.com/wraith13/writing/tree/master/animation>
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 <!--
 layout: true
@@ -209,26 +242,30 @@ layout: true
 
 ## GitHub Pages
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 GitHub にはリポジトリに格納されてるファイルを https 経由で直接的にアクセスできる機能が提供されおり、このリポジトリもその機能を用いて <https://wraith13.github.io/writing/> からアクセスできるようにしてあります。
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 設定方法は GitHub 上のリポジトリに Web ブラウザでアクセスし、 `Settings`(→`Options`)→`GitHub Pages` のところの `Source` をドロップダウンから選択して `Save` するだけです。
 
+<!--[REVEAL/]>>>-->
+
 > このプロジェクトでは master ブランチのルートをそのまま公開してるので `Source` は `master branch` にしてあります。
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
+<!--[NOREVEAL]-->
 <!--
 layout: true
 -->
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 <!--
 class: center, middle
 -->
+<!--[/NOREVEAL]-->
 
 Enjoy!

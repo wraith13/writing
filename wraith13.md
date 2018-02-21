@@ -1,10 +1,12 @@
+<!--[RENDERER] REVEAL -->
+<!--[REVEAL-TRANSITION] ZOOM -->
 <!--
 class: center, middle
 -->
 
 # @wraith13
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 ## Contents
 
@@ -13,13 +15,13 @@ class: center, middle
 - [SNS](#sns)
 - [writing](#writing)
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 ## image
 
 ![wraith13](https://github.com/wraith13.png)
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 ## alias
 
@@ -27,14 +29,14 @@ class: center, middle
 - Wraith the Trickster
 - とつげきたろうex+
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 ## SNS
 
 - Twitter: <https://twitter.com/wraith13>
 - GitHub: <https://github.com/wraith13>
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 ## writing
 
@@ -43,7 +45,9 @@ class: center, middle
 
 <!--[TITLE] @wraith13 -->
 <!--[FAVICON] https://github.com/wraith13.png -->
+<!--[REMARK]-->
 <!--[THEME] theme/chocolate.css -->
+<!--[/REMARK]-->
 <!--[REMARK-CONFIG]
 {
     "ratio": "16:9"

@@ -81,6 +81,7 @@ body.marked
 {
     body.marked
     {
+        padding: 1.0rem; /* calc が poor な環境の保険 */
         padding: calc(calc(100vw / 40) + 0.5rem);
     }
 }
@@ -89,7 +90,7 @@ body.marked
 {
     body.marked
     {
-        padding-top: 2.0rem;
+        padding: 2.0rem; /* calc が poor な環境の保険を兼ねる */
         padding-left: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
         padding-right: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
         /* 3.2360679774 ????(1.6180339887) * 2.0 */

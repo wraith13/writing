@@ -315,10 +315,13 @@
                 .replace(/^#+\s+/mg, "")
                 .replace(/\s+/g," ")
                 .replace(/<!--.*?-->/g, "")
+                .replace(/<.*?>/g, "")
                 .trim()
                 .slice(0, 64);
         }
-        document.title = title;
+        document.title = title
+            .replace(/&lt;/, "<")
+            .replace(/&gt;/, ">");
 
         //  favicon
         var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();

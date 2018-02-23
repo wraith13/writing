@@ -529,7 +529,7 @@
     {
         setTimeout(function(){
             render(renderer, location.href, sourceUrl.slice(5));
-        }, 0)
+        }, 1); // 0 だと document.body が null だと怒られることがある。
     }
     else
     {

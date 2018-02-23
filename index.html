@@ -433,19 +433,27 @@
             document.head.appendChild(style);
 
             //  paste markdown
+            var separator = (source+"<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();
+            var separator_vertical = (source+"<!--[REVEAL-SEPARATOR-VERTICAL] ^\\n>>>$ -->").split("<!--[REVEAL-SEPARATOR-VERTICAL]")[1].split("-->")[0].trim();
+            var separator_notes = (source+"<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
             var pasteMarkdown = function(markdown)
             {
                 var div = document.createElement("div");
                 div.className = "reveal";
                 div.innerHTML =
                     "<div class=\"slides\">"
-                        +"<section data-markdown data-separator=\"^\\n---$\" data-separator-vertical=\"^\\n>>>$\">"
+                        +"<section id=\"source-markdown\" data-markdown>"
                             +"<script type=\"text/template\">"
                                 +markdown
                             +"</" +"script>"
                         +"</section>"
                     +"</div>";
                 document.body.appendChild(div);
+                var section = document.getElementById("source-markdown");
+                section.setAttribute("data-separator", separator);
+                section.setAttribute("data-separator-vertical", separator_vertical);
+                section.setAttribute("data-separator-notes", separator_notes);
+                section.removeAttribute("id");
             };
             pasteMarkdown(translateLinkWithinPageForReveal(source));
             var headScript = document.createElement("script");

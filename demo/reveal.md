@@ -31,13 +31,15 @@ Use the <em>Space</em> key to navigate through all slides.
 <!--[REMARK/]----->
 <!--[REVEAL/]>>>-->
 
-<h2>Basement Level 1</h2>
-<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+## Basement Level 1
+
+Nested slides are useful for adding additional detail underneath a high level horizontal slide.
 
 <!--[REMARK/]----->
 <!--[REVEAL/]>>>-->
 
-<h2>Basement Level 2</h2>
+## Basement Level 2
+
 <p>That's it, time to go back up.</p>
 <br>
 <a href="#/2">
@@ -46,47 +48,41 @@ Use the <em>Space</em> key to navigate through all slides.
 
 <!--[NOMD/]----->
 
-<h2>Slides</h2>
-<p>
-    Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="https://slides.com" target="_blank">https://slides.com</a>.
-</p>
+## Slides
+
+Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="https://slides.com" target="_blank">https://slides.com</a>.
 
 <!--[NOMD/]----->
 
-<h2>Point of View</h2>
-<p>
-    Press <strong>ESC</strong> to enter the slide overview.
-</p>
-<p>
-    Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-</p>
+## Point of View
+
+Press <strong>ESC</strong> to enter the slide overview.
+
+Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
 
 <!--[NOMD/]----->
 
-<h2>Touch Optimized</h2>
-<p>
-    Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-</p>
+## Touch Optimized
+
+Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
 
 <!--[NOMD/]----->
 
+## Markdown support
+
+Write content using inline or external Markdown.
+Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+
+```html
 <section data-markdown>
-    <script type="text/template">
-        ## Markdown support
+    ## Markdown support
 
-        Write content using inline or external Markdown.
-        Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-
-        ```
-        <section data-markdown>
-            ## Markdown support
-
-            Write content using inline or external Markdown.
-            Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-        </section>
-        ```
-    </script>
+    Write content using inline or external Markdown.
+    Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
 </section>
+```
+
+<!--[NOMD/]----->
 
 <section>
     <section id="fragments">

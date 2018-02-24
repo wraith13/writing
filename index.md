@@ -9,17 +9,21 @@
 }
 -->
 
+<!--[REVEAL/]----->
+
 - [README](?README.md)
 - [@wraith13](?wraith13.md)
 
-<!--[NOMD]
+<!--[REVEAL/]----->
+
+<!--[NOMD/]
 ## remark themes demo
 
 - [themes demo](#themes-demo)
 - [animation themes demo](#animation-themes-demo)
 -->
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 ## themes demo
 
@@ -27,7 +31,7 @@
 - [chocolate](?demo/chocolate.md)
 - [wine](?demo/wine.md)
 
-<!--[NOMD]----->
+<!--[NOMD/]----->
 
 ## animation themes demo
 

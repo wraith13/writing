@@ -86,59 +86,64 @@ Instructions and more info available in the [readme](https://github.com/hakimel/
 
 ## Fragments
 
-<p>Hit the next arrow...</p>
-<p class="fragment">... to step through ...</p>
+Hit the next arrow...
+
+... to step through ...<!-- .element: class="fragment" -->
+
 <p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
 
-<aside class="notes">
-    This slide has fragments which are also stepped through in the notes window.
-</aside>
+Note:
+This slide has fragments which are also stepped through in the notes window.
 
 <!--[NOMD/]----->
 
 ## Fragment Styles
 
-<p>There's different types of fragments, like:</p>
-<p class="fragment grow">grow</p>
-<p class="fragment shrink">shrink</p>
-<p class="fragment fade-out">fade-out</p>
-<p class="fragment fade-up">fade-up (also down, left and right!)</p>
-<p class="fragment current-visible">current-visible</p>
-<p>Highlight <span class="fragment highlight-red">red</span> <span class="fragment highlight-blue">blue</span> <span class="fragment highlight-green">green</span></p>
+There's different types of fragments, like:
+
+grow<!-- .element: class="fragment grow" -->
+
+shrink<!-- .element: class="fragment shrink" -->
+
+fade-out<!-- .element: class="fragment fade-out" -->
+
+fade-up (also down, left and right!)<!-- .element: class="fragment fade-up" -->
+
+current-visible<!-- .element: class="fragment >current-visible" -->
+
+Highlight <span class="fragment highlight-red">red</span> <span class="fragment highlight-blue">blue</span> <span class="fragment highlight-green">green</span>
 
 <!--[NOMD/]----->
 
 ## Transition Styles
 
-<p>
-    You can select from different transitions, like: <br>
-    <a href="?transition=none#/transitions">None</a> -
-    <a href="?transition=fade#/transitions">Fade</a> -
-    <a href="?transition=slide#/transitions">Slide</a> -
-    <a href="?transition=convex#/transitions">Convex</a> -
-    <a href="?transition=concave#/transitions">Concave</a> -
-    <a href="?transition=zoom#/transitions">Zoom</a>
-</p>
+You can select from different transitions, like:
+
+[None](?transition=none&demo/reveal.md#/9) -
+[Fade](?transition=fade&demo/reveal.md#/9) -
+[Slide](?transition=slide&demo/reveal.md#/9) -
+[Convex](?transition=convex&demo/reveal.md#/9) -
+[Concave](?transition=concave&demo/reveal.md#/9) -
+[Zoom](?transition=zoom&demo/reveal.md#/9)
 
 <!--[NOMD/]----->
 
 ## Themes
 
-<p>
-    reveal.js comes with a few themes built in: <br>
-    <!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-    <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-    <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-    <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-    <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-    <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-    <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-    <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-    <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-    <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-    <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-    <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-</p>
+reveal.js comes with a few themes built in:
+
+<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
+[Black (default)](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;" --> -
+[White](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;" --> -
+[League](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;" --> -
+[Sky](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;" --> -
+[Beige](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;" --> -
+[Simple](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;" --> -
+[Serif](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;" --> -
+[Blood](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;" --> -
+[Night](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;" --> -
+[Moon](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;" --> -
+[Solarized](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;" -->
 
 <!--[NOMD/]----->
 

@@ -1,6 +1,14 @@
 ﻿<!--
 このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 -->
+<style>
+/* こうやって静的にこのスタイルを読み込んでいないとなぜか highlightjs が正常に機能しない。 CSS で外出しにするだけならまだ機能するんだけど、動的に読む込む形だとダメ。意味不明すぎる・・・ */
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+body
+{
+    font-family: 'Droid Serif';
+}
+</style>
 <script>
 'use strict';
 (function()
@@ -425,7 +433,7 @@
             (
                 function(i)
                 {
-                        appendTheme(makeAbsoluteUrl(baseUrl, i));
+                    appendTheme(makeAbsoluteUrl(baseUrl, i));
                 }
             );
             var style = document.createElement("style");
@@ -487,10 +495,13 @@
                         transition: Reveal.getQueryHash().transition || revealTransition, 
                         dependencies:
                         [
-                            { src: 'plugin/markdown/marked.js' },
-                            { src: 'plugin/markdown/markdown.js' },
-                            { src: 'plugin/notes/notes.js', async: true },
-                            { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                            { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                            { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                            { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                            { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                            { src: 'plugin/search/search.js', async: true },
+                            { src: 'plugin/zoom-js/zoom.js', async: true },
+                            { src: 'plugin/notes/notes.js', async: true }
                         ]
                     };
                     Reveal.initialize(objectAssign(defaultConfig, config));

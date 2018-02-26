@@ -156,7 +156,7 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 #### markdown 内コメントで HTML の favicon を指定
 
 ```html
-<!--[FAVICON] https://github.com/wraith13.png -->
+<!--[FAVICON] https://wraith13.github.io/writing/writinghex.128.png -->
 ```
 
 > markdown からの相対パスでも絶対パスでも構いません。

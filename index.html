@@ -164,7 +164,7 @@ body
                     else
                     if ("#" === trimed_line.slice(0, 1))
                     {
-                        var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\(\)]/g,"").replace(/ /g,"-");
+                        var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
                         anchors.push
                         (
                             {
@@ -234,7 +234,7 @@ body
                     else
                     if ("#" === trimed_line.slice(0, 1))
                     {
-                        var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\(\)]/g,"").replace(/ /g,"-");
+                        var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
                         anchors.push
                         (
                             {

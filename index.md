@@ -1,8 +1,25 @@
-# writing index
+# ![](writinghex.128.png)writing index
 
 <!--[TITLE] writing index -->
-<!--[FAVICON] https://github.com/wraith13.png -->
 <!--[THEME] theme/default.css -->
+<!--[STYLE]
+h1
+{
+    margin-bottom:48px;
+}
+h1 img
+{
+    margin-bottom:-48px;
+}
+.reveal section h1 img
+{
+    margin-bottom: -8px;
+    border-style: none;
+    background-color: transparent;
+    box-shadow: inherit;
+    margin-right: 24px;
+}
+-->
 <!--[REMARK-CONFIG]
 {
     "ratio": "16:9"

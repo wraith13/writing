@@ -173,7 +173,8 @@ Set `data-background="#dddddd"` on a slide to change the background color. All C
 <section data-background="image.png">
 ```
 
-<!--[NOMD/]----->
+<!--[REMARK/]----->
+<!--[REVEAL/]>>>-->
 
 <!-- .element: data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px" -->
 
@@ -182,23 +183,29 @@ Set `data-background="#dddddd"` on a slide to change the background color. All C
 ```html
 <section data-background="image.png" data-background-repeat="repeat" data-background-size="100px">
 ```
-
 <!-- .element: style="word-wrap: break-word;" -->
 
-<!--[NOMD/]----->
+<!--[REMARK/]----->
+<!--[REVEAL/]>>>-->
 
-    <section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-        <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-            <h2>Video Backgrounds</h2>
-            <pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-        </div>
-    </section>
+<!-- .element: data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000" -->
 
-<!--[NOMD/]----->
+<!-- .element: style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;" -->
 
-    <section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-        <h2>... and GIFs!</h2>
-    </section>
+## Video Backgrounds
+
+```html
+<section data-background-video="video.mp4,video.webm">
+```
+<!-- .element: style="word-wrap: break-word;" -->
+
+
+<!--[REMARK/]----->
+<!--[REVEAL/]>>>-->
+
+<!-- .element: data-background="http://i.giphy.com/90F8aUepslB84.gif" -->
+
+## ... and GIFs!
 
 <!--[NOMD/]----->
 

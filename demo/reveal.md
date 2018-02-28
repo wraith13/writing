@@ -209,64 +209,74 @@ Set `data-background="#dddddd"` on a slide to change the background color. All C
 
 <!--[NOMD/]----->
 
-<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-    <h2>Background Transitions</h2>
-    <p>
-        Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-    </p>
-    <pre><code class="hljs">Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-</section>
+<!-- .element: data-transition="slide" data-background="#4d7e65" data-background-transition="zoom" -->
 
-<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-    <h2>Background Transitions</h2>
-    <p>
-        You can override background transitions per-slide.
-    </p>
-    <pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-</section>
+## Background Transitions
 
-<section>
-    <h2>Pretty Code</h2>
-    <pre><code class="hljs" data-trim contenteditable>
+Different background transitions are available via the backgroundTransition option. This one's called "zoom".
+
+```js
+Reveal.configure({ backgroundTransition: 'zoom' })
+```
+
+<!--[NOMD/]----->
+
+<!-- .element: data-transition="slide" data-background="#b5533c" data-background-transition="zoom" -->
+
+## Background Transitions
+
+You can override background transitions per-slide.
+
+```html
+<section data-background-transition="zoom">
+```
+
+<!--[NOMD/]----->
+
+## Pretty Code
+
+```js
 function linkify( selector ) {
-if( supports3DTransforms ) {
+  if( supports3DTransforms ) {
 
-var nodes = document.querySelectorAll( selector );
+    var nodes = document.querySelectorAll( selector );
 
-for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-var node = nodes[i];
+    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
+      var node = nodes[i];
 
-if( !node.className ) {
-node.className += ' roll';
+      if( !node.className ) {
+        node.className += ' roll';
+      }
+    }
+  }
 }
-}
-}
-}
-    </code></pre>
-    <p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-</section>
+```
 
-<section>
-    <h2>Marvelous List</h2>
-    <ul>
-        <li>No order here</li>
-        <li>Or here</li>
-        <li>Or here</li>
-        <li>Or here</li>
-    </ul>
-</section>
+<!-- .element: data-trim contenteditable -->
 
-<section>
-    <h2>Fantastic Ordered List</h2>
-    <ol>
-        <li>One is smaller than...</li>
-        <li>Two is smaller than...</li>
-        <li>Three!</li>
-    </ol>
-</section>
+Code syntax highlighting courtesy of [highlight.js](http://softwaremaniacs.org/soft/highlight/en/description/).
 
-<section>
-    <h2>Tabular Tables</h2>
+<!--[NOMD/]----->
+
+## Marvelous List
+
+* No order here
+* Or here
+* Or here
+* Or here
+
+<!--[NOMD/]----->
+
+## Fantastic Ordered List
+
+1. One is smaller than...
+1. Two is smaller than...
+1. Three!
+
+<!--[NOMD/]----->
+
+## Tabular Tables
+
     <table>
         <thead>
             <tr>
@@ -293,10 +303,11 @@ node.className += ' roll';
             </tr>
         </tbody>
     </table>
-</section>
 
-<section>
-    <h2>Clever Quotes</h2>
+<!--[NOMD/]----->
+
+## Clever Quotes
+
     <p>
         These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">The nice thing about standards is that there are so many to choose from</q> and block:
     </p>
@@ -304,43 +315,46 @@ node.className += ' roll';
         &ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
         reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
     </blockquote>
-</section>
 
-<section>
-    <h2>Intergalactic Interconnections</h2>
-    <p>
-        You can link between slides internally,
-        <a href="#/2/3">like this</a>.
-    </p>
-</section>
+<!--[NOMD/]----->
 
-<section>
-    <h2>Speaker View</h2>
-    <p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-    <p>Press the <em>S</em> key to try it out.</p>
+## Intergalactic Interconnections
 
-    <aside class="notes">
-        Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-    </aside>
-</section>
+You can link between slides internally,
+<a href="#/2/3">like this</a>.
 
-<section>
-    <h2>Export to PDF</h2>
-    <p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-    <iframe data-src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-</section>
+<!--[NOMD/]----->
 
-<section>
-    <h2>Global State</h2>
-    <p>
-        Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-        will be added as a class to the document element when the slide is open. This lets you
-        apply broader style changes, like switching the page background.
-    </p>
-</section>
+## Speaker View
 
-<section data-state="customevent">
-    <h2>State Events</h2>
+<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
+<p>Press the <em>S</em> key to try it out.</p>
+
+<aside class="notes">
+Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+</aside>
+
+<!--[NOMD/]----->
+
+## Export to PDF
+
+<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
+<iframe data-src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+
+<!--[NOMD/]----->
+
+## Global State
+
+Set `data-state="something"` on a slide and `"something"`
+will be added as a class to the document element when the slide is open. This lets you
+apply broader style changes, like switching the page background.
+
+<!--[NOMD/]----->
+
+<!-- .element: data-state="customevent" -->
+
+## State Events
+
     <p>
         Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
     </p>
@@ -349,17 +363,17 @@ Reveal.addEventListener( 'customevent', function() {
 console.log( '"customevent" has fired' );
 } );
     </code></pre>
-</section>
 
-<section>
-    <h2>Take a Moment</h2>
-    <p>
-        Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-    </p>
-</section>
+<!--[NOMD/]----->
 
-<section>
-    <h2>Much more</h2>
+## Take a Moment
+
+Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
+
+<!--[NOMD/]----->
+
+## Much more
+
     <ul>
         <li>Right-to-left support</li>
         <li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
@@ -367,12 +381,12 @@ console.log( '"customevent" has fired' );
         <li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
         <li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
     </ul>
-</section>
 
-<section style="text-align: left;">
-    <h1>THE END</h1>
-    <p>
-        - <a href="https://slides.com">Try the online editor</a> <br>
-        - <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-    </p>
-</section>
+<!--[NOMD/]----->
+
+<!-- .element: style="text-align: left;" -->
+
+# THE END
+
+- [Try the online editor](https://slides.com)
+- [Source code &amp; documentation](https://github.com/hakimel/reveal.js)

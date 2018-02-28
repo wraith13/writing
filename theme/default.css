@@ -131,6 +131,9 @@ body.marked div.index
     body.marked.with-index div.content *
     {
         max-width: calc(100vw - calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 2.00) - 2.0rem));
+    }
+    body.marked.with-index div.content pre
+    {
         overflow-x: auto;
     }
 

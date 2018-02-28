@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 -->
 <style>
@@ -132,6 +132,43 @@ body
             }
         }
         return baseParts.concat(urlParts).join("/");
+    };
+    var makeIndexForMarked = function(source)
+    {
+        var lines = source.split("\n");
+        var anchors = [ ];
+        var isInEscape = false;
+        lines.forEach
+        (
+            function(line)
+            {
+                var trimed_line = line.trim();
+                var isEscape = "```" === trimed_line.slice(0, 3);
+                if (isEscape)
+                {
+                    isInEscape = !isInEscape;
+                }
+                else
+                if (!isInEscape)
+                {
+                    if ("#" === trimed_line.slice(0, 1))
+                    {
+                        var title = trimed_line.replace(/^#*/, "").replace(/!\[.*?\]\(.*?\)/g, "").replace(/\[.*?\]\(.*?\)/g, "").replace(/<.*?>/g, "").trim();
+                        var level = (trimed_line.trim().length -trimed_line.replace(/^#*/, "").trim().length) -1;
+                        var link = "#" +title.toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
+                        anchors.push
+                        (
+                            {
+                                level: level,
+                                title: title,
+                                link: link
+                            }
+                        );
+                    }
+                }
+            }
+        );
+        return anchors;
     };
     var translateLinkWithinPageForRemark = function(source)
     {
@@ -402,8 +439,35 @@ body
                 console.log("marked-config: " +JSON.stringify(config, null, 4));
                 marked.setOptions(config);
 
-                document.body.className = "marked";
-                document.body.innerHTML = marked(source);
+                var withIndex = true;
+                if (withIndex)
+                {
+                    document.body.className = "marked with-index";
+
+                    var indexDiv = document.createElement("div");
+                    indexDiv.className = "index";
+                    makeIndexForMarked(source).forEach
+                    (
+                        function(i)
+                        {
+                            var a = document.createElement("a");
+                            a.className = "level" + i.level;
+                            a.href = i.link;
+                            a.innerText = i.title;
+                            indexDiv.appendChild(a);
+                        }
+                    );
+                    document.body.appendChild(indexDiv);
+                }
+                else
+                {
+                    document.body.className = "marked without-index";
+                }
+                
+                var contentDiv = document.createElement("div");
+                contentDiv.innerHTML = marked(source);
+                contentDiv.className = "content";
+                document.body.appendChild(contentDiv);
 
                 //  highlight
                 var highlightScript = document.createElement("script");

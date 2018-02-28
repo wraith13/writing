@@ -137,7 +137,7 @@ body.marked div.index
     body.marked div.index
     {
         display: block;
-        max-height: calc(100vh - 2.0rem);
+        height: calc(100vh - 2.0rem);
         overflow-y: hidden;
         
         padding: 2.0rem;

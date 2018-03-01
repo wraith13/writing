@@ -75,18 +75,132 @@ blockquote > p
 
 body.marked
 {
+    overflow: hidden;
+    padding: 0;
     margin: 0px;
 }
+
+body.marked .wallpaper
+{
+    /* 壁紙用のレイヤー */
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100vw;
+    height: 100vh;
+    content: '';
+    overflow: hidden;
+    padding: 0;
+    opacity: 0.2;
+    z-index: -2;
+    /*background-image: url("/private/02920_woodpeckereggs_1920x1200.jpg");*/
+    background-size: cover;
+}
+body.marked .wallpaper::before
+{
+    /* 壁紙(body.marked::before)の上にグラデーションをかける為のレイヤー */
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100vw;
+    height: 100vh;
+    content: '';
+    overflow: hidden;
+    padding: 0;
+    opacity: 0.6;
+    z-index: -1;
+}
+
 body.marked div.index
 {
     display: none;
+    height: calc(100vh - 2.0rem);
+    overflow-y: hidden;
+    
+    padding: 2.0rem;
+    padding-top: 0px;
+    position: absolute;
+    top: 0px;
+    left: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 0.5);
+    width: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) - 4.0rem);
+    max-width: 60rem;
+
+    background-color: #EEEEEE;
+    opacity: 0.8;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+body.marked div.index:hover
+{
+    overflow-y: auto;
+}
+
+body.marked div.index a
+{
+    display: block;
+    word-wrap: break-word;
+    white-space: wrap;
+    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 2);
+}
+body.marked div.index a.level1
+{
+    padding: 16px 0px;
+}
+body.marked div.index a.level2
+{
+    padding: 12px 4px;
+    font-size: 80%;
+}
+body.marked div.index a.level3
+{
+    padding: 8px 8px;
+    font-size: 70%;
+}
+body.marked div.index a.level4
+{
+    padding: 4px 12px;
+    font-size: 60%;
+}
+body.marked div.index a.level5
+{
+    padding: 2px 16px;
+    font-size: 50%;
+}
+body.marked div.index a.level6
+{
+    padding: 2px 20px;
+    font-size: 40%;
+}
+body.marked div.index a.level7
+{
+    padding: 2px 24px;
+    font-size: 35%;
+}
+body.marked div.index a.level8
+{
+    padding: 2px 30px;
+    font-size: 30%;
+}
+
+
+body.marked div.content
+{
+    overflow-y: auto;
+}
+body.marked.with-wallpaperx div.content
+{
+    -text-shadow: 6px 6px 6px #FFFFFF, 6px -6px 6px #FFFFFF, -6px -6px 6px #FFFFFF, -6px 6px 6px #FFFFFF; 
+    text-shadow: 3px 3px 3px #FFFFFF, 3px -3px 3px #FFFFFF, -3px -3px 3px #FFFFFF, -3px 3px 3px #FFFFFF; 
+}
+
 @media (max-width: 60.0rem)
 {
-    body.marked
+    body.marked div.content
     {
         padding: 1.0rem; /* calc が poor な環境の保険 */
         padding: calc(calc(100vw / 40) + 0.5rem);
+        width: calc(100vw - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0));
+        max-height: calc(100vh - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0));
     }
 }
 
@@ -94,14 +208,18 @@ body.marked div.index
 {
     body.marked
     {
+        font-size: calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem);
+
+    }
+    body.marked div.content
+    {
         padding: 2.0rem; /* calc が poor な環境の保険を兼ねる */
         padding-left: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
         padding-right: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
         /* 3.2360679774 黄金律(1.6180339887) * 2.0 */
         /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
-        font-size: calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem);
-        background: -prefix-linear-gradient(left, #EEEEEE, #FFFFFF calc(calc(100vw - 60.0rem) / 3.2360679774), #FFFFFF calc(100vw - calc(calc(100vw - 60.0rem) / 3.2360679774)), #EEEEEE);
-        background: linear-gradient(to right, #EEEEEE, #FFFFFF calc(calc(100vw - 60.0rem) / 3.2360679774), #FFFFFF calc(100vw - calc(calc(100vw - 60.0rem) / 3.2360679774)), #EEEEEE);
+        width: calc(100vw - calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 2.0));
+        max-height: calc(100vh - 4.0rem);
     }
 }
 
@@ -109,13 +227,9 @@ body.marked div.index
 {
     body.marked.with-index
     {
-        overflow: hidden;
-        padding: 0;
         /* 3.2360679774 ????(1.6180339887) * 2.0 */
         /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
         font-size: calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem);
-        background: -prefix-linear-gradient(left, #EEEEEE, #FFFFFF calc(calc(calc(100vw - 60.0rem) / 3.2360679774) * 0.5), #FFFFFF calc(100vw - calc(calc(calc(100vw - 60.0rem) / 3.2360679774) * 0.5)), #EEEEEE);
-        background: linear-gradient(to right, #EEEEEE, #FFFFFF calc(calc(calc(100vw - 60.0rem) / 3.2360679774) * 0.5), #FFFFFF calc(100vw - calc(calc(calc(100vw - 60.0rem) / 3.2360679774) * 0.5)), #EEEEEE);
     }
     body.marked.with-index div.content
     {
@@ -125,8 +239,7 @@ body.marked div.index
         margin-left: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 1.50);
         padding-left: 2.0rem;
         padding-right: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 0.5);
-        width: calc(100vw - calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 2.00) - 2.0rem));
-        max-height: 100vh;
+        width: calc(100vw - calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 2.00) + 2.0rem));
     }
     body.marked.with-index div.content *
     {
@@ -140,75 +253,7 @@ body.marked div.index
     body.marked div.index
     {
         display: block;
-        height: calc(100vh - 2.0rem);
-        overflow-y: hidden;
-        
-        padding: 2.0rem;
-        padding-top: 0px;
-        position: absolute;
-        top: 0px;
-        left: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 0.5);
-        width: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) - 4.0rem);
-        max-width: 60rem;
-
-        background-color: #DDDDDD;
-        opacity: 0.8;
-
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
-    body.marked div.index:hover
-    {
-        overflow-y: auto;
-    }
-
-    body.marked div.index a
-    {
-        display: block;
-        word-wrap: break-word;
-        white-space: wrap;
-        font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 2);
-    }
-    body.marked div.index a.level1
-    {
-        padding: 16px 0px;
-    }
-    body.marked div.index a.level2
-    {
-        padding: 12px 4px;
-        font-size: 80%;
-    }
-    body.marked div.index a.level3
-    {
-        padding: 8px 8px;
-        font-size: 70%;
-    }
-    body.marked div.index a.level4
-    {
-        padding: 4px 12px;
-        font-size: 60%;
-    }
-    body.marked div.index a.level5
-    {
-        padding: 2px 16px;
-        font-size: 50%;
-    }
-    body.marked div.index a.level6
-    {
-        padding: 2px 20px;
-        font-size: 40%;
-    }
-    body.marked div.index a.level7
-    {
-        padding: 2px 24px;
-        font-size: 35%;
-    }
-    body.marked div.index a.level8
-    {
-        padding: 2px 30px;
-        font-size: 30%;
-    }
-
 }
 @media (min-width: 180.0rem)
 {

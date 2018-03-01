@@ -439,10 +439,22 @@ body
                 console.log("marked-config: " +JSON.stringify(config, null, 4));
                 marked.setOptions(config);
 
+                document.body.className = "marked";
+
+                var wallPaper = (source+"<!--[WALLPAPER] -->").split("<!--[WALLPAPER]")[1].split("-->")[0].trim();
+                if (wallPaper)
+                {
+                    document.body.className += " with-wallpaper";
+                    var wallPaperDiv = document.createElement("div");
+                    wallPaperDiv.className = "wallpaper";
+                    wallPaperDiv.style.backgroundImage = "url(\"" +wallPaper +"\")";
+                    document.body.appendChild(wallPaperDiv);
+                }
+                
                 var withIndex = true;
                 if (withIndex)
                 {
-                    document.body.className = "marked with-index";
+                    document.body.className += " with-index";
 
                     var indexDiv = document.createElement("div");
                     indexDiv.className = "index";
@@ -459,11 +471,7 @@ body
                     );
                     document.body.appendChild(indexDiv);
                 }
-                else
-                {
-                    document.body.className = "marked";
-                }
-                
+
                 var contentDiv = document.createElement("div");
                 contentDiv.innerHTML = marked(source);
                 contentDiv.className = "content";

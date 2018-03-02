@@ -130,19 +130,27 @@
     {
         var lines = source.split("\n");
         var anchors = [ ];
-        var isInEscape = false;
+        var currentEscape = null;
         lines.forEach
         (
             function(line)
             {
                 var trimed_line = line.trim();
-                var isEscape = "```" === trimed_line.slice(0, 3);
+                var escape = trimed_line.slice(0, 3);
+                var isEscape = null === currentEscape && ("```" === escape || "~~~" === escape) || currentEscape === escape;
                 if (isEscape)
                 {
-                    isInEscape = !isInEscape;
+                    if (null === currentEscape)
+                    {
+                        currentEscape = escape;
+                    }
+                    else
+                    {
+                        currentEscape = null;
+                    }
                 }
                 else
-                if (!isInEscape)
+                if (null === currentEscape)
                 {
                     if ("#" === trimed_line.slice(0, 1))
                     {
@@ -167,7 +175,7 @@
     {
         var lines = source.split("\n");
         var anchors = [ ];
-        var isInEscape = false;
+        var currentEscape = null;
         var page = 1;
         var isLayout = false;
         lines.forEach
@@ -175,13 +183,21 @@
             function(line)
             {
                 var trimed_line = line.trim();
-                var isEscape = "```" === trimed_line.slice(0, 3);
+                var escape = trimed_line.slice(0, 3);
+                var isEscape = null === currentEscape && ("```" === escape || "~~~" === escape) || currentEscape === escape;
                 if (isEscape)
                 {
-                    isInEscape = !isInEscape;
+                    if (null === currentEscape)
+                    {
+                        currentEscape = escape;
+                    }
+                    else
+                    {
+                        currentEscape = null;
+                    }
                 }
                 else
-                if (!isInEscape)
+                if (null === currentEscape)
                 {
                     if ("--" === line || "---" === line)
                     {
@@ -211,19 +227,27 @@
                 }
             }
         );
-        isInEscape = false;
+        currentEscape = null;
         lines = lines.map
         (
             function(line)
             {
                 var trimed_line = line.trim();
-                var isEscape = "```" === trimed_line.slice(0, 3);
+                var escape = trimed_line.slice(0, 3);
+                var isEscape = null === currentEscape && ("```" === escape || "~~~" === escape) || currentEscape === escape;
                 if (isEscape)
                 {
-                    isInEscape = !isInEscape;
+                    if (null === currentEscape)
+                    {
+                        currentEscape = escape;
+                    }
+                    else
+                    {
+                        currentEscape = null;
+                    }
                 }
                 else
-                if (!isInEscape)
+                if (null === currentEscape)
                 {
                     anchors.forEach
                     (
@@ -242,20 +266,28 @@
     {
         var lines = source.split("\n");
         var anchors = [ ];
-        var isInEscape = false;
+        var currentEscape = null;
         var page = 0;
         lines.forEach
         (
             function(line)
             {
                 var trimed_line = line.trim();
-                var isEscape = "```" === trimed_line.slice(0, 3);
+                var escape = trimed_line.slice(0, 3);
+                var isEscape = null === currentEscape && ("```" === escape || "~~~" === escape) || currentEscape === escape;
                 if (isEscape)
                 {
-                    isInEscape = !isInEscape;
+                    if (null === currentEscape)
+                    {
+                        currentEscape = escape;
+                    }
+                    else
+                    {
+                        currentEscape = null;
+                    }
                 }
                 else
-                if (!isInEscape)
+                if (null === currentEscape)
                 {
                     if ("--" === line || "---" === line)
                     {
@@ -276,19 +308,27 @@
                 }
             }
         );
-        isInEscape = false;
+        currentEscape = false;
         lines = lines.map
         (
             function(line)
             {
                 var trimed_line = line.trim();
-                var isEscape = "```" === trimed_line.slice(0, 3);
+                var escape = trimed_line.slice(0, 3);
+                var isEscape = null === currentEscape && ("```" === escape || "~~~" === escape) || currentEscape === escape;
                 if (isEscape)
                 {
-                    isInEscape = !isInEscape;
+                    if (null === currentEscape)
+                    {
+                        currentEscape = escape;
+                    }
+                    else
+                    {
+                        currentEscape = null;
+                    }
                 }
                 else
-                if (!isInEscape)
+                if (null === currentEscape)
                 {
                     anchors.forEach
                     (

@@ -2,14 +2,6 @@
 <!--
 このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 -->
-<style>
-/* こうやって静的にこのスタイルを読み込んでいないとなぜか highlightjs が正常に機能しない。 CSS で外出しにするだけならまだ機能するんだけど、動的に読む込む形だとダメ。意味不明すぎる・・・ */
-@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
-body
-{
-    font-family: 'Droid Serif';
-}
-</style>
 <script>
 'use strict';
 (function()
@@ -484,6 +476,7 @@ body
                 highlightScript.onload = function()
                 {
                     hljs.initHighlightingOnLoad();
+                    document.querySelectorAll('pre code').forEach(hljs.highlightBlock);
                 };
                 document.head.appendChild(highlightScript);
             };
@@ -583,6 +576,10 @@ body
                             { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                             { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                             { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                            { src: 'plugin/highlight/highlight.js', async: true, callback: function() {
+                                hljs.initHighlightingOnLoad();
+                                document.querySelectorAll('pre code').forEach(hljs.highlightBlock);
+                            } },
                             { src: 'plugin/search/search.js', async: true },
                             { src: 'plugin/zoom-js/zoom.js', async: true },
                             { src: 'plugin/notes/notes.js', async: true }

@@ -152,7 +152,7 @@
                 else
                 if (null === currentEscape)
                 {
-                    if ("#" === trimed_line.slice(0, 1))
+                    if (/^#+ [^ ]+/.test(trimed_line))
                     {
                         var title = trimed_line.replace(/^#*/, "").replace(/!\[.*?\]\(.*?\)/g, "").replace(/\[.*?\]\(.*?\)/g, "").replace(/<.*?>/g, "").trim();
                         var level = (trimed_line.trim().length -trimed_line.replace(/^#*/, "").trim().length) -1;
@@ -208,7 +208,7 @@
                         isLayout = false;
                     }
                     else
-                    if ("#" === trimed_line.slice(0, 1))
+                    if (/^#+ [^ ]+/.test(trimed_line))
                     {
                         var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
                         anchors.push
@@ -294,7 +294,7 @@
                         ++page;
                     }
                     else
-                    if ("#" === trimed_line.slice(0, 1))
+                    if (/^#+ [^ ]+/.test(trimed_line))
                     {
                         var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
                         anchors.push

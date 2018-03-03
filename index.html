@@ -502,7 +502,10 @@
                             indexDiv.appendChild(a);
                         }
                     );
-                    document.body.appendChild(indexDiv);
+                    var indexFrameDiv = document.createElement("div");
+                    indexFrameDiv.className = "index-frame";
+                    indexFrameDiv.appendChild(indexDiv);
+                    document.body.appendChild(indexFrameDiv);
                 }
 
                 var contentDiv = document.createElement("div");

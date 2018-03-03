@@ -111,72 +111,80 @@ body.marked .wallpaper::before
     z-index: -1;
 }
 
-body.marked div.index
+body.marked div.index-frame
 {
+    margin: 0px;
+    padding: 0px;
     display: none;
-    height: calc(100vh - 2.0rem);
-    overflow-y: hidden;
-    
-    padding: 2.0rem;
-    padding-top: 0px;
+    visibility: hidden;
     position: absolute;
     top: 0px;
     left: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 0.5);
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100vh;
+}
+body.marked div.index-frame div.index
+{
+    padding: 2.0rem;
+    padding-top: 0px;
     width: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) - 4.0rem);
     max-width: 60rem;
+    min-height: calc(100vh - 2.0rem);
 
     background-color: #EEEEEE;
     opacity: 0.8;
 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-body.marked div.index:hover
+body.marked div.index-frame:hover,
+body.marked div.index-frame div.index
 {
-    overflow-y: auto;
+    visibility: visible;
 }
 
-body.marked div.index a
+body.marked div.index-frame div.index a
 {
     display: block;
     word-wrap: break-word;
     white-space: wrap;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 2);
 }
-body.marked div.index a.level1
+body.marked div.index-frame div.index a.level1
 {
     padding: 16px 0px;
 }
-body.marked div.index a.level2
+body.marked div.index-frame div.index a.level2
 {
     padding: 12px 4px;
     font-size: 80%;
 }
-body.marked div.index a.level3
+body.marked div.index-frame div.index a.level3
 {
     padding: 8px 8px;
     font-size: 70%;
 }
-body.marked div.index a.level4
+body.marked div.index-frame div.index a.level4
 {
     padding: 4px 12px;
     font-size: 60%;
 }
-body.marked div.index a.level5
+body.marked div.index-frame div.index a.level5
 {
     padding: 2px 16px;
     font-size: 50%;
 }
-body.marked div.index a.level6
+body.marked div.index-frame div.index a.level6
 {
     padding: 2px 20px;
     font-size: 40%;
 }
-body.marked div.index a.level7
+body.marked div.index-frame div.index a.level7
 {
     padding: 2px 24px;
     font-size: 35%;
 }
-body.marked div.index a.level8
+body.marked div.index-frame div.index a.level8
 {
     padding: 2px 30px;
     font-size: 30%;
@@ -250,14 +258,14 @@ body.marked.with-wallpaperx div.content
         overflow-x: auto;
     }
 
-    body.marked div.index
+    body.marked div.index-frame
     {
         display: block;
     }
 }
 @media (min-width: 180.0rem)
 {
-    body.marked div.index
+    body.marked div.index-frame div.index
     {
         width: 36rem;
     }
@@ -311,7 +319,7 @@ body.marked.with-wallpaperx div.content
     }
 }
 
-body.marked div.index
+body.marked div.index-frame
 {
     animation-name: index-fade;
     animation-duration: 0.6s;

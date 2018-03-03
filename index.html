@@ -480,7 +480,7 @@
                     document.body.className += " with-wallpaper";
                     var wallPaperDiv = document.createElement("div");
                     wallPaperDiv.className = "wallpaper";
-                    wallPaperDiv.style.backgroundImage = "url(\"" +wallPaper +"\")";
+                    wallPaperDiv.style.backgroundImage = "url(\"" +makeAbsoluteUrl(baseUrl, wallPaper) +"\")";
                     document.body.appendChild(wallPaperDiv);
                 }
                 

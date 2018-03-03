@@ -148,48 +148,59 @@ body.marked div.index-frame div.index a
     display: block;
     word-wrap: break-word;
     white-space: wrap;
-    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 2);
 }
 body.marked div.index-frame div.index a.level1
 {
-    padding: 16px 0px;
+    padding: 12px 0px;
+    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2);
 }
 body.marked div.index-frame div.index a.level2
 {
-    padding: 12px 4px;
-    font-size: 80%;
+    padding: 8px 8px;
+    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.0);
 }
 body.marked div.index-frame div.index a.level3
 {
-    padding: 8px 8px;
+    padding: 4px 16px;
     font-size: 70%;
+    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.9);
 }
 body.marked div.index-frame div.index a.level4
 {
-    padding: 4px 12px;
+    padding: 2px 24px;
     font-size: 60%;
+    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.marked div.index-frame div.index a.level5
 {
-    padding: 2px 16px;
+    padding: 2px 32px;
     font-size: 50%;
+    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.marked div.index-frame div.index a.level6
 {
-    padding: 2px 20px;
+    padding: 2px 40px;
     font-size: 40%;
+    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.marked div.index-frame div.index a.level7
 {
-    padding: 2px 24px;
+    padding: 2px 48px;
     font-size: 35%;
+    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.marked div.index-frame div.index a.level8
 {
-    padding: 2px 30px;
+    padding: 2px 56px;
     font-size: 30%;
+    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
-
+body.marked div.index-frame div.index a.level9
+{
+    padding: 2px 64px;
+    font-size: 30%;
+    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
+}
 
 body.marked div.content
 {

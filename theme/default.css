@@ -149,6 +149,7 @@ body.marked div.index-frame div.index a
     white-space: wrap;
     text-decoration: none;
 }
+body.marked div.index-frame div.index a:not(.current):hover
 {
     color: #FFFFFF;
     background-color: #86812A;

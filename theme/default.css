@@ -126,11 +126,10 @@ body.marked div.index-frame
 }
 body.marked div.index-frame div.index
 {
-    padding: 2.0rem;
-    padding-top: 0px;
-    width: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) - 4.0rem);
+    padding: 0px;
+    width: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
     max-width: 60rem;
-    min-height: calc(100vh - 2.0rem);
+    min-height: 100vh;
 
     background-color: #EEEEEE;
     opacity: 0.8;
@@ -150,59 +149,60 @@ body.marked div.index-frame div.index a
     white-space: wrap;
     text-decoration: none;
 }
-body.marked div.index-frame div.index a:hover
 {
+    color: #FFFFFF;
+    background-color: #86812A;
     text-decoration: underline;
 }
 body.marked div.index-frame div.index a.level1
 {
-    padding: 12px 0px;
+    padding: 12px 24px;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2);
 }
 body.marked div.index-frame div.index a.level2
 {
-    padding: 8px 8px;
+    padding: 8px 32px;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.0);
 }
 body.marked div.index-frame div.index a.level3
 {
-    padding: 4px 16px;
+    padding: 4px 40px;
     font-size: 70%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.9);
 }
 body.marked div.index-frame div.index a.level4
 {
-    padding: 2px 24px;
+    padding: 2px 48px;
     font-size: 60%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.marked div.index-frame div.index a.level5
 {
-    padding: 2px 32px;
+    padding: 2px 56px;
     font-size: 50%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.marked div.index-frame div.index a.level6
 {
-    padding: 2px 40px;
+    padding: 2px 64px;
     font-size: 40%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.marked div.index-frame div.index a.level7
 {
-    padding: 2px 48px;
+    padding: 2px 72px;
     font-size: 35%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.marked div.index-frame div.index a.level8
 {
-    padding: 2px 56px;
+    padding: 2px 80px;
     font-size: 30%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.marked div.index-frame div.index a.level9
 {
-    padding: 2px 64px;
+    padding: 2px 88px;
     font-size: 30%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }

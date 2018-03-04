@@ -6,6 +6,8 @@
 'use strict';
 (function()
 {
+    var globalState = { };
+
     var objectAssign = function(target, source)
     {
         //  copy from https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
@@ -509,6 +511,9 @@
                     indexFrameDiv.className = "index-frame";
                     indexFrameDiv.appendChild(indexDiv);
                     document.body.appendChild(indexFrameDiv);
+
+                    indexDiv.onmouseenter = function() { globalState.isMouseOnIndex = true; };
+                    indexDiv.onmouseleave = function() { globalState.isMouseOnIndex = false; };
                 }
 
                 var contentDiv = document.createElement("div");
@@ -564,6 +569,20 @@
                             else
                             {
                                 window.history.replaceState(null, document.title, "#");
+                            }
+                            if (!globalState.isMouseOnIndex && current !== (null === targetIndex ? null: targetIndex.anchor))
+                            {
+                                var frame = document.getElementsByClassName("index-frame")[0];
+                                if (null === targetIndex)
+                                {
+                                    frame.scrollTop = 0;
+                                }
+                                else
+                                {
+                                    var rect = targetIndex.anchor.getBoundingClientRect();
+                                    var targetTop = rect.top +frame.scrollTop;
+                                    frame.scrollTop = targetTop - Math.min(frame.clientHeight -rect.height, ((targetTop / frame.scrollHeight) *frame.clientHeight));
+                                }
                             }
                         }
                     }

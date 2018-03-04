@@ -155,6 +155,11 @@ body.marked div.index-frame div.index a:not(.current):hover
     background-color: #86812A;
     text-decoration: underline;
 }
+body.marked div.index-frame div.index a.current
+{
+    color: #FFFFFF;
+    background-color: #4444DD;
+}
 body.marked div.index-frame div.index a.level1
 {
     padding: 12px 24px;

@@ -485,17 +485,20 @@
                 }
                 
                 var withIndex = true;
+                var index = null;
                 if (withIndex)
                 {
                     document.body.className += " with-index";
 
                     var indexDiv = document.createElement("div");
                     indexDiv.className = "index";
-                    makeIndexForMarked(source).forEach
+                    index = makeIndexForMarked(source);
+                    index.forEach
                     (
                         function(i)
                         {
                             var a = document.createElement("a");
+                            i.anchor = a;
                             a.className = "level" + i.level;
                             a.href = i.link;
                             a.innerText = i.title;
@@ -525,6 +528,44 @@
                     if (fragmentId)
                     {
                         location.href = "#" +fragmentId;
+                    }
+
+                    if (index)
+                    {
+                        contentDiv.onscroll = function()
+                        {
+                            var current = document.getElementsByClassName("current")[0];
+                            if (current)
+                            {
+                                current.classList.remove("current");
+                            }
+                            var targetIndex = null;
+                            for(var i in index)
+                            {
+                                var content = document.getElementById(index[i].link.substring(1));
+                                if (!content)
+                                {
+                                    console.log("not found: " +index[i].link);
+                                }
+                                else
+                                {
+                                    if (32 <= content.getBoundingClientRect().top)
+                                    {
+                                        break;
+                                    }
+                                    targetIndex = index[i];
+                                }
+                            }
+                            if (targetIndex)
+                            {
+                                targetIndex.anchor.classList.add("current");
+                                window.history.replaceState(null, targetIndex.title, targetIndex.link);
+                            }
+                            else
+                            {
+                                window.history.replaceState(null, document.title, "#");
+                            }
+                        }
                     }
                 };
                 document.head.appendChild(highlightScript);

@@ -158,7 +158,7 @@
                     {
                         var title = trimed_line.replace(/^#*/, "").replace(/!\[.*?\]\(.*?\)/g, "").replace(/\[.*?\]\(.*?\)/g, "").replace(/<.*?>/g, "").trim();
                         var level = (trimed_line.trim().length -trimed_line.replace(/^#*/, "").trim().length) -1;
-                        var link = "#" +title.toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
+                        var link = "#" +trimed_line.replace(/^#*/, "").replace(/!\[(.*?)\]\(.*?\)/g, "$1").replace(/\[(.*?)\]\(.*?\)/g, "$1").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
                         anchors.push
                         (
                             {

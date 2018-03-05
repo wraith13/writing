@@ -537,14 +537,21 @@
 
                     if (index)
                     {
+                        var previousState = null;
                         contentDiv.onscroll = function()
                         {
-                            var current = document.getElementsByClassName("current")[0];
-                            if (current)
+                            if
+                            (
+                                previousState &&
+                                (!previousState.previousContent || previousState.previousContent.getBoundingClientRect().top < 32) &&
+                                32 <= previousState.content.getBoundingClientRect().top
+                            )
                             {
-                                current.classList.remove("current");
+                                //  表示セクションが変わってないのでスキップ
+                                return;
                             }
                             var targetIndex = null;
+                            var previousContent = null;
                             for(var i in index)
                             {
                                 var content = document.getElementById(index[i].link.substring(1));
@@ -553,35 +560,54 @@
                                     console.log("not found: " +index[i].link);
                                 }
                                 else
+                                if (previousContent && content.getBoundingClientRect().top < previousContent.getBoundingClientRect().top)
                                 {
-                                    if (32 <= content.getBoundingClientRect().top)
-                                    {
-                                        break;
-                                    }
-                                    targetIndex = index[i];
-                                }
-                            }
-                            if (targetIndex)
-                            {
-                                targetIndex.anchor.classList.add("current");
-                                window.history.replaceState(null, targetIndex.title, targetIndex.link);
-                            }
-                            else
-                            {
-                                window.history.replaceState(null, document.title, "#");
-                            }
-                            if (!globalState.isMouseOnIndex && current !== (null === targetIndex ? null: targetIndex.anchor))
-                            {
-                                var frame = document.getElementsByClassName("index-frame")[0];
-                                if (null === targetIndex)
-                                {
-                                    frame.scrollTop = 0;
+                                    console.log("may be duplicated id: " +index[i].link);
                                 }
                                 else
                                 {
-                                    var rect = targetIndex.anchor.getBoundingClientRect();
-                                    var targetTop = rect.top +frame.scrollTop;
-                                    frame.scrollTop = targetTop - Math.min(frame.clientHeight -rect.height, ((targetTop / frame.scrollHeight) *frame.clientHeight));
+                                    if (32 <= content.getBoundingClientRect().top)
+                                    {
+                                        previousState =
+                                        {
+                                            content: content,
+                                            previousContent: previousContent,
+                                        };
+                                        break;
+                                    }
+                                    targetIndex = index[i];
+                                    previousContent = content;
+                                }
+                            }
+                            var current = document.getElementsByClassName("current")[0];
+                            if (current !== (null === targetIndex ? null: targetIndex.anchor))
+                            {
+                                if (current)
+                                {
+                                    current.classList.remove("current");
+                                }
+                                if (targetIndex)
+                                {
+                                    targetIndex.anchor.classList.add("current");
+                                    window.history.replaceState(null, targetIndex.title, targetIndex.link);
+                                }
+                                else
+                                {
+                                    window.history.replaceState(null, document.title, "#");
+                                }
+                                if (!globalState.isMouseOnIndex)
+                                {
+                                    var frame = document.getElementsByClassName("index-frame")[0];
+                                    if (null === targetIndex)
+                                    {
+                                        frame.scrollTop = 0;
+                                    }
+                                    else
+                                    {
+                                        var rect = targetIndex.anchor.getBoundingClientRect();
+                                        var targetTop = rect.top +frame.scrollTop;
+                                        frame.scrollTop = targetTop - Math.min(frame.clientHeight -rect.height, ((targetTop / frame.scrollHeight) *frame.clientHeight));
+                                    }
                                 }
                             }
                         }

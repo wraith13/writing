@@ -520,6 +520,12 @@
                 var contentDiv = document.createElement("div");
                 contentDiv.innerHTML = marked(source);
                 contentDiv.className = "content";
+                if (withIndex)
+                {
+                    var spacerDiv = document.createElement("div");
+                    spacerDiv.style.height = "90vh";
+                    contentDiv.appendChild(spacerDiv);
+                }
                 document.body.appendChild(contentDiv);
 
                 //  highlight

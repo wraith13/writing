@@ -601,7 +601,7 @@
                         {
                             var previouseContetIsOver = isOver(previousState.i);
                             var nextIndex = getNextValidIndex(previousState.i);
-                            var nextContetIsOver = isOver(nextIndex);
+                            var nextContetIsOver = null === nextIndex || isOver(nextIndex);
                             if (previouseContetIsOver || !nextContetIsOver)
                             {
                                 var i = null;

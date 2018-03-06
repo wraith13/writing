@@ -538,80 +538,135 @@
 
                     if (index)
                     {
-                        var previousState = null;
+                        var previousState = { i: -1 };
+                        var getIndexTop = function(i)
+                        {
+                            if (i < 0)
+                            {
+                                return document.getElementsByClassName("index-frame")[0].scrollTop;
+                            }
+                            if (index[i].withError)
+                            {
+                                return null;
+                            }
+                            return document.getElementById(index[i].link.substring(1)).getBoundingClientRect().top;
+                        }
+                        var getNextValidIndex = function(i)
+                        {
+                            while(++i < index.length)
+                            {
+                                if (!index[i].withError)
+                                {
+                                    return i;
+                                }
+                            };
+                            return null;
+                        }
+                        var getPreviousValidIndex = function(i)
+                        {
+                            while(0 <= --i)
+                            {
+                                if (!index[i].withError)
+                                {
+                                    break;
+                                }
+                            };
+                            return i;
+                        }
+                        var isOver = function(i)
+                        {
+                            return 32 < getIndexTop(i);
+                        }
+                        var previousContent = null;
+                        for(var i in index)
+                        {
+                            var content = document.getElementById(index[i].link.substring(1));
+                            if (!content)
+                            {
+                                console.log("not found: " +index[i].link);
+                                index[i].withError = true;
+                            }
+                            if (previousContent && content.getBoundingClientRect().top < previousContent.getBoundingClientRect().top)
+                            {
+                                console.log("may be duplicated id: " +index[i].link);
+                                index[i].withError = true;
+                            }
+                            if (!index[i].withError)
+                            {
+                                previousContent = content;
+                            }
+                        }
+
                         contentDiv.onscroll = function()
                         {
-                            if
-                            (
-                                previousState &&
-                                (!previousState.previousContent || previousState.previousContent.getBoundingClientRect().top < 32) &&
-                                32 <= previousState.content.getBoundingClientRect().top
-                            )
+                            var previouseContetIsOver = isOver(previousState.i);
+                            var nextIndex = getNextValidIndex(previousState.i);
+                            var nextContetIsOver = isOver(nextIndex);
+                            if (previouseContetIsOver || !nextContetIsOver)
                             {
-                                //  表示セクションが変わってないのでスキップ
-                                return;
-                            }
-                            var targetIndex = null;
-                            var previousContent = null;
-                            for(var i in index)
-                            {
-                                var content = document.getElementById(index[i].link.substring(1));
-                                if (!content)
+                                var i = null;
+                                if (previouseContetIsOver)
                                 {
-                                    console.log("not found: " +index[i].link);
-                                }
-                                else
-                                if (previousContent && content.getBoundingClientRect().top < previousContent.getBoundingClientRect().top)
-                                {
-                                    console.log("may be duplicated id: " +index[i].link);
-                                }
-                                else
-                                {
-                                    if (32 <= content.getBoundingClientRect().top)
+                                    //  上へ手繰る
+                                    i = previousState.i;
+                                    while(0 <= i)
                                     {
-                                        previousState =
+                                        i = getPreviousValidIndex(i);
+                                        if (!isOver(i))
                                         {
-                                            content: content,
-                                            previousContent: previousContent,
-                                        };
-                                        break;
+                                            break;
+                                        }
                                     }
-                                    targetIndex = index[i];
-                                    previousContent = content;
-                                }
-                            }
-                            var current = document.getElementsByClassName("current")[0];
-                            if (current !== (null === targetIndex ? null: targetIndex.anchor))
-                            {
-                                if (current)
-                                {
-                                    current.classList.remove("current");
-                                }
-                                if (targetIndex)
-                                {
-                                    targetIndex.anchor.classList.add("current");
-                                    window.history.replaceState(null, targetIndex.title, targetIndex.link);
                                 }
                                 else
                                 {
-                                    window.history.replaceState(null, document.title, "#");
-                                }
-                                if (!globalState.isMouseOnIndex)
-                                {
-                                    var frame = document.getElementsByClassName("index-frame")[0];
-                                    if (null === targetIndex)
+                                    // 下へ手繰る
+                                    i = nextIndex;
+                                    while(true)
                                     {
-                                        frame.scrollTop = 0;
+                                        var next = getNextValidIndex(i);
+                                        if (null === next || isOver(next))
+                                        {
+                                            break;
+                                        }
+                                        i = next;
+                                    }
+                                }
+                                previousState.i = i;
+                                var targetIndex = previousState.i < 0 ? null: index[previousState.i];
+                                var current = document.getElementsByClassName("current")[0];
+                                if (current !== (null === targetIndex ? null: targetIndex.anchor))
+                                {
+                                    if (current)
+                                    {
+                                        current.classList.remove("current");
+                                    }
+                                    if (targetIndex)
+                                    {
+                                        targetIndex.anchor.classList.add("current");
+                                        window.history.replaceState(null, targetIndex.title, targetIndex.link);
                                     }
                                     else
                                     {
-                                        var rect = targetIndex.anchor.getBoundingClientRect();
-                                        var targetTop = rect.top +frame.scrollTop;
-                                        frame.scrollTop = targetTop - Math.min(frame.clientHeight -rect.height, ((targetTop / frame.scrollHeight) *frame.clientHeight));
+                                        window.history.replaceState(null, document.title, "#");
+                                    }
+                                    if (!globalState.isMouseOnIndex)
+                                    {
+                                        var frame = document.getElementsByClassName("index-frame")[0];
+                                        if (null === targetIndex)
+                                        {
+                                            frame.scrollTop = 0;
+                                        }
+                                        else
+                                        {
+                                            var rect = targetIndex.anchor.getBoundingClientRect();
+                                            var targetTop = rect.top +frame.scrollTop;
+                                            frame.scrollTop = targetTop - Math.min(frame.clientHeight -rect.height, ((targetTop / frame.scrollHeight) *frame.clientHeight));
+                                        }
                                     }
                                 }
                             }
-                        }
+                        };
                     }
                 };
                 document.head.appendChild(highlightScript);

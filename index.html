@@ -538,7 +538,7 @@
 
                     if (index)
                     {
-                        var previousState = { i: -1 };
+                        var previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(contentDiv.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
                         var getIndexTop = function(i)
                         {
                             if (i < 0)
@@ -648,6 +648,7 @@
                                     }
                                     else
                                     {
+                                        index[0].anchor.classList.add("current");
                                         window.history.replaceState(null, document.title, "#");
                                     }
                                     if (!globalState.isMouseOnIndex)
@@ -667,6 +668,7 @@
                                 }
                             }
                         };
+                        setTimeout(contentDiv.onscroll, 0);
                     }
                 };
                 document.head.appendChild(highlightScript);

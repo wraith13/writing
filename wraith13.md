@@ -10,10 +10,10 @@ class: center, middle
 
 ## Contents
 
-- [image](#image)
-- [alias](#alias)
+- [Image](#image)
+- [Alias](#alias)
 - [SNS](#sns)
-- [writing](#writing)
+- [Writing](#writing)
 
 <!--[NOMD/]----->
 

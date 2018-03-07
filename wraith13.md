@@ -17,13 +17,13 @@ class: center, middle
 
 <!--[NOMD/]----->
 
-## image
+## Image
 
 ![wraith13](https://github.com/wraith13.png)
 
 <!--[NOMD/]----->
 
-## alias
+## Alias
 
 - 道化師
 - Wraith the Trickster
@@ -38,7 +38,7 @@ class: center, middle
 
 <!--[NOMD/]----->
 
-## writing
+## Writing
 
 - github.io: <https://wraith13.github.io/writing/>
 - SlideShare: <https://www.slideshare.net/wraith13>

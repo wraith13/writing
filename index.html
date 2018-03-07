@@ -545,43 +545,10 @@
                     if (index)
                     {
                         var previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(contentDiv.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
-                        var getIndexTop = function(i)
-                        {
-                            if (i < 0)
-                            {
-                                return document.getElementsByClassName("index-frame")[0].scrollTop;
-                            }
-                            if (index[i].withError)
-                            {
-                                return null;
-                            }
-                            return document.getElementById(index[i].link.substring(1)).getBoundingClientRect().top;
-                        }
-                        var getNextValidIndex = function(i)
-                        {
-                            while(++i < index.length)
-                            {
-                                if (!index[i].withError)
-                                {
-                                    return i;
-                                }
-                            };
-                            return null;
-                        }
-                        var getPreviousValidIndex = function(i)
-                        {
-                            while(0 <= --i)
-                            {
-                                if (!index[i].withError)
-                                {
-                                    break;
-                                }
-                            };
-                            return i;
-                        }
                         var isOver = function(i)
                         {
-                            return 32 < getIndexTop(i);
+                            return index.length <= i ||
+                                    (0 <= i && 32 < document.getElementById(index[i].link.substring(1)).getBoundingClientRect().top);
                         }
                         var previousContent = null;
                         for(var i in index)
@@ -602,43 +569,25 @@
                                 previousContent = content;
                             }
                         }
+                        index = index.filter(function(i) { return !i.withError });
 
                         contentDiv.onscroll = function()
                         {
                             var previouseContetIsOver = isOver(previousState.i);
-                            var nextIndex = getNextValidIndex(previousState.i);
-                            var nextContetIsOver = null === nextIndex || isOver(nextIndex);
+                            var nextContetIsOver = isOver(previousState.i +1);
                             if (previouseContetIsOver || !nextContetIsOver)
                             {
                                 var i = null;
                                 if (previouseContetIsOver)
                                 {
                                     //  上へ手繰る
-                                    i = previousState.i;
-                                    while(0 <= i)
-                                    {
-                                        i = getPreviousValidIndex(i);
-                                        if (!isOver(i))
-                                        {
-                                            break;
-                                        }
-                                    }
+                                    while(isOver(--previousState.i)) { }
                                 }
                                 else
                                 {
                                     // 下へ手繰る
-                                    i = nextIndex;
-                                    while(true)
-                                    {
-                                        var next = getNextValidIndex(i);
-                                        if (null === next || isOver(next))
-                                        {
-                                            break;
-                                        }
-                                        i = next;
-                                    }
+                                    while(!isOver((++previousState.i) +1)) { }
                                 }
-                                previousState.i = i;
                                 var targetIndex = previousState.i < 0 ? null: index[previousState.i];
                                 var current = document.getElementsByClassName("current")[0];
                                 if (current !== (null === targetIndex ? null: targetIndex.anchor))

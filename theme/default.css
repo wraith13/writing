@@ -33,6 +33,12 @@ h1, h2, h3, h4, h5, h6, h7, h8, h9
     font-size: 30px;
 }
 
+body:not(.remark-container) *:not(pre) > code
+{
+    display: inline;
+    padding: 0.2em;
+}
+
 a
 {
     color: #4444DD;

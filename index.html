@@ -534,7 +534,7 @@
                 highlightScript.onload = function()
                 {
                     hljs.initHighlightingOnLoad();
-                    document.querySelectorAll('pre code').forEach(hljs.highlightBlock);
+                    document.querySelectorAll("code").forEach(hljs.highlightBlock);
 
                     var fragmentId = decodeURI((location.href +"#").split("#")[1].trim());
                     if (fragmentId)
@@ -654,6 +654,10 @@
             var documentTheme = document.getElementById("theme");
             appendTheme("lib/css/zenburn.css");
             appendTheme(window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
+            if (0 === themes.length)
+            {
+                appendTheme("theme/default.css");
+            }
 
             themes.forEach
             (
@@ -726,7 +730,7 @@
                             { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                             { src: 'plugin/highlight/highlight.js', async: true, callback: function() {
                                 hljs.initHighlightingOnLoad();
-                                document.querySelectorAll('pre code').forEach(hljs.highlightBlock);
+                                document.querySelectorAll('code').forEach(hljs.highlightBlock);
                             } },
                             { src: 'plugin/search/search.js', async: true },
                             { src: 'plugin/zoom-js/zoom.js', async: true },

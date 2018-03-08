@@ -8,6 +8,11 @@
 {
     var globalState = { };
 
+    RegExp.escape = function(s)
+    {
+        //  https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
+        return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    };
     var objectAssign = function(target, source)
     {
         //  copy from https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
@@ -128,6 +133,32 @@
         }
         return baseParts.concat(urlParts).join("/");
     };
+    var makeRelativeUrl = function(url)
+    {
+        var base = location.href.split("#")[0].split("?")[0];
+        var baseParts = base.split("?")[0].split("/");
+        if (4 <= baseParts.length && "" !== baseParts[baseParts.length -1])
+        {
+            // ファイル名部分の除去
+            baseParts = baseParts.slice(0, -1);
+        }
+        if (4 <= baseParts.length && "" === baseParts[baseParts.length -1])
+        {
+            // 末尾の空要素を除去(しておかないと結合時に余分に / が挟まる)
+            baseParts = baseParts.slice(0, -1);
+        }
+        var urlParts = url.split("/");
+        while(0 < baseParts.length && 0 < urlParts.length && baseParts[0] === urlParts[0])
+        {
+            baseParts = baseParts.slice(1);
+            urlParts = urlParts.slice(1);
+        }
+        return urlParts.join("/");
+    };
+    var makeRebaseUrl = function(base, url)
+    {
+        return makeRelativeUrl(makeAbsoluteUrl(base, url));
+    };
     var makeIndexForMarked = function(source)
     {
         var lines = source.split("\n");
@@ -172,6 +203,74 @@
             }
         );
         return anchors;
+    };
+    var translateRelativeLink = function(baseUrl, source)
+    {
+        var lines = source.split("\n");
+        var currentEscape = null;
+        lines = lines.map
+        (
+            function(line)
+            {
+                var trimed_line = line.trim();
+                var escape = trimed_line.slice(0, 3);
+                var isEscape = null === currentEscape && ("```" === escape || "~~~" === escape) || currentEscape === escape;
+                if (isEscape)
+                {
+                    if (null === currentEscape)
+                    {
+                        currentEscape = escape;
+                    }
+                    else
+                    {
+                        currentEscape = null;
+                    }
+                }
+                else
+                if (null === currentEscape)
+                {
+                    var isInInlineEscape = false;
+                    var parts = line.split("`");
+                    line = parts.map
+                    (
+                        function(part)
+                        {
+                            if (!isInInlineEscape)
+                            {
+                                var re = /(?:^|[^\\])\[(.*?[^\\])\]\((.*?[^\\])\)/g;
+                                var match = null;
+                                while(null !== (match = re.exec(part)))
+                                {
+                                    "$".replace(/\$/g, "$$");
+
+                                    var absoluteUrl = makeAbsoluteUrl(baseUrl, match[2]);
+                                    var relativeUrl = makeRelativeUrl(absoluteUrl);
+                                    if (/.*\.md(#.*)?$/i.test(match[2]))
+                                    {
+                                        var thisPath = location.href.split("#")[0].split("?")[0];
+                                        if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])
+                                        {
+                                            part = part.replace(new RegExp("(^|[^\\\\])" +RegExp.escape("[" +match[1] +"](" +match[2] +")")), "$1" +("[" +match[1] +"](?" +relativeUrl +")").replace(/\$/g, "$$$$"));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        part = part.replace(new RegExp("(^|[^\\\\])" +RegExp.escape("[" +match[1] +"](" +match[2] +")")), "$1" +("[" +match[1] +"](" +relativeUrl +")").replace(/\$/g, "$$$$"));
+                                    }
+                                }
+                            }
+                            if ("\\" !== part.substring(-1))
+                            {
+                                isInInlineEscape = !isInInlineEscape;
+                            }
+                            return part;
+                        }
+                    ).join("`");
+                }
+                return line;
+            }
+        );
+        return lines.join("\n");
     };
     var translateLinkWithinPageForRemark = function(source)
     {
@@ -518,7 +617,7 @@
                 }
 
                 var contentDiv = document.createElement("div");
-                contentDiv.innerHTML = marked(source);
+                contentDiv.innerHTML = marked(translateRelativeLink(baseUrl, source));
                 contentDiv.className = "content";
                 if (withIndex)
                 {

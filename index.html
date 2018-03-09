@@ -537,7 +537,7 @@ MathJax.Hub.Config
                 {
                     rel: "shortcut icon",
                     type: "image/x-icon",
-                    href: makeAbsoluteUrl(baseUrl, favicon)
+                    href: makeRebaseUrl(baseUrl, favicon)
                 }
             );
         }
@@ -570,7 +570,7 @@ MathJax.Hub.Config
             (
                 function(i)
                 {
-                    appendTheme(makeAbsoluteUrl(baseUrl, i));
+                    appendTheme(makeRebaseUrl(baseUrl, i));
                 }
             );
         }
@@ -607,7 +607,7 @@ MathJax.Hub.Config
                     document.body.className += " with-wallpaper";
                     var wallPaperDiv = document.createElement("div");
                     wallPaperDiv.className = "wallpaper";
-                    wallPaperDiv.style.backgroundImage = "url(\"" +makeAbsoluteUrl(baseUrl, wallPaper) +"\")";
+                    wallPaperDiv.style.backgroundImage = "url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\")";
                     document.body.appendChild(wallPaperDiv);
                 }
                 
@@ -792,7 +792,7 @@ MathJax.Hub.Config
             (
                 function(i)
                 {
-                    appendTheme(makeAbsoluteUrl(baseUrl, i));
+                    appendTheme(makeRebaseUrl(baseUrl, i));
                 }
             );
             var style = document.createElement("style");

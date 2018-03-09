@@ -379,3 +379,8 @@ body.marked div.index-frame
         opacity: 0.8;
     }
 }
+
+pre.mathjax
+{
+    font-size: 1.3em;
+}

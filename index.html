@@ -148,10 +148,22 @@
             baseParts = baseParts.slice(0, -1);
         }
         var urlParts = url.split("/");
-        while(0 < baseParts.length && 0 < urlParts.length && baseParts[0] === urlParts[0])
+        var matchLength = 0;
+        while(0 < baseParts.length && 0 < urlParts.length && baseParts[matchLength] === urlParts[matchLength])
         {
-            baseParts = baseParts.slice(1);
-            urlParts = urlParts.slice(1);
+            ++matchLength;
+        }
+        switch(matchLength)
+        {
+        case 0:
+            break;
+        case 1: // 1 になることは通常あり得なくて 1 になることがあるとしたら恐らくどこかのバグ
+        case 2:
+            urlParts = [""].concat(urlParts.slice(1));
+            break;
+        default:
+            urlParts = urlParts.slice(matchLength);
+            break;
         }
         return urlParts.join("/");
     };

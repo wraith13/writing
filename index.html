@@ -2,6 +2,9 @@
 <!--
 このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} });
+</script>
 <script>
 'use strict';
 (function()
@@ -737,6 +740,11 @@
                         };
                         setTimeout(contentDiv.onscroll, 0);
                     }
+
+                    //  MathJax
+                    var mathjaxScript = document.createElement("script");
+                    mathjaxScript.src = "//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML";
+                    document.head.appendChild(mathjaxScript);
                 };
                 document.head.appendChild(highlightScript);
             };

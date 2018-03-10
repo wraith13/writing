@@ -28,8 +28,8 @@ h1 img
 
 <!--[REVEAL/]----->
 
-- [README](?README.md)
-- [@wraith13](?wraith13.md)
+- [README](README.md)
+- [@wraith13](wraith13.md)
 
 <!--[REVEAL/]----->
 
@@ -44,13 +44,13 @@ h1 img
 
 ## themes demo
 
-- [default](?demo/default.md)
-- [chocolate](?demo/chocolate.md)
-- [wine](?demo/wine.md)
+- [default](demo/default.md)
+- [chocolate](demo/chocolate.md)
+- [wine](demo/wine.md)
 
 <!--[NOMD/]----->
 
 ## animation themes demo
 
-- [fade](?demo/fade.md)
-- [slide](?demo/slide.md)
+- [fade](demo/fade.md)
+- [slide](demo/slide.md)

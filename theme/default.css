@@ -229,6 +229,29 @@ body.marked.with-wallpaperx div.content
     text-shadow: 3px 3px 3px #FFFFFF, 3px -3px 3px #FFFFFF, -3px -3px 3px #FFFFFF, -3px 3px 3px #FFFFFF; 
 }
 
+body.marked div.content h1
+{
+    font-size: 2.0em;
+    font-weight: bold;
+}
+body.marked div.content h2
+{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+body.marked div.content h3,
+body.marked div.content h4,
+body.marked div.content h5,
+body.marked div.content h6,
+body.marked div.content h7,
+body.marked div.content h8,
+body.marked div.content h9
+{
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+
 @media (max-width: 60.0rem)
 {
     body.marked div.content

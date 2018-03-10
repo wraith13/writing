@@ -658,7 +658,21 @@ MathJax.Hub.Config
                 highlightScript.onload = function()
                 {
                     hljs.initHighlightingOnLoad();
-                    document.querySelectorAll("code").forEach(hljs.highlightBlock);
+                    document.querySelectorAll("code").forEach
+                    (
+                        function(element)
+                        {
+                            //  highlightjs が知らない言語が指定されてるとなにも実行されなくなるので指定を消すなり類似した言語に変換する
+                            switch(element.className)
+                            {
+                                case "lang-cmd":
+                                    element.className = "lang-shell";
+                                    break;
+                            }
+
+                            return hljs.highlightBlock(element);
+                        }
+                    );
 
                     var fragmentId = decodeURI((location.href +"#").split("#")[1].trim());
                     if (fragmentId)

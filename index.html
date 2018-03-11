@@ -611,7 +611,21 @@ MathJax.Hub.Config
                 }
 
                 var contentDiv = document.createElement("div");
-                contentDiv.innerHTML = marked(translateRelativeLink(baseUrl, source).replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n"));
+                contentDiv.innerHTML = marked
+                (
+                    skipEscape
+                    (
+                        translateRelativeLink(baseUrl, source).split("\n"),
+                        function(line)
+                        {
+                            return line
+                                .replace(/\\</g, "&lt;")
+                                .replace(/\\>/g, "&gt;")
+                                .replace(/\\\\/g, "\\");
+                        }
+                    ).join("\n")
+                    .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
+                );
                 contentDiv.className = "content";
                 if (withIndex)
                 {

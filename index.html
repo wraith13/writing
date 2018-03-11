@@ -184,17 +184,14 @@ MathJax.Hub.Config
     {
         return makeRelativeUrl(makeAbsoluteUrl(base, url));
     };
-    var makeIndexForMarked = function(source)
+    var skipEscape = function(lines, map)
     {
-        var lines = source.split("\n");
-        var anchors = [ ];
         var currentEscape = null;
-        lines.forEach
+        return lines.map
         (
             function(line)
             {
-                var trimed_line = line.trim();
-                var escape = trimed_line.slice(0, 3);
+                var escape = line.trim().slice(0, 3);
                 var isEscape = null === currentEscape && ("```" === escape || "~~~" === escape) || currentEscape === escape;
                 if (isEscape)
                 {
@@ -210,20 +207,34 @@ MathJax.Hub.Config
                 else
                 if (null === currentEscape)
                 {
-                    if (/^#+ [^ ]+/.test(trimed_line))
-                    {
-                        var title = trimed_line.replace(/^#*/, "").replace(/!\[.*?\]\(.*?\)/g, "").replace(/\[.*?\]\(.*?\)/g, "").replace(/<.*?>/g, "").trim();
-                        var level = (trimed_line.trim().length -trimed_line.replace(/^#*/, "").trim().length) -1;
-                        var link = "#" +trimed_line.replace(/^#*/, "").replace(/!\[(.*?)\]\(.*?\)/g, "$1").replace(/\[(.*?)\]\(.*?\)/g, "$1").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
-                        anchors.push
-                        (
-                            {
-                                level: level,
-                                title: title,
-                                link: link
-                            }
-                        );
-                    }
+                    line = map(line);
+                }
+                return line;
+            }
+        );
+    };
+    var makeIndexForMarked = function(source)
+    {
+        var anchors = [ ];
+        skipEscape
+        (
+            source.split("\n"),
+            function(line)
+            {
+                var trimed_line = line;
+                if (/^#+ [^ ]+/.test(trimed_line))
+                {
+                    var title = trimed_line.replace(/^#*/, "").replace(/!\[.*?\]\(.*?\)/g, "").replace(/\[.*?\]\(.*?\)/g, "").replace(/<.*?>/g, "").trim();
+                    var level = (trimed_line.trim().length -trimed_line.replace(/^#*/, "").trim().length) -1;
+                    var link = "#" +trimed_line.replace(/^#*/, "").replace(/!\[(.*?)\]\(.*?\)/g, "$1").replace(/\[(.*?)\]\(.*?\)/g, "$1").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
+                    anchors.push
+                    (
+                        {
+                            level: level,
+                            title: title,
+                            link: link
+                        }
+                    );
                 }
             }
         );
@@ -231,243 +242,149 @@ MathJax.Hub.Config
     };
     var translateRelativeLink = function(baseUrl, source)
     {
-        var lines = source.split("\n");
-        var currentEscape = null;
-        lines = lines.map
+        return skipEscape
         (
+            source.split("\n"),
             function(line)
             {
-                var trimed_line = line.trim();
-                var escape = trimed_line.slice(0, 3);
-                var isEscape = null === currentEscape && ("```" === escape || "~~~" === escape) || currentEscape === escape;
-                if (isEscape)
-                {
-                    if (null === currentEscape)
+                var isInInlineEscape = false;
+                return line.split("`").map
+                (
+                    function(part)
                     {
-                        currentEscape = escape;
-                    }
-                    else
-                    {
-                        currentEscape = null;
-                    }
-                }
-                else
-                if (null === currentEscape)
-                {
-                    var isInInlineEscape = false;
-                    var parts = line.split("`");
-                    line = parts.map
-                    (
-                        function(part)
+                        if (!isInInlineEscape)
                         {
-                            if (!isInInlineEscape)
+                            var re = /(?:^|[^\\])\[(.*?[^\\])\]\((.*?[^\\])\)/g;
+                            var match = null;
+                            while(null !== (match = re.exec(part)))
                             {
-                                var re = /(?:^|[^\\])\[(.*?[^\\])\]\((.*?[^\\])\)/g;
-                                var match = null;
-                                while(null !== (match = re.exec(part)))
-                                {
-                                    "$".replace(/\$/g, "$$");
+                                "$".replace(/\$/g, "$$");
 
-                                    var absoluteUrl = makeAbsoluteUrl(baseUrl, match[2]);
-                                    var relativeUrl = makeRelativeUrl(absoluteUrl);
-                                    if (/.*\.md(#.*)?$/i.test(match[2]))
+                                var absoluteUrl = makeAbsoluteUrl(baseUrl, match[2]);
+                                var relativeUrl = makeRelativeUrl(absoluteUrl);
+                                if (/.*\.md(#.*)?$/i.test(match[2]))
+                                {
+                                    var thisPath = location.href.split("#")[0].split("?")[0];
+                                    if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])
                                     {
-                                        var thisPath = location.href.split("#")[0].split("?")[0];
-                                        if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])
-                                        {
-                                            part = part.replace(new RegExp("(^|[^\\\\])" +RegExp.escape("[" +match[1] +"](" +match[2] +")")), "$1" +("[" +match[1] +"](?" +relativeUrl +")").replace(/\$/g, "$$$$"));
-                                        }
-                                    }
-                                    else
-                                    {
-                                        part = part.replace(new RegExp("(^|[^\\\\])" +RegExp.escape("[" +match[1] +"](" +match[2] +")")), "$1" +("[" +match[1] +"](" +relativeUrl +")").replace(/\$/g, "$$$$"));
+                                        part = part.replace(new RegExp("(^|[^\\\\])" +RegExp.escape("[" +match[1] +"](" +match[2] +")")), "$1" +("[" +match[1] +"](?" +relativeUrl +")").replace(/\$/g, "$$$$"));
                                     }
                                 }
+                                else
+                                {
+                                    part = part.replace(new RegExp("(^|[^\\\\])" +RegExp.escape("[" +match[1] +"](" +match[2] +")")), "$1" +("[" +match[1] +"](" +relativeUrl +")").replace(/\$/g, "$$$$"));
+                                }
                             }
-                            if ("\\" !== part.substring(-1))
-                            {
-                                isInInlineEscape = !isInInlineEscape;
-                            }
-                            return part;
                         }
-                    ).join("`");
-                }
-                return line;
+                        if ("\\" !== part.substring(-1))
+                        {
+                            isInInlineEscape = !isInInlineEscape;
+                        }
+                        return part;
+                    }
+                ).join("`");
             }
-        );
-        return lines.join("\n");
+        ).join("\n");
     };
     var translateLinkWithinPageForRemark = function(source)
     {
         var lines = source.split("\n");
         var anchors = [ ];
-        var currentEscape = null;
         var page = 1;
         var isLayout = false;
-        lines.forEach
+        skipEscape
         (
+            lines,
             function(line)
             {
                 var trimed_line = line.trim();
-                var escape = trimed_line.slice(0, 3);
-                var isEscape = null === currentEscape && ("```" === escape || "~~~" === escape) || currentEscape === escape;
-                if (isEscape)
+                if ("--" === line || "---" === line)
                 {
-                    if (null === currentEscape)
+                    if (!isLayout)
                     {
-                        currentEscape = escape;
+                        ++page;
                     }
-                    else
-                    {
-                        currentEscape = null;
-                    }
+                    isLayout = false;
                 }
                 else
-                if (null === currentEscape)
+                if (/^#+ [^ ]+/.test(trimed_line))
                 {
-                    if ("--" === line || "---" === line)
-                    {
-                        if (!isLayout)
-                        {
-                            ++page;
-                        }
-                        isLayout = false;
-                    }
-                    else
-                    if (/^#+ [^ ]+/.test(trimed_line))
-                    {
-                        var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
-                        anchors.push
-                        (
-                            {
-                                anchor: "](#" +anchor +")",
-                                page: "](#" +page +")"
-                            }
-                        );
-                    }
-                    else
-                    if ("layout:" === trimed_line.slice(0, 7) && "true" === trimed_line.slice(7).trim())
-                    {
-                        isLayout = true;
-                    }
-                }
-            }
-        );
-        currentEscape = null;
-        lines = lines.map
-        (
-            function(line)
-            {
-                var trimed_line = line.trim();
-                var escape = trimed_line.slice(0, 3);
-                var isEscape = null === currentEscape && ("```" === escape || "~~~" === escape) || currentEscape === escape;
-                if (isEscape)
-                {
-                    if (null === currentEscape)
-                    {
-                        currentEscape = escape;
-                    }
-                    else
-                    {
-                        currentEscape = null;
-                    }
-                }
-                else
-                if (null === currentEscape)
-                {
-                    anchors.forEach
+                    var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
+                    anchors.push
                     (
-                        function(i)
                         {
-                            line = line.split(i.anchor).join(i.page);
+                            anchor: "](#" +anchor +")",
+                            page: "](#" +page +")"
                         }
                     );
                 }
-                return line;
+                else
+                if ("layout:" === trimed_line.slice(0, 7) && "true" === trimed_line.slice(7).trim())
+                {
+                    isLayout = true;
+                }
             }
         );
-        return lines.join("\n");
+        return skipEscape
+        (
+            lines,
+            function(line)
+            {
+                anchors.forEach
+                (
+                    function(i)
+                    {
+                        line = line.split(i.anchor).join(i.page);
+                    }
+                );
+                return line;
+            }
+        ).join("\n");
     };
     var translateLinkWithinPageForReveal = function(source)
     {
         var lines = source.split("\n");
         var anchors = [ ];
-        var currentEscape = null;
         var page = 0;
-        lines.forEach
+        skipEscape
         (
+            lines,
             function(line)
             {
                 var trimed_line = line.trim();
-                var escape = trimed_line.slice(0, 3);
-                var isEscape = null === currentEscape && ("```" === escape || "~~~" === escape) || currentEscape === escape;
-                if (isEscape)
+                if ("--" === line || "---" === line)
                 {
-                    if (null === currentEscape)
-                    {
-                        currentEscape = escape;
-                    }
-                    else
-                    {
-                        currentEscape = null;
-                    }
+                    ++page;
                 }
                 else
-                if (null === currentEscape)
+                if (/^#+ [^ ]+/.test(trimed_line))
                 {
-                    if ("--" === line || "---" === line)
-                    {
-                        ++page;
-                    }
-                    else
-                    if (/^#+ [^ ]+/.test(trimed_line))
-                    {
-                        var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
-                        anchors.push
-                        (
-                            {
-                                anchor: "](#" +anchor +")",
-                                page: "](#/" +page +")"
-                            }
-                        );
-                    }
-                }
-            }
-        );
-        currentEscape = false;
-        lines = lines.map
-        (
-            function(line)
-            {
-                var trimed_line = line.trim();
-                var escape = trimed_line.slice(0, 3);
-                var isEscape = null === currentEscape && ("```" === escape || "~~~" === escape) || currentEscape === escape;
-                if (isEscape)
-                {
-                    if (null === currentEscape)
-                    {
-                        currentEscape = escape;
-                    }
-                    else
-                    {
-                        currentEscape = null;
-                    }
-                }
-                else
-                if (null === currentEscape)
-                {
-                    anchors.forEach
+                    var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
+                    anchors.push
                     (
-                        function(i)
                         {
-                            line = line.split(i.anchor).join(i.page);
+                            anchor: "](#" +anchor +")",
+                            page: "](#/" +page +")"
                         }
                     );
                 }
-                return line;
             }
         );
-        return lines.join("\n");
+        return skipEscape
+        (
+            lines,
+            function(line)
+            {
+                anchors.forEach
+                (
+                    function(i)
+                    {
+                        line = line.split(i.anchor).join(i.page);
+                    }
+                );
+                return line;
+            }
+        ).join("\n");
     };
     var render = function(renderer, baseUrl, source)
     {

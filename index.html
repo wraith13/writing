@@ -514,6 +514,21 @@ MathJax.Hub.Config
             {
                 var config = JSON.parse((source+"<!--[MARKED-CONFIG] { } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
                 console.log("marked-config: " +JSON.stringify(config, null, 4));
+                var markedRenderer = new marked.Renderer();
+                markedRenderer.heading = function (text, level, raw)
+                {
+                    return '<h'
+                    + level
+                    + ' id="'
+                    + this.options.headerPrefix
+                    + raw.toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-")
+                    + '">'
+                    + text
+                    + '</h'
+                    + level
+                    + '>\n';
+                };
+                config.renderer = markedRenderer;
                 marked.setOptions(config);
 
                 document.body.className = "marked";

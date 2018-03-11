@@ -827,7 +827,7 @@ Renderer.prototype.heading = function(text, level, raw) {
     + level
     + ' id="'
     + this.options.headerPrefix
-    + raw.toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-")
+    + raw.toLowerCase().replace(/[^\w]+/g, '-')
     + '">'
     + text
     + '</h'

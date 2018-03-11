@@ -224,7 +224,44 @@ MathJax.Hub.Config
                 var trimed_line = line;
                 if (/^#+ [^ ]+/.test(trimed_line))
                 {
-                    var title = trimed_line.replace(/^#*/, "").replace(/!\[.*?\]\(.*?\)/g, "").replace(/\[.*?\]\(.*?\)/g, "").replace(/<.*?>/g, "").trim();
+                    var title = trimed_line
+                        .replace(/^#* /, "")
+                        .replace(/!\[.*?\]\(.*?\)/g, "")
+                        .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+                        .replace(/(^|[^\\])<[^\>]*?[^\\]>/g, "$1") // エスケープを避けつつ適切に処理する為にはこの置換は2回行う必要がある。(3回は必要ない2回で十分)
+                        .replace(/(^|[^\\])<[^\>]*?[^\\]>/g, "$1")
+                        .replace(/\\\!/g,"!")
+                        .replace(/\\\"/g,"\"")
+                        .replace(/\\\#/g,"#")
+                        .replace(/\\\$/g,"$")
+                        .replace(/\\\%/g,"%")
+                        .replace(/\\\&/g,"&")
+                        .replace(/\\\'/g,"'")
+                        .replace(/\\\(/g,"(")
+                        .replace(/\\\)/g,")")
+                        .replace(/\\\*/g,"*")
+                        .replace(/\\\+/g,"+")
+                        .replace(/\\\,/g,",")
+                        .replace(/\\\./g,".")
+                        .replace(/\\\//g,"/")
+                        .replace(/\\\:/g,":")
+                        .replace(/\\\;/g,";")
+                        .replace(/\\\</g,"<")
+                        .replace(/\\\=/g,"=")
+                        .replace(/\\\>/g,">")
+                        .replace(/\\\?/g,"?")
+                        .replace(/\\\@/g,"@")
+                        .replace(/\\\[/g,"[")
+                        .replace(/\\\\/g,"\\")
+                        .replace(/\\\]/g,"]")
+                        .replace(/\\\^/g,"^")
+                        .replace(/\\\_/g,"_")
+                        .replace(/\\\`/g,"`")
+                        .replace(/\\\{/g,"{")
+                        .replace(/\\\|/g,"|")
+                        .replace(/\\\}/g,"}")
+                        .replace(/\\\~/g,"~")
+                        .trim();
                     var level = (trimed_line.trim().length -trimed_line.replace(/^#*/, "").trim().length) -1;
                     var link = "#" +trimed_line.replace(/^#*/, "").replace(/!\[(.*?)\]\(.*?\)/g, "$1").replace(/\[(.*?)\]\(.*?\)/g, "$1").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
                     anchors.push

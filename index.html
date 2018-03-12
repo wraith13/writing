@@ -763,7 +763,7 @@ MathJax.Hub.Config
             script.onload = function()
             {
                 var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-                config.source = translateLinkWithinPageForRemark(source);
+                config.source = translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(source));
                 var slideshow = remark.create(config);
             };
             document.head.appendChild(script);
@@ -817,7 +817,7 @@ MathJax.Hub.Config
                 section.setAttribute("data-separator-notes", separator_notes);
                 section.removeAttribute("id");
             };
-            pasteMarkdown(translateLinkWithinPageForReveal(source));
+            pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(source)));
             var headScript = document.createElement("script");
             headScript.src = "lib/js/head.min.js";
             headScript.onload = function()

@@ -436,12 +436,10 @@ MathJax.Hub.Config
         var isMarkdown = "markdown" === renderer;
         var isRemark = "remark" === renderer;
         var isReveal = "reveal" === renderer;
-        //var isEdit = "edit" === renderer;
-        var isEdit = false;
+        var isEdit = "edit" === renderer;
         if (!isMarkdown && !isRemark && !isReveal && !isEdit)
         {
-            //var message = "Unknown Rederer Name: \"" +renderer +"\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
-            var message = "Unknown Rederer Name: \"" +renderer +"\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\" )";
+            var message = "Unknown Rederer Name: \"" +renderer +"\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
             showError(message);
             console.error(message);
             return;
@@ -869,7 +867,75 @@ MathJax.Hub.Config
             };
             document.head.appendChild(headScript);
         }
-    }
+        if (isEdit)
+        {
+            //  edit
+            document.body.style.margin = "0";
+            document.body.style.overflow = "hidden";
+            document.body.style.backgroundColor = "#86812A";
+            var urlsDiv = document.createElement("div");
+            urlsDiv.style.padding = "0.5rem 1.0rem";
+            urlsDiv.style.width = "100%";
+            urlsDiv.style.height = "1rem";
+            urlsDiv.style.verticalAlign = "middle";
+            urlsDiv.style.lineHeight = "1rem";
+            var textCounter = document.createElement("span");
+            textCounter.style.color = "#CCCCCC";
+            textCounter.style.padding = "0rem 1.0rem";
+            urlsDiv.appendChild(textCounter);
+            var defaultLink = document.createElement("a");
+            defaultLink.style.color = "#FFFFFF";
+            defaultLink.style.padding = "0rem 1.0rem";
+            defaultLink.text = "default";
+            defaultLink.target = "_blank";
+            urlsDiv.appendChild(defaultLink);
+            var markedLink = document.createElement("a");
+            markedLink.style.color = "#FFFFFF";
+            markedLink.style.padding = "0rem 1.0rem";
+            markedLink.text = "marked(markdown)";
+            markedLink.target = "_blank";
+            urlsDiv.appendChild(markedLink);
+            var remarkLink = document.createElement("a");
+            remarkLink.style.color = "#FFFFFF";
+            remarkLink.style.padding = "0rem 1.0rem";
+            remarkLink.text = "remark(slide)";
+            remarkLink.target = "_blank";
+            urlsDiv.appendChild(remarkLink);
+            var revealLink = document.createElement("a");
+            revealLink.style.color = "#FFFFFF";
+            revealLink.style.padding = "0rem 1.0rem";
+            revealLink.text = "reveal(slide)";
+            revealLink.target = "_blank";
+            urlsDiv.appendChild(revealLink);
+            var editLink = document.createElement("a");
+            editLink.style.color = "#FFFFFF";
+            editLink.style.padding = "0rem 1.0rem";
+            editLink.text = "edit";
+            editLink.target = "_blank";
+            urlsDiv.appendChild(editLink);
+            document.body.appendChild(urlsDiv);
+            var textarea = document.createElement("textarea");
+            textarea.style.width = "100%";
+            textarea.style.width = "calc(100vw - 2rem)";
+            textarea.style.height = "100%";
+            textarea.style.height = "calc(100vh - 3rem)";
+            textarea.style.margin = "0rem 1rem 1rem 1rem";
+            textarea.value = source;
+            document.body.appendChild(textarea);
+            var update = function() {
+                var text = encodeURIComponent(textarea.value);
+                textCounter.innerText = "lenght:" +text.length;
+                defaultLink.href = "?text:" +text;
+                markedLink.href = "?markdown&text:" +text;
+                remarkLink.href = "?remark&text:" +text;
+                revealLink.href = "?reveal&text:" +text;
+                editLink.href = "?edit&text:" +text;
+            };
+            update();
+            textarea.addEventListener("change",update);
+            textarea.addEventListener("keyup",update);
+        }
+    };
     var renderer = null; 
     var sourceUrl = null;
     var urlArgs = (location.href.split("#")[0] +"?")

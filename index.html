@@ -216,8 +216,37 @@ MathJax.Hub.Config
             }
         );
     };
+    var markdownHeaderFragmentMaker = function()
+    {
+        this.links = [];
+        this.makeFragment = function(line) {
+            var link = line
+                .replace(/^#*/, "")
+                .replace(/!\[(.*?)\]\(.*?\)/g, "$1")
+                .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+                .replace(/(^|[^\\])<[^\>]*?[^\\]>/g, "$1") // エスケープを避けつつ適切に処理する為にはこの置換は2回行う必要がある。(3回は必要ない2回で十分)
+                .replace(/(^|[^\\])<[^\>]*?[^\\]>/g, "$1")
+                .trim()
+                .toLowerCase()
+                .replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"")
+                .replace(/ /g,"-");
+            var index = this.links[link];
+            if (undefined === index)
+            {
+                this.links[link] = 0;
+                return link;
+            }
+            else
+            {
+                ++index;
+                this.links[link] = index;
+                return link +"-" +index;
+            }
+        }
+    };
     var makeIndexForMarked = function(source)
     {
+        var linkMaker = new markdownHeaderFragmentMaker();
         var anchors = [ ];
         skipEscape
         (
@@ -266,7 +295,8 @@ MathJax.Hub.Config
                         .replace(/\\\~/g,"~")
                         .trim();
                     var level = (trimed_line.trim().length -trimed_line.replace(/^#*/, "").trim().length) -1;
-                    var link = "#" +trimed_line.replace(/^#*/, "").replace(/!\[(.*?)\]\(.*?\)/g, "$1").replace(/\[(.*?)\]\(.*?\)/g, "$1").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
+                    //var link = "#" +trimed_line.replace(/^#*/, "").replace(/!\[(.*?)\]\(.*?\)/g, "$1").replace(/\[(.*?)\]\(.*?\)/g, "$1").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
+                    var link = "#" +linkMaker.makeFragment(trimed_line);
                     anchors.push
                     (
                         {
@@ -552,6 +582,7 @@ MathJax.Hub.Config
             {
                 var config = JSON.parse((source+"<!--[MARKED-CONFIG] { } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
                 console.log("marked-config: " +JSON.stringify(config, null, 4));
+                var linkMaker = new markdownHeaderFragmentMaker();
                 var markedRenderer = new marked.Renderer();
                 markedRenderer.heading = function (text, level, raw)
                 {
@@ -559,7 +590,8 @@ MathJax.Hub.Config
                     + level
                     + ' id="'
                     + this.options.headerPrefix
-                    + raw.toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-")
+                    + linkMaker.makeFragment(raw)
+                    //+ raw.toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-")
                     + '">'
                     + text
                     + '</h'

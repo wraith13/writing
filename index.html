@@ -191,8 +191,8 @@ MathJax.Hub.Config
         (
             function(line)
             {
-                var escape = line.trim().slice(0, 3);
-                var isEscape = null === currentEscape && ("```" === escape || "~~~" === escape) || currentEscape === escape;
+                var escape = line.trim().replace(/^(```+|~~~+).*/, "$1").replace(/^[`~]{0,2}(([^`~].*)|$)/,"");
+                var isEscape = null === currentEscape && ("" !== escape) || (null !== currentEscape && currentEscape.substr(0,1) === escape.substr(0,1) && currentEscape.length <= escape.length);
                 if (isEscape)
                 {
                     if (null === currentEscape)
@@ -201,6 +201,9 @@ MathJax.Hub.Config
                     }
                     else
                     {
+                        // ここでこういう処理を挟むのは行儀が悪いけど、閉じが長すぎる場合にここで整形してしまう。
+                        line = currentEscape;
+
                         currentEscape = null;
                     }
                 }

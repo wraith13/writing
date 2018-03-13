@@ -70,7 +70,7 @@ blockquote::before
     font-size: 180px;
     float: left;
     overflow-y: hidden;
-    max-height: 92;
+    max-height: 92px;
 }
 blockquote > p
 {

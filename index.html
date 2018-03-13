@@ -10,7 +10,11 @@ MathJax.Hub.Config
         {
             inlineMath: [ ['$','$'], ["\\(","\\)"] ],
             displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-            skipTags: ["script","noscript","style","textarea","code"]
+            skipTags: ["script","noscript","style","textarea","code", "a"]
+        },
+        asciimath2jax:
+        {
+            skipTags: ["script","noscript","style","textarea","code", "a"]
         }
     }
 );

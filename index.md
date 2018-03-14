@@ -40,6 +40,7 @@ h1 img
 - [remark themes demo](#remark-themes-demo)
 - [remark animation themes demo](#remark-animation-themes-demo)
 - [reveal demo](#reveal-demo)
+- [extra demo](#extra-demo)
 
 -->
 
@@ -63,3 +64,7 @@ h1 img
 ## reveal demo
 
 - [reveal demo](demo/reveal.md)
+
+## extra demo
+
+- [江添亮の詳説C++17](demo/cpp17book.md) ( markdown )

@@ -67,4 +67,4 @@ h1 img
 
 ## extra demo
 
-- [江添亮の詳説C++17](demo/cpp17book.md) ( markdown )
+- [江添亮の詳説C++17](?demo/cpp17book.md.txt) ( markdown )

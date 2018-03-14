@@ -1011,7 +1011,7 @@ MathJax.Hub.Config
     }
     else
     {
-        var request = window.XMLHttpRequest ? new XMLHttpRequest(): new ActiveXObject("Microsoft.XMLHTTP");
+        var request = new XMLHttpRequest();
         request.open('GET', sourceUrl, true);
         request.onreadystatechange = function()
         {

@@ -336,7 +336,7 @@ MathJax.Hub.Config
 
                                 var absoluteUrl = makeAbsoluteUrl(baseUrl, match[2]);
                                 var relativeUrl = makeRelativeUrl(absoluteUrl);
-                                if (/.*\.md(#.*)?$/i.test(match[2]))
+                                if (/.*\.md(\.txt)?(#.*)?$/i.test(match[2]))
                                 {
                                     var thisPath = location.href.split("#")[0].split("?")[0];
                                     if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])

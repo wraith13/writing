@@ -33,16 +33,19 @@ h1 img
 
 <!--[REVEAL/]----->
 
-<!--[NOMD/]
-## remark themes demo
+## demo
 
-- [themes demo](#themes-demo)
-- [animation themes demo](#animation-themes-demo)
+<!--[NOMD/]
+
+- [remark themes demo](#remark-themes-demo)
+- [remark animation themes demo](#remark-animation-themes-demo)
+- [reveal demo](#reveal-demo)
+
 -->
 
 <!--[NOMD/]----->
 
-## themes demo
+## remark themes demo
 
 - [default](demo/default.md)
 - [chocolate](demo/chocolate.md)
@@ -50,7 +53,13 @@ h1 img
 
 <!--[NOMD/]----->
 
-## animation themes demo
+## remark animation themes demo
 
 - [fade](demo/fade.md)
 - [slide](demo/slide.md)
+
+<!--[NOMD/]----->
+
+## reveal demo
+
+- [reveal demo](demo/reveal.md)

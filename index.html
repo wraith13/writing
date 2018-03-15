@@ -460,6 +460,54 @@ MathJax.Hub.Config
             }
         ).join("\n");
     };
+    var translateForSlide = function(source)
+    {
+        if (!/\n---\n/.test(source))
+        {
+            var lines = source.split("\n");
+            var h1Count = 0;
+            skipEscape
+            (
+                lines,
+                function(line)
+                {
+                    var trimed_line = line.trim();
+                    if (/^# [^ ]+/.test(trimed_line))
+                    {
+                        ++h1Count;
+                    }
+                }
+            );
+
+            var isFirst = true;
+            var withJackUp = 1 < h1Count;
+            return skipEscape
+            (
+                lines,
+                function(line)
+                {
+                    var trimed_line = line.trim();
+                    if (/^#+ [^ ]+/.test(trimed_line))
+                    {
+                        if (!isFirst)
+                        {
+                            if (withJackUp)
+                            {
+                                line = "#" +trimed_line;
+                            }
+                            line = "---\n" + line;
+                        }
+                        isFirst = false;
+                    }
+                    return line;
+                }
+            ).join("\n");
+        }
+        else
+        {
+            return source;
+        }
+    };
     var render = function(renderer, baseUrl, source)
     {
         //  regulate return code
@@ -802,7 +850,7 @@ MathJax.Hub.Config
             script.onload = function()
             {
                 var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-                config.source = translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(source));
+                config.source = translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)));
                 var slideshow = remark.create(config);
             };
             document.head.appendChild(script);
@@ -856,7 +904,7 @@ MathJax.Hub.Config
                 section.setAttribute("data-separator-notes", separator_notes);
                 section.removeAttribute("id");
             };
-            pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(source)));
+            pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(translateForSlide(source))));
             var headScript = document.createElement("script");
             headScript.src = "lib/js/head.min.js";
             headScript.onload = function()

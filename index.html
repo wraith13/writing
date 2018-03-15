@@ -893,7 +893,7 @@ MathJax.Hub.Config
                     "<div class=\"slides\">"
                         +"<section id=\"source-markdown\" data-markdown>"
                             +"<script type=\"text/template\">"
-                                +markdown
+                                +markdown.replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
                             +"</" +"script>"
                         +"</section>"
                     +"</div>";
@@ -934,6 +934,11 @@ MathJax.Hub.Config
                         history: true,
                         center: true,
                         transition: Reveal.getQueryHash().transition || revealTransition, 
+                        math:
+                        {
+                            mathjax: '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js',
+                            config: 'TeX-AMS_HTML-full'
+                        },
                         dependencies:
                         [
                             { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
@@ -945,7 +950,8 @@ MathJax.Hub.Config
                             } },
                             { src: 'plugin/search/search.js', async: true },
                             { src: 'plugin/zoom-js/zoom.js', async: true },
-                            { src: 'plugin/notes/notes.js', async: true }
+                            { src: 'plugin/notes/notes.js', async: true },
+                            { src: 'plugin/math/math.js', async: true }
                         ]
                     };
                     Reveal.initialize(objectAssign(defaultConfig, config));

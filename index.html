@@ -332,8 +332,6 @@ MathJax.Hub.Config
                             var match = null;
                             while(null !== (match = re.exec(part)))
                             {
-                                "$".replace(/\$/g, "$$");
-
                                 var absoluteUrl = makeAbsoluteUrl(baseUrl, match[2]);
                                 var relativeUrl = makeRelativeUrl(absoluteUrl);
                                 if (/.*\.md(\.txt)?(#.*)?$/i.test(match[2]))

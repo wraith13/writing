@@ -58,7 +58,7 @@ MathJax.Hub.Config
 
         Object.assign(target, source);
         return target;
-    }
+    };
     var showError = function(innerHTML)
     {
         document.body.style = "margin: 0px;";
@@ -66,7 +66,7 @@ MathJax.Hub.Config
         errorDiv.style = "color: #AA3322; background-color: #442211; font-size: 1.5rem; padding: 0.4rem; text-align: center;";
         errorDiv.innerHTML = innerHTML;
         document.body.appendChild(errorDiv);
-    }
+    };
     var appendLink = function(args)
     {
         var link = document.createElement("link");
@@ -78,7 +78,7 @@ MathJax.Hub.Config
             link.id = args.id;
         }
         document.head.appendChild(link);
-    }
+    };
     var appendTheme = function(href, id)
     {
         appendLink
@@ -90,7 +90,7 @@ MathJax.Hub.Config
                 id: id
             }
         );
-    }
+    };
     var makeAbsoluteUrl = function(base, url)
     {
         var baseParts = base.split("?")[0].split("/");

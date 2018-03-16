@@ -33,6 +33,12 @@ h1, h2, h3, h4, h5, h6, h7, h8, h9
     font-size: 30px;
 }
 
+.reveal pre.mathjax
+{
+    box-shadow: initial;
+    font-size: 1.0em;
+}
+
 body:not(.remark-container) *:not(pre) > code
 {
     display: inline;

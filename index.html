@@ -93,6 +93,10 @@ MathJax.Hub.Config
     };
     var makeAbsoluteUrl = function(base, url)
     {
+        if ("#" === url.substr(0, 1))
+        {
+            return base.split("#")[0] +url;
+        }
         var baseParts = base.split("?")[0].split("/");
         if (4 <= baseParts.length && "" !== baseParts[baseParts.length -1])
         {
@@ -152,6 +156,14 @@ MathJax.Hub.Config
     };
     var makeRelativeUrl = function(url)
     {
+        if ("#" === url.substr(0, 1))
+        {
+            return base.split("#")[0] +url;
+        }
+        if (location.href.split("#")[0] === url.split("#")[0])
+        {
+            return url;
+        }
         var base = location.href.split("#")[0].split("?")[0];
         var baseParts = base.split("?")[0].split("/");
         if (4 <= baseParts.length && "" !== baseParts[baseParts.length -1])
@@ -186,6 +198,10 @@ MathJax.Hub.Config
     };
     var makeRebaseUrl = function(base, url)
     {
+        if ("#" === url.substr(0, 1))
+        {
+            return url;
+        }
         return makeRelativeUrl(makeAbsoluteUrl(base, url));
     };
     var skipEscape = function(lines, map)
@@ -332,19 +348,24 @@ MathJax.Hub.Config
                             var match = null;
                             while(null !== (match = re.exec(part)))
                             {
-                                var absoluteUrl = makeAbsoluteUrl(baseUrl, match[2]);
-                                var relativeUrl = makeRelativeUrl(absoluteUrl);
-                                if (/.*\.md(\.txt)?(#.*)?$/i.test(match[2]))
+                                var label = match[1];
+                                var url = match[2];
+                                if ("#" !== url.substr(0, 1))
                                 {
-                                    var thisPath = location.href.split("#")[0].split("?")[0];
-                                    if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])
+                                    var absoluteUrl = makeAbsoluteUrl(baseUrl, url);
+                                    var relativeUrl = makeRelativeUrl(absoluteUrl);
+                                    if (/.*\.md(\.txt)?(#.*)?$/i.test(absoluteUrl))
                                     {
-                                        part = part.replace(new RegExp("(^|[^\\\\])" +RegExp.escape("[" +match[1] +"](" +match[2] +")")), "$1" +("[" +match[1] +"](?" +relativeUrl +")").replace(/\$/g, "$$$$"));
+                                        var thisPath = location.href.split("#")[0].split("?")[0];
+                                        if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])
+                                        {
+                                            part = part.replace(new RegExp("(^|[^\\\\])" +RegExp.escape("[" +label +"](" +url +")")), "$1" +("[" +label +"](?" +relativeUrl +")").replace(/\$/g, "$$$$"));
+                                        }
                                     }
-                                }
-                                else
-                                {
-                                    part = part.replace(new RegExp("(^|[^\\\\])" +RegExp.escape("[" +match[1] +"](" +match[2] +")")), "$1" +("[" +match[1] +"](" +relativeUrl +")").replace(/\$/g, "$$$$"));
+                                    else
+                                    {
+                                        part = part.replace(new RegExp("(^|[^\\\\])" +RegExp.escape("[" +label +"](" +url +")")), "$1" +("[" +label +"](" +relativeUrl +")").replace(/\$/g, "$$$$"));
+                                    }
                                 }
                             }
                         }

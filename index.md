@@ -26,12 +26,8 @@ h1 img
 }
 -->
 
-<!--[REVEAL/]----->
-
 - [README](README.md)
 - [@wraith13](wraith13.md)
-
-<!--[REVEAL/]----->
 
 ## demo
 
@@ -44,22 +40,16 @@ h1 img
 
 -->
 
-<!--[NOMD/]----->
-
 ## remark themes demo
 
 - [default](demo/default.md)
 - [chocolate](demo/chocolate.md)
 - [wine](demo/wine.md)
 
-<!--[NOMD/]----->
-
 ## remark animation themes demo
 
 - [fade](demo/fade.md)
 - [slide](demo/slide.md)
-
-<!--[NOMD/]----->
 
 ## reveal demo
 

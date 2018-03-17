@@ -24,6 +24,7 @@ MathJax.Hub.Config
 (function()
 {
     var globalState = { };
+    var explicitFragmentIdPattern = /\{\#(.*?)\}$/;
 
     RegExp.escape = function(s)
     {
@@ -240,16 +241,19 @@ MathJax.Hub.Config
     {
         this.links = [];
         this.makeFragment = function(line) {
-            var link = line
-                .replace(/^#*/, "")
-                .replace(/!\[(.*?)\]\(.*?\)/g, "$1")
-                .replace(/\[(.*?)\]\(.*?\)/g, "$1")
-                .replace(/(^|[^\\])<[^\>]*?[^\\]>/g, "$1") // エスケープを避けつつ適切に処理する為にはこの置換は2回行う必要がある。(3回は必要ない2回で十分)
-                .replace(/(^|[^\\])<[^\>]*?[^\\]>/g, "$1")
-                .trim()
-                .toLowerCase()
-                .replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"")
-                .replace(/ /g,"-");
+            var explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);
+            var link = explicitFragmentIdMatch ?
+                explicitFragmentIdMatch[1]:
+                line
+                    .replace(/^#*/, "")
+                    .replace(/!\[(.*?)\]\(.*?\)/g, "$1")
+                    .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+                    .replace(/(^|[^\\])<[^\>]*?[^\\]>/g, "$1") // エスケープを避けつつ適切に処理する為にはこの置換は2回行う必要がある。(3回は必要ない2回で十分)
+                    .replace(/(^|[^\\])<[^\>]*?[^\\]>/g, "$1")
+                    .trim()
+                    .toLowerCase()
+                    .replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"")
+                    .replace(/ /g,"-");
             var index = this.links[link];
             if (undefined === index)
             {
@@ -313,7 +317,8 @@ MathJax.Hub.Config
                         .replace(/\\\|/g,"|")
                         .replace(/\\\}/g,"}")
                         .replace(/\\\~/g,"~")
-                        .trim();
+                        .trim()
+                        .replace(explicitFragmentIdPattern, "");
                     var level = (trimed_line.trim().length -trimed_line.replace(/^#*/, "").trim().length) -1;
                     //var link = "#" +trimed_line.replace(/^#*/, "").replace(/!\[(.*?)\]\(.*?\)/g, "$1").replace(/\[(.*?)\]\(.*?\)/g, "$1").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
                     var link = "#" +linkMaker.makeFragment(trimed_line);
@@ -664,7 +669,7 @@ MathJax.Hub.Config
                     + linkMaker.makeFragment(raw)
                     //+ raw.toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-")
                     + '">'
-                    + text
+                    + text.replace(explicitFragmentIdPattern, "")
                     + '</h'
                     + level
                     + '>\n';

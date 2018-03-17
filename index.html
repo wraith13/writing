@@ -349,11 +349,11 @@ MathJax.Hub.Config
                     {
                         if (!isInInlineEscape)
                         {
-                            var re = /(?:^|[^\\])\[(.*?[^\\])\]\((.*?[^\\])\)/g;
+                            var re = /(?:^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
                             var match = null;
                             while(null !== (match = re.exec(part)))
                             {
-                                var label = match[1];
+                                var label = undefined === match[1] ? "": match[1];
                                 var url = match[2];
                                 if ("#" !== url.substr(0, 1))
                                 {

@@ -874,8 +874,14 @@ MathJax.Hub.Config
             script.onload = function()
             {
                 var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-                config.source = translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)));
+                config.source = translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))
+                    .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n");
                 var slideshow = remark.create(config);
+
+                //  MathJax
+                var mathjaxScript = document.createElement("script");
+                mathjaxScript.src = "//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML";
+                document.head.appendChild(mathjaxScript);
             };
             document.head.appendChild(script);
         }

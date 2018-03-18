@@ -656,7 +656,7 @@ MathJax.Hub.Config
             markedScript.src = "js/marked.js";
             markedScript.onload = function()
             {
-                var config = JSON.parse((source+"<!--[MARKED-CONFIG] { } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
+                var config = JSON.parse((source+"<!--[MARKED-CONFIG] { \"gfm\": true, \"tables\": true } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
                 console.log("marked-config: " +JSON.stringify(config, null, 4));
                 var linkMaker = new markdownHeaderFragmentMaker();
                 var markedRenderer = new marked.Renderer();

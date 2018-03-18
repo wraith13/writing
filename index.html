@@ -349,12 +349,12 @@ MathJax.Hub.Config
                     {
                         if (!isInInlineEscape)
                         {
-                            var re = /(?:^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
+                            var re = /(^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
                             var match = null;
                             while(null !== (match = re.exec(part)))
                             {
-                                var label = undefined === match[1] ? "": match[1];
-                                var url = match[2];
+                                var label = undefined === match[2] ? "": match[2];
+                                var url = match[3];
                                 if ("#" !== url.substr(0, 1))
                                 {
                                     var absoluteUrl = makeAbsoluteUrl(baseUrl, url);
@@ -364,12 +364,12 @@ MathJax.Hub.Config
                                         var thisPath = location.href.split("#")[0].split("?")[0];
                                         if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])
                                         {
-                                            part = part.replace(new RegExp("(^|[^\\\\])" +RegExp.escape("[" +label +"](" +url +")")), "$1" +("[" +label +"](?" +relativeUrl +")").replace(/\$/g, "$$$$"));
+                                            part = part.replace(match[0], match[1] +"[" +label +"](?" +relativeUrl +")");
                                         }
                                     }
                                     else
                                     {
-                                        part = part.replace(new RegExp("(^|[^\\\\])" +RegExp.escape("[" +label +"](" +url +")")), "$1" +("[" +label +"](" +relativeUrl +")").replace(/\$/g, "$$$$"));
+                                        part = part.replace(match[0], match[1] +"[" +label +"](" +relativeUrl +")");
                                     }
                                 }
                             }

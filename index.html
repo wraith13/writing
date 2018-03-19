@@ -92,6 +92,16 @@ MathJax.Hub.Config
             }
         );
     };
+    var loadScript = function(src, onload)
+    {
+        var script = document.createElement("script");
+        script.src = src;
+        if (onload)
+        {
+            script.onload = onload;
+        }
+        document.head.appendChild(script);
+    };
     var makeAbsoluteUrl = function(base, url)
     {
         if ("#" === url.substr(0, 1))
@@ -652,238 +662,238 @@ MathJax.Hub.Config
             {
                 appendTheme("theme/default.css");
             }
-            var markedScript = document.createElement("script");
-            markedScript.src = "js/marked.js";
-            markedScript.onload = function()
-            {
-                var config = JSON.parse((source+"<!--[MARKED-CONFIG] { \"gfm\": true, \"tables\": true } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
-                console.log("marked-config: " +JSON.stringify(config, null, 4));
-                var linkMaker = new markdownHeaderFragmentMaker();
-                var markedRenderer = new marked.Renderer();
-                markedRenderer.heading = function (text, level, raw)
+
+            loadScript
+            (
+                "js/marked.js",
+                function()
                 {
-                    return '<h'
-                    + level
-                    + ' id="'
-                    + this.options.headerPrefix
-                    + linkMaker.makeFragment(raw)
-                    //+ raw.toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-")
-                    + '">'
-                    + text.replace(explicitFragmentIdPattern, "")
-                    + '</h'
-                    + level
-                    + '>\n';
-                };
-                config.renderer = markedRenderer;
-                marked.setOptions(config);
-
-                document.body.className = "marked";
-
-                var wallPaper = (source+"<!--[WALLPAPER] -->").split("<!--[WALLPAPER]")[1].split("-->")[0].trim();
-                if (wallPaper)
-                {
-                    document.body.className += " with-wallpaper";
-                    var wallPaperDiv = document.createElement("div");
-                    wallPaperDiv.className = "wallpaper";
-                    wallPaperDiv.style.backgroundImage = "url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\")";
-                    document.body.appendChild(wallPaperDiv);
-                }
-                
-                var withIndex = true;
-                var index = null;
-                if (withIndex)
-                {
-                    document.body.className += " with-index";
-
-                    var indexDiv = document.createElement("div");
-                    indexDiv.className = "index";
-                    index = makeIndexForMarked(source);
-                    index.forEach
-                    (
-                        function(i)
-                        {
-                            var a = document.createElement("a");
-                            i.anchor = a;
-                            a.className = "level" + i.level;
-                            a.href = i.link;
-                            a.innerText = i.title;
-                            indexDiv.appendChild(a);
-                        }
-                    );
-                    var indexFrameDiv = document.createElement("div");
-                    indexFrameDiv.className = "index-frame";
-                    indexFrameDiv.appendChild(indexDiv);
-                    document.body.appendChild(indexFrameDiv);
-
-                    indexDiv.onmouseenter = function() { globalState.isMouseOnIndex = true; };
-                    indexDiv.onmouseleave = function() { globalState.isMouseOnIndex = false; };
-                }
-
-                var contentDiv = document.createElement("div");
-                contentDiv.innerHTML = marked
-                (
-                    skipEscape
-                    (
-                        translateRelativeLink(baseUrl, source).split("\n"),
-                        function(line)
-                        {
-                            return line
-                                .replace(/\\</g, "&lt;")
-                                .replace(/\\>/g, "&gt;")
-                                .replace(/\\\\/g, "\\");
-                        }
-                    ).join("\n")
-                    .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
-                );
-                contentDiv.className = "content";
-                if (withIndex)
-                {
-                    var spacerDiv = document.createElement("div");
-                    spacerDiv.style.height = "90vh";
-                    contentDiv.appendChild(spacerDiv);
-                }
-                document.body.appendChild(contentDiv);
-
-                //  highlight
-                var highlightScript = document.createElement("script");
-                highlightScript.src = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js";
-                highlightScript.onload = function()
-                {
-                    hljs.initHighlightingOnLoad();
-                    document.querySelectorAll("code").forEach
-                    (
-                        function(element)
-                        {
-                            //  highlightjs が知らない言語が指定されてるとなにも実行されなくなるので指定を消すなり類似した言語に変換する
-                            switch(element.className)
-                            {
-                                case "lang-cmd":
-                                    element.className = "lang-shell";
-                                    break;
-                            }
-
-                            return hljs.highlightBlock(element);
-                        }
-                    );
-
-                    var fragmentId = decodeURI((location.href +"#").split("#")[1].trim());
-                    if (fragmentId)
+                    var config = JSON.parse((source+"<!--[MARKED-CONFIG] { \"gfm\": true, \"tables\": true } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
+                    console.log("marked-config: " +JSON.stringify(config, null, 4));
+                    var linkMaker = new markdownHeaderFragmentMaker();
+                    var markedRenderer = new marked.Renderer();
+                    markedRenderer.heading = function (text, level, raw)
                     {
-                        location.href = "#" +fragmentId;
+                        return '<h'
+                        + level
+                        + ' id="'
+                        + this.options.headerPrefix
+                        + linkMaker.makeFragment(raw)
+                        //+ raw.toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-")
+                        + '">'
+                        + text.replace(explicitFragmentIdPattern, "")
+                        + '</h'
+                        + level
+                        + '>\n';
+                    };
+                    config.renderer = markedRenderer;
+                    marked.setOptions(config);
+
+                    document.body.className = "marked";
+
+                    var wallPaper = (source+"<!--[WALLPAPER] -->").split("<!--[WALLPAPER]")[1].split("-->")[0].trim();
+                    if (wallPaper)
+                    {
+                        document.body.className += " with-wallpaper";
+                        var wallPaperDiv = document.createElement("div");
+                        wallPaperDiv.className = "wallpaper";
+                        wallPaperDiv.style.backgroundImage = "url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\")";
+                        document.body.appendChild(wallPaperDiv);
+                    }
+                    
+                    var withIndex = true;
+                    var index = null;
+                    if (withIndex)
+                    {
+                        document.body.className += " with-index";
+
+                        var indexDiv = document.createElement("div");
+                        indexDiv.className = "index";
+                        index = makeIndexForMarked(source);
+                        index.forEach
+                        (
+                            function(i)
+                            {
+                                var a = document.createElement("a");
+                                i.anchor = a;
+                                a.className = "level" + i.level;
+                                a.href = i.link;
+                                a.innerText = i.title;
+                                indexDiv.appendChild(a);
+                            }
+                        );
+                        var indexFrameDiv = document.createElement("div");
+                        indexFrameDiv.className = "index-frame";
+                        indexFrameDiv.appendChild(indexDiv);
+                        document.body.appendChild(indexFrameDiv);
+
+                        indexDiv.onmouseenter = function() { globalState.isMouseOnIndex = true; };
+                        indexDiv.onmouseleave = function() { globalState.isMouseOnIndex = false; };
                     }
 
-                    if (index)
+                    var contentDiv = document.createElement("div");
+                    contentDiv.innerHTML = marked
+                    (
+                        skipEscape
+                        (
+                            translateRelativeLink(baseUrl, source).split("\n"),
+                            function(line)
+                            {
+                                return line
+                                    .replace(/\\</g, "&lt;")
+                                    .replace(/\\>/g, "&gt;")
+                                    .replace(/\\\\/g, "\\");
+                            }
+                        ).join("\n")
+                        .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
+                    );
+                    contentDiv.className = "content";
+                    if (withIndex)
                     {
-                        var previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(contentDiv.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
-                        var isOver = function(i)
-                        {
-                            return index.length <= i ||
-                                    (0 <= i && 32 < document.getElementById(index[i].link.substring(1)).getBoundingClientRect().top);
-                        }
-                        var previousContent = null;
-                        for(var i in index)
-                        {
-                            var content = document.getElementById(index[i].link.substring(1));
-                            if (!content)
-                            {
-                                console.log("not found: " +index[i].link);
-                                index[i].withError = true;
-                            }
-                            else
-                            if (previousContent && content.getBoundingClientRect().top < previousContent.getBoundingClientRect().top)
-                            {
-                                console.log("may be duplicated id: " +index[i].link);
-                                index[i].withError = true;
-                            }
-                            if (!index[i].withError)
-                            {
-                                previousContent = content;
-                            }
-                        }
-                        index = index.filter(function(i) { return !i.withError });
+                        var spacerDiv = document.createElement("div");
+                        spacerDiv.style.height = "90vh";
+                        contentDiv.appendChild(spacerDiv);
+                    }
+                    document.body.appendChild(contentDiv);
 
-                        contentDiv.onscroll = function()
+                    //  highlight
+                    loadScript
+                    (
+                        "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js",
+                        function()
                         {
-                            var previouseContetIsOver = isOver(previousState.i);
-                            var nextContetIsOver = isOver(previousState.i +1);
-                            if (previouseContetIsOver || !nextContetIsOver)
-                            {
-                                var i = null;
-                                if (previouseContetIsOver)
+                            hljs.initHighlightingOnLoad();
+                            document.querySelectorAll("code").forEach
+                            (
+                                function(element)
                                 {
-                                    //  上へ手繰る
-                                    while(isOver(--previousState.i)) { }
-                                }
-                                else
-                                {
-                                    // 下へ手繰る
-                                    while(!isOver((++previousState.i) +1)) { }
-                                }
-                                var targetIndex = previousState.i < 0 ? null: index[previousState.i];
-                                var current = document.getElementsByClassName("current")[0];
-                                if (current !== (null === targetIndex ? null: targetIndex.anchor))
-                                {
-                                    if (current)
+                                    //  highlightjs が知らない言語が指定されてるとなにも実行されなくなるので指定を消すなり類似した言語に変換する
+                                    switch(element.className)
                                     {
-                                        current.classList.remove("current");
+                                        case "lang-cmd":
+                                            element.className = "lang-shell";
+                                            break;
                                     }
-                                    if (targetIndex)
+
+                                    return hljs.highlightBlock(element);
+                                }
+                            );
+
+                            var fragmentId = decodeURI((location.href +"#").split("#")[1].trim());
+                            if (fragmentId)
+                            {
+                                location.href = "#" +fragmentId;
+                            }
+
+                            if (index)
+                            {
+                                var previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(contentDiv.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
+                                var isOver = function(i)
+                                {
+                                    return index.length <= i ||
+                                            (0 <= i && 32 < document.getElementById(index[i].link.substring(1)).getBoundingClientRect().top);
+                                }
+                                var previousContent = null;
+                                for(var i in index)
+                                {
+                                    var content = document.getElementById(index[i].link.substring(1));
+                                    if (!content)
                                     {
-                                        targetIndex.anchor.classList.add("current");
-                                        window.history.replaceState(null, targetIndex.title, targetIndex.link);
+                                        console.log("not found: " +index[i].link);
+                                        index[i].withError = true;
                                     }
                                     else
+                                    if (previousContent && content.getBoundingClientRect().top < previousContent.getBoundingClientRect().top)
                                     {
-                                        index[0].anchor.classList.add("current");
-                                        window.history.replaceState(null, document.title, "#");
+                                        console.log("may be duplicated id: " +index[i].link);
+                                        index[i].withError = true;
                                     }
-                                    if (!globalState.isMouseOnIndex)
+                                    if (!index[i].withError)
                                     {
-                                        var frame = document.getElementsByClassName("index-frame")[0];
-                                        if (null === targetIndex)
+                                        previousContent = content;
+                                    }
+                                }
+                                index = index.filter(function(i) { return !i.withError });
+
+                                contentDiv.onscroll = function()
+                                {
+                                    var previouseContetIsOver = isOver(previousState.i);
+                                    var nextContetIsOver = isOver(previousState.i +1);
+                                    if (previouseContetIsOver || !nextContetIsOver)
+                                    {
+                                        var i = null;
+                                        if (previouseContetIsOver)
                                         {
-                                            frame.scrollTop = 0;
+                                            //  上へ手繰る
+                                            while(isOver(--previousState.i)) { }
                                         }
                                         else
                                         {
-                                            var rect = targetIndex.anchor.getBoundingClientRect();
-                                            var targetTop = rect.top +frame.scrollTop;
-                                            frame.scrollTop = targetTop - Math.min(frame.clientHeight -rect.height, ((targetTop / frame.scrollHeight) *frame.clientHeight));
+                                            // 下へ手繰る
+                                            while(!isOver((++previousState.i) +1)) { }
+                                        }
+                                        var targetIndex = previousState.i < 0 ? null: index[previousState.i];
+                                        var current = document.getElementsByClassName("current")[0];
+                                        if (current !== (null === targetIndex ? null: targetIndex.anchor))
+                                        {
+                                            if (current)
+                                            {
+                                                current.classList.remove("current");
+                                            }
+                                            if (targetIndex)
+                                            {
+                                                targetIndex.anchor.classList.add("current");
+                                                window.history.replaceState(null, targetIndex.title, targetIndex.link);
+                                            }
+                                            else
+                                            {
+                                                index[0].anchor.classList.add("current");
+                                                window.history.replaceState(null, document.title, "#");
+                                            }
+                                            if (!globalState.isMouseOnIndex)
+                                            {
+                                                var frame = document.getElementsByClassName("index-frame")[0];
+                                                if (null === targetIndex)
+                                                {
+                                                    frame.scrollTop = 0;
+                                                }
+                                                else
+                                                {
+                                                    var rect = targetIndex.anchor.getBoundingClientRect();
+                                                    var targetTop = rect.top +frame.scrollTop;
+                                                    frame.scrollTop = targetTop - Math.min(frame.clientHeight -rect.height, ((targetTop / frame.scrollHeight) *frame.clientHeight));
+                                                }
+                                            }
                                         }
                                     }
-                                }
+                                };
+                                setTimeout(contentDiv.onscroll, 0);
                             }
-                        };
-                        setTimeout(contentDiv.onscroll, 0);
-                    }
 
-                    //  MathJax
-                    var mathjaxScript = document.createElement("script");
-                    mathjaxScript.src = "//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML";
-                    document.head.appendChild(mathjaxScript);
-                };
-                document.head.appendChild(highlightScript);
-            };
-            document.head.appendChild(markedScript);
+                            //  MathJax
+                            loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
+                        }
+                    );
+                }
+            );
         }
         if (isRemark)
         {
             //  remark
-            var script = document.createElement("script");
-            script.src = "js/remark-latest.min.js";
-            script.onload = function()
-            {
-                var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-                config.source = translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))
-                    .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n");
-                var slideshow = remark.create(config);
+            loadScript
+            (
+                "js/remark-latest.min.js",
+                function()
+                {
+                    var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
+                    config.source = translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))
+                        .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n");
+                    var slideshow = remark.create(config);
 
-                //  MathJax
-                var mathjaxScript = document.createElement("script");
-                mathjaxScript.src = "//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML";
-                document.head.appendChild(mathjaxScript);
-            };
-            document.head.appendChild(script);
+                    //  MathJax
+                    loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
+                }
+            );
         }
         if (isReveal)
         {
@@ -935,60 +945,62 @@ MathJax.Hub.Config
                 section.removeAttribute("id");
             };
             pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(translateForSlide(source))));
-            var headScript = document.createElement("script");
-            headScript.src = "lib/js/head.min.js";
-            headScript.onload = function()
-            {
-                var script = document.createElement("script");
-                script.src = "js/reveal.js";
-                script.onload = function()
+            loadScript
+            (
+                "lib/js/head.min.js",
+                function()
                 {
-                    var revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
-                    console.log("reveal-transition: " +revealTransition);
-                    console.log("reveal-theme(forced by url param): " +Reveal.getQueryHash().theme);
-                    console.log("reveal-transition(forced by url param): " +Reveal.getQueryHash().transition);
-                    var forceTheme = Reveal.getQueryHash().theme;
-                    if (forceTheme)
-                    {
-                        documentTheme.href = "css/theme/" +forceTheme +".css";
-                    }
-                    // More info about config & dependencies:
-                    // - https://github.com/hakimel/reveal.js#configuration
-                    // - https://github.com/hakimel/reveal.js#dependencies
-                    var config = JSON.parse((source+"<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
-                    console.log("reveal-config: " +JSON.stringify(config, null, 4));
-                    var defaultConfig =
-                    {
-                        controls: true,
-                        progress: true,
-                        history: true,
-                        center: true,
-                        transition: Reveal.getQueryHash().transition || revealTransition, 
-                        math:
+                    loadScript
+                    (
+                        "js/reveal.js",
+                        function()
                         {
-                            mathjax: '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js',
-                            config: 'TeX-AMS_HTML-full'
-                        },
-                        dependencies:
-                        [
-                            { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-                            { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                            { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                            { src: 'plugin/highlight/highlight.js', async: true, callback: function() {
-                                hljs.initHighlightingOnLoad();
-                                document.querySelectorAll('code').forEach(hljs.highlightBlock);
-                            } },
-                            { src: 'plugin/search/search.js', async: true },
-                            { src: 'plugin/zoom-js/zoom.js', async: true },
-                            { src: 'plugin/notes/notes.js', async: true },
-                            { src: 'plugin/math/math.js', async: true }
-                        ]
-                    };
-                    Reveal.initialize(objectAssign(defaultConfig, config));
-                };
-                document.head.appendChild(script);
-            };
-            document.head.appendChild(headScript);
+                            var revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
+                            console.log("reveal-transition: " +revealTransition);
+                            console.log("reveal-theme(forced by url param): " +Reveal.getQueryHash().theme);
+                            console.log("reveal-transition(forced by url param): " +Reveal.getQueryHash().transition);
+                            var forceTheme = Reveal.getQueryHash().theme;
+                            if (forceTheme)
+                            {
+                                documentTheme.href = "css/theme/" +forceTheme +".css";
+                            }
+                            // More info about config & dependencies:
+                            // - https://github.com/hakimel/reveal.js#configuration
+                            // - https://github.com/hakimel/reveal.js#dependencies
+                            var config = JSON.parse((source+"<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
+                            console.log("reveal-config: " +JSON.stringify(config, null, 4));
+                            var defaultConfig =
+                            {
+                                controls: true,
+                                progress: true,
+                                history: true,
+                                center: true,
+                                transition: Reveal.getQueryHash().transition || revealTransition, 
+                                math:
+                                {
+                                    mathjax: '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js',
+                                    config: 'TeX-AMS_HTML-full'
+                                },
+                                dependencies:
+                                [
+                                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() {
+                                        hljs.initHighlightingOnLoad();
+                                        document.querySelectorAll('code').forEach(hljs.highlightBlock);
+                                    } },
+                                    { src: 'plugin/search/search.js', async: true },
+                                    { src: 'plugin/zoom-js/zoom.js', async: true },
+                                    { src: 'plugin/notes/notes.js', async: true },
+                                    { src: 'plugin/math/math.js', async: true }
+                                ]
+                            };
+                            Reveal.initialize(objectAssign(defaultConfig, config));
+                        }
+                    );
+                }
+            );
         }
         if (isEdit)
         {

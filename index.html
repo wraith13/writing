@@ -216,6 +216,7 @@ MathJax.Hub.Config
     };
     var makeRelativeUrl = function(url)
     {
+        var base = location.href.split("#")[0];
         if ("#" === url.substr(0, 1))
         {
             return base.split("#")[0] +url;
@@ -224,7 +225,6 @@ MathJax.Hub.Config
         {
             return url;
         }
-        var base = location.href.split("#")[0].split("?")[0];
         var baseParts = base.split("?")[0].split("/");
         if (4 <= baseParts.length && "" !== baseParts[baseParts.length -1])
         {
@@ -254,7 +254,12 @@ MathJax.Hub.Config
             urlParts = urlParts.slice(matchLength);
             break;
         }
-        return urlParts.join("/");
+        var result = urlParts.join("/");
+        if ("" === result)
+        {
+            result = ".";
+        }
+        return result;
     };
     var makeRebaseUrl = function(base, url)
     {

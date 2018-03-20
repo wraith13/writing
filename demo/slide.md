@@ -1,3 +1,4 @@
+<!--[RENDERER] REMARK -->
 <!--
 class: center, middle
 -->

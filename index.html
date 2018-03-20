@@ -933,6 +933,11 @@ MathJax.Hub.Config
         }
         if (isRemark)
         {
+            if (0 === themes.length)
+            {
+                appendTheme("theme/default.css");
+            }
+            
             //  remark
             loadScript
             (

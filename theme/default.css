@@ -39,6 +39,12 @@ h1, h2, h3, h4, h5, h6, h7, h8, h9
     font-size: 1.0em;
 }
 
+iframe.twitter-tweet-rendered
+{
+    margin-left: auto;
+    margin-right: auto;
+}
+
 body:not(.remark-container) *:not(pre) > code
 {
     display: inline;

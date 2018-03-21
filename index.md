@@ -36,25 +36,32 @@ h1 img
 - [remark themes demo](#remark-themes-demo)
 - [remark animation themes demo](#remark-animation-themes-demo)
 - [reveal demo](#reveal-demo)
+- [twitter demo](#twitter-demo)
 - [extra demo](#extra-demo)
 
 -->
 
-## remark themes demo
+### remark themes demo
 
 - [default](demo/default.md)
 - [chocolate](demo/chocolate.md)
 - [wine](demo/wine.md)
 
-## remark animation themes demo
+### remark animation themes demo
 
 - [fade](demo/fade.md)
 - [slide](demo/slide.md)
 
-## reveal demo
+### reveal demo
 
 - [reveal demo](demo/reveal.md)
 
-## extra demo
+### twitter demo
+
+- [marked](demo/twitter.md)
+- [remark](?remark&demo/twitter.md)
+- [reveal](?reveal&demo/twitter.md)
+
+### extra demo
 
 - [江添亮の詳説C++17](demo/cpp17book.md.txt) ( markdown )

@@ -756,10 +756,17 @@ MathJax.Hub.Config
                     if (wallPaper)
                     {
                         document.body.className += " with-wallpaper";
-                        var wallPaperDiv = document.createElement("div");
-                        wallPaperDiv.className = "wallpaper";
-                        wallPaperDiv.style.backgroundImage = "url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\")";
-                        document.body.appendChild(wallPaperDiv);
+                        document.body.appendChild
+                        (
+                            createElement
+                            (
+                                {
+                                    tag: "div",
+                                    className: "wallpaper",
+                                    style: "background-image: url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\");",
+                                }
+                            )
+                        );
                     }
                     
                     var withIndex = true;

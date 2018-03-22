@@ -26,6 +26,8 @@ layout: true
 
 ここは [@wraith13](https://wraith13.github.io/writing/?wraith13.md) 用の markdown ソースのスライド形式ドキュメント置き場です。
 
+**⚠ 現状、全然まだドキュメント書いてないし、この README の記述すら全然追いついてません。。。**
+
 - スライド一覧: <https://wraith13.github.io/writing/>
 - GitHub: <https://github.com/wraith13/writing/>
 

@@ -703,9 +703,16 @@ MathJax.Hub.Config
         //  style
         if (!isReveal)
         {
-            var style = document.createElement("style");
-            style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
-            document.head.appendChild(style);
+            document.head.appendChild
+            (
+                createElement
+                (
+                    {
+                        tag: "style",
+                        innerHTML: (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim(),
+                    }
+                )
+            );
         }
 
         if (isMarkdown)

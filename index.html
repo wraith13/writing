@@ -76,6 +76,11 @@ MathJax.Hub.Config
                     //  nop
                 }
                 else
+                if ("parent" === key)
+                {
+                    //  nop
+                }
+                else
                 if ("children" === key)
                 {
                     arg.children.forEach
@@ -92,36 +97,36 @@ MathJax.Hub.Config
                 }
             }
         }
+        if (undefined !== arg.parent)
+        {
+            arg.parent.appendChild(element);
+        }
         return element;
     };
     var showError = function(innerHTML)
     {
         document.body.style = "margin: 0px;";
-        document.body.appendChild
+        createElement
         (
-            createElement
-            (
-                {
-                    tag: "div",
-                    style: "color: #AA3322; background-color: #442211; font-size: 1.5rem; padding: 0.4rem; text-align: center;",
-                    innerHTML: innerHTML,
-                }
-            )
+            {
+                parent: document.body,
+                tag: "div",
+                style: "color: #AA3322; background-color: #442211; font-size: 1.5rem; padding: 0.4rem; text-align: center;",
+                innerHTML: innerHTML,
+            }
         );
     };
     var appendLink = function(args)
     {
-        document.head.appendChild
+        createElement
         (
-            createElement
+            objectAssign
             (
-                objectAssign
-                (
-                    deepCopy(args),
-                    {
-                        tag: "link"
-                    }
-                )
+                deepCopy(args),
+                {
+                    parent: document.head,
+                    tag: "link"
+                }
             )
         );
     };
@@ -139,16 +144,14 @@ MathJax.Hub.Config
     };
     var loadScript = function(src, onload)
     {
-        document.head.appendChild
+        createElement
         (
-            createElement
-            (
-                {
-                    tag: "script",
-                    src: src,
-                    onload: onload,
-                }
-            )
+            {
+                parent: document.head,
+                tag: "script",
+                src: src,
+                onload: onload,
+            }
         );
     };
     var makeAbsoluteUrl = function(base, url)
@@ -703,15 +706,13 @@ MathJax.Hub.Config
         //  style
         if (!isReveal)
         {
-            document.head.appendChild
+            createElement
             (
-                createElement
-                (
-                    {
-                        tag: "style",
-                        innerHTML: (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim(),
-                    }
-                )
+                {
+                    parent: document.head,
+                    tag: "style",
+                    innerHTML: (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim(),
+                }
             );
         }
 
@@ -756,16 +757,14 @@ MathJax.Hub.Config
                     if (wallPaper)
                     {
                         document.body.className += " with-wallpaper";
-                        document.body.appendChild
+                        createElement
                         (
-                            createElement
-                            (
-                                {
-                                    tag: "div",
-                                    className: "wallpaper",
-                                    style: "background-image: url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\");",
-                                }
-                            )
+                            {
+                                parent: document.body,
+                                tag: "div",
+                                className: "wallpaper",
+                                style: "background-image: url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\");",
+                            }
                         );
                     }
                     

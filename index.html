@@ -1029,9 +1029,14 @@ MathJax.Hub.Config
                     appendTheme(makeRebaseUrl(baseUrl, i));
                 }
             );
-            var style = document.createElement("style");
-            style.innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim();
-            document.head.appendChild(style);
+            createElement
+            (
+                {
+                    parent: document.head,
+                    tag: "style",
+                    innerHTML = (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim(),
+                }
+            );
 
             //  paste markdown
             var separator = (source+"<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();

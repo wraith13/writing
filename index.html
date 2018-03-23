@@ -66,42 +66,64 @@ MathJax.Hub.Config
     };
     var createElement = function(arg)
     {
-        const element = document.createElement(arg.tag);
-        for(var key in arg)
+        if (arg instanceof Element)
         {
-            if (arg.hasOwnProperty(key))
+            return arg;
+        }
+        else
+        if (undefined === arg.tag)
+        {
+            arg.children.forEach
+            (
+                function(i)
+                {
+                    arg.parent.appendChild(createElement(i));
+                }
+            );
+        }
+        else
+        {
+            const element = document.createElement(arg.tag);
+            for(var key in arg)
             {
-                if ("tag" === key)
+                if (arg.hasOwnProperty(key))
                 {
-                    //  nop
-                }
-                else
-                if ("parent" === key)
-                {
-                    //  nop
-                }
-                else
-                if ("children" === key)
-                {
-                    arg.children.forEach
-                    (
-                        function(i)
-                        {
-                            element.appendChild(i);
-                        }
-                    );
-                }
-                else
-                {
-                    element[key] = arg[key];
+                    if ("tag" === key)
+                    {
+                        //  nop
+                    }
+                    else
+                    if ("parent" === key)
+                    {
+                        //  nop
+                    }
+                    else
+                    if ("children" === key)
+                    {
+                        //  nop
+                    }
+                    else
+                    {
+                        element[key] = arg[key];
+                    }
                 }
             }
+            if (undefined !== arg.children)
+            {
+                arg.children.forEach
+                (
+                    function(i)
+                    {
+                        element.appendChild(createElement(i));
+                    }
+                );
+            }
+            if (undefined !== arg.parent)
+            {
+                arg.parent.appendChild(element);
+            }
+            return element;
         }
-        if (undefined !== arg.parent)
-        {
-            arg.parent.appendChild(element);
-        }
-        return element;
     };
     var showError = function(innerHTML)
     {
@@ -772,56 +794,68 @@ MathJax.Hub.Config
                     var index = null;
                     if (withIndex)
                     {
-                        document.body.className += " with-index";
-
-                        var indexDiv = document.createElement("div");
-                        indexDiv.className = "index";
                         index = makeIndexForMarked(source);
-                        index.forEach
+                        document.body.className += " with-index";
+                        createElement
                         (
-                            function(i)
                             {
-                                var a = document.createElement("a");
-                                i.anchor = a;
-                                a.className = "level" + i.level;
-                                a.href = i.link;
-                                a.innerText = i.title;
-                                indexDiv.appendChild(a);
+                                parent: document.body,
+                                tag: "div",
+                                className: "index-frame",
+                                children:
+                                [
+                                    {
+                                        tag: "div",
+                                        className: "index",
+                                        onmouseenter: function() { globalState.isMouseOnIndex = true; },
+                                        onmouseleave: function() { globalState.isMouseOnIndex = false; },
+                                        children: index.map
+                                        (
+                                            function(i)
+                                            {
+                                                return i.anchor = createElement
+                                                (
+                                                    {
+                                                        tag: "a",
+                                                        className: "level" + i.level,
+                                                        href: i.link,
+                                                        innerText: i.title,
+                                                    }
+                                                );
+                                            }
+                                        )
+                                    }
+                                ]
                             }
                         );
-                        var indexFrameDiv = document.createElement("div");
-                        indexFrameDiv.className = "index-frame";
-                        indexFrameDiv.appendChild(indexDiv);
-                        document.body.appendChild(indexFrameDiv);
-
-                        indexDiv.onmouseenter = function() { globalState.isMouseOnIndex = true; };
-                        indexDiv.onmouseleave = function() { globalState.isMouseOnIndex = false; };
                     }
 
-                    var contentDiv = document.createElement("div");
-                    contentDiv.innerHTML = marked
+                    var contentDiv = createElement
                     (
-                        skipEscape
-                        (
-                            translateRelativeLink(baseUrl, source).split("\n"),
-                            function(line)
-                            {
-                                return line
-                                    .replace(/\\</g, "&lt;")
-                                    .replace(/\\>/g, "&gt;")
-                                    .replace(/\\\\/g, "\\");
-                            }
-                        ).join("\n")
-                        .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
+                        {
+                            parent: document.body,
+                            tag: "div",
+                            className: "content",
+                            innerHTML: marked
+                            (
+                                skipEscape
+                                (
+                                    translateRelativeLink(baseUrl, source).split("\n"),
+                                    function(line)
+                                    {
+                                        return line
+                                            .replace(/\\</g, "&lt;")
+                                            .replace(/\\>/g, "&gt;")
+                                            .replace(/\\\\/g, "\\");
+                                    }
+                                ).join("\n")
+                                .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
+                            ),
+                            children: withIndex ?
+                                [createElement({ tag: "div", style: "height: 90vh;", })]:
+                                [],
+                        }
                     );
-                    contentDiv.className = "content";
-                    if (withIndex)
-                    {
-                        var spacerDiv = document.createElement("div");
-                        spacerDiv.style.height = "90vh";
-                        contentDiv.appendChild(spacerDiv);
-                    }
-                    document.body.appendChild(contentDiv);
 
                     //  highlight
                     loadScript

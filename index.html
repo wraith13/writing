@@ -71,7 +71,7 @@ MathJax.Hub.Config
             return arg;
         }
         else
-        if (undefined === arg.tag)
+        if (undefined === arg.tag && arg.parent instanceof Element)
         {
             arg.children.forEach
             (
@@ -88,23 +88,28 @@ MathJax.Hub.Config
             {
                 if (arg.hasOwnProperty(key))
                 {
-                    if ("tag" === key)
+                    switch(key)
                     {
+                    case "tag":
+                    case "parent":
+                    case "children":
+                    case "attributes":
                         //  nop
-                    }
-                    else
-                    if ("parent" === key)
-                    {
-                        //  nop
-                    }
-                    else
-                    if ("children" === key)
-                    {
-                        //  nop
-                    }
-                    else
-                    {
+                        break;
+                    default:
                         element[key] = arg[key];
+                        break;
+                    }
+                }
+            }
+            if (undefined !== arg.attributes)
+            {
+                for(var key in arg.attributes)
+                {
+                    if (arg.attributes.hasOwnProperty(key))
+                    {
+                        element.setAttribute(key, attributes.arg[key]);
+                        //  memo: value を持たない attribute を設定したい場合には value として "" を指定すれば良い。
                     }
                 }
             }

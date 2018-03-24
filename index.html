@@ -64,56 +64,62 @@ MathJax.Hub.Config
     {
         return JSON.parse(JSON.stringify(source));
     };
+    var practicalTypeof = function(obj)
+    {
+        if (undefined === obj)
+        {
+            return "undefined";
+        }
+        if (null === obj)
+        {
+            return "null";
+        }
+        if ("[object Array]" === Object.prototype.toString.call(obj))
+        {
+            return "array";
+        }
+
+        return typeof obj;
+    }
     var createElement = function(arg)
     {
-        if (arg instanceof Element)
+        return arg instanceof Element?
+            arg:
+            setToElement(document.createElement(arg.tag), arg);
+    };
+    var setToElement = function(element, arg)
+    {
+        for(var key in arg)
         {
-            return arg;
-        }
-        else
-        if (undefined === arg.tag && arg.parent instanceof Element)
-        {
-            arg.children.forEach
-            (
-                function(i)
-                {
-                    arg.parent.appendChild(createElement(i));
-                }
-            );
-        }
-        else
-        {
-            const element = document.createElement(arg.tag);
-            for(var key in arg)
+            if (arg.hasOwnProperty(key))
             {
-                if (arg.hasOwnProperty(key))
+                switch(key)
                 {
-                    switch(key)
-                    {
-                    case "tag":
-                    case "parent":
-                    case "children":
-                    case "attributes":
-                        //  nop
-                        break;
-                    default:
-                        element[key] = arg[key];
-                        break;
-                    }
+                case "tag":
+                case "parent":
+                case "children":
+                case "attributes":
+                    //  nop
+                    break;
+                default:
+                    element[key] = arg[key];
+                    break;
                 }
             }
-            if (undefined !== arg.attributes)
+        }
+        if (undefined !== arg.attributes)
+        {
+            for(var key in arg.attributes)
             {
-                for(var key in arg.attributes)
+                if (arg.attributes.hasOwnProperty(key))
                 {
-                    if (arg.attributes.hasOwnProperty(key))
-                    {
-                        element.setAttribute(key, attributes.arg[key]);
-                        //  memo: value を持たない attribute を設定したい場合には value として "" を指定すれば良い。
-                    }
+                    element.setAttribute(key, arg.attributes[key]);
                 }
             }
-            if (undefined !== arg.children)
+        }
+        if (undefined !== arg.children)
+        {
+            if ("array" === practicalTypeof(arg.children))
             {
                 arg.children.forEach
                 (
@@ -123,12 +129,16 @@ MathJax.Hub.Config
                     }
                 );
             }
-            if (undefined !== arg.parent)
+            else
             {
-                arg.parent.appendChild(element);
+                element.appendChild(createElement(arg.children));
             }
-            return element;
         }
+        if (undefined !== arg.parent)
+        {
+            arg.parent.appendChild(element);
+        }
+        return element;
     };
     var showError = function(innerHTML)
     {
@@ -1049,22 +1059,36 @@ MathJax.Hub.Config
             var separator_notes = (source+"<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
             var pasteMarkdown = function(markdown)
             {
-                var div = document.createElement("div");
-                div.className = "reveal";
-                div.innerHTML =
-                    "<div class=\"slides\">"
-                        +"<section id=\"source-markdown\" data-markdown>"
-                            +"<script type=\"text/template\">"
-                                +markdown.replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
-                            +"</" +"script>"
-                        +"</section>"
-                    +"</div>";
-                document.body.appendChild(div);
-                var section = document.getElementById("source-markdown");
-                section.setAttribute("data-separator", separator);
-                section.setAttribute("data-separator-vertical", separator_vertical);
-                section.setAttribute("data-separator-notes", separator_notes);
-                section.removeAttribute("id");
+                return createElement
+                (
+                    {
+                        parent: document.body,
+                        tag: "div",
+                        className: "reveal",
+                        children:
+                        {
+                            tag: "div",
+                            className: "slides",
+                            children:
+                            {
+                                tag: "section",
+                                attributes:
+                                {
+                                    "data-markdown": "",
+                                    "data-separator": separator,
+                                    "data-separator-vertical": separator_vertical,
+                                    "data-separator-notes": separator_notes,
+                                },
+                                children:
+                                {
+                                    tag: "script",
+                                    type: "text/template",
+                                    innerHTML: markdown.replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n"),
+                                },
+                            },
+                        },
+                    }
+                );
             };
             pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(translateForSlide(source))));
             loadScript

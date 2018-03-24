@@ -818,29 +818,27 @@ MathJax.Hub.Config
                                 tag: "div",
                                 className: "index-frame",
                                 children:
-                                [
-                                    {
-                                        tag: "div",
-                                        className: "index",
-                                        onmouseenter: function() { globalState.isMouseOnIndex = true; },
-                                        onmouseleave: function() { globalState.isMouseOnIndex = false; },
-                                        children: index.map
-                                        (
-                                            function(i)
-                                            {
-                                                return i.anchor = createElement
-                                                (
-                                                    {
-                                                        tag: "a",
-                                                        className: "level" + i.level,
-                                                        href: i.link,
-                                                        innerText: i.title,
-                                                    }
-                                                );
-                                            }
-                                        )
-                                    }
-                                ]
+                                {
+                                    tag: "div",
+                                    className: "index",
+                                    onmouseenter: function() { globalState.isMouseOnIndex = true; },
+                                    onmouseleave: function() { globalState.isMouseOnIndex = false; },
+                                    children: index.map
+                                    (
+                                        function(i)
+                                        {
+                                            return i.anchor = createElement
+                                            (
+                                                {
+                                                    tag: "a",
+                                                    className: "level" + i.level,
+                                                    href: i.link,
+                                                    innerText: i.title,
+                                                }
+                                            );
+                                        }
+                                    )
+                                }
                             }
                         );
                     }
@@ -867,8 +865,8 @@ MathJax.Hub.Config
                                 .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
                             ),
                             children: withIndex ?
-                                [createElement({ tag: "div", style: "height: 90vh;", })]:
-                                [],
+                                createElement({ tag: "div", style: "height: 90vh;", }):
+                                undefined,
                         }
                     );
 

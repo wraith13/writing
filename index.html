@@ -114,6 +114,7 @@ MathJax.Hub.Config
                 if (arg.attributes.hasOwnProperty(key))
                 {
                     element.setAttribute(key, arg.attributes[key]);
+                    //  memo: value を持たない attribute を設定したい場合には value として "" を指定すれば良い。
                 }
             }
         }
@@ -1165,13 +1166,16 @@ MathJax.Hub.Config
             urlsDiv.appendChild(textCounter);
             var makeLink = function(text)
             {
-                var link = document.createElement("a");
-                link.style.color = "#FFFFFF";
-                link.style.padding = "0rem 1.0rem";
-                link.text = text;
-                link.target = "_blank";
-                urlsDiv.appendChild(link);
-                return link;
+                return createElement
+                (
+                    {
+                        parent: urlsDiv,
+                        tag: "a",
+                        style: "color: #FFFFFF; padding: 0rem 1.0rem",
+                        text: text,
+                        target: "_blank",
+                    }
+                );
             }
             var defaultLink = makeLink("default");
             var markedLink = makeLink("marked(markdown)");

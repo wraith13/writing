@@ -99,6 +99,7 @@ MathJax.Hub.Config
                 case "parent":
                 case "children":
                 case "attributes":
+                case "eventListener":
                     //  nop
                     break;
                 default:
@@ -135,6 +136,16 @@ MathJax.Hub.Config
                 element.appendChild(createElement(arg.children));
             }
         }
+        if (undefined !== arg.eventListener)
+        {
+            for(var key in arg.eventListener)
+            {
+                if (arg.eventListener.hasOwnProperty(key))
+                {
+                    element.addEventListener(key, arg.eventListener[key]);
+                }
+            }
+       }
         if (undefined !== arg.parent)
         {
             arg.parent.appendChild(element);
@@ -1160,10 +1171,14 @@ MathJax.Hub.Config
             urlsDiv.style.height = "1rem";
             urlsDiv.style.verticalAlign = "middle";
             urlsDiv.style.lineHeight = "1rem";
-            var textCounter = document.createElement("span");
-            textCounter.style.color = "#CCCCCC";
-            textCounter.style.padding = "0rem 1.0rem";
-            urlsDiv.appendChild(textCounter);
+            var textCounter = createElement
+            (
+                {
+                    parent: urlsDiv,
+                    tag: "span",
+                    style: "color: #CCCCCC; padding:0rem 1.0rem;"
+                }
+            );
             var makeLink = function(text)
             {
                 return createElement
@@ -1171,7 +1186,7 @@ MathJax.Hub.Config
                     {
                         parent: urlsDiv,
                         tag: "a",
-                        style: "color: #FFFFFF; padding: 0rem 1.0rem",
+                        style: "color: #FFFFFF; padding: 0rem 1.0rem;",
                         text: text,
                         target: "_blank",
                     }

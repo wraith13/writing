@@ -64,6 +64,28 @@ MathJax.Hub.Config
     {
         return JSON.parse(JSON.stringify(source));
     };
+    var recursiveAssign = function(target, source)
+    {
+        for(var key in source)
+        {
+            if (source.hasOwnProperty(key))
+            {
+                var value = source[key];
+                if ("object" === practicalTypeof(value))
+                {
+                    if (undefined === target[key])
+                    {
+                        target[key] = { };
+                    }
+                    recursiveSet(target[key], value);
+                }
+                else
+                {
+                    target[key] = value;
+                }
+            }
+        }
+    };
     var practicalTypeof = function(obj)
     {
         if (undefined === obj)
@@ -103,7 +125,15 @@ MathJax.Hub.Config
                     //  nop
                     break;
                 default:
-                    element[key] = arg[key];
+                    var value = arg[key];
+                    if ("object" === practicalTypeof(value))
+                    {
+                        recursiveAssign(element[key], value);
+                    }
+                    else
+                    {
+                        element[key] = value;
+                    }
                     break;
                 }
             }
@@ -1162,21 +1192,40 @@ MathJax.Hub.Config
         if (isEdit)
         {
             //  edit
-            document.body.style.margin = "0";
-            document.body.style.overflow = "hidden";
-            document.body.style.backgroundColor = "#86812A";
-            var urlsDiv = document.createElement("div");
-            urlsDiv.style.padding = "0.5rem 1.0rem";
-            urlsDiv.style.width = "100%";
-            urlsDiv.style.height = "1rem";
-            urlsDiv.style.verticalAlign = "middle";
-            urlsDiv.style.lineHeight = "1rem";
+            recursiveAssign
+            (
+                document.body.style,
+                {
+                    margin: "0",
+                    overflow: "hidden",
+                    backgroundColor: "#86812A",
+                }
+            );
+            var urlsDiv = createElement
+            (
+                {
+                    parent: document.body,
+                    tag:"div",
+                    style:
+                    {
+                        padding: "0.5rem 1.0rem",
+                        width: "100%",
+                        height: "1rem",
+                        verticalAlign: "middle",
+                        lineHeight: "1rem",
+                    },
+                }
+            );
             var textCounter = createElement
             (
                 {
                     parent: urlsDiv,
                     tag: "span",
-                    style: "color: #CCCCCC; padding:0rem 1.0rem;"
+                    style:
+                    {
+                        color: "#CCCCCC",
+                        padding: "0rem 1.0rem",
+                    }
                 }
             );
             var makeLink = function(text)
@@ -1186,7 +1235,11 @@ MathJax.Hub.Config
                     {
                         parent: urlsDiv,
                         tag: "a",
-                        style: "color: #FFFFFF; padding: 0rem 1.0rem;",
+                        style:
+                        {
+                            color: "#FFFFFF",
+                            padding: "0rem 1.0rem",
+                        },
                         text: text,
                         target: "_blank",
                     }
@@ -1197,7 +1250,6 @@ MathJax.Hub.Config
             var remarkLink = makeLink("remark(slide)");
             var revealLink = makeLink("reveal(slide)");
             var editLink = makeLink("edit");
-            document.body.appendChild(urlsDiv);
             var textarea = document.createElement("textarea");
             textarea.style.width = "100%";
             textarea.style.width = "calc(100vw - 2rem)";

@@ -190,7 +190,14 @@ MathJax.Hub.Config
             {
                 parent: document.body,
                 tag: "div",
-                style: "color: #AA3322; background-color: #442211; font-size: 1.5rem; padding: 0.4rem; text-align: center;",
+                style:
+                {
+                    color: "#AA3322",
+                    backgroundColor: "#442211",
+                    fontSize: "1.5rem",
+                    padding: "0.4rem",
+                    textAlign: "center",
+                },
                 innerHTML: innerHTML,
             }
         );
@@ -842,7 +849,10 @@ MathJax.Hub.Config
                                 parent: document.body,
                                 tag: "div",
                                 className: "wallpaper",
-                                style: "background-image: url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\");",
+                                style:
+                                {
+                                    backgroundImage: "url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\")",
+                                },
                             }
                         );
                     }
@@ -907,7 +917,7 @@ MathJax.Hub.Config
                                 .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
                             ),
                             children: withIndex ?
-                                createElement({ tag: "div", style: "height: 90vh;", }):
+                                createElement({ tag: "div", style: { height: "90vh", }, }):
                                 undefined,
                         }
                     );

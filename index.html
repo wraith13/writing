@@ -182,7 +182,7 @@ MathJax.Hub.Config
         }
         return element;
     };
-    var showError = function(innerHTML)
+    var showError = function(arg)
     {
         document.body.style = "margin: 0px;";
         createElement
@@ -198,7 +198,8 @@ MathJax.Hub.Config
                     padding: "0.4rem",
                     textAlign: "center",
                 },
-                innerHTML: innerHTML,
+                innerHTML: "string" === practicalTypeof(arg) ? arg: undefined,
+                children: arg instanceof Element ? arg: undefined,
             }
         );
     };

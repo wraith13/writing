@@ -1260,14 +1260,6 @@ MathJax.Hub.Config
             var remarkLink = makeLink("remark(slide)");
             var revealLink = makeLink("reveal(slide)");
             var editLink = makeLink("edit");
-            var textarea = document.createElement("textarea");
-            textarea.style.width = "100%";
-            textarea.style.width = "calc(100vw - 2rem)";
-            textarea.style.height = "100%";
-            textarea.style.height = "calc(100vh - 3rem)";
-            textarea.style.margin = "0rem 1rem 1rem 1rem";
-            textarea.value = source;
-            document.body.appendChild(textarea);
             var update = function() {
                 var text = encodeURIComponent(textarea.value);
                 textCounter.innerText = "lenght:" +text.length;
@@ -1277,9 +1269,34 @@ MathJax.Hub.Config
                 revealLink.href = "?reveal&text:" +text;
                 editLink.href = "?edit&text:" +text;
             };
+            var textarea = createElement
+            (
+                {
+                    parent: document.body,
+                    tag: "textarea",
+                    style:
+                    {
+                        width: "100%",
+                        height: "100%",
+                        margin: "0rem 1rem 1rem 1rem",
+                    },
+                    value: source,
+                    eventListener:
+                    {
+                        change: update,
+                        keyup: update,
+                    },
+                }
+            );
+            recursiveAssign
+            (
+                textarea.style,
+                {
+                    width: "calc(100vw - 2rem)",
+                    height: "calc(100vh - 3rem)",
+                }
+            );
             update();
-            textarea.addEventListener("change",update);
-            textarea.addEventListener("keyup",update);
         }
     };
     var renderer = null; 
@@ -1331,7 +1348,6 @@ MathJax.Hub.Config
                 else
                 {
                     showError("loading failed: { \"method\": \"GET\", \"url\": \"<a href=\"" +sourceUrl.replace(/\"/g, "%25") +" \" style=\"color: #6666FF;\">" + sourceUrl.replace(/</g, "&lt;").replace(/>/g, "&gt;") +"</a>\", \"status\": "+ request.status + "};");
-                    document.body.appendChild(errorDiv);
                     var responseDiv = document.createElement("div");
                     if (request.responseText)
                     {

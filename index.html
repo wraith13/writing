@@ -1379,7 +1379,15 @@ MathJax.Hub.Config
                     }
                     else
                     {
-                        responseDiv.style = "white-space: pre-wrap; font-size: 1.5rem; padding: 20px;"
+                        recursiveAssign
+                        (
+                            responseDiv.style,
+                            {
+                                whiteSpace: "pre-wrap",
+                                fontSize: "1.5rem",
+                                padding: "20px",
+                            }
+                        );
                         if (0 === request.status)
                         {
                             responseDiv.innerText = "There ia a possibility that server not found or it happened cross-domain issue.\nサーバーが見つからないかクロスドメインの問題が発生した可能性があります。";

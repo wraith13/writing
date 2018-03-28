@@ -193,7 +193,13 @@ MathJax.Hub.Config
     };
     var showError = function(arg)
     {
-        document.body.style = "margin: 0px;";
+        recursiveAssign
+        (
+            document.body.style,
+            {
+                margin: "0px",
+            }
+        );
         makeDomNode
         (
             {
@@ -1372,22 +1378,23 @@ MathJax.Hub.Config
                             "\", \"status\": "+ request.status + "};"
                         ]
                     );
-                    var responseDiv = document.createElement("div");
+                    var responseDiv =
+                    {
+                        parent: document.body,
+                        tag: "div",
+                    };
                     if (request.responseText)
                     {
                         responseDiv.innerHTML = request.responseText;
                     }
                     else
                     {
-                        recursiveAssign
-                        (
-                            responseDiv.style,
-                            {
-                                whiteSpace: "pre-wrap",
-                                fontSize: "1.5rem",
-                                padding: "20px",
-                            }
-                        );
+                        responseDiv.style =
+                        {
+                            whiteSpace: "pre-wrap",
+                            fontSize: "1.5rem",
+                            padding: "20px",
+                        };
                         if (0 === request.status)
                         {
                             responseDiv.innerText = "There ia a possibility that server not found or it happened cross-domain issue.\nサーバーが見つからないかクロスドメインの問題が発生した可能性があります。";
@@ -1397,7 +1404,7 @@ MathJax.Hub.Config
                             responseDiv.innerText = JSON.stringify(request.getAllResponseHeaders(), null, 4);
                         }
                     }
-                    document.body.appendChild(responseDiv);
+                    makeDomNode(responseDiv);
                 }
             }
         };

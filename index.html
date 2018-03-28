@@ -105,9 +105,15 @@ MathJax.Hub.Config
     }
     var createElement = function(arg)
     {
-        return arg instanceof Element?
-            arg:
-            setToElement(document.createElement(arg.tag), arg);
+        if (arg instanceof Node)
+        {
+            return arg;
+        }
+        if ("string" === practicalTypeof(arg))
+        {
+            return document.createTextNode(arg);
+        }
+        return setToElement(document.createElement(arg.tag), arg);
     };
     var setToElement = function(element, arg)
     {
@@ -126,13 +132,16 @@ MathJax.Hub.Config
                     break;
                 default:
                     var value = arg[key];
-                    if ("object" === practicalTypeof(value))
+                    if (undefined !== value)
                     {
-                        recursiveAssign(element[key], value);
-                    }
-                    else
-                    {
-                        element[key] = value;
+                        if ("object" === practicalTypeof(value))
+                        {
+                            recursiveAssign(element[key], value);
+                        }
+                        else
+                        {
+                            element[key] = value;
+                        }
                     }
                     break;
                 }
@@ -198,8 +207,7 @@ MathJax.Hub.Config
                     padding: "0.4rem",
                     textAlign: "center",
                 },
-                innerHTML: "string" === practicalTypeof(arg) ? arg: undefined,
-                children: arg instanceof Element ? arg: undefined,
+                children: arg,
             }
         );
     };
@@ -1348,7 +1356,22 @@ MathJax.Hub.Config
                 }
                 else
                 {
-                    showError("loading failed: { \"method\": \"GET\", \"url\": \"<a href=\"" +sourceUrl.replace(/\"/g, "%25") +" \" style=\"color: #6666FF;\">" + sourceUrl.replace(/</g, "&lt;").replace(/>/g, "&gt;") +"</a>\", \"status\": "+ request.status + "};");
+                    showError
+                    (
+                        [
+                            "loading failed: { \"method\": \"GET\", \"url\": \"",
+                            {
+                                tag: "a",
+                                href: sourceUrl,
+                                style:
+                                {
+                                    color: "#6666FF",
+                                },
+                                children: sourceUrl,
+                            },
+                            "\", \"status\": "+ request.status + "};"
+                        ]
+                    );
                     var responseDiv = document.createElement("div");
                     if (request.responseText)
                     {

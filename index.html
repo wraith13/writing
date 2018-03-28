@@ -103,7 +103,7 @@ MathJax.Hub.Config
 
         return typeof obj;
     }
-    var createElement = function(arg)
+    var makeDomNode = function(arg)
     {
         if (arg instanceof Node)
         {
@@ -166,13 +166,13 @@ MathJax.Hub.Config
                 (
                     function(i)
                     {
-                        element.appendChild(createElement(i));
+                        element.appendChild(makeDomNode(i));
                     }
                 );
             }
             else
             {
-                element.appendChild(createElement(arg.children));
+                element.appendChild(makeDomNode(arg.children));
             }
         }
         if (undefined !== arg.eventListener)
@@ -194,7 +194,7 @@ MathJax.Hub.Config
     var showError = function(arg)
     {
         document.body.style = "margin: 0px;";
-        createElement
+        makeDomNode
         (
             {
                 parent: document.body,
@@ -213,7 +213,7 @@ MathJax.Hub.Config
     };
     var appendLink = function(args)
     {
-        createElement
+        makeDomNode
         (
             objectAssign
             (
@@ -239,7 +239,7 @@ MathJax.Hub.Config
     };
     var loadScript = function(src, onload)
     {
-        createElement
+        makeDomNode
         (
             {
                 parent: document.head,
@@ -801,7 +801,7 @@ MathJax.Hub.Config
         //  style
         if (!isReveal)
         {
-            createElement
+            makeDomNode
             (
                 {
                     parent: document.head,
@@ -852,7 +852,7 @@ MathJax.Hub.Config
                     if (wallPaper)
                     {
                         document.body.className += " with-wallpaper";
-                        createElement
+                        makeDomNode
                         (
                             {
                                 parent: document.body,
@@ -872,7 +872,7 @@ MathJax.Hub.Config
                     {
                         index = makeIndexForMarked(source);
                         document.body.className += " with-index";
-                        createElement
+                        makeDomNode
                         (
                             {
                                 parent: document.body,
@@ -888,7 +888,7 @@ MathJax.Hub.Config
                                     (
                                         function(i)
                                         {
-                                            return i.anchor = createElement
+                                            return i.anchor = makeDomNode
                                             (
                                                 {
                                                     tag: "a",
@@ -904,7 +904,7 @@ MathJax.Hub.Config
                         );
                     }
 
-                    var contentDiv = createElement
+                    var contentDiv = makeDomNode
                     (
                         {
                             parent: document.body,
@@ -926,7 +926,7 @@ MathJax.Hub.Config
                                 .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
                             ),
                             children: withIndex ?
-                                createElement({ tag: "div", style: { height: "90vh", }, }):
+                                makeDomNode({ tag: "div", style: { height: "90vh", }, }):
                                 undefined,
                         }
                     );
@@ -1103,7 +1103,7 @@ MathJax.Hub.Config
                     appendTheme(makeRebaseUrl(baseUrl, i));
                 }
             );
-            createElement
+            makeDomNode
             (
                 {
                     parent: document.head,
@@ -1118,7 +1118,7 @@ MathJax.Hub.Config
             var separator_notes = (source+"<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
             var pasteMarkdown = function(markdown)
             {
-                return createElement
+                return makeDomNode
                 (
                     {
                         parent: document.body,
@@ -1220,7 +1220,7 @@ MathJax.Hub.Config
                     backgroundColor: "#86812A",
                 }
             );
-            var urlsDiv = createElement
+            var urlsDiv = makeDomNode
             (
                 {
                     parent: document.body,
@@ -1235,7 +1235,7 @@ MathJax.Hub.Config
                     },
                 }
             );
-            var textCounter = createElement
+            var textCounter = makeDomNode
             (
                 {
                     parent: urlsDiv,
@@ -1249,7 +1249,7 @@ MathJax.Hub.Config
             );
             var makeLink = function(text)
             {
-                return createElement
+                return makeDomNode
                 (
                     {
                         parent: urlsDiv,
@@ -1278,7 +1278,7 @@ MathJax.Hub.Config
                 revealLink.href = "?reveal&text:" +text;
                 editLink.href = "?edit&text:" +text;
             };
-            var textarea = createElement
+            var textarea = makeDomNode
             (
                 {
                     parent: document.body,

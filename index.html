@@ -517,8 +517,9 @@ MathJax.Hub.Config
                     {
                         if (!isInInlineEscape)
                         {
-                            var re = /(^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
                             var match = null;
+
+                            var re = /(^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
                             while(null !== (match = re.exec(part)))
                             {
                                 var label = undefined === match[2] ? "": match[2];
@@ -540,6 +541,15 @@ MathJax.Hub.Config
                                         part = part.replace(match[0], match[1] +"[" +label +"](" +relativeUrl +")");
                                     }
                                 }
+                            }
+
+                            var img_re = /\<(\s*)img(\s.*?)src=([\"\'])(.*?)([\"\'].*?)\>/g;
+                            while(null !== (match = img_re.exec(part)))
+                            {
+                                var url = match[4];
+                                var absoluteUrl = makeAbsoluteUrl(baseUrl, url);
+                                var relativeUrl = makeRelativeUrl(absoluteUrl);
+                                part = part.replace(match[0], "<" +match[1] +"img" +match[2] +"src=" +match[3] +relativeUrl +match[5] +">");
                             }
                         }
                         if ("\\" !== part.substring(-1))

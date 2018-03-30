@@ -525,6 +525,11 @@ MathJax.Hub.Config
                             {
                                 var label = undefined === match[2] ? "": match[2];
                                 var url = match[3];
+                                if ("?" === url.substr(0, 1))
+                                {
+                                    part = part.replace(match[0], match[1] +"[" +label +"](" +url +"&" +makeRelativeUrl(baseUrl) +")");
+                                }
+                                else
                                 if ("#" !== url.substr(0, 1))
                                 {
                                     var absoluteUrl = makeAbsoluteUrl(baseUrl, url);

@@ -721,6 +721,7 @@ MathJax.Hub.Config
             renderer = /<!--\[RENDERER\]\s*(.*?)\s*-->/.exec(source +"<!--[RENDERER]MARKDOWN-->")[1].toLowerCase();
             console.log("renderer: " +(renderer || "null"));
         }
+        var isWriting = true;
         var isMarkdown = "markdown" === renderer;
         var isRemark = "remark" === renderer;
         var isReveal = "reveal" === renderer;
@@ -737,6 +738,10 @@ MathJax.Hub.Config
         if (!isEdit)
         {
             source = source
+                .replace(/<!--\[WRITING\/\]([\s\S]*?)-->/g, isWriting ? "$1": "")
+                .replace(/<!--\[WRITING\]-->([\s\S]*?)<!--\[\/WRITING\]-->/g, isWriting ? "$1": "")
+                .replace(/<!--\[NOWRITING\/\]([\s\S]*?)-->/g, !isWriting ? "$1": "")
+                .replace(/<!--\[NOWRITING\]-->([\s\S]*?)<!--\[\/NOWRITING\]-->/g, !isWriting ? "$1": "")
                 .replace(/<!--\[MD\/\]([\s\S]*?)-->/g, isMarkdown ? "$1": "")
                 .replace(/<!--\[MD\]-->([\s\S]*?)<!--\[\/MD\]-->/g, isMarkdown ? "$1": "")
                 .replace(/<!--\[NOMD\/\]([\s\S]*?)-->/g, !isMarkdown ? "$1": "")

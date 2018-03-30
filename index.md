@@ -29,6 +29,12 @@ h1 img
 - [README](README.md)
 - [@wraith13](wraith13.md)
 
+<!--[WRITING/]
+## instant
+
+- [new markdown/slide](./?edit&text:)
+-->
+
 ## demo
 
 <!--[NOMD/]

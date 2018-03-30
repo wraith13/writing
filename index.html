@@ -737,14 +737,17 @@ MathJax.Hub.Config
         if (!isEdit)
         {
             source = source
+                .replace(/<!--\[MD\/\]([\s\S]*?)-->/g, isMarkdown ? "$1": "")
                 .replace(/<!--\[MD\]-->([\s\S]*?)<!--\[\/MD\]-->/g, isMarkdown ? "$1": "")
                 .replace(/<!--\[NOMD\/\]([\s\S]*?)-->/g, !isMarkdown ? "$1": "")
                 .replace(/<!--\[NOMD\]-->([\s\S]*?)<!--\[\/NOMD\]-->/g, !isMarkdown ? "$1": "")
                 .replace(/<!--\[REMARK\/\]([\s\S]*?)-->/g, isRemark ? "$1": "")
                 .replace(/<!--\[REMARK\]-->([\s\S]*?)<!--\[\/REMARK\]-->/g, isRemark ? "$1": "")
+                .replace(/<!--\[NOREMARK\/\]([\s\S]*?)-->/g, !isRemark ? "$1": "")
                 .replace(/<!--\[NOREMARK\]-->([\s\S]*?)<!--\[\/NOREMARK\]-->/g, !isRemark ? "$1": "")
                 .replace(/<!--\[REVEAL\/\]([\s\S]*?)-->/g, isReveal ? "$1": "")
                 .replace(/<!--\[REVEAL\]-->([\s\S]*?)<!--\[\/REVEAL\]-->/g, isReveal ? "$1": "")
+                .replace(/<!--\[NOREVEAL\/\]([\s\S]*?)-->/g, !isReveal ? "$1": "")
                 .replace(/<!--\[NOREVEAL\]-->([\s\S]*?)<!--\[\/NOREVEAL\]-->/g, !isReveal ? "$1": "");
         }
 

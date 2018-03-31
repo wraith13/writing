@@ -1093,6 +1093,19 @@ MathJax.Hub.Config
             {
                 appendTheme("theme/default.css");
             }
+
+            source = skipEscape
+            (
+                source.split("\n"),
+                function(line)
+                {
+                    if (">>>" === line)
+                    {
+                        line = "---";
+                    }
+                    return line;
+                }
+            ).join("\n");
             
             //  remark
             loadScript

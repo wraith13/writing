@@ -13,3 +13,9 @@
 ## deleted tweet
 
 <blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">削除状態の確認用ツイート。このツイートはすぐに削除します。</p>&mdash; 👻 道化師 (@wraith13) <a href="https://twitter.com/wraith13/status/976085037358620672?ref_src=twsrc%5Etfw">2018年3月20日</a></blockquote>
+
+## [一覧へ戻る](../)
+
+<!--
+class: center, middle
+-->

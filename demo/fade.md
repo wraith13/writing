@@ -45,4 +45,4 @@ layout: true
 class: center, middle
 -->
 
-## [一覧へ戻る](./)
+## [一覧へ戻る](../)

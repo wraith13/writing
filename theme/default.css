@@ -33,6 +33,11 @@ h1, h2, h3, h4, h5, h6, h7, h8, h9
     font-size: 30px;
 }
 
+.reveal .slides
+{
+    text-align: left;
+}
+
 .reveal pre.mathjax
 {
     box-shadow: initial;
@@ -74,6 +79,10 @@ blockquote
     padding: 8px;
     min-height: 57px;
 }
+.reveal .slides blockquote
+{
+    width: auto;
+}
 blockquote::before
 {
     margin-top: -35px;
@@ -82,15 +91,20 @@ blockquote::before
     font-size: 180px;
     float: left;
     overflow-y: hidden;
-    max-height: 92px;
+    max-height: 100px;
 }
-blockquote > p
+blockquote > p,
+.reveal .slides blockquote > p
 {
     margin-left: 100px;
     margin-top: 20px;
     margin-bottom: 15px;
 }
-
+.reveal .slides blockquote > p
+{
+    display: block;
+    margin-right: 10px;
+}
 body.marked,
 body.marked table
 {

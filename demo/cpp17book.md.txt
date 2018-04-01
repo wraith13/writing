@@ -1,3 +1,6 @@
+<!--[NOWRITING]-->
+この markdown の表示用URL: <https://wraith13.github.io/writing/?demo/cpp17book.md.txt>
+<!--[/NOWRITING]-->
 # 江添亮の詳説C++17
 
 <!--[TITLE] 江添亮の詳説C++17 -->

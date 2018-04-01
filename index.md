@@ -1,3 +1,7 @@
+<!--[NOWRITING]-->
+この markdown の表示用URL: <https://wraith13.github.io/writing/>
+<!--[/NOWRITING]-->
+
 # ![](writinghex.128.png)writing index
 
 <!--[TITLE] writing index -->

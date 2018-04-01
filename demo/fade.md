@@ -1,3 +1,6 @@
+<!--[NOWRITING]-->
+この markdown の表示用URL: <https://wraith13.github.io/writing/?demo/fade.md>
+<!--[/NOWRITING]-->
 <!--[RENDERER] REMARK -->
 <!--
 class: center, middle

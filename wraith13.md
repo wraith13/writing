@@ -1,3 +1,6 @@
+<!--[NOWRITING]-->
+この markdown の表示用URL: <https://wraith13.github.io/writing/?wraith13.md>
+<!--[/NOWRITING]-->
 <!--[RENDERER] REVEAL -->
 <!--[REVEAL-TRANSITION] ZOOM -->
 <!--

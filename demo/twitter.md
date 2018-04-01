@@ -1,3 +1,6 @@
+<!--[NOWRITING]-->
+この markdown の表示用URL: <https://wraith13.github.io/writing/?demo/twitter.md>
+<!--[/NOWRITING]-->
 # twitter demo
 
 ツイートの埋め込みサンプル

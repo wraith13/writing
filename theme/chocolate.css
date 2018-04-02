@@ -19,3 +19,8 @@ blockquote
 {
     color: #776655;
 }
+
+blockquote a
+{
+    color: #EE8866;
+}

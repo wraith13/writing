@@ -5,6 +5,7 @@
 <!--[RENDERER] REVEAL -->
 <!--[REVEAL-THEME] black -->
 <!--[REVEAL-TRANSITION] slide -->
+<!--[THEME] ../theme/null.css -->
 
 # Reveal.js
 

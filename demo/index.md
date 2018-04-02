@@ -2,10 +2,10 @@
 この markdown の表示用URL: <https://wraith13.github.io/writing/>
 <!--[/NOWRITING]-->
 
-# ![](writinghex.128.png)writing index
+# writing demo
 
-<!--[TITLE] writing index -->
-<!--[THEME] theme/default.css -->
+<!--[TITLE] writing demo -->
+<!--[THEME] ../theme/default.css -->
 <!--[STYLE]
 h1
 {
@@ -32,13 +32,41 @@ h1 img
 <!--[NOREVEAL/]<span style="font-size:0.7em;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal)</span>-->
 <!--[REVEAL/]<span style="display:block;margin-left:auto;margin-right:auto;font-size:0.6em;width:450px;text-align:center;white-space:pre;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal)</span>-->
 
-- [README](README.md)
-- [@wraith13](wraith13.md)
+<!--[NOMD/]
 
-<!--[WRITING/]
-## instant
+- [remark themes demo](#remark-themes-demo)
+- [remark animation themes demo](#remark-animation-themes-demo)
+- [reveal demo](#reveal-demo)
+- [twitter demo](#twitter-demo)
+- [extra demo](#extra-demo)
 
-- [new markdown/slide](./?edit&text:)
 -->
 
-## [demo](./demo/index.md)
+## remark themes demo
+
+- [default](default.md)
+- [chocolate](chocolate.md)
+- [wine](wine.md)
+
+## remark animation themes demo
+
+- [fade](fade.md)
+- [slide](slide.md)
+
+## reveal demo
+
+- [reveal demo](reveal.md)
+
+## twitter demo
+
+- [marked](twitter.md)
+- [remark](?remark&twitter.md)
+- [reveal](?reveal&twitter.md)
+
+## extra demo
+
+- [江添亮の詳説C++17](cpp17book.md.txt) ( markdown )
+
+## end of index
+
+- [writing へ戻る](../)

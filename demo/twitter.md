@@ -5,6 +5,9 @@
 
 ツイートの埋め込みサンプル
 
+<!--[NOREVEAL/]<span style="font-size:0.7em;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal)</span>-->
+<!--[REVEAL/]<span style="display:block;margin-left:auto;margin-right:auto;font-size:0.6em;width:450px;text-align:center;white-space:pre;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal)</span>-->
+
 ## media tweet
 
 <blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">シューターとブラスターを相手に近接戦を溜め無し連射で撃ち勝つクソチャージャーの動画です。 # まぁ、このあたり動きは前作S+シャープマーカーの杵柄ってところ <a href="https://t.co/WQPH8qLThs">pic.twitter.com/WQPH8qLThs</a></p>&mdash; 👻 道化師 (@wraith13) <a href="https://twitter.com/wraith13/status/975405354258374657?ref_src=twsrc%5Etfw">2018年3月18日</a></blockquote>

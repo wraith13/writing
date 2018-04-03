@@ -4,6 +4,7 @@
 <!--
 class: center, middle
 -->
+<!--[REFERRER-OPTION] true -->
 
 # writing
 

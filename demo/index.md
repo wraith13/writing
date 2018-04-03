@@ -59,9 +59,7 @@ h1 img
 
 ## twitter demo
 
-- [marked](twitter.md)
-- [remark](?remark&twitter.md)
-- [reveal](?reveal&twitter.md)
+- [twitter demo](twitter.md)
 
 ## extra demo
 

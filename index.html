@@ -723,6 +723,23 @@ MathJax.Hub.Config
         //  regulate return code
         source = source.replace(/\r\n/g,"\n");
 
+        if (!renderer && "true" === (source+"<!--[REFERRER-OPTION] false -->").split("<!--[REFERRER-OPTION]")[1].split("-->")[0].trim().toLowerCase())
+        {
+            console.log("referrer: " +document.referrer);
+            if ((document.referrer || "").split("?")[0] === location.href.split("?")[0])
+            {
+                var urlArgs = (document.referrer.split("#")[0] +"?")
+                    .split("?")[1]
+                    .split("&")
+                    .filter(function(i) { return i.indexOf("=") < 0 })
+                    .map(function(i) { return unescape(decodeURI(i));});
+                if (2 <= urlArgs.length)
+                {
+                    renderer = urlArgs[0];
+                    window.history.replaceState(null, document.title, location.href.replace("?", "?" +renderer +"&"));
+                }
+            }
+        }
         if (!renderer)
         {
             renderer = /<!--\[RENDERER\]\s*(.*?)\s*-->/.exec(source +"<!--[RENDERER]MARKDOWN-->")[1].toLowerCase();

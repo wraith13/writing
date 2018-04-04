@@ -723,21 +723,53 @@ MathJax.Hub.Config
         //  regulate return code
         source = source.replace(/\r\n/g,"\n");
 
-        if (!renderer && "true" === (source+"<!--[REFERRER-OPTION] false -->").split("<!--[REFERRER-OPTION]")[1].split("-->")[0].trim().toLowerCase())
+        if ("true" === (source+"<!--[REFERRER-OPTION] false -->").split("<!--[REFERRER-OPTION]")[1].split("-->")[0].trim().toLowerCase())
         {
             console.log("referrer: " +document.referrer);
-            if ((document.referrer || "").split("?")[0] === location.href.split("?")[0])
+            var newUrl = location.href;
+            var currentUrlParamNames = (location.href.split("#")[0] +"?")
+                        .split("?")[1]
+                        .split("&")
+                        .filter(function(i) { return 0 < i.indexOf("=") })
+                        .map(function(i) { return i.substr(0, i.indexOf("=")); });
+                var referrerUrlParams = (document.referrer.split("#")[0] +"?")
+                        .split("?")[1]
+                        .split("&")
+                        .filter(function(i) { return 0 < i.indexOf("=") })
+                        .filter
+                        (
+                            function(i)
+                            {
+                                var name = i.substr(0, i.indexOf("="));
+                                var result = true;
+                                currentUrlParamNames.forEach(function(j) { if (j === name) { result = false; }});
+                                return result;
+                            }
+                        );
+            if (0 < referrerUrlParams.length)
             {
-                var urlArgs = (document.referrer.split("#")[0] +"?")
-                    .split("?")[1]
-                    .split("&")
-                    .filter(function(i) { return i.indexOf("=") < 0 })
-                    .map(function(i) { return unescape(decodeURI(i));});
-                if (2 <= urlArgs.length)
+                newUrl = newUrl.replace("?", "?" +referrerUrlParams.join("&") +"&");
+            }
+            if (!renderer)
+            {
+                if ((document.referrer || "").split("?")[0] === location.href.split("?")[0])
                 {
-                    renderer = urlArgs[0];
-                    window.history.replaceState(null, document.title, location.href.replace("?", "?" +renderer +"&"));
+                    var newUrl = location.href;
+                    var urlArgs = (document.referrer.split("#")[0] +"?")
+                        .split("?")[1]
+                        .split("&")
+                        .filter(function(i) { return i.indexOf("=") < 0 })
+                        .map(function(i) { return unescape(decodeURI(i));});
+                    if (2 <= urlArgs.length)
+                    {
+                        renderer = urlArgs[0];
+                        newUrl = newUrl.replace("?", "?" +renderer +"&");
+                    }
                 }
+            }
+            if (newUrl !== location.href)
+            {
+                window.history.replaceState(null, document.title, newUrl);
             }
         }
         if (!renderer)

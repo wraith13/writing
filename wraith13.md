@@ -40,6 +40,10 @@ class: center, middle
 - github.io: <https://wraith13.github.io/writing/>
 - SlideShare: <https://www.slideshare.net/wraith13>
 
+## end of document
+
+- [back to writing](./)
+
 <!--[TITLE] @wraith13 -->
 <!--[FAVICON] https://github.com/wraith13.png -->
 <!--[REMARK]-->

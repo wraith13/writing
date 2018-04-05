@@ -244,6 +244,25 @@ MathJax.Hub.Config
             }
         );
     };
+    var appendIcon = function(href)
+    {
+        appendLink
+        (
+            {
+                rel: "shortcut icon",
+                type: "image/x-icon",
+                href: href,
+            }
+        );
+        appendLink
+        (
+            {
+                rel: "apple-touch-icon",
+                type: undefined,
+                href: href,
+            }
+        );
+    };
     var loadScript = function(src, onload)
     {
         makeDomNode
@@ -834,28 +853,7 @@ MathJax.Hub.Config
 
         //  favicon
         var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();
-        if (favicon)
-        {
-            appendLink
-            (
-                {
-                    rel: "shortcut icon",
-                    type: "image/x-icon",
-                    href: makeRebaseUrl(baseUrl, favicon)
-                }
-            );
-        }
-        else
-        {
-            appendLink
-            (
-                {
-                    rel: "shortcut icon",
-                    type: "image/x-icon",
-                    href: "writinghex.128.png"
-                }
-            );
-        }
+        appendIcon(favicon ? makeRebaseUrl(baseUrl, favicon): "writinghex.128.png");
 
         //  theme
         var themes = (source+"<!--[THEME] -->").split("<!--[THEME]")

@@ -3,6 +3,10 @@
 このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 -->
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@wraith13">
+<meta name="twitter:title" content="writing">
+<meta name="twitter:description" content="ドキュメント公開サイト">
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config
 (
@@ -260,6 +264,15 @@ MathJax.Hub.Config
                 rel: "apple-touch-icon",
                 type: undefined,
                 href: href,
+            }
+        );
+        makeDomNode
+        (
+            {
+                parent: document.head,
+                tag: "meta",
+                name: "twitter:image",
+                content: href,
             }
         );
     };
@@ -850,6 +863,15 @@ MathJax.Hub.Config
         document.title = title
             .replace(/&lt;/, "<")
             .replace(/&gt;/, ">");
+        makeDomNode
+        (
+            {
+                parent: document.head,
+                tag: "meta",
+                name: "twitter:title",
+                content: document.title,
+            }
+        );
 
         //  favicon
         var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();

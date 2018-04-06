@@ -1,5 +1,6 @@
 <!--[NOWRITING]-->
-この markdown の表示用URL: <https://wraith13.github.io/writing/?README.md>
+<link rel="canonical" href="https://wraith13.github.io/writing/?README.md" />
+この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?README.md">https://wraith13.github.io/writing/?README.md</a>
 <!--[/NOWRITING]-->
 <!--
 class: center, middle

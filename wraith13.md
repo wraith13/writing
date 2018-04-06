@@ -1,5 +1,6 @@
 <!--[NOWRITING]-->
-この markdown の表示用URL: <https://wraith13.github.io/writing/?wraith13.md>
+<link rel="canonical" href="https://wraith13.github.io/writing/?wraith13.md" />
+この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?wraith13.md">https://wraith13.github.io/writing/?wraith13.md</a>
 <!--[/NOWRITING]-->
 <!--[REFERRER-OPTION] true -->
 <!--[RENDERER] REVEAL -->

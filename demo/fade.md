@@ -1,5 +1,6 @@
 <!--[NOWRITING]-->
-この markdown の表示用URL: <https://wraith13.github.io/writing/?demo/fade.md>
+<link rel="canonical" href="https://wraith13.github.io/writing/?demo/fade.md" />
+この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?demo/fade.md">https://wraith13.github.io/writing/?demo/fade.md</a>
 <!--[/NOWRITING]-->
 <!--[RENDERER] REMARK -->
 <!--

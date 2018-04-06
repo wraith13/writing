@@ -1,5 +1,6 @@
 <!--[NOWRITING]-->
-この markdown の表示用URL: <https://wraith13.github.io/writing/?demo/twitter.md>
+<link rel="canonical" href="https://wraith13.github.io/writing/?demo/twitter.md" />
+この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?demo/twitter.md">https://wraith13.github.io/writing/?demo/twitter.md</a>
 <!--[/NOWRITING]-->
 # twitter demo
 

@@ -1,5 +1,6 @@
 <!--[NOWRITING]-->
-この markdown の表示用URL: <https://wraith13.github.io/writing/>
+<link rel="canonical" href="https://wraith13.github.io/writing/" />
+この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/">https://wraith13.github.io/writing/</a>
 <!--[/NOWRITING]-->
 
 # ![](writinghex.128.png)writing index

@@ -38,6 +38,12 @@ h1, h2, h3, h4, h5, h6, h7, h8, h9
     text-align: left;
 }
 
+table
+{
+    color: inherit;
+    font-size: inherit;
+}
+
 .reveal pre.mathjax
 {
     box-shadow: initial;

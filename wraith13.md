@@ -4,7 +4,8 @@
 <!--[/NOWRITING]-->
 <!--[REFERRER-OPTION] true -->
 <!--[RENDERER] REVEAL -->
-<!--[REVEAL-TRANSITION] ZOOM -->
+<!--[REVEAL-THEME] BLACK -->
+<!--[REVEAL-TRANSITION] CONCAVE -->
 <!--
 class: center, middle
 -->

@@ -6,6 +6,18 @@
 <!--[REVEAL-THEME] black -->
 <!--[REVEAL-TRANSITION] slide -->
 <!--[THEME] ../theme/null.css -->
+<!--[STYLE]
+body:not(.remark-container) :not(pre) > code
+{
+    display: inline;
+    padding: 0.2em;
+}
+table
+{
+    color: inherit;
+    font-size: inherit;
+}
+-->
 
 # Reveal.js
 
@@ -281,32 +293,11 @@ Code syntax highlighting courtesy of [highlight.js](http://softwaremaniacs.org/s
 
 ## Tabular Tables
 
-    <table>
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Value</th>
-                <th>Quantity</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Apples</td>
-                <td>$1</td>
-                <td>7</td>
-            </tr>
-            <tr>
-                <td>Lemonade</td>
-                <td>$2</td>
-                <td>18</td>
-            </tr>
-            <tr>
-                <td>Bread</td>
-                <td>$3</td>
-                <td>2</td>
-            </tr>
-        </tbody>
-    </table>
+|Item|Value|Quantity|
+|--|--|--|
+|Apples|$1|7|
+|Lemonade|$2|18|
+|Bread|$3|2|
 
 <!--[NOMD/]----->
 

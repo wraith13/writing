@@ -39,6 +39,14 @@ layout: true
 
 ---
 
+|renderer|type|repository|
+|--|--|--|
+|marked|markdown|[github](https://github.com/markedjs/marked)|
+|remark|slide|[github](https://github.com/gnab/remark)|
+|reveal|slide|[github](https://github.com/hakimel/reveal.js/)|
+
+---
+
 <!--
 layout: true
 -->

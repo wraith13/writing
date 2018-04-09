@@ -58,11 +58,6 @@ Nested slides are useful for adding additional detail underneath a high level ho
 
 That's it, time to go back up.
 
-<!--[MD]-->
----
-<!--[/MD]-->
-<!--[NOMD/]<hr/>-->
-
 <a href="#/2">
     <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
 </a>
@@ -303,20 +298,17 @@ Code syntax highlighting courtesy of [highlight.js](http://softwaremaniacs.org/s
 
 ## Clever Quotes
 
-    <p>
-        These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">The nice thing about standards is that there are so many to choose from</q> and block:
-    </p>
-    <blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-        &ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-        reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-    </blockquote>
+These guys come in two forms, inline: &ldquo;*The nice thing about standards is that there are so many to choose from*&rdquo; and block:
+
+> &ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
+reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
 
 <!--[NOMD/]----->
 
 ## Intergalactic Interconnections
 
 You can link between slides internally,
-<a href="#/2/3">like this</a>.
+[like this](#/2/3).
 
 <!--[NOMD/]----->
 

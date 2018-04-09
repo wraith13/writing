@@ -39,7 +39,6 @@ Slides can be nested inside of each other.
 
 Use the <em>Space</em> key to navigate through all slides.
 
-<br>
 <a href="#" class="navigate-down">
     ![Down arrow](https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png)
 </a>
@@ -58,23 +57,21 @@ Nested slides are useful for adding additional detail underneath a high level ho
 
 That's it, time to go back up.
 
-<a href="#/2">
-    <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
-</a>
+[<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">](#/2)
 
 <!--[NOMD/]----->
 
 ## Slides
 
-Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="https://slides.com" target="_blank">https://slides.com</a>.
+Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at [<!-- .element: target="_blank" -->https://slides.com](https://slides.com).
 
 <!--[NOMD/]----->
 
 ## Point of View
 
-Press <strong>ESC</strong> to enter the slide overview.
+Press __ESC__ to enter the slide overview.
 
-Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
+Hold down alt and click on any element to zoom in on it using [zoom.js](http://lab.hakim.se/zoom-js). Alt + click anywhere to zoom back out.
 
 <!--[NOMD/]----->
 
@@ -314,18 +311,17 @@ You can link between slides internally,
 
 ## Speaker View
 
-<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-<p>Press the <em>S</em> key to try it out.</p>
+There's a [speaker view](https://github.com/hakimel/reveal.js#speaker-notes). It includes a timer, preview of the upcoming slide as well as your speaker notes.
 
-<aside class="notes">
-Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-</aside>
+Press the <em>S</em> key to try it out.
+
+Note: Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
 
 <!--[NOMD/]----->
 
 ## Export to PDF
 
-<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
+Presentations can be [exported to PDF](https://github.com/hakimel/reveal.js#pdf-export), here's an example:
 <iframe data-src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
 
 <!--[NOMD/]----->
@@ -375,5 +371,5 @@ Press B or . on your keyboard to pause the presentation. This is helpful when yo
 
 # THE END
 
-- [Try the online editor](https://slides.com)
-- [Source code &amp; documentation](https://github.com/hakimel/reveal.js)
+* [Try the online editor](https://slides.com)
+* [Source code &amp; documentation](https://github.com/hakimel/reveal.js)

@@ -39,6 +39,7 @@ Slides can be nested inside of each other.
 
 Use the <em>Space</em> key to navigate through all slides.
 
+<br/>
 <a href="#" class="navigate-down">
     ![Down arrow](https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png)
 </a>
@@ -57,6 +58,7 @@ Nested slides are useful for adding additional detail underneath a high level ho
 
 That's it, time to go back up.
 
+<br/>
 [<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">](#/2)
 
 <!--[NOMD/]----->
@@ -122,7 +124,7 @@ fade-out<!-- .element: class="fragment fade-out" -->
 
 fade-up (also down, left and right!)<!-- .element: class="fragment fade-up" -->
 
-current-visible<!-- .element: class="fragment >current-visible" -->
+current-visible<!-- .element: class="fragment current-visible" -->
 
 Highlight <span class="fragment highlight-red">red</span> <span class="fragment highlight-blue">blue</span> <span class="fragment highlight-green">green</span>
 
@@ -130,8 +132,7 @@ Highlight <span class="fragment highlight-red">red</span> <span class="fragment 
 
 ## Transition Styles
 
-You can select from different transitions, like:
-
+You can select from different transitions, like:<br/>
 [None](?transition=none&demo/reveal.md#/9) -
 [Fade](?transition=fade&demo/reveal.md#/9) -
 [Slide](?transition=slide&demo/reveal.md#/9) -
@@ -143,15 +144,14 @@ You can select from different transitions, like:
 
 ## Themes
 
-reveal.js comes with a few themes built in:
-
+reveal.js comes with a few themes built in:<br/>
 <!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
 [Black (default)](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;" --> -
 [White](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;" --> -
 [League](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;" --> -
 [Sky](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;" --> -
 [Beige](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;" --> -
-[Simple](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;" --> -
+[Simple](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;" --> <br/>
 [Serif](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;" --> -
 [Blood](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;" --> -
 [Night](#)<!-- .element: onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;" --> -
@@ -304,8 +304,7 @@ reproduce the entire works of Shakespeare. The Internet has proven this theory t
 
 ## Intergalactic Interconnections
 
-You can link between slides internally,
-[like this](#/2/3).
+You can link between slides internally, [like this](#/2/3).
 
 <!--[NOMD/]----->
 
@@ -338,14 +337,13 @@ apply broader style changes, like switching the page background.
 
 ## State Events
 
-    <p>
-        Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-    </p>
-    <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+Additionally custom events can be triggered on a per slide basis by binding to the `data-state` name.
+
+```javascript
 Reveal.addEventListener( 'customevent', function() {
-console.log( '"customevent" has fired' );
+    console.log( '"customevent" has fired' );
 } );
-    </code></pre>
+```
 
 <!--[NOMD/]----->
 
@@ -357,13 +355,11 @@ Press B or . on your keyboard to pause the presentation. This is helpful when yo
 
 ## Much more
 
-    <ul>
-        <li>Right-to-left support</li>
-        <li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-        <li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-        <li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-        <li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-    </ul>
+* Right-to-left support
+* [Extensive JavaScript API](https://github.com/hakimel/reveal.js#api)
+* [Auto-progression](https://github.com/hakimel/reveal.js#auto-sliding)
+* [Parallax backgrounds](https://github.com/hakimel/reveal.js#parallax-background)
+* [Custom keyboard bindings](https://github.com/hakimel/reveal.js#keyboard-bindings)
 
 <!--[NOMD/]----->
 

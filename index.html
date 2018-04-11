@@ -25,7 +25,7 @@ MathJax.Hub.Config
     }
 );
 </script>
-<script>
+<body><script>
 'use strict';
 (function()
 {
@@ -1437,9 +1437,7 @@ MathJax.Hub.Config
     console.log("loading: " +sourceUrl);
     if ("text:" === sourceUrl.slice(0, 5))
     {
-        setTimeout(function(){
-            render(renderer, location.href, sourceUrl.slice(5));
-        }, 1); // 0 だと document.body が null だと怒られることがある。
+        render(renderer, location.href, sourceUrl.slice(5));
     }
     else
     {
@@ -1504,4 +1502,4 @@ MathJax.Hub.Config
         request.send(null);
     }
 })();
-</script>
+</script></body>

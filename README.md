@@ -6,13 +6,12 @@
 class: center, middle
 -->
 <!--[REFERRER-OPTION] true -->
+<!--[AUTOPAGESEPARATE] true -->
 
 # writing
 
 <!--[NOREVEAL/]<span style="font-size:0.7em;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal)</span>-->
 <!--[REVEAL/]<span style="display:block;margin-left:auto;margin-right:auto;font-size:0.6em;width:450px;text-align:center;white-space:pre;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal)</span>-->
-
-<!--[NOMD/]----->
 
 ## Contents
 
@@ -22,13 +21,11 @@ class: center, middle
 - [remark animation themes](#remark-animation-themes)
 - [GitHub Pages](#github-pages)
 
-<!--[NOMD/]----->
+## README
 
 <!--
 layout: true
 -->
-
-## README
 
 <!--[NOMD/]----->
 
@@ -70,12 +67,11 @@ class: center, middle
 
 > この README.md では使用していませんが remark において CSS クラスを指定する `.class[ テキスト ]` のような指定は markdown として表示される際にそのまま表示されてしまいますが、これは潔く諦めましょう。
 
-<!--[NOMD/]----->
+## writing HTML
+
 <!--
    layout:    true   
 -->
-
-## writing HTML
 
 <!--[NOMD/]----->
 
@@ -91,8 +87,6 @@ HTML と言っても中身はほぼ script タグだけです。
 
 > この HTML ファイルのライセンスは [Boost Software License](http://www.boost.org/LICENSE_1_0.txt) となります。
 
-<!--[NOMD/]----->
-
 ### URL引数で指定された markdown を表示
 
 - 相対パスでの指定: <https://wraith13.github.io/writing/?README.md>
@@ -102,34 +96,24 @@ HTML と言っても中身はほぼ script タグだけです。
 
 markdown 内のコメントで明示されたレンダラーでレンダリングされます。明示されてない場合は markdown で表示されます。
 
-<!--[NOMD/]----->
-
 ### URL引数で指定された markdown を marked で表示
 
 - 相対パスでの指定: <https://wraith13.github.io/writing/?markdown&README.md>
 - 絶対パスでの指定: <https://wraith13.github.io/writing/?markdown&https://wraith13.github.io/writing/README.md>
-
-<!--[NOMD/]----->
 
 ### URL引数で指定された markdown を remark でスライド表示
 
 - 相対パスでの指定: <https://wraith13.github.io/writing/?markdown&README.md>
 - 絶対パスでの指定: <https://wraith13.github.io/writing/?markdown&https://wraith13.github.io/writing/README.md>
 
-<!--[NOMD/]----->
-
 ### URL引数で指定された markdown を reveal でスライド表示
 
 - 相対パスでの指定: <https://wraith13.github.io/writing/?reveal&README.md>
 - 絶対パスでの指定: <https://wraith13.github.io/writing/?reveal&https://wraith13.github.io/writing/README.md>
 
-<!--[NOMD/]----->
-
 ### markdown ページ内リンクの自動変換
 
 `#section-title` のような形の markdown ページ内リンクを自動的にレンダリングシステムに合わせたリンクに変換します。
-
-<!--[NOMD/]----->
 
 ### markdown 内コメントによる指定
 
@@ -138,8 +122,6 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 - [HTML のテーマ(CSSファイル)を指定](#markdown-内コメントで-html-のテーマcssファイルを指定)
 - [HTML のスタイル(CSS直書き)を記述](#markdown-内コメントで-html-のスタイルcss直書きを指定)
 - [remark のオプションを指定](#markdown-内コメントで-remark-のオプションを指定)
-
-<!--[NOMD/]----->
 
 #### markdown 内コメントでの指定形式
 
@@ -153,15 +135,11 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 
 かなり雑な実装をしている為、以下の記述サンプルはこの README.md の本物の指定となってます。
 
-<!--[NOMD/]----->
-
 #### markdown 内コメントで HTML のタイトルを指定
 
 ```html
 <!--[TITLE] writing README -->
 ```
-
-<!--[NOMD/]----->
 
 #### markdown 内コメントで HTML の favicon を指定
 
@@ -170,8 +148,6 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 ```
 
 > markdown からの相対パスでも絶対パスでも構いません。
-
-<!--[NOMD/]----->
 
 #### markdown 内コメントで HTML のテーマ(CSSファイル)を指定
 
@@ -186,8 +162,6 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 
 > markdown からの相対パスでも絶対パスでも構いません。
 
-<!--[NOMD/]----->
-
 #### markdown 内コメントで HTML のスタイル(CSS直書き)を指定
 
 ```html
@@ -197,8 +171,6 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 }
 -->
 ```
-
-<!--[NOMD/]----->
 
 #### markdown 内コメントで remark のオプションを指定
 
@@ -212,13 +184,11 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 
 ⚠ JSONでの指定となる為、項目名をダブルクォーテーションで括るのを忘れないように注意してください。
 
-<!--[NOMD/]----->
+## remark themes
 
 <!--
 layout: true
 -->
-
-## remark themes
 
 <!--[NOMD/]----->
 
@@ -228,13 +198,11 @@ layout: true
 
 > これは remark 用のテーマ集であり、 remark HTML には依存しません。
 
-<!--[NOMD/]----->
+## remark animation themes
 
 <!--
 layout: true
 -->
-
-## remark animation themes
 
 <!--[NOMD/]----->
 
@@ -244,13 +212,11 @@ remark 用のアニメーションテーマ(CSS)として fade.css と slide.css
 
 <https://github.com/wraith13/writing/tree/master/animation>
 
-<!--[NOMD/]----->
+## GitHub Pages
 
 <!--
 layout: true
 -->
-
-## GitHub Pages
 
 <!--[NOMD/]----->
 

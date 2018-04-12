@@ -44,7 +44,7 @@ class: center, middle
 
 ## end of document
 
-- [back to writing](./)
+- [back to writing](./index.md)
 
 <!--[TITLE] @wraith13 -->
 <!--[FAVICON] https://github.com/wraith13.png -->

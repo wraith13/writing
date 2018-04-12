@@ -68,4 +68,4 @@ h1 img
 
 ## end of index
 
-- [writing へ戻る](../)
+- [writing へ戻る](../index.md)

@@ -236,12 +236,8 @@ GitHub にはリポジトリに格納されてるファイルを https 経由で
 <!--
 layout: true
 -->
-
-<!--[NOMD/]----->
-
-<!--
-class: center, middle
--->
 <!--[/NOREVEAL]-->
 
-Enjoy!
+## end of document
+
+- [back to writing](./index.md)

@@ -538,6 +538,32 @@ MathJax.Hub.Config
         );
         return anchors;
     };
+    var translateRelativeUrl = function(baseUrl, url)
+    {
+        if ("?" === url.substr(0, 1))
+        {
+            return url +"&" +makeRelativeUrl(baseUrl);
+        }
+        else
+        if ("#" !== url.substr(0, 1))
+        {
+            var absoluteUrl = makeAbsoluteUrl(baseUrl, url);
+            var relativeUrl = makeRelativeUrl(absoluteUrl);
+            if (/.*\.md(\.txt)?(#.*)?$/i.test(absoluteUrl))
+            {
+                var thisPath = location.href.split("#")[0].split("?")[0];
+                if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])
+                {
+                    return "?" +relativeUrl;
+                }
+            }
+            else
+            {
+                return relativeUrl;
+            }
+        }
+        return url;
+    }
     var translateRelativeLink = function(baseUrl, source)
     {
         return skipEscape
@@ -546,6 +572,7 @@ MathJax.Hub.Config
             function(line)
             {
                 var isInInlineEscape = false;
+                var isInSquareBracket = false;
                 return line.split("`").map
                 (
                     function(part)
@@ -554,33 +581,40 @@ MathJax.Hub.Config
                         {
                             var match = null;
 
+                            if (isInSquareBracket)
+                            {
+                                isInSquareBracket = false;
+                                var re = /(.*?[^\\])?\]\((.*?[^\\])\)/g;
+                                if (null !== (match = re.exec(part)))
+                                {
+                                    var label = undefined === match[1] ? "": match[1];
+                                    var url = match[2];
+                                    var traslatedUrl = translateRelativeUrl(baseUrl, url);
+                                    if (url !== traslatedUrl)
+                                    {
+                                        part = part.replace(match[0], label +"](" +traslatedUrl +")");
+                                    }
+                                }
+                            }
+
                             var re = /(^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
                             while(null !== (match = re.exec(part)))
                             {
                                 var label = undefined === match[2] ? "": match[2];
                                 var url = match[3];
-                                if ("?" === url.substr(0, 1))
+                                var traslatedUrl = translateRelativeUrl(baseUrl, url);
+                                if (url !== traslatedUrl)
                                 {
-                                    part = part.replace(match[0], match[1] +"[" +label +"](" +url +"&" +makeRelativeUrl(baseUrl) +")");
+                                    part = part.replace(match[0], match[1] +"[" +label +"](" +traslatedUrl +")");
                                 }
-                                else
-                                if ("#" !== url.substr(0, 1))
-                                {
-                                    var absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-                                    var relativeUrl = makeRelativeUrl(absoluteUrl);
-                                    if (/.*\.md(\.txt)?(#.*)?$/i.test(absoluteUrl))
-                                    {
-                                        var thisPath = location.href.split("#")[0].split("?")[0];
-                                        if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])
-                                        {
-                                            part = part.replace(match[0], match[1] +"[" +label +"](?" +relativeUrl +")");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        part = part.replace(match[0], match[1] +"[" +label +"](" +relativeUrl +")");
-                                    }
-                                }
+                            }
+                            if (/(^|[^\\])\]/.test(part))
+                            {
+                                isInSquareBracket = false;
+                            }
+                            if (/\[([^\]]|\\\])*$/.test(part))
+                            {
+                                isInSquareBracket = true;
                             }
 
                             var img_re = /\<(\s*)img(\s.*?)src=([\"\'])(.*?)([\"\'].*?)\>/g;

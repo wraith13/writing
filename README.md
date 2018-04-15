@@ -111,6 +111,11 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 - 相対パスでの指定: <https://wraith13.github.io/writing/?reveal&README.md>
 - 絶対パスでの指定: <https://wraith13.github.io/writing/?reveal&https://wraith13.github.io/writing/README.md>
 
+### URL引数で指定された markdown をソースにインスタント編集
+
+- 相対パスでの指定: <https://wraith13.github.io/writing/?reveal&README.md>
+- 絶対パスでの指定: <https://wraith13.github.io/writing/?reveal&https://wraith13.github.io/writing/README.md>
+
 ### markdown ページ内リンクの自動変換
 
 `#section-title` のような形の markdown ページ内リンクを自動的にレンダリングシステムに合わせたリンクに変換します。

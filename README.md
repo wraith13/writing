@@ -126,6 +126,7 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 
 ### markdown 内コメントによる指定
 
+- [レンダリングエンジンを指定](#markdown-内コメントでレンダリングエンジンを指定)
 - [HTML のタイトルを指定](#markdown-内コメントで-html-のタイトルを指定)
 - [HTML の favicon を指定](#markdown-内コメントで-html-の-favicon-を指定)
 - [HTML のテーマ(CSSファイル)を指定](#markdown-内コメントで-html-のテーマcssファイルを指定)
@@ -143,6 +144,12 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 <!--[NOMD/]----->
 
 かなり雑な実装をしている為、以下の記述サンプルはこの README.md の本物の指定となってます。
+
+#### markdown 内コメントでレンダリングエンジンを指定
+
+```html
+<!--[RENDERER] markdown -->
+```
 
 #### markdown 内コメントで HTML のタイトルを指定
 

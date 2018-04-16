@@ -786,6 +786,28 @@ MathJax.Hub.Config
             return source;
         }
     };
+    var applyTitle = function(source)
+    {
+        var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
+        if ("" === title)
+        {
+            title = source
+                .split("\n---\n")[0]
+                .replace(/!\[(.*?)\]\(.*?\)/g, "")
+                .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+                .replace(/([\W\w]*?)(#+\s+)/, "$2")
+                .replace(/#+\s+(.*)([\W\w]*)/, "$1")
+                .replace(/\s+/g," ")
+                .replace(/<!--.*?-->/g, "")
+                .replace(/<.*?>/g, "")
+                .trim()
+                .slice(0, 64);
+        }
+        document.title = title
+            .replace(/&lt;/, "<")
+            .replace(/&gt;/, ">");
+        document.getElementById("twitter-card-title").content = title;
+    };
     var render = function(renderer, baseUrl, source)
     {
         //  regulate return code
@@ -881,25 +903,7 @@ MathJax.Hub.Config
         }
 
         //  title
-        var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
-        if ("" === title)
-        {
-            title = source
-                .split("\n---\n")[0]
-                .replace(/!\[(.*?)\]\(.*?\)/g, "")
-                .replace(/\[(.*?)\]\(.*?\)/g, "$1")
-                .replace(/([\W\w]*?)(#+\s+)/, "$2")
-                .replace(/#+\s+(.*)([\W\w]*)/, "$1")
-                .replace(/\s+/g," ")
-                .replace(/<!--.*?-->/g, "")
-                .replace(/<.*?>/g, "")
-                .trim()
-                .slice(0, 64);
-        }
-        document.title = title
-            .replace(/&lt;/, "<")
-            .replace(/&gt;/, ">");
-        document.getElementById("twitter-card-title").content = title;
+        applyTitle(source);
 
         //  favicon
         var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();

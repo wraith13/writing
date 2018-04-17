@@ -808,6 +808,11 @@ MathJax.Hub.Config
             .replace(/&gt;/, ">");
         document.getElementById("twitter-card-title").content = title;
     };
+    var applyIcon = function(baseUrl, source)
+    {
+        var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();
+        appendIcon(favicon ? makeAbsoluteUrl(baseUrl, favicon): makeAbsoluteUrl(location.href, "writinghex.128.png"));
+    };
     var render = function(renderer, baseUrl, source)
     {
         //  regulate return code
@@ -906,8 +911,7 @@ MathJax.Hub.Config
         applyTitle(source);
 
         //  favicon
-        var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();
-        appendIcon(favicon ? makeAbsoluteUrl(baseUrl, favicon): makeAbsoluteUrl(location.href, "writinghex.128.png"));
+        applyIcon(baseUrl, source);
 
         //  theme
         var themes = (source+"<!--[THEME] -->").split("<!--[THEME]")

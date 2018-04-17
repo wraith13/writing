@@ -542,7 +542,7 @@ MathJax.Hub.Config
     {
         if ("?" === url.substr(0, 1))
         {
-            return url +"&" +makeRelativeUrl(baseUrl);
+            return url +"&" +encodeURIComponent(makeRelativeUrl(baseUrl));
         }
         else
         if ("#" !== url.substr(0, 1))
@@ -554,7 +554,7 @@ MathJax.Hub.Config
                 var thisPath = location.href.split("#")[0].split("?")[0];
                 if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])
                 {
-                    return "?" +relativeUrl;
+                    return "?" +encodeURIComponent(relativeUrl);
                 }
             }
             else

@@ -63,3 +63,7 @@
 ### [multi-encode](https://marketplace.visualstudio.com/items?itemName=wraith13.multi-encode)
 
 <img alt="multi-encode" src="https://raw.githubusercontent.com/wraith13/multi-encode/master/images/multi-encode.128.png" style="width:32px;height:32px;border-style:none;background:none;box-shadow:none;"> 選択したテキストやクリップボードのテキストに対して予め設定で指定しておいた JavaScript のコードで変換をかけることができます。
+
+## end of document
+
+- [writing へ戻る](../index.md)

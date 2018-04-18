@@ -1,4 +1,4 @@
-# オススメの VSCOCE 拡張
+# オススメの VSCODE 拡張
 
 著： [@wraith13](../wraith13.md)
 

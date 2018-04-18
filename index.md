@@ -38,7 +38,7 @@ h1 img
 
 ## etc
 
-- [オススメの VSCOCE 拡張](./etc/recommend.vscode.extension.md)
+- [オススメの VSCODE 拡張](./etc/recommend.vscode.extension.md)
 
 <!--[WRITING/]
 ## instant

@@ -34,10 +34,18 @@ MathJax.Hub.Config
     }
 );
 </script>
-<body><script>
+<body><div id="writing-HTML-selfloading-error">
+# Error
+
+なんからの手違いで writing のレンダリングシステムを markdown ソースとして読み込んでしまっているか、あるいは JavaScript が正常に動作していません。
+
+<!--[THEME] theme/default.css -->
+</div><script>
 'use strict';
 (function()
 {
+    document.body.removeChild(document.getElementById("writing-HTML-selfloading-error"));
+
     var globalState = { };
     var explicitFragmentIdPattern = /\{\#(.*?)\}$/;
 

@@ -36,6 +36,10 @@ h1 img
 - [README](README.md)
 - [@wraith13](wraith13.md)
 
+## etc
+
+- [オススメの VSCOCE 拡張](./etc/recommend.vscode.extension.md)
+
 <!--[WRITING/]
 ## instant
 

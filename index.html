@@ -821,6 +821,31 @@ MathJax.Hub.Config
         var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();
         appendIcon(favicon ? makeAbsoluteUrl(baseUrl, favicon): makeAbsoluteUrl(location.href, "writinghex.128.png"));
     };
+    var applyTheme = function(baseUrl, source)
+    {
+        var themes = (source+"<!--[THEME] -->").split("<!--[THEME]")
+            .slice(1)
+            .map
+            (
+                function(i)
+                {
+                    return i.split("-->")[0].trim();
+                }
+            )
+            .filter(function(i) { return "" !== i });
+        themes.forEach
+        (
+            function(i)
+            {
+                appendTheme(makeRebaseUrl(baseUrl, i));
+            }
+        );
+        if (0 === themes.length)
+        {
+            appendTheme("theme/default.css");
+        }
+    };
+    
     var render = function(renderer, baseUrl, source)
     {
         //  regulate return code
@@ -921,28 +946,6 @@ MathJax.Hub.Config
         //  favicon
         applyIcon(baseUrl, source);
 
-        //  theme
-        var themes = (source+"<!--[THEME] -->").split("<!--[THEME]")
-            .slice(1)
-            .map
-            (
-                function(i)
-                {
-                    return i.split("-->")[0].trim();
-                }
-            )
-            .filter(function(i) { return "" !== i });
-        if (!isReveal)
-        {
-            themes.forEach
-            (
-                function(i)
-                {
-                    appendTheme(makeRebaseUrl(baseUrl, i));
-                }
-            );
-        }
-
         //  style
         if (!isReveal)
         {
@@ -960,10 +963,10 @@ MathJax.Hub.Config
         {
             //  marked
             appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
-            if (0 === themes.length)
-            {
-                appendTheme("theme/default.css");
-            }
+
+            //  theme
+            applyTheme(baseUrl, source);
+
 
             loadScript
             (
@@ -1214,10 +1217,8 @@ MathJax.Hub.Config
         }
         if (isRemark)
         {
-            if (0 === themes.length)
-            {
-                appendTheme("theme/default.css");
-            }
+            //  theme
+            applyTheme(baseUrl, source);
 
             source = skipEscape
             (
@@ -1262,18 +1263,10 @@ MathJax.Hub.Config
             var documentTheme = document.getElementById("theme");
             appendTheme("lib/css/zenburn.css");
             appendTheme(window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
-            if (0 === themes.length)
-            {
-                appendTheme("theme/default.css");
-            }
+            
+            //  theme
+            applyTheme(baseUrl, source);
 
-            themes.forEach
-            (
-                function(i)
-                {
-                    appendTheme(makeRebaseUrl(baseUrl, i));
-                }
-            );
             makeDomNode
             (
                 {

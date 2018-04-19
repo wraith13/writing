@@ -845,7 +845,18 @@ MathJax.Hub.Config
             appendTheme("theme/default.css");
         }
     };
-    
+    var applyStyle = function(source)
+    {
+        makeDomNode
+        (
+            {
+                parent: document.head,
+                tag: "style",
+                innerHTML: (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim(),
+            }
+        );
+    };
+
     var render = function(renderer, baseUrl, source)
     {
         //  regulate return code
@@ -946,19 +957,6 @@ MathJax.Hub.Config
         //  favicon
         applyIcon(baseUrl, source);
 
-        //  style
-        if (!isReveal)
-        {
-            makeDomNode
-            (
-                {
-                    parent: document.head,
-                    tag: "style",
-                    innerHTML: (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim(),
-                }
-            );
-        }
-
         if (isMarkdown)
         {
             //  marked
@@ -967,6 +965,8 @@ MathJax.Hub.Config
             //  theme
             applyTheme(baseUrl, source);
 
+            //  style
+            applyStyle(source);
 
             loadScript
             (
@@ -1220,6 +1220,9 @@ MathJax.Hub.Config
             //  theme
             applyTheme(baseUrl, source);
 
+            //  style
+            applyStyle(source);
+            
             source = skipEscape
             (
                 source.split("\n"),
@@ -1266,6 +1269,9 @@ MathJax.Hub.Config
             
             //  theme
             applyTheme(baseUrl, source);
+
+            //  style
+            applyStyle(source);
 
             makeDomNode
             (

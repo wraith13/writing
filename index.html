@@ -918,7 +918,8 @@ MathJax.Hub.Config
         }
         var isWriting = true;
         var isMarked = "marked" === renderer;
-        var isMarkdown = isMarked || "markdown" === renderer;
+        var isCommonMark = "commonmark" === renderer;
+        var isMarkdown = isMarked || isCommonMark || "markdown" === renderer;
         var isRemark = "remark" === renderer;
         var isReveal = "reveal" === renderer;
         var isEdit = "edit" === renderer;
@@ -928,6 +929,10 @@ MathJax.Hub.Config
             showError(message);
             console.error(message);
             return;
+        }
+        if (isMarkdown && !isMarked && !isCommonMark)
+        {
+            isMarked = true; // とりあえずいまは marked を default の markdown のレンダラーとして扱う
         }
 
         //  conditional comment
@@ -946,6 +951,10 @@ MathJax.Hub.Config
                 .replace(/<!--\[MARKED\]-->([\s\S]*?)<!--\[\/MARKED\]-->/g, isMarked ? "$1": "")
                 .replace(/<!--\[NOMARKED\/\]([\s\S]*?)-->/g, !isMarked ? "$1": "")
                 .replace(/<!--\[NOMARKED\]-->([\s\S]*?)<!--\[\/NOMARKED\]-->/g, !isMarked ? "$1": "")
+                .replace(/<!--\[COMMONMARK\/\]([\s\S]*?)-->/g, isCommonMark ? "$1": "")
+                .replace(/<!--\[COMMONMARK\]-->([\s\S]*?)<!--\[\/COMMONMARK\]-->/g, isCommonMark ? "$1": "")
+                .replace(/<!--\[NOCOMMONMARK\/\]([\s\S]*?)-->/g, !isCommonMark ? "$1": "")
+                .replace(/<!--\[NOCOMMONMARK\]-->([\s\S]*?)<!--\[\/NOCOMMONMARK\]-->/g, !isCommonMark ? "$1": "")
                 .replace(/<!--\[REMARK\/\]([\s\S]*?)-->/g, isRemark ? "$1": "")
                 .replace(/<!--\[REMARK\]-->([\s\S]*?)<!--\[\/REMARK\]-->/g, isRemark ? "$1": "")
                 .replace(/<!--\[NOREMARK\/\]([\s\S]*?)-->/g, !isRemark ? "$1": "")
@@ -962,7 +971,7 @@ MathJax.Hub.Config
         //  favicon
         applyIcon(baseUrl, source);
 
-        if (isMarkdown) // ここは将来的に if (isMarked) へ変更
+        if (isMarked)
         {
             //  marked
             appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
@@ -1086,6 +1095,237 @@ MathJax.Hub.Config
                                     }
                                 ).join("\n")
                                 .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
+                            ),
+                            children: withIndex ?
+                                makeDomNode({ tag: "div", style: { height: "90vh", }, }):
+                                undefined,
+                        }
+                    );
+
+                    //  highlight
+                    loadScript
+                    (
+                        "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js",
+                        function()
+                        {
+                            hljs.initHighlightingOnLoad();
+                            document.querySelectorAll("code").forEach
+                            (
+                                function(element)
+                                {
+                                    //  highlightjs が知らない言語が指定されてるとなにも実行されなくなるので指定を消すなり類似した言語に変換する
+                                    switch(element.className)
+                                    {
+                                        case "lang-cmd":
+                                            element.className = "lang-shell";
+                                            break;
+                                    }
+
+                                    return hljs.highlightBlock(element);
+                                }
+                            );
+
+                            var fragmentId = decodeURI((location.href +"#").split("#")[1].trim());
+                            if (fragmentId)
+                            {
+                                location.href = "#" +fragmentId;
+                            }
+
+                            if (index)
+                            {
+                                var previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(contentDiv.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
+                                var isOver = function(i)
+                                {
+                                    return index.length <= i ||
+                                            (0 <= i && 32 < document.getElementById(index[i].link.substring(1)).getBoundingClientRect().top);
+                                }
+                                var previousContent = null;
+                                for(var i in index)
+                                {
+                                    var content = document.getElementById(index[i].link.substring(1));
+                                    if (!content)
+                                    {
+                                        console.log("not found: " +index[i].link);
+                                        index[i].withError = true;
+                                    }
+                                    else
+                                    if (previousContent && content.getBoundingClientRect().top < previousContent.getBoundingClientRect().top)
+                                    {
+                                        console.log("may be duplicated id: " +index[i].link);
+                                        index[i].withError = true;
+                                    }
+                                    if (!index[i].withError)
+                                    {
+                                        previousContent = content;
+                                    }
+                                }
+                                index = index.filter(function(i) { return !i.withError });
+
+                                if (0 < index.length)
+                                {
+                                    contentDiv.onscroll = function()
+                                    {
+                                        var previouseContetIsOver = isOver(previousState.i);
+                                        var nextContetIsOver = isOver(previousState.i +1);
+                                        if (previouseContetIsOver || !nextContetIsOver)
+                                        {
+                                            var i = null;
+                                            if (previouseContetIsOver)
+                                            {
+                                                //  上へ手繰る
+                                                while(isOver(--previousState.i)) { }
+                                            }
+                                            else
+                                            {
+                                                // 下へ手繰る
+                                                while(!isOver((++previousState.i) +1)) { }
+                                            }
+                                            var targetIndex = previousState.i < 0 ? null: index[previousState.i];
+                                            var current = document.getElementsByClassName("current")[0];
+                                            if (current !== (null === targetIndex ? null: targetIndex.anchor))
+                                            {
+                                                if (current)
+                                                {
+                                                    current.classList.remove("current");
+                                                }
+                                                if (targetIndex)
+                                                {
+                                                    targetIndex.anchor.classList.add("current");
+                                                    window.history.replaceState(null, targetIndex.title, targetIndex.link);
+                                                }
+                                                else
+                                                {
+                                                    index[0].anchor.classList.add("current");
+                                                    window.history.replaceState(null, document.title, "#");
+                                                }
+                                                if (!globalState.isMouseOnIndex)
+                                                {
+                                                    var frame = document.getElementsByClassName("index-frame")[0];
+                                                    if (null === targetIndex)
+                                                    {
+                                                        frame.scrollTop = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        var rect = targetIndex.anchor.getBoundingClientRect();
+                                                        var targetTop = rect.top +frame.scrollTop;
+                                                        frame.scrollTop = targetTop - Math.min(frame.clientHeight -rect.height, ((targetTop / frame.scrollHeight) *frame.clientHeight));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    };
+                                    setTimeout(contentDiv.onscroll, 0);
+                                }
+                            }
+
+                            //  MathJax
+                            loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
+
+                            //  twitter
+                            loadScript("//platform.twitter.com/widgets.js");
+                        }
+                    );
+                }
+            );
+        }
+        if (isCommonMark)
+        {
+            //  commonmark
+            appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
+
+            //  theme
+            applyTheme(baseUrl, source);
+
+            //  style
+            applyStyle(source);
+
+            loadScript
+            (
+                "js/commonmark.js",
+                function()
+                {
+                    document.body.className = "marked";
+
+                    var wallPaper = (source+"<!--[WALLPAPER] -->").split("<!--[WALLPAPER]")[1].split("-->")[0].trim();
+                    if (wallPaper)
+                    {
+                        document.body.className += " with-wallpaper";
+                        makeDomNode
+                        (
+                            {
+                                parent: document.body,
+                                tag: "div",
+                                className: "wallpaper",
+                                style:
+                                {
+                                    backgroundImage: "url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\")",
+                                },
+                            }
+                        );
+                    }
+                    
+                    var withIndex = true;
+                    var index = null;
+                    if (withIndex)
+                    {
+                        index = makeIndexForMarked(source);
+                        document.body.className += " with-index";
+                        makeDomNode
+                        (
+                            {
+                                parent: document.body,
+                                tag: "div",
+                                className: "index-frame",
+                                children:
+                                {
+                                    tag: "div",
+                                    className: "index",
+                                    onmouseenter: function() { globalState.isMouseOnIndex = true; },
+                                    onmouseleave: function() { globalState.isMouseOnIndex = false; },
+                                    children: index.map
+                                    (
+                                        function(i)
+                                        {
+                                            return i.anchor = makeDomNode
+                                            (
+                                                {
+                                                    tag: "a",
+                                                    className: "level" + i.level,
+                                                    href: i.link,
+                                                    innerText: i.title,
+                                                }
+                                            );
+                                        }
+                                    )
+                                }
+                            }
+                        );
+                    }
+
+                    var contentDiv = makeDomNode
+                    (
+                        {
+                            parent: document.body,
+                            tag: "div",
+                            className: "content",
+                            innerHTML: new commonmark.HtmlRenderer().render
+                            (
+                                new commonmark.Parser().parse
+                                (
+                                    skipEscape
+                                    (
+                                        translateRelativeLink(baseUrl, source).split("\n"),
+                                        function(line)
+                                        {
+                                            return line
+                                                .replace(/\\</g, "&lt;")
+                                                .replace(/\\>/g, "&gt;")
+                                                .replace(/\\\\/g, "\\");
+                                        }
+                                    ).join("\n")
+                                    .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
+                                )
                             ),
                             children: withIndex ?
                                 makeDomNode({ tag: "div", style: { height: "90vh", }, }):

@@ -856,6 +856,29 @@ MathJax.Hub.Config
             }
         );
     };
+    var applyWallPaper = function(baseUrl, source)
+    {
+        document.body.className = "marked";
+
+        var wallPaper = (source+"<!--[WALLPAPER] -->").split("<!--[WALLPAPER]")[1].split("-->")[0].trim();
+        if (wallPaper)
+        {
+            document.body.className += " with-wallpaper";
+            makeDomNode
+            (
+                {
+                    parent: document.body,
+                    tag: "div",
+                    className: "wallpaper",
+                    style:
+                    {
+                        backgroundImage: "url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\")",
+                    },
+                }
+            );
+        }
+
+    };
 
     var render = function(renderer, baseUrl, source)
     {
@@ -1017,25 +1040,8 @@ MathJax.Hub.Config
                     config.renderer = markedRenderer;
                     marked.setOptions(config);
 
-                    document.body.className = "marked";
-
-                    var wallPaper = (source+"<!--[WALLPAPER] -->").split("<!--[WALLPAPER]")[1].split("-->")[0].trim();
-                    if (wallPaper)
-                    {
-                        document.body.className += " with-wallpaper";
-                        makeDomNode
-                        (
-                            {
-                                parent: document.body,
-                                tag: "div",
-                                className: "wallpaper",
-                                style:
-                                {
-                                    backgroundImage: "url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\")",
-                                },
-                            }
-                        );
-                    }
+                    //  wallpaper
+                    applyWallPaper(baseUrl, source);
                     
                     var withIndex = true;
                     var index = null;
@@ -1245,25 +1251,8 @@ MathJax.Hub.Config
                 "js/commonmark.js",
                 function()
                 {
-                    document.body.className = "marked";
-
-                    var wallPaper = (source+"<!--[WALLPAPER] -->").split("<!--[WALLPAPER]")[1].split("-->")[0].trim();
-                    if (wallPaper)
-                    {
-                        document.body.className += " with-wallpaper";
-                        makeDomNode
-                        (
-                            {
-                                parent: document.body,
-                                tag: "div",
-                                className: "wallpaper",
-                                style:
-                                {
-                                    backgroundImage: "url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\")",
-                                },
-                            }
-                        );
-                    }
+                    //  wallpaper
+                    applyWallPaper(baseUrl, source);
                     
                     var withIndex = true;
                     var index = null;

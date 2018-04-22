@@ -886,37 +886,44 @@ MathJax.Hub.Config
         if (withIndex)
         {
             index = makeIndexForMarked(source);
-            document.body.className += " with-index";
-            makeDomNode
-            (
-                {
-                    parent: document.body,
-                    tag: "div",
-                    className: "index-frame",
-                    children:
+            if (index && 0 < index.length)
+            {
+                document.body.className += " with-index";
+                makeDomNode
+                (
                     {
+                        parent: document.body,
                         tag: "div",
-                        className: "index",
-                        onmouseenter: function() { globalState.isMouseOnIndex = true; },
-                        onmouseleave: function() { globalState.isMouseOnIndex = false; },
-                        children: index.map
-                        (
-                            function(i)
-                            {
-                                return i.anchor = makeDomNode
-                                (
-                                    {
-                                        tag: "a",
-                                        className: "level" + i.level,
-                                        href: i.link,
-                                        innerText: i.title,
-                                    }
-                                );
-                            }
-                        )
+                        className: "index-frame",
+                        children:
+                        {
+                            tag: "div",
+                            className: "index",
+                            onmouseenter: function() { globalState.isMouseOnIndex = true; },
+                            onmouseleave: function() { globalState.isMouseOnIndex = false; },
+                            children: index.map
+                            (
+                                function(i)
+                                {
+                                    return i.anchor = makeDomNode
+                                    (
+                                        {
+                                            tag: "a",
+                                            className: "level" + i.level,
+                                            href: i.link,
+                                            innerText: i.title,
+                                        }
+                                    );
+                                }
+                            )
+                        }
                     }
-                }
-            );
+                );
+            }
+            else
+            {
+                index = null;
+            }
         }
         return index;
     };

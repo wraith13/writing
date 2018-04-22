@@ -1019,6 +1019,16 @@ MathJax.Hub.Config
             }
         }
     };
+    var applyFragmentId = function()
+    {
+        //  body.onload の時点ではコンテンツが間に合っておらず、 Web ブラウザによる通常のフラグメント識別子位置への
+        //  スクロールは期待できない為、コンテンツの取得及びDOM生成完了後に明示的にスクロール位置の移動を行う。
+        var fragmentId = decodeURI((location.href +"#").split("#")[1].trim());
+        if (fragmentId)
+        {
+            location.href = "#" +fragmentId;
+        }
+    };
 
     var render = function(renderer, baseUrl, source)
     {
@@ -1213,11 +1223,8 @@ MathJax.Hub.Config
                         }
                     );
 
-                    var fragmentId = decodeURI((location.href +"#").split("#")[1].trim());
-                    if (fragmentId)
-                    {
-                        location.href = "#" +fragmentId;
-                    }
+                    //  fragment id
+                    applyFragmentId();
 
                     //  index script
                     applyIndexScript(index, contentDiv);
@@ -1307,11 +1314,8 @@ MathJax.Hub.Config
                         }
                     );
 
-                    var fragmentId = decodeURI((location.href +"#").split("#")[1].trim());
-                    if (fragmentId)
-                    {
-                        location.href = "#" +fragmentId;
-                    }
+                    //  fragment id
+                    applyFragmentId();
 
                     //  index script
                     applyIndexScript(index, contentDiv);

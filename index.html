@@ -1029,6 +1029,24 @@ MathJax.Hub.Config
             location.href = "#" +fragmentId;
         }
     };
+    var applyHighlight = function()
+    {
+        document.querySelectorAll("code").forEach
+        (
+            function(element)
+            {
+                //  highlightjs が知らない言語が指定されてるとなにも実行されなくなるので指定を消すなり類似した言語に変換する
+                switch(element.className)
+                {
+                    case "lang-cmd":
+                        element.className = "lang-shell";
+                        break;
+                }
+
+                return hljs.highlightBlock(element);
+            }
+        );
+    };
 
     var render = function(renderer, baseUrl, source)
     {
@@ -1236,21 +1254,7 @@ MathJax.Hub.Config
                         function()
                         {
                             hljs.initHighlightingOnLoad();
-                            document.querySelectorAll("code").forEach
-                            (
-                                function(element)
-                                {
-                                    //  highlightjs が知らない言語が指定されてるとなにも実行されなくなるので指定を消すなり類似した言語に変換する
-                                    switch(element.className)
-                                    {
-                                        case "lang-cmd":
-                                            element.className = "lang-shell";
-                                            break;
-                                    }
-
-                                    return hljs.highlightBlock(element);
-                                }
-                            );
+                            applyHighlight();
 
                             //  MathJax
                             loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
@@ -1327,21 +1331,7 @@ MathJax.Hub.Config
                         function()
                         {
                             hljs.initHighlightingOnLoad();
-                            document.querySelectorAll("code").forEach
-                            (
-                                function(element)
-                                {
-                                    //  highlightjs が知らない言語が指定されてるとなにも実行されなくなるので指定を消すなり類似した言語に変換する
-                                    switch(element.className)
-                                    {
-                                        case "lang-cmd":
-                                            element.className = "lang-shell";
-                                            break;
-                                    }
-
-                                    return hljs.highlightBlock(element);
-                                }
-                            );
+                            applyHighlight();
 
                             //  MathJax
                             loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
@@ -1501,7 +1491,7 @@ MathJax.Hub.Config
                                     { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                                     { src: 'plugin/highlight/highlight.js', async: true, callback: function() {
                                         hljs.initHighlightingOnLoad();
-                                        document.querySelectorAll('code').forEach(hljs.highlightBlock);
+                                        applyHighlight();
                                     } },
                                     { src: 'plugin/search/search.js', async: true },
                                     { src: 'plugin/zoom-js/zoom.js', async: true },

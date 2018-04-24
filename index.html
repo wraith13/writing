@@ -298,6 +298,10 @@ MathJax.Hub.Config
             }
         );
     };
+    var loadTwitterScript = function()
+    {
+        loadScript("//platform.twitter.com/widgets.js");
+    }
     var makeAbsoluteUrl = function(base, url)
     {
         if ("#" === url.substr(0, 1))
@@ -1260,7 +1264,7 @@ MathJax.Hub.Config
                             loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
 
                             //  twitter
-                            loadScript("//platform.twitter.com/widgets.js");
+                            loadTwitterScript();
                         }
                     );
                 }
@@ -1337,7 +1341,7 @@ MathJax.Hub.Config
                             loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
 
                             //  twitter
-                            loadScript("//platform.twitter.com/widgets.js");
+                            loadTwitterScript();
                         }
                     );
                 }
@@ -1380,7 +1384,7 @@ MathJax.Hub.Config
                     loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
 
                     //  twitter
-                    loadScript("//platform.twitter.com/widgets.js");
+                    loadTwitterScript();
                 }
             );
         }
@@ -1496,11 +1500,11 @@ MathJax.Hub.Config
                                     { src: 'plugin/search/search.js', async: true },
                                     { src: 'plugin/zoom-js/zoom.js', async: true },
                                     { src: 'plugin/notes/notes.js', async: true },
-                                    { src: 'plugin/math/math.js', async: true },
-                                    { src: "//platform.twitter.com/widgets.js", async: true }
+                                    { src: 'plugin/math/math.js', async: true }
                                 ]
                             };
                             Reveal.initialize(objectAssign(defaultConfig, config));
+                            loadTwitterScript();
                         }
                     );
                 }

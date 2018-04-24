@@ -1051,6 +1051,14 @@ MathJax.Hub.Config
             }
         );
     };
+    var applyConditionalComment = function(source, condition, TAG)
+    {
+        return source
+            .replace(new RegExp("<!--\\[" +TAG +"\\/\\]([\\s\\S]*?)-->", "g"), condition ? "$1": "")
+            .replace(new RegExp("<!--\\[" +TAG +"\\]-->([\\s\\S]*?)<!--\\[\\/" +TAG +"\\]-->", "g"), condition ? "$1": "")
+            .replace(new RegExp("<!--\\[NO" +TAG +"\\/\\]([\\s\\S]*?)-->", "g"), !condition ? "$1": "")
+            .replace(new RegExp("<!--\\[NO" +TAG +"\\]-->([\\s\\S]*?)<!--\\[\\/NO" +TAG +"\\]-->", "g"), !condition ? "$1": "");
+    };
 
     var render = function(renderer, baseUrl, source)
     {
@@ -1133,31 +1141,12 @@ MathJax.Hub.Config
         //  conditional comment
         if (!isEdit)
         {
-            source = source
-                .replace(/<!--\[WRITING\/\]([\s\S]*?)-->/g, isWriting ? "$1": "")
-                .replace(/<!--\[WRITING\]-->([\s\S]*?)<!--\[\/WRITING\]-->/g, isWriting ? "$1": "")
-                .replace(/<!--\[NOWRITING\/\]([\s\S]*?)-->/g, !isWriting ? "$1": "")
-                .replace(/<!--\[NOWRITING\]-->([\s\S]*?)<!--\[\/NOWRITING\]-->/g, !isWriting ? "$1": "")
-                .replace(/<!--\[MD\/\]([\s\S]*?)-->/g, isMarkdown ? "$1": "")
-                .replace(/<!--\[MD\]-->([\s\S]*?)<!--\[\/MD\]-->/g, isMarkdown ? "$1": "")
-                .replace(/<!--\[NOMD\/\]([\s\S]*?)-->/g, !isMarkdown ? "$1": "")
-                .replace(/<!--\[NOMD\]-->([\s\S]*?)<!--\[\/NOMD\]-->/g, !isMarkdown ? "$1": "")
-                .replace(/<!--\[MARKED\/\]([\s\S]*?)-->/g, isMarked ? "$1": "")
-                .replace(/<!--\[MARKED\]-->([\s\S]*?)<!--\[\/MARKED\]-->/g, isMarked ? "$1": "")
-                .replace(/<!--\[NOMARKED\/\]([\s\S]*?)-->/g, !isMarked ? "$1": "")
-                .replace(/<!--\[NOMARKED\]-->([\s\S]*?)<!--\[\/NOMARKED\]-->/g, !isMarked ? "$1": "")
-                .replace(/<!--\[COMMONMARK\/\]([\s\S]*?)-->/g, isCommonMark ? "$1": "")
-                .replace(/<!--\[COMMONMARK\]-->([\s\S]*?)<!--\[\/COMMONMARK\]-->/g, isCommonMark ? "$1": "")
-                .replace(/<!--\[NOCOMMONMARK\/\]([\s\S]*?)-->/g, !isCommonMark ? "$1": "")
-                .replace(/<!--\[NOCOMMONMARK\]-->([\s\S]*?)<!--\[\/NOCOMMONMARK\]-->/g, !isCommonMark ? "$1": "")
-                .replace(/<!--\[REMARK\/\]([\s\S]*?)-->/g, isRemark ? "$1": "")
-                .replace(/<!--\[REMARK\]-->([\s\S]*?)<!--\[\/REMARK\]-->/g, isRemark ? "$1": "")
-                .replace(/<!--\[NOREMARK\/\]([\s\S]*?)-->/g, !isRemark ? "$1": "")
-                .replace(/<!--\[NOREMARK\]-->([\s\S]*?)<!--\[\/NOREMARK\]-->/g, !isRemark ? "$1": "")
-                .replace(/<!--\[REVEAL\/\]([\s\S]*?)-->/g, isReveal ? "$1": "")
-                .replace(/<!--\[REVEAL\]-->([\s\S]*?)<!--\[\/REVEAL\]-->/g, isReveal ? "$1": "")
-                .replace(/<!--\[NOREVEAL\/\]([\s\S]*?)-->/g, !isReveal ? "$1": "")
-                .replace(/<!--\[NOREVEAL\]-->([\s\S]*?)<!--\[\/NOREVEAL\]-->/g, !isReveal ? "$1": "");
+            source = applyConditionalComment(source, isWriting, "WRITING");
+            source = applyConditionalComment(source, isMarkdown, "MD");
+            source = applyConditionalComment(source, isMarked, "MARKED");
+            source = applyConditionalComment(source, isCommonMark, "COMMONMARK");
+            source = applyConditionalComment(source, isRemark, "REMARK");
+            source = applyConditionalComment(source, isReveal, "REVEAL");
         }
 
         //  title

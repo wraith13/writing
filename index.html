@@ -1070,24 +1070,24 @@ MathJax.Hub.Config
             console.log("referrer: " +document.referrer);
             var newUrl = location.href;
             var currentUrlParamNames = (location.href.split("#")[0] +"?")
-                        .split("?")[1]
-                        .split("&")
-                        .filter(function(i) { return 0 < i.indexOf("=") })
-                        .map(function(i) { return i.substr(0, i.indexOf("=")); });
-                var referrerUrlParams = (document.referrer.split("#")[0] +"?")
-                        .split("?")[1]
-                        .split("&")
-                        .filter(function(i) { return 0 < i.indexOf("=") })
-                        .filter
-                        (
-                            function(i)
-                            {
-                                var name = i.substr(0, i.indexOf("="));
-                                var result = true;
-                                currentUrlParamNames.forEach(function(j) { if (j === name) { result = false; }});
-                                return result;
-                            }
-                        );
+                .split("?")[1]
+                .split("&")
+                .filter(function(i) { return 0 < i.indexOf("=") })
+                .map(function(i) { return i.substr(0, i.indexOf("=")); });
+            var referrerUrlParams = (document.referrer.split("#")[0] +"?")
+                .split("?")[1]
+                .split("&")
+                .filter(function(i) { return 0 < i.indexOf("=") })
+                .filter
+                (
+                    function(i)
+                    {
+                        var name = i.substr(0, i.indexOf("="));
+                        var result = true;
+                        currentUrlParamNames.forEach(function(j) { if (j === name) { result = false; }});
+                        return result;
+                    }
+                );
             if (0 < referrerUrlParams.length)
             {
                 newUrl = newUrl.replace("?", "?" +referrerUrlParams.join("&") +"&");

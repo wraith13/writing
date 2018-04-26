@@ -310,6 +310,10 @@ MathJax.Hub.Config
             }
         );
     }
+    var loadMathJaxScript = function()
+    {
+        loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
+    }
     var loadTwitterScript = function()
     {
         loadScript("//platform.twitter.com/widgets.js");
@@ -1256,7 +1260,7 @@ MathJax.Hub.Config
                     loadHighlightScript();
 
                     //  MathJax
-                    loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
+                    loadMathJaxScript();
 
                     //  twitter
                     loadTwitterScript();
@@ -1325,7 +1329,7 @@ MathJax.Hub.Config
                     loadHighlightScript();
 
                     //  MathJax
-                    loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
+                    loadMathJaxScript();
 
                     //  twitter
                     loadTwitterScript();
@@ -1368,7 +1372,7 @@ MathJax.Hub.Config
             );
 
             //  MathJax
-            loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
+            loadMathJaxScript();
 
             //  twitter
             loadTwitterScript();

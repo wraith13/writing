@@ -266,6 +266,10 @@ MathJax.Hub.Config
             }
         );
     };
+    var appendHighlightTheme = function()
+    {
+        appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
+    }
     var appendIcon = function(href)
     {
         appendLink
@@ -1174,9 +1178,9 @@ MathJax.Hub.Config
         if (isMarked)
         {
             //  marked
-            appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
 
             //  theme
+            appendHighlightTheme();
             applyTheme(baseUrl, source);
 
             //  style
@@ -1270,9 +1274,9 @@ MathJax.Hub.Config
         if (isCommonMark)
         {
             //  commonmark
-            appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
 
             //  theme
+            appendHighlightTheme();
             applyTheme(baseUrl, source);
 
             //  style

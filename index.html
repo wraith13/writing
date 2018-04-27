@@ -1142,7 +1142,8 @@ MathJax.Hub.Config
         var isWriting = true;
         var isMarked = "marked" === renderer;
         var isCommonMark = "commonmark" === renderer;
-        var isMarkdown = isMarked || isCommonMark || "markdown" === renderer;
+        var isMarkdownIt = "markdown-it" === renderer;
+        var isMarkdown = isMarked || isCommonMark || isMarkdownIt || "markdown" === renderer;
         var isRemark = "remark" === renderer;
         var isReveal = "reveal" === renderer;
         var isEdit = "edit" === renderer;
@@ -1165,6 +1166,7 @@ MathJax.Hub.Config
             source = applyConditionalComment(source, isMarkdown, "MD");
             source = applyConditionalComment(source, isMarked, "MARKED");
             source = applyConditionalComment(source, isCommonMark, "COMMONMARK");
+            source = applyConditionalComment(source, isMarkdownIt, "MARKDOWN-IT");
             source = applyConditionalComment(source, isRemark, "REMARK");
             source = applyConditionalComment(source, isReveal, "REVEAL");
         }
@@ -1316,6 +1318,73 @@ MathJax.Hub.Config
                                     ).join("\n")
                                     .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
                                 )
+                            ),
+                            children: index ?
+                                makeDomNode({ tag: "div", style: { height: "90vh", }, }):
+                                undefined,
+                        }
+                    );
+
+                    //  fragment id
+                    applyFragmentId();
+
+                    //  index script
+                    applyIndexScript(index, contentDiv);
+
+                    //  highlight
+                    loadHighlightScript();
+
+                    //  MathJax
+                    loadMathJaxScript();
+
+                    //  twitter
+                    loadTwitterScript();
+                }
+            );
+        }
+        if (isMarkdownIt)
+        {
+            //  markdown-it
+
+            //  theme
+            appendHighlightTheme();
+            applyTheme(baseUrl, source);
+
+            //  style
+            applyStyle(source);
+
+            loadScript
+            (
+                "js/markdown-it.js",
+                function()
+                {
+                    console.log("markdown-it.js on load!!!");
+                    //  wallpaper
+                    applyWallPaper(baseUrl, source);
+                    
+                    //  index
+                    var index = applyIndex(source);
+
+                    var contentDiv = makeDomNode
+                    (
+                        {
+                            parent: document.body,
+                            tag: "div",
+                            className: "content",
+                            innerHTML: window.markdownit({ html: true, }).render
+                            (
+                                skipEscape
+                                (
+                                    translateRelativeLink(baseUrl, source).split("\n"),
+                                    function(line)
+                                    {
+                                        return line
+                                            .replace(/\\</g, "&lt;")
+                                            .replace(/\\>/g, "&gt;")
+                                            .replace(/\\\\/g, "\\");
+                                    }
+                                ).join("\n")
+                                .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
                             ),
                             children: index ?
                                 makeDomNode({ tag: "div", style: { height: "90vh", }, }):

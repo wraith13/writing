@@ -1154,7 +1154,7 @@ MathJax.Hub.Config
             console.error(message);
             return;
         }
-        if (isMarkdown && !isMarked && !isCommonMark)
+        if (isMarkdown && !isMarked && !isCommonMark && !isMarkdownIt)
         {
             isMarked = true; // とりあえずいまは marked を default の markdown のレンダラーとして扱う
         }
@@ -1358,7 +1358,6 @@ MathJax.Hub.Config
                 "js/markdown-it.js",
                 function()
                 {
-                    console.log("markdown-it.js on load!!!");
                     //  wallpaper
                     applyWallPaper(baseUrl, source);
                     

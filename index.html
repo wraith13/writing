@@ -818,6 +818,14 @@ MathJax.Hub.Config
             return source;
         }
     };
+    var translateForMathJax = function(source)
+    {
+        return source.replace
+        (
+            /\n\$\$\n([\W\w]*?)\n\$\$\n/g,
+            "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n"
+        );
+    };
     var applyTitle = function(source)
     {
         var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
@@ -1237,18 +1245,20 @@ MathJax.Hub.Config
                             className: "content",
                             innerHTML: marked
                             (
-                                skipEscape
+                                translateForMathJax
                                 (
-                                    translateRelativeLink(baseUrl, source).split("\n"),
-                                    function(line)
-                                    {
-                                        return line
-                                            .replace(/\\</g, "&lt;")
-                                            .replace(/\\>/g, "&gt;")
-                                            .replace(/\\\\/g, "\\");
-                                    }
-                                ).join("\n")
-                                .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
+                                    skipEscape
+                                    (
+                                        translateRelativeLink(baseUrl, source).split("\n"),
+                                        function(line)
+                                        {
+                                            return line
+                                                .replace(/\\</g, "&lt;")
+                                                .replace(/\\>/g, "&gt;")
+                                                .replace(/\\\\/g, "\\");
+                                        }
+                                    ).join("\n")
+                                )
                             ),
                             children: index ?
                                 makeDomNode({ tag: "div", style: { height: "90vh", }, }):
@@ -1305,18 +1315,20 @@ MathJax.Hub.Config
                             (
                                 new commonmark.Parser().parse
                                 (
-                                    skipEscape
+                                    translateForMathJax
                                     (
-                                        translateRelativeLink(baseUrl, source).split("\n"),
-                                        function(line)
-                                        {
-                                            return line
-                                                .replace(/\\</g, "&lt;")
-                                                .replace(/\\>/g, "&gt;")
-                                                .replace(/\\\\/g, "\\");
-                                        }
-                                    ).join("\n")
-                                    .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
+                                        skipEscape
+                                        (
+                                            translateRelativeLink(baseUrl, source).split("\n"),
+                                            function(line)
+                                            {
+                                                return line
+                                                    .replace(/\\</g, "&lt;")
+                                                    .replace(/\\>/g, "&gt;")
+                                                    .replace(/\\\\/g, "\\");
+                                            }
+                                        ).join("\n")
+                                    )
                                 )
                             ),
                             children: index ?
@@ -1372,18 +1384,20 @@ MathJax.Hub.Config
                             className: "content",
                             innerHTML: window.markdownit({ html: true, }).render
                             (
-                                skipEscape
+                                translateForMathJax
                                 (
-                                    translateRelativeLink(baseUrl, source).split("\n"),
-                                    function(line)
-                                    {
-                                        return line
-                                            .replace(/\\</g, "&lt;")
-                                            .replace(/\\>/g, "&gt;")
-                                            .replace(/\\\\/g, "\\");
-                                    }
-                                ).join("\n")
-                                .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n")
+                                    skipEscape
+                                    (
+                                        translateRelativeLink(baseUrl, source).split("\n"),
+                                        function(line)
+                                        {
+                                            return line
+                                                .replace(/\\</g, "&lt;")
+                                                .replace(/\\>/g, "&gt;")
+                                                .replace(/\\\\/g, "\\");
+                                        }
+                                    ).join("\n")
+                                )
                             ),
                             children: index ?
                                 makeDomNode({ tag: "div", style: { height: "90vh", }, }):
@@ -1436,9 +1450,11 @@ MathJax.Hub.Config
                 function()
                 {
                     var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-                    config.source = translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))
+                    config.source = translateForMathJax
+                    (
+                        translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))
                         .replace(/([^\n])```([^\n])/g, "$1`$2")
-                        .replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n");
+                    );
                     var slideshow = remark.create(config);
                 }
             );
@@ -1505,7 +1521,7 @@ MathJax.Hub.Config
                                 {
                                     tag: "script",
                                     type: "text/template",
-                                    innerHTML: markdown.replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n"),
+                                    innerHTML: translateForMathJax(markdown),
                                 },
                             },
                         },

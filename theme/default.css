@@ -32,6 +32,10 @@ h1, h2, h3, h4, h5, h6, h7, h8, h9
     border-radius: 8px;
     font-size: 30px;
 }
+.remark-slide pre.mathjax
+{
+    font-size: 1.0em;
+}
 
 .reveal .slides
 {

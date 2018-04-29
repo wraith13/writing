@@ -1087,6 +1087,20 @@ MathJax.Hub.Config
             .replace(new RegExp("<!--\\[NO" +TAG +"\\/\\]([\\s\\S]*?)-->", "g"), !condition ? "$1": "")
             .replace(new RegExp("<!--\\[NO" +TAG +"\\]-->([\\s\\S]*?)<!--\\[\\/NO" +TAG +"\\]-->", "g"), !condition ? "$1": "");
     };
+    var unescapeBackSlash = function(source)
+    {
+        return skipEscape
+        (
+            source.split("\n"),
+            function(line)
+            {
+                return line
+                    .replace(/\\</g, "&lt;")
+                    .replace(/\\>/g, "&gt;")
+                    .replace(/\\\\/g, "\\");
+            }
+        ).join("\n");
+    };
 
     var render = function(renderer, baseUrl, source)
     {
@@ -1237,29 +1251,17 @@ MathJax.Hub.Config
                     //  index
                     var index = applyIndex(source);
 
+                    source = translateRelativeLink(baseUrl, source);
+                    source = unescapeBackSlash(source);
+                    source = translateForMathJax(source);
+                    
                     var contentDiv = makeDomNode
                     (
                         {
                             parent: document.body,
                             tag: "div",
                             className: "content",
-                            innerHTML: marked
-                            (
-                                translateForMathJax
-                                (
-                                    skipEscape
-                                    (
-                                        translateRelativeLink(baseUrl, source).split("\n"),
-                                        function(line)
-                                        {
-                                            return line
-                                                .replace(/\\</g, "&lt;")
-                                                .replace(/\\>/g, "&gt;")
-                                                .replace(/\\\\/g, "\\");
-                                        }
-                                    ).join("\n")
-                                )
-                            ),
+                            innerHTML: marked(source),
                             children: index ?
                                 makeDomNode({ tag: "div", style: { height: "90vh", }, }):
                                 undefined,
@@ -1305,6 +1307,10 @@ MathJax.Hub.Config
                     //  index
                     var index = applyIndex(source);
 
+                    source = translateRelativeLink(baseUrl, source);
+                    source = unescapeBackSlash(source);
+                    source = translateForMathJax(source);
+
                     var contentDiv = makeDomNode
                     (
                         {
@@ -1315,20 +1321,7 @@ MathJax.Hub.Config
                             (
                                 new commonmark.Parser().parse
                                 (
-                                    translateForMathJax
-                                    (
-                                        skipEscape
-                                        (
-                                            translateRelativeLink(baseUrl, source).split("\n"),
-                                            function(line)
-                                            {
-                                                return line
-                                                    .replace(/\\</g, "&lt;")
-                                                    .replace(/\\>/g, "&gt;")
-                                                    .replace(/\\\\/g, "\\");
-                                            }
-                                        ).join("\n")
-                                    )
+                                    source
                                 )
                             ),
                             children: index ?
@@ -1376,29 +1369,17 @@ MathJax.Hub.Config
                     //  index
                     var index = applyIndex(source);
 
+                    source = translateRelativeLink(baseUrl, source),
+                    source = unescapeBackSlash(source);
+                    source = translateForMathJax(source);
+
                     var contentDiv = makeDomNode
                     (
                         {
                             parent: document.body,
                             tag: "div",
                             className: "content",
-                            innerHTML: window.markdownit({ html: true, }).render
-                            (
-                                translateForMathJax
-                                (
-                                    skipEscape
-                                    (
-                                        translateRelativeLink(baseUrl, source).split("\n"),
-                                        function(line)
-                                        {
-                                            return line
-                                                .replace(/\\</g, "&lt;")
-                                                .replace(/\\>/g, "&gt;")
-                                                .replace(/\\\\/g, "\\");
-                                        }
-                                    ).join("\n")
-                                )
-                            ),
+                            innerHTML: window.markdownit({ html: true, }).render(source),
                             children: index ?
                                 makeDomNode({ tag: "div", style: { height: "90vh", }, }):
                                 undefined,

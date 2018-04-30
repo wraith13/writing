@@ -923,36 +923,51 @@ MathJax.Hub.Config
             if (index && 0 < index.length)
             {
                 document.body.className += " with-index";
+                var contentDiv = document.body.children[0];
+                document.body.insertBefore
+                (
+                    makeDomNode
+                    (
+                        {
+                            tag: "div",
+                            className: "index-frame",
+                            children:
+                            {
+                                tag: "div",
+                                className: "index",
+                                onmouseenter: function() { globalState.isMouseOnIndex = true; },
+                                onmouseleave: function() { globalState.isMouseOnIndex = false; },
+                                children: index.map
+                                (
+                                    function(i)
+                                    {
+                                        return i.anchor = makeDomNode
+                                        (
+                                            {
+                                                tag: "a",
+                                                className: "level" + i.level,
+                                                href: i.link,
+                                                innerText: i.title,
+                                            }
+                                        );
+                                    }
+                                )
+                            }
+                        }
+                    ),
+                    contentDiv
+                );
                 makeDomNode
                 (
                     {
-                        parent: document.body,
+                        parent: contentDiv,
                         tag: "div",
-                        className: "index-frame",
-                        children:
-                        {
-                            tag: "div",
-                            className: "index",
-                            onmouseenter: function() { globalState.isMouseOnIndex = true; },
-                            onmouseleave: function() { globalState.isMouseOnIndex = false; },
-                            children: index.map
-                            (
-                                function(i)
-                                {
-                                    return i.anchor = makeDomNode
-                                    (
-                                        {
-                                            tag: "a",
-                                            className: "level" + i.level,
-                                            href: i.link,
-                                            innerText: i.title,
-                                        }
-                                    );
-                                }
-                            )
-                        }
+                        style: { height: "90vh", },
                     }
                 );
+
+                //  index script
+                //applyIndexScript(index, contentDiv);
             }
             else
             {
@@ -1051,7 +1066,7 @@ MathJax.Hub.Config
             }
         }
     };
-    var applyContent = function(index, html)
+    var applyContent = function(html)
     {
         return makeDomNode
         (
@@ -1060,9 +1075,6 @@ MathJax.Hub.Config
                 tag: "div",
                 className: "content",
                 innerHTML: html,
-                children: index ?
-                    makeDomNode({ tag: "div", style: { height: "90vh", }, }):
-                    undefined,
             }
         );
     };
@@ -1226,21 +1238,18 @@ MathJax.Hub.Config
             //  wallpaper
             applyWallPaper(baseUrl, source);
             
-            //  index
-            var index = applyIndex(source);
-
             source = translateRelativeLink(baseUrl, source);
             source = unescapeBackSlash(source);
             source = translateForMathJax(source);
             
             var html = markdownToHtml(source);
-            var contentDiv = applyContent(index, html);
+            var contentDiv = applyContent(html);
+
+            //  index
+            var index = applyIndex(source);
 
             //  fragment id
             applyFragmentId();
-
-            //  index script
-            applyIndexScript(index, contentDiv);
 
             //  highlight
             loadHighlightScript();

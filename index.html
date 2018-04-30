@@ -1214,17 +1214,47 @@ MathJax.Hub.Config
         //  favicon
         applyIcon(baseUrl, source);
 
-        if (isMarked)
+        var applyMarkdown = function(markdownToHtml)
         {
-            //  marked
-
             //  theme
             appendHighlightTheme();
             applyTheme(baseUrl, source);
 
             //  style
             applyStyle(source);
+            
+            //  wallpaper
+            applyWallPaper(baseUrl, source);
+            
+            //  index
+            var index = applyIndex(source);
 
+            source = translateRelativeLink(baseUrl, source);
+            source = unescapeBackSlash(source);
+            source = translateForMathJax(source);
+            
+            var html = markdownToHtml(source);
+            var contentDiv = applyContent(index, html);
+
+            //  fragment id
+            applyFragmentId();
+
+            //  index script
+            applyIndexScript(index, contentDiv);
+
+            //  highlight
+            loadHighlightScript();
+
+            //  MathJax
+            loadMathJaxScript();
+
+            //  twitter
+            loadTwitterScript();
+        };
+
+        if (isMarked)
+        {
+            //  marked
             loadScript
             (
                 "js/marked.js",
@@ -1260,131 +1290,49 @@ MathJax.Hub.Config
                     config.renderer = markedRenderer;
                     marked.setOptions(config);
 
-                    //  wallpaper
-                    applyWallPaper(baseUrl, source);
-                    
-                    //  index
-                    var index = applyIndex(source);
-
-                    source = translateRelativeLink(baseUrl, source);
-                    source = unescapeBackSlash(source);
-                    source = translateForMathJax(source);
-                    
-                    var html = marked(source);
-                    var contentDiv = applyContent(index, html);
-
-                    //  fragment id
-                    applyFragmentId();
-
-                    //  index script
-                    applyIndexScript(index, contentDiv);
-
-                    //  highlight
-                    loadHighlightScript();
-
-                    //  MathJax
-                    loadMathJaxScript();
-
-                    //  twitter
-                    loadTwitterScript();
+                    applyMarkdown(marked);
                 }
             );
         }
         if (isCommonMark)
         {
             //  commonmark
-
-            //  theme
-            appendHighlightTheme();
-            applyTheme(baseUrl, source);
-
-            //  style
-            applyStyle(source);
-
             loadScript
             (
                 "js/commonmark.js",
                 function()
                 {
-                    //  wallpaper
-                    applyWallPaper(baseUrl, source);
-                    
-                    //  index
-                    var index = applyIndex(source);
-
-                    source = translateRelativeLink(baseUrl, source);
-                    source = unescapeBackSlash(source);
-                    source = translateForMathJax(source);
-
-                    var html = new commonmark.HtmlRenderer().render
+                    applyMarkdown
                     (
-                        new commonmark.Parser().parse
-                        (
-                            source
-                        )
+                        function(markdown)
+                        {
+                            return new commonmark.HtmlRenderer().render
+                            (
+                                new commonmark.Parser().parse
+                                (
+                                    markdown
+                                )
+                            );
+                        }
                     );
-                    var contentDiv = applyContent(index, html);
-
-                    //  fragment id
-                    applyFragmentId();
-
-                    //  index script
-                    applyIndexScript(index, contentDiv);
-
-                    //  highlight
-                    loadHighlightScript();
-
-                    //  MathJax
-                    loadMathJaxScript();
-
-                    //  twitter
-                    loadTwitterScript();
                 }
             );
         }
         if (isMarkdownIt)
         {
             //  markdown-it
-
-            //  theme
-            appendHighlightTheme();
-            applyTheme(baseUrl, source);
-
-            //  style
-            applyStyle(source);
-
             loadScript
             (
                 "js/markdown-it.js",
                 function()
                 {
-                    //  wallpaper
-                    applyWallPaper(baseUrl, source);
-                    
-                    //  index
-                    var index = applyIndex(source);
-
-                    source = translateRelativeLink(baseUrl, source),
-                    source = unescapeBackSlash(source);
-                    source = translateForMathJax(source);
-
-                    var html = window.markdownit({ html: true, }).render(source);
-                    var contentDiv = applyContent(index, html);
-
-                    //  fragment id
-                    applyFragmentId();
-
-                    //  index script
-                    applyIndexScript(index, contentDiv);
-
-                    //  highlight
-                    loadHighlightScript();
-
-                    //  MathJax
-                    loadMathJaxScript();
-
-                    //  twitter
-                    loadTwitterScript();
+                    applyMarkdown
+                    (
+                        function(markdown)
+                        {
+                            return window.markdownit({ html: true, }).render(markdown);
+                        }
+                    );
                 }
             );
         }

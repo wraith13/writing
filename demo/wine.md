@@ -56,4 +56,4 @@ layout: true
 class: center, middle
 -->
 
-## [一覧へ戻る](./index.md)
+## [一覧へ戻る](index.md)

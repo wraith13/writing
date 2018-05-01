@@ -38,7 +38,7 @@ h1 img
 
 ## etc
 
-- [オススメの VSCODE 拡張](./etc/recommend.vscode.extension.md)
+- [オススメの VSCODE 拡張](etc/recommend.vscode.extension.md)
 
 <!--[WRITING/]
 ## instant
@@ -46,4 +46,4 @@ h1 img
 - [new markdown/slide](./?edit&text:)
 -->
 
-## [demo](./demo/index.md)
+## [demo](demo/index.md)

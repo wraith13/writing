@@ -503,6 +503,32 @@ MathJax.Hub.Config
             }
         }
     };
+    var getHeadingTags = function()
+    {
+    };
+    var makeIndexFromContent = function()
+    {
+        var linkMaker = new markdownHeaderFragmentMaker();
+        var anchors = [ ];
+        getHeadingTags().forEach
+        (
+            function(i)
+            {
+                var level = parseInt(i.tagName.substr(1), 10);
+                var title = i.textContent().trim();
+                var link = "#" +linkMaker.makeFragment(title);
+                anchors.push
+                (
+                    {
+                        level: level,
+                        title: title,
+                        link: link
+                    }
+                );
+            }
+        );
+        return anchors;
+    };
     var makeIndexForMarked = function(source)
     {
         var linkMaker = new markdownHeaderFragmentMaker();

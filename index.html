@@ -923,7 +923,7 @@ MathJax.Hub.Config
             if (index && 0 < index.length)
             {
                 document.body.className += " with-index";
-                var contentDiv = document.body.children[0];
+                var contentDiv = document.getElementsByClassName("content")[0];
                 document.body.insertBefore
                 (
                     makeDomNode
@@ -967,7 +967,7 @@ MathJax.Hub.Config
                 );
 
                 //  index script
-                //applyIndexScript(index, contentDiv);
+                applyIndexScript(index, contentDiv);
             }
             else
             {

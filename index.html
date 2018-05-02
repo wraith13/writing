@@ -558,73 +558,7 @@ MathJax.Hub.Config
         );
         return anchors;
     };
-    var makeIndexForMarked = function(source)
-    {
-        var linkMaker = new markdownHeaderFragmentMaker();
-        var anchors = [ ];
-        skipEscape
-        (
-            source.split("\n"),
-            function(line)
-            {
-                var trimed_line = line;
-                if (/^#+ [^ ]+/.test(trimed_line))
-                {
-                    var title = trimed_line
-                        .replace(/^#* /, "")
-                        .replace(/!\[.*?\]\(.*?\)/g, "")
-                        .replace(/\[(.*?)\]\(.*?\)/g, "$1")
-                        .replace(/(^|[^\\])<[^\>]*?[^\\]>/g, "$1") // エスケープを避けつつ適切に処理する為にはこの置換は2回行う必要がある。(3回は必要ない2回で十分)
-                        .replace(/(^|[^\\])<[^\>]*?[^\\]>/g, "$1")
-                        .replace(/\\\!/g,"!")
-                        .replace(/\\\"/g,"\"")
-                        .replace(/\\\#/g,"#")
-                        .replace(/\\\$/g,"$")
-                        .replace(/\\\%/g,"%")
-                        .replace(/\\\&/g,"&")
-                        .replace(/\\\'/g,"'")
-                        .replace(/\\\(/g,"(")
-                        .replace(/\\\)/g,")")
-                        .replace(/\\\*/g,"*")
-                        .replace(/\\\+/g,"+")
-                        .replace(/\\\,/g,",")
-                        .replace(/\\\./g,".")
-                        .replace(/\\\//g,"/")
-                        .replace(/\\\:/g,":")
-                        .replace(/\\\;/g,";")
-                        .replace(/\\\</g,"<")
-                        .replace(/\\\=/g,"=")
-                        .replace(/\\\>/g,">")
-                        .replace(/\\\?/g,"?")
-                        .replace(/\\\@/g,"@")
-                        .replace(/\\\[/g,"[")
-                        .replace(/\\\\/g,"\\")
-                        .replace(/\\\]/g,"]")
-                        .replace(/\\\^/g,"^")
-                        .replace(/\\\_/g,"_")
-                        .replace(/\\\`/g,"`")
-                        .replace(/\\\{/g,"{")
-                        .replace(/\\\|/g,"|")
-                        .replace(/\\\}/g,"}")
-                        .replace(/\\\~/g,"~")
-                        .trim()
-                        .replace(explicitFragmentIdPattern, "");
-                    var level = (trimed_line.trim().length -trimed_line.replace(/^#*/, "").trim().length) -1;
-                    //var link = "#" +trimed_line.replace(/^#*/, "").replace(/!\[(.*?)\]\(.*?\)/g, "$1").replace(/\[(.*?)\]\(.*?\)/g, "$1").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
-                    var link = "#" +linkMaker.makeFragment(trimed_line);
-                    anchors.push
-                    (
-                        {
-                            level: level,
-                            title: title,
-                            link: link
-                        }
-                    );
-                }
-            }
-        );
-        return anchors;
-    };
+
     var translateRelativeUrl = function(baseUrl, url)
     {
         if ("?" === url.substr(0, 1))
@@ -968,14 +902,13 @@ MathJax.Hub.Config
         }
 
     };
-    var applyIndex = function(source)
+    var applyIndex = function()
     {
         var withIndex = true;
         var index = null;
         if (withIndex)
         {
             index = makeIndexFromContent();
-            //index = makeIndexForMarked(source);
             if (index && 0 < index.length)
             {
                 document.body.className += " with-index";
@@ -1302,7 +1235,7 @@ MathJax.Hub.Config
             var contentDiv = applyContent(html);
 
             //  index
-            var index = applyIndex(source);
+            applyIndex();
 
             //  fragment id
             applyFragmentId();

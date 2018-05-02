@@ -503,8 +503,33 @@ MathJax.Hub.Config
             }
         }
     };
+    var getAllElements = function(parent)
+    {
+        var result = [];
+        parent = parent || document ;
+        if (parent.children)
+        {
+            for (var i in parent.children)
+            {
+                var child = parent.children[i];
+                if (child)
+                {
+                    result.push(child);
+                    result = result.concat(getAllElements(child));
+                }
+            }
+        }
+        return result;
+    };
     var getHeadingTags = function()
     {
+        return getAllElements().filter
+        (
+            function(i)
+            {
+                return /^h\d+$/i.test(i.tagName);
+            }
+        );
     };
     var makeIndexFromContent = function()
     {
@@ -515,8 +540,12 @@ MathJax.Hub.Config
             function(i)
             {
                 var level = parseInt(i.tagName.substr(1), 10);
-                var title = i.textContent().trim();
-                var link = "#" +linkMaker.makeFragment(title);
+                var title = i.textContent.trim();
+                if (!i.id)
+                {
+                    i.id = linkMaker.makeFragment(title);
+                }
+                var link = "#" +i.id;
                 anchors.push
                 (
                     {
@@ -945,7 +974,8 @@ MathJax.Hub.Config
         var index = null;
         if (withIndex)
         {
-            index = makeIndexForMarked(source);
+            index = makeIndexFromContent();
+            //index = makeIndexForMarked(source);
             if (index && 0 < index.length)
             {
                 document.body.className += " with-index";

@@ -115,19 +115,19 @@ blockquote > p,
     display: block;
     margin-right: 10px;
 }
-body.marked,
-body.marked table
+body.markdown,
+body.markdown table
 {
     overflow: hidden;
     padding: 0;
     margin: 0px;
 }
-body.marked
+body.markdown
 {
     font-size: 1.0rem;
 }
 
-body.marked .wallpaper
+body.markdown .wallpaper
 {
     /* 壁紙用のレイヤー */
     position: absolute;
@@ -143,9 +143,9 @@ body.marked .wallpaper
     /*background-image: url("/private/02920_woodpeckereggs_1920x1200.jpg");*/
     background-size: cover;
 }
-body.marked .wallpaper::before
+body.markdown .wallpaper::before
 {
-    /* 壁紙(body.marked::before)の上にグラデーションをかける為のレイヤー */
+    /* 壁紙(body.markdown::before)の上にグラデーションをかける為のレイヤー */
     position: absolute;
     left: 0px;
     top: 0px;
@@ -158,7 +158,7 @@ body.marked .wallpaper::before
     z-index: -1;
 }
 
-body.marked div.index-frame
+body.markdown div.index-frame
 {
     margin: 0px;
     padding: 0px;
@@ -171,7 +171,7 @@ body.marked div.index-frame
     overflow-y: auto;
     height: 100vh;
 }
-body.marked div.index-frame div.index
+body.markdown div.index-frame div.index
 {
     padding: 0px;
     width: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
@@ -183,110 +183,110 @@ body.marked div.index-frame div.index
 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-body.marked div.index-frame:hover,
-body.marked div.index-frame div.index
+body.markdown div.index-frame:hover,
+body.markdown div.index-frame div.index
 {
     visibility: visible;
 }
 
-body.marked div.index-frame div.index a
+body.markdown div.index-frame div.index a
 {
     display: block;
     word-wrap: break-word;
     white-space: wrap;
     text-decoration: none;
 }
-body.marked div.index-frame div.index a:not(.current):hover
+body.markdown div.index-frame div.index a:not(.current):hover
 {
     color: #FFFFFF;
     background-color: #86812A;
     text-decoration: underline;
 }
-body.marked div.index-frame div.index a.current
+body.markdown div.index-frame div.index a.current
 {
     color: #FFFFFF;
     background-color: #4444DD;
 }
-body.marked div.index-frame div.index a.level1
+body.markdown div.index-frame div.index a.level1
 {
     padding: 12px 24px 12px 24px;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2);
 }
-body.marked div.index-frame div.index a.level2
+body.markdown div.index-frame div.index a.level2
 {
     padding: 8px 24px 8px 32px;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.0);
 }
-body.marked div.index-frame div.index a.level3
+body.markdown div.index-frame div.index a.level3
 {
     padding: 4px 24px 4px 40px;
     font-size: 70%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.9);
 }
-body.marked div.index-frame div.index a.level4
+body.markdown div.index-frame div.index a.level4
 {
     padding: 2px 24px 2px 48px;
     font-size: 60%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
-body.marked div.index-frame div.index a.level5
+body.markdown div.index-frame div.index a.level5
 {
     padding: 2px 24px 2px 56px;
     font-size: 50%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
-body.marked div.index-frame div.index a.level6
+body.markdown div.index-frame div.index a.level6
 {
     padding: 2px 24px 2px 64px;
     font-size: 40%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
-body.marked div.index-frame div.index a.level7
+body.markdown div.index-frame div.index a.level7
 {
     padding: 2px 24px 2px 72px;
     font-size: 35%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
-body.marked div.index-frame div.index a.level8
+body.markdown div.index-frame div.index a.level8
 {
     padding: 2px 24px 2px 80px;
     font-size: 30%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
-body.marked div.index-frame div.index a.level9
+body.markdown div.index-frame div.index a.level9
 {
     padding: 2px 24px 2px 88px;
     font-size: 30%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 
-body.marked div.content
+body.markdown div.content
 {
     overflow-y: auto;
 }
-body.marked.with-wallpaperx div.content
+body.markdown.with-wallpaperx div.content
 {
     -text-shadow: 6px 6px 6px #FFFFFF, 6px -6px 6px #FFFFFF, -6px -6px 6px #FFFFFF, -6px 6px 6px #FFFFFF; 
     text-shadow: 3px 3px 3px #FFFFFF, 3px -3px 3px #FFFFFF, -3px -3px 3px #FFFFFF, -3px 3px 3px #FFFFFF; 
 }
 
-body.marked div.content h1
+body.markdown div.content h1
 {
     font-size: 2.0em;
     font-weight: bold;
 }
-body.marked div.content h2
+body.markdown div.content h2
 {
     font-size: 1.5em;
     font-weight: bold;
 }
-body.marked div.content h3,
-body.marked div.content h4,
-body.marked div.content h5,
-body.marked div.content h6,
-body.marked div.content h7,
-body.marked div.content h8,
-body.marked div.content h9
+body.markdown div.content h3,
+body.markdown div.content h4,
+body.markdown div.content h5,
+body.markdown div.content h6,
+body.markdown div.content h7,
+body.markdown div.content h8,
+body.markdown div.content h9
 {
     font-size: 1.2em;
     font-weight: bold;
@@ -295,7 +295,7 @@ body.marked div.content h9
 
 @media (max-width: 60.0rem)
 {
-    body.marked div.content
+    body.markdown div.content
     {
         padding: 1.0rem; /* calc が poor な環境の保険 */
         padding: calc(calc(100vw / 40) + 0.5rem);
@@ -306,11 +306,11 @@ body.marked div.content h9
 
 @media (min-width: 60.0rem)
 {
-    body.marked
+    body.markdown
     {
         font-size: calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem);
     }
-    body.marked div.content
+    body.markdown div.content
     {
         padding: 2.0rem; /* calc が poor な環境の保険を兼ねる */
         padding-left: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
@@ -324,13 +324,13 @@ body.marked div.content h9
 
 @media (min-width: 90.0rem)
 {
-    body.marked.with-index
+    body.markdown.with-index
     {
         /* 3.2360679774 ????(1.6180339887) * 2.0 */
         /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
         font-size: calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem);
     }
-    body.marked.with-index div.content
+    body.markdown.with-index div.content
     {
         display: block;
         float: left;
@@ -340,32 +340,32 @@ body.marked div.content h9
         padding-right: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 0.5);
         width: calc(100vw - calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 2.00) + 2.0rem));
     }
-    body.marked.with-index div.content *
+    body.markdown.with-index div.content *
     {
         max-width: calc(100vw - calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 2.00) - 2.0rem));
     }
-    body.marked.with-index div.content pre
+    body.markdown.with-index div.content pre
     {
         overflow-x: auto;
     }
 
-    body.marked div.index-frame
+    body.markdown div.index-frame
     {
         display: block;
     }
 }
 @media (min-width: 180.0rem)
 {
-    body.marked div.index-frame div.index
+    body.markdown div.index-frame div.index
     {
         width: 36rem;
     }
-    body.marked.with-index div.content
+    body.markdown.with-index div.content
     {
         margin-left: calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 0.5) + 40rem);
         width: calc(100vw - calc(calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 1.0)) + 42rem));
     }
-    body.marked.with-index div.content *
+    body.markdown.with-index div.content *
     {
         max-width: calc(100vw - calc(calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 1.0)) + 42rem));
         overflow-x: auto;
@@ -374,12 +374,12 @@ body.marked div.content h9
 
 @media (min-width: 360px) and (max-width: 720px)
 {
-    body.marked blockquote
+    body.markdown blockquote
     {
         margin-left: calc(calc(calc(100vw - 360px) / 11.25) + 8px);
         margin-right: calc(calc(calc(100vw - 360px) / 11.25) + 8px);
     }
-    body.marked blockquote::before
+    body.markdown blockquote::before
     {
         margin-top: calc(calc(calc(100vw - 360px) / -12.41) - 6px);
         font-size: calc(calc(calc(100vw - 360px) / 2.4) + 30px);
@@ -393,12 +393,12 @@ body.marked div.content h9
 
 @media (max-width: 360px)
 {
-    body.marked blockquote
+    body.markdown blockquote
     {
         margin-left: 8px;
         margin-right: 8px;
     }
-    body.marked blockquote::before
+    body.markdown blockquote::before
     {
         margin-top: -6px;
         font-size: 30px;
@@ -410,7 +410,7 @@ body.marked div.content h9
     }
 }
 
-body.marked div.index-frame
+body.markdown div.index-frame
 {
     animation-name: index-fade;
     animation-duration: 0.6s;
@@ -443,12 +443,12 @@ body.marked div.index-frame
     }
 }
 
-body.marked pre.mathjax
+body.markdown pre.mathjax
 {
     font-size: 1.3em;
 }
 
-body.marked table {
+body.markdown table {
     border-spacing: 0;
     border-collapse: collapse;
     display: block;
@@ -456,20 +456,20 @@ body.marked table {
     overflow: auto;
 }
 
-body.marked table tr {
+body.markdown table tr {
     background-color: #fff;
     border-top: 1px solid #c6cbd1;
 }
 
-body.marked table tr:nth-child(2n) {
+body.markdown table tr:nth-child(2n) {
     background-color: #f6f8fa;
 }
 
-body.marked table th {
+body.markdown table th {
     font-weight: 600;
 }
 
-body.marked table th, body.marked table td {
+body.markdown table th, body.markdown table td {
     padding: 0.5em 1.0em;
     border: 1px solid #dfe2e5;
 }

@@ -1561,6 +1561,8 @@ MathJax.Hub.Config
             }
             var defaultLink = makeLink("default");
             var markedLink = makeLink("marked(markdown)");
+            var commonmarkLink = makeLink("commonmark(markdown)");
+            var markdownitLink = makeLink("markdown-it(markdown)");
             var remarkLink = makeLink("remark(slide)");
             var revealLink = makeLink("reveal(slide)");
             var editLink = makeLink("edit");
@@ -1568,7 +1570,9 @@ MathJax.Hub.Config
                 var text = encodeURIComponent(textarea.value);
                 textCounter.innerText = "lenght:" +text.length;
                 defaultLink.href = "?text:" +text;
-                markedLink.href = "?markdown&text:" +text;
+                markedLink.href = "?marked&text:" +text;
+                commonmarkLink.href = "?commonmark&text:" +text;
+                markdownitLink.href = "?markdown-it&text:" +text;
                 remarkLink.href = "?remark&text:" +text;
                 revealLink.href = "?reveal&text:" +text;
                 editLink.href = "?edit&text:" +text;

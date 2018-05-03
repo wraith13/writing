@@ -820,7 +820,9 @@ MathJax.Hub.Config
         var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
         if ("" === title)
         {
-            title = source
+            title =
+            (
+                source
                 .split("\n---\n")[0]
                 .replace(/!\[(.*?)\]\(.*?\)/g, "")
                 .replace(/\[(.*?)\]\(.*?\)/g, "$1")
@@ -831,8 +833,10 @@ MathJax.Hub.Config
                 .split("\n")
                 .map(function(i){ return i.trim(); })
                 .filter(function(i) { return 0 < i.length })[0]
-                .replace(/\s+/g," ")
-                .slice(0, 64);
+                || "untitled"
+            )
+            .replace(/\s+/g," ")
+            .slice(0, 64);
         }
         document.title = title
             .replace(/&lt;/, "<")

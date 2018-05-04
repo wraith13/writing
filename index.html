@@ -827,7 +827,7 @@ MathJax.Hub.Config
                 .replace(/!\[(.*?)\]\(.*?\)/g, "")
                 .replace(/\[(.*?)\]\(.*?\)/g, "$1")
                 .replace(/([\W\w]*?)(\n#+\s+)/, "$2")
-                .replace(/($|\n)#+\s+(.*)([\W\w]*)/, "$2")
+                .replace(/(^|\n)#+\s+(.*)([\W\w]*)/, "$2")
                 .replace(/<!--.*?-->/g, "")
                 .replace(/<.*?>/g, "")
                 .split("\n")

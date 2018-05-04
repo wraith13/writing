@@ -1235,8 +1235,7 @@ MathJax.Hub.Config
             source = unescapeBackSlash(source);
             source = translateForMathJax(source);
             
-            var html = markdownToHtml(source);
-            var contentDiv = applyContent(html);
+            applyContent(markdownToHtml(source));
 
             //  index
             applyIndex();

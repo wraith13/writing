@@ -1327,11 +1327,18 @@ MathJax.Hub.Config
                 "js/markdown-it.js",
                 function()
                 {
-                    applyMarkdown
+                    loadScript
                     (
-                        function(markdown)
+                        "js/markdown-it-emoji.js",
+                        function()
                         {
-                            return window.markdownit({ html: true, }).render(markdown);
+                            applyMarkdown
+                            (
+                                function(markdown)
+                                {
+                                    return window.markdownit({ html: true, }).use(window.markdownitEmoji).render(markdown);
+                                }
+                            );
                         }
                     );
                 }

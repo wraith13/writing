@@ -29,7 +29,7 @@ class: center, middle
 
 - 道化師
 - Wraith the Trickster
-- とつげきたろうex+
+- [とつげきたろうex+](splatoon2/totsugekitarouexp.md)
 
 ## SNS
 

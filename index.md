@@ -36,6 +36,8 @@ h1 img
 - [README](README.md)
 - [@wraith13](wraith13.md)
 
+## [splatoon2 基礎講座](splatoon2/index.md)
+
 ## etc
 
 - [オススメの VSCODE 拡張](etc/recommend.vscode.extension.md)

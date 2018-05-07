@@ -166,7 +166,7 @@ body.markdown div.index-frame
     visibility: hidden;
     position: absolute;
     top: 0px;
-    left: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 0.5);
+    left: 0px;
     overflow-x: hidden;
     overflow-y: auto;
     height: 100vh;

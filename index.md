@@ -46,6 +46,12 @@ h1 img
 ## instant
 
 - [new markdown/slide](./?edit&text:)
+
+## extra
+
+表示したい markdown の URL を入力してください。
+
+<input id="url-input" style="width:30vw;font-size:1em;line-height:1em;padding:0.2em;"> <button onclick="location.href='?'+encodeURIComponent(document.getElementById('url-input').value);" style="font-size:1em;line-height:1em;padding:0.2em;">開く</button>
 -->
 
 ## [demo](demo/index.md)

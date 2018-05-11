@@ -118,7 +118,7 @@ blockquote > p,
 body.markdown,
 body.markdown table
 {
-    overflow: hidden;
+    overflow-x: hidden;
     padding: 0;
     margin: 0px;
 }
@@ -164,7 +164,7 @@ body.markdown div.index-frame
     padding: 0px;
     display: none;
     visibility: hidden;
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0px;
     overflow-x: hidden;
@@ -300,7 +300,7 @@ body.markdown div.content h9
         padding: 1.0rem; /* calc が poor な環境の保険 */
         padding: calc(calc(100vw / 40) + 0.5rem);
         width: calc(100vw - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0));
-        max-height: calc(100vh - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0));
+        /* max-height: calc(100vh - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0)); */
     }
 }
 
@@ -318,7 +318,7 @@ body.markdown div.content h9
         /* 3.2360679774 黄金律(1.6180339887) * 2.0 */
         /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
         width: calc(100vw - calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 2.0));
-        max-height: calc(100vh - 4.0rem);
+        /* max-height: calc(100vh - 4.0rem); */
     }
 }
 

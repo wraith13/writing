@@ -960,7 +960,7 @@ MathJax.Hub.Config
                 );
 
                 //  index script
-                applyIndexScript(index, contentDiv);
+                applyIndexScript(index);
             }
             else
             {
@@ -969,11 +969,11 @@ MathJax.Hub.Config
         }
         return index;
     };
-    var applyIndexScript = function(index, contentDiv)
+    var applyIndexScript = function(index)
     {
         if (index)
         {
-            var previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(contentDiv.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
+            var previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(document.body.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
             var isOver = function(i)
             {
                 return index.length <= i ||
@@ -1003,7 +1003,7 @@ MathJax.Hub.Config
 
             if (0 < index.length)
             {
-                contentDiv.onscroll = function()
+                document.body.onscroll = function()
                 {
                     var previouseContetIsOver = isOver(previousState.i);
                     var nextContetIsOver = isOver(previousState.i +1);
@@ -1055,7 +1055,7 @@ MathJax.Hub.Config
                         }
                     }
                 };
-                setTimeout(contentDiv.onscroll, 0);
+                setTimeout(document.body.onscroll, 0);
             }
         }
     };

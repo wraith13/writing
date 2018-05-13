@@ -7,13 +7,8 @@
 <!--[RENDERER] REVEAL -->
 <!--[REVEAL-THEME] BLACK -->
 <!--[REVEAL-TRANSITION] CONCAVE -->
-<!--[NOREVEAL]-->
 
 # とつげきたろうex+
-
-<!--[/NOREVEAL]-->
-
-<!--[REVEAL/]## とつげきたろうex+-->
 
 <!--[REMARK-CONFIG]
 {
@@ -47,6 +42,8 @@
 - キャプチャハード: [AVerMedia AVT-C878](https://www.avermedia.co.jp/product_swap/avt-c878.html)
 - PC本体: MacBook Pro (初代 Retinaディスプレイモデル)
 - 録画ソフトウェア: QuickTime Player
+
+<!--[REVEAL/] *(↓下方向に続きがあります)* -->
 
 <!--[NOMD/]>>>-->
 
@@ -124,8 +121,7 @@ ver 3.0.0 のアップデートとともに前作のシャープマーカーに�
 
 ## プレイ動画
 
-Twitterにちょこちょこアップしてます。
-<https://twitter.com/search?f=videos&q=from%3Awraith13&src=typd>
+[プレイ動画セレクション](totsugekitarouexp.playmovie.md)
 
 ## その他
 

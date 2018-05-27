@@ -30,8 +30,8 @@ h1 img
     "ratio": "16:9"
 }
 -->
-<!--[NOREVEAL/]<span style="font-size:0.7em;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal)</span>-->
-<!--[REVEAL/]<span style="display:block;margin-left:auto;margin-right:auto;font-size:0.6em;width:450px;text-align:center;white-space:pre;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal)</span>-->
+<!--[NOREVEAL/]<span style="font-size:0.7em;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal) | [edit](https://github.com/wraith13/writing/edit/master/index.md?)</span>-->
+<!--[REVEAL/]<span style="display:block;margin-left:auto;margin-right:auto;font-size:0.6em;width:450px;text-align:center;white-space:pre;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal) | [edit](https://github.com/wraith13/writing/edit/master/index.md)</span>-->
 
 - [README](README.md)
 - [@wraith13](wraith13.md)

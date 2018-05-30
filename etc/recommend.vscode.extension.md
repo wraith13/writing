@@ -23,6 +23,14 @@
 
 <!--[WRITING/]<span style="display:block;margin-left:auto;margin-right:auto;font-size:0.7em;width:450px;text-align:center;white-space:pre;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal)</span>-->
 
+## コード関連 VSCODE 拡張
+
+### [Code Outline](https://marketplace.visualstudio.com/items?itemName=patrys.vscode-code-outline)
+
+<img alt="Code Outline" src="https://patrys.gallerycdn.vsassets.io/extensions/patrys/vscode-code-outline/0.2.1/1526483150893/Microsoft.VisualStudio.Services.Icons.Default" style="width:32px;height:32px;border-style:none;background:none;box-shadow:none;"> コードのアウトラインをサイドパネルに表示してくれます。
+
+<blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">お！ vscode さん、拡張でこれができるようになってたんか！ <a href="https://t.co/If0wabvJHS">pic.twitter.com/If0wabvJHS</a></p>&mdash; 👻 道化師 (@wraith13) <a href="https://twitter.com/wraith13/status/1001347414572154880?ref_src=twsrc%5Etfw">2018年5月29日</a></blockquote>
+
 ## ファイル関連 VSCODE 拡張
 
 ### [Active File in StatusBar](https://marketplace.visualstudio.com/items?itemName=RoscoP.ActiveFileInStatusBar)

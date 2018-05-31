@@ -907,9 +907,10 @@ MathJax.Hub.Config
         }
 
     };
-    var applyIndex = function()
+    var applyIndex = function(source)
     {
-        var withIndex = true;
+        var withIndex = /<!--\[WITH-INDEX\]\s*(.*?)\s*-->/.exec(source +"<!--[WITH-INDEX] true -->")[1].toLowerCase() === "true";
+        console.log("withIndex: " +withIndex);
         var index = null;
         if (withIndex)
         {
@@ -1239,7 +1240,7 @@ MathJax.Hub.Config
             applyContent(markdownToHtml(source));
 
             //  index
-            applyIndex();
+            applyIndex(source);
 
             //  fragment id
             applyFragmentId();

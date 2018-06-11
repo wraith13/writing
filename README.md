@@ -40,11 +40,11 @@ layout: true
 
 この README は markdown としてもスライドとしても表示できます
 
-- markdown(marked): <https://wraith13.github.io/writing/?README.md>
-- markdown(commonmark): <https://wraith13.github.io/writing/?commonmark&README.md>
-- markdown(markdown-it): <https://wraith13.github.io/writing/?markdown-it&README.md>
-- スライド(remark): <https://wraith13.github.io/writing/?remark&README.md>
-- スライド(reveal): <https://wraith13.github.io/writing/?reveal&README.md>
+- [markdown(marked)](https://wraith13.github.io/writing/?README.md)
+- [markdown(commonmark)](<https://wraith13.github.io/writing/?commonmark&README.md)
+- [markdown(markdown-it)](<https://wraith13.github.io/writing/?markdown-it&README.md)
+- [スライド(remark)](<https://wraith13.github.io/writing/?remark&README.md)
+- [スライド(reveal)](<https://wraith13.github.io/writing/?reveal&README.md)
 
 <!--[NOMD/]----->
 

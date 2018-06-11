@@ -41,14 +41,18 @@ layout: true
 この README は markdown としてもスライドとしても表示できます
 
 - markdown(marked): <https://wraith13.github.io/writing/?README.md>
+- markdown(commonmark): <https://wraith13.github.io/writing/?commonmark&README.md>
+- markdown(markdown-it): <https://wraith13.github.io/writing/?markdown-it&README.md>
 - スライド(remark): <https://wraith13.github.io/writing/?remark&README.md>
 - スライド(reveal): <https://wraith13.github.io/writing/?reveal&README.md>
 
 <!--[NOMD/]----->
 
-markdown とスライドのレンダリングエンジンには marked, remark, reveal を使ってます
+markdown とスライドのレンダリングエンジンには marked, commonmark, markdown-it, remark, reveal を使ってます
 
 - marked: <https://github.com/markedjs/marked>
+- commonmark: <https://github.com/commonmark/commonmark.js>
+- markdown-it: <https://github.com/markdown-it/markdown-it>
 - remark: <https://github.com/gnab/remark>
 - reveal: <https://github.com/hakimel/reveal.js/>
 
@@ -100,6 +104,16 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 
 - 相対パスでの指定: <https://wraith13.github.io/writing/?markdown&README.md>
 - 絶対パスでの指定: <https://wraith13.github.io/writing/?markdown&https://wraith13.github.io/writing/README.md>
+
+### URL引数で指定された markdown を commonmark で表示
+
+- 相対パスでの指定: <https://wraith13.github.io/writing/?commonmark&README.md>
+- 絶対パスでの指定: <https://wraith13.github.io/writing/?commonmark&https://wraith13.github.io/writing/README.md>
+
+### URL引数で指定された markdown を markdown-it で表示
+
+- 相対パスでの指定: <https://wraith13.github.io/writing/?markdown-it&README.md>
+- 絶対パスでの指定: <https://wraith13.github.io/writing/?markdown-it&https://wraith13.github.io/writing/README.md>
 
 ### URL引数で指定された markdown を remark でスライド表示
 

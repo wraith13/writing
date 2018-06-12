@@ -6,7 +6,6 @@
 class: center, middle
 -->
 <!--[REFERRER-OPTION] true -->
-<!--[AUTOPAGESEPARATE] true -->
 
 # writing
 
@@ -164,6 +163,20 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 ```html
 <!--[RENDERER] markdown -->
 ```
+
+#### markdown 内コメントで自動ページ区切り指定
+
+```html
+<!--[AUTOPAGESEPARATE] true -->
+```
+
+<!--[REMARK/]----->
+
+| 指定 | 挙動 |
+| --- | --- |
+| auto | 明示的なページ区切り指定となる `---` が含まれていれば false と同じに挙動になりそうでなければ true と同じ挙動になります。 ( default ) |
+| true | セクション(ヘッダー)の手前にページ区切りを自動挿入します。 |
+| false | ページ区切りを自動挿入しません。 |
 
 #### markdown 内コメントで HTML のタイトルを指定
 

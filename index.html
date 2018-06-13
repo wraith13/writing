@@ -882,7 +882,15 @@ MathJax.Hub.Config
                 innerHTML: (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim(),
             }
         );
-        return source.replace(/<!--\[STYLE\][\S\s]*?-->/, "");
+
+        return skipEscape
+        (
+            source.split("\n"),
+            function(line)
+            {
+                return line.replace(/<!--\[STYLE\][\S\s]*?-->/, "");
+            }
+        ).join("\n");
     };
     var applyWallPaper = function(baseUrl, source)
     {

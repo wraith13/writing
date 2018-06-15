@@ -481,6 +481,49 @@ MathJax.Hub.Config
             }
         );
     };
+    var skipEscapeBlock = function(source, map, escapeMap)
+    {
+        var blocks = [];
+        var curennt = [];
+        var isInEscape = false;
+        skipEscape
+        (
+            source.split("\n"),
+            function(line)
+            {
+                if (isInEscape)
+                {
+                    var currentBlock = current.join("\n");
+                    blocks.push
+                    (
+                        map ?
+                        map(currentBlock):
+                            currentBlock
+                    );
+                    isInEscape = false;
+                    current = [];
+                }
+                curennt.push(line);
+            },
+            function(line)
+            {
+                if (!isInEscape)
+                {
+                    var currentBlock = current.join("\n");
+                    blocks.push
+                    (
+                        escapeMap ?
+                            escapeMap(currentBlock):
+                            currentBlock
+                    );
+                    isInEscape = true;
+                    current = [];
+                }
+                curennt.push(line);
+            }
+        );
+        return blocks.join("\n");
+    }
     var markdownHeaderFragmentMaker = function()
     {
         this.links = [];

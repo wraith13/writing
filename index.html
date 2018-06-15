@@ -440,12 +440,12 @@ MathJax.Hub.Config
         }
         return makeRelativeUrl(makeAbsoluteUrl(base, url));
     };
-    var skipEscape = function(lines, map)
+    var skipEscape = function(lines, map, escapeMap)
     {
         var currentEscape = null;
         return lines.map
         (
-            function(line)
+            function(line, line_number)
             {
                 var escape = "$$" === line.trim() ? "$$": line.trim().replace(/^(```+|~~~+).*/, "$1").replace(/^[`~]{0,2}(([^`~].*)|$)/,"");
                 var isEscape = null === currentEscape && ("" !== escape) || (null !== currentEscape && currentEscape.substr(0,1) === escape.substr(0,1) && currentEscape.length <= escape.length);
@@ -463,10 +463,19 @@ MathJax.Hub.Config
                         currentEscape = null;
                     }
                 }
-                else
-                if (null === currentEscape)
+                if (null === currentEscape || isEscape)
                 {
-                    line = map(line);
+                    if (map)
+                    {
+                        line = map(line, line_number);
+                    }
+                }
+                else
+                {
+                    if (escapeMap)
+                    {
+                        line = escapeMap(line, line_number);
+                    }
                 }
                 return line;
             }

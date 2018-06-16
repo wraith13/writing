@@ -169,6 +169,10 @@
 
 <blockquote class="twitter-video" data-lang="ja"><p lang="ja" dir="ltr">ホコ消失マッチの冒頭の終わり。自分的には良い出だしだっただけに残念。なんか最初にホコを持った敵をキル度に「ガチホコを防いだ！」って表示されてそいつが復活する直前に「ガチホコを うばわれた！」って表示され続けてた。味方のヒーローシューターと敵マニュコラだけが最後まで戦い続けてた。 <a href="https://t.co/IbqhPjiZvf">pic.twitter.com/IbqhPjiZvf</a></p>&mdash; 👻 道化師 (@wraith13) <a href="https://twitter.com/wraith13/status/937244110716465152?ref_src=twsrc%5Etfw">2017年12月3日</a></blockquote>
 
+## オクト
+
+<blockquote class="twitter-video" data-lang="ja"><p lang="ja" dir="ltr">チャージャー使いとして意地でチャー(竹)でクリアした I05/B08 リンゴダ・イエッ島駅。余裕でクリアしてるように見えるけど、何十回と失敗し続けてる結果であって余裕でクリアしてるようなプレイができるようになるまでクリアできなかった。 <a href="https://t.co/86nBXIMV1J">pic.twitter.com/86nBXIMV1J</a></p>&mdash; 👻 道化師 (@wraith13) <a href="https://twitter.com/wraith13/status/1007907138478329856?ref_src=twsrc%5Etfw">2018年6月16日</a></blockquote>
+
 ## 前作のプレイ動画
 
 <!--[REVEAL/]その1 *(↓下方向に続きがあります)* -->

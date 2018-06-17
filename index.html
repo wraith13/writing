@@ -484,7 +484,7 @@ MathJax.Hub.Config
     var skipEscapeBlock = function(source, map, escapeMap)
     {
         var blocks = [];
-        var curennt = [];
+        var current = [];
         var isInEscape = false;
         skipEscape
         (
@@ -503,7 +503,7 @@ MathJax.Hub.Config
                     isInEscape = false;
                     current = [];
                 }
-                curennt.push(line);
+                current.push(line);
             },
             function(line)
             {
@@ -519,9 +519,30 @@ MathJax.Hub.Config
                     isInEscape = true;
                     current = [];
                 }
-                curennt.push(line);
+                current.push(line);
             }
         );
+        if (!isInEscape)
+        {
+            var currentBlock = current.join("\n");
+            blocks.push
+            (
+                map ?
+                map(currentBlock):
+                    currentBlock
+            );
+        }
+        else
+        {
+            //  ここにくるのは code escape が閉じてない時だけなので、基本的には到達してはいけない。
+            var currentBlock = current.join("\n");
+            blocks.push
+            (
+                escapeMap ?
+                    escapeMap(currentBlock):
+                    currentBlock
+            );
+        }
         return blocks.join("\n");
     }
     var markdownHeaderFragmentMaker = function()

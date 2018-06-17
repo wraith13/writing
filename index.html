@@ -956,14 +956,14 @@ MathJax.Hub.Config
             }
         );
 
-        return skipEscape
+        return skipEscapeBlock
         (
-            source.split("\n"),
+            source,
             function(line)
             {
                 return line.replace(/<!--\[STYLE\][\S\s]*?-->/, "");
             }
-        ).join("\n");
+        );
     };
     var applyWallPaper = function(baseUrl, source)
     {

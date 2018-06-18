@@ -496,8 +496,8 @@ MathJax.Hub.Config
                     var currentBlock = current.join("\n");
                     blocks.push
                     (
-                        map ?
-                        map(currentBlock):
+                        escapeMap ?
+                            escapeMap(currentBlock):
                             currentBlock
                     );
                     isInEscape = false;
@@ -512,9 +512,9 @@ MathJax.Hub.Config
                     var currentBlock = current.join("\n");
                     blocks.push
                     (
-                        escapeMap ?
-                            escapeMap(currentBlock):
-                            currentBlock
+                        map ?
+                            map(currentBlock):
+                                currentBlock
                     );
                     isInEscape = true;
                     current = [];
@@ -959,9 +959,9 @@ MathJax.Hub.Config
         return skipEscapeBlock
         (
             source,
-            function(line)
+            function(block)
             {
-                return line.replace(/<!--\[STYLE\][\S\s]*?-->/, "");
+                return block.replace(/<!--\[STYLE\][\S\s]*?-->/, "");
             }
         );
     };

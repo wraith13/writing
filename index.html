@@ -1455,7 +1455,14 @@ MathJax.Hub.Config
                 function()
                 {
                     var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-                    source = source.replace(/<!--\[REMARK-CONFIG\][\S\s]*?-->/, "");
+                    source = skipEscapeBlock
+                    (
+                        source,
+                        function(block)
+                        {
+                            return block.replace(/<!--\[REMARK-CONFIG\][\S\s]*?-->/, "");
+                        }
+                    );
                     config.source = translateForMathJax
                     (
                         translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))

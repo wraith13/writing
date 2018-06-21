@@ -239,7 +239,7 @@ layout: true
 
 <https://github.com/wraith13/writing/tree/master/theme>
 
-> これは remark 用のテーマ集であり、 remark HTML には依存しません。
+> これは remark 用のテーマ集であり、 writing HTML には依存しません。
 
 ## remark animation themes
 

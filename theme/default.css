@@ -140,7 +140,6 @@ body.markdown .wallpaper
     padding: 0;
     opacity: 0.2;
     z-index: -2;
-    /*background-image: url("/private/02920_woodpeckereggs_1920x1200.jpg");*/
     background-size: cover;
 }
 body.markdown .wallpaper::before

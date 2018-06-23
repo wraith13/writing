@@ -141,6 +141,7 @@ body.markdown .wallpaper
     opacity: 0.2;
     z-index: -2;
     background-size: cover;
+    background-position: center;
 }
 body.markdown .wallpaper::before
 {

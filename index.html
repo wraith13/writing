@@ -544,7 +544,23 @@ MathJax.Hub.Config
             );
         }
         return blocks.join("\n");
-    }
+    };
+    var applyOption = function(source, TAG, applyer)
+    {
+        return skipEscapeBlock
+        (
+            source,
+            function(block)
+            {
+                var reg = new RegExp("<!--\\[" +TAG +"\\]\\s*([\\s\\S]*?)\\s*-->", "gm");
+                var matches = null;
+                while (matches = reg.exec(block)) {
+                    applyer(matches[1]);
+                }
+                return block.replace(reg, "");
+            }
+        );
+    };
     var markdownHeaderFragmentMaker = function()
     {
         this.links = [];

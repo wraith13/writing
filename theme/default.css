@@ -130,7 +130,7 @@ body.markdown
 body.markdown .wallpaper
 {
     /* 壁紙用のレイヤー */
-    position: absolute;
+    position: fixed;
     left: 0px;
     top: 0px;
     width: 100vw;
@@ -142,6 +142,7 @@ body.markdown .wallpaper
     z-index: -2;
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
 }
 body.markdown .wallpaper::before
 {

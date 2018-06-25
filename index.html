@@ -963,21 +963,20 @@ MathJax.Hub.Config
     };
     var applyStyle = function(source)
     {
-        makeDomNode
-        (
-            {
-                parent: document.head,
-                tag: "style",
-                innerHTML: (source+"<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim(),
-            }
-        );
-
-        return skipEscapeBlock
+        return applyOption
         (
             source,
-            function(block)
+            "STYLE",
+            function(option)
             {
-                return block.replace(/<!--\[STYLE\][\S\s]*?-->/, "");
+                makeDomNode
+                (
+                    {
+                        parent: document.head,
+                        tag: "style",
+                        innerHTML: option,
+                    }
+                );
             }
         );
     };

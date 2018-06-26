@@ -906,10 +906,7 @@ MathJax.Hub.Config
     };
     var applyTitle = function(source)
     {
-        var title = (source+"<!--[TITLE] -->").split("<!--[TITLE]")[1].split("-->")[0].trim();
-        if ("" === title)
-        {
-            title =
+        var title =
             (
                 source
                 .split("\n---\n")[0]
@@ -926,11 +923,21 @@ MathJax.Hub.Config
             )
             .replace(/\s+/g," ")
             .slice(0, 64);
-        }
+        var result = applyOption
+        (
+            source,
+            "TITLE",
+            function(option)
+            {
+                title = option;
+            }
+        );
         document.title = title
             .replace(/&lt;/, "<")
             .replace(/&gt;/, ">");
         document.getElementById("twitter-card-title").content = title;
+
+        return result;
     };
     var applyIcon = function(baseUrl, source)
     {

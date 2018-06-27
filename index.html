@@ -561,6 +561,21 @@ MathJax.Hub.Config
             }
         );
     };
+    var applyOptionOnce = function(source, TAG, applyer, defaultValue)
+    {
+        var option = defaultValue;
+        var result = applyOption
+        (
+            source,
+            TAG,
+            function(value)
+            {
+                option = value;
+            }
+        );
+        applyer(option);
+        return result;
+    };
     var markdownHeaderFragmentMaker = function()
     {
         this.links = [];

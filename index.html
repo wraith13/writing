@@ -921,38 +921,39 @@ MathJax.Hub.Config
     };
     var applyTitle = function(source)
     {
-        var title =
-            (
-                source
-                .split("\n---\n")[0]
-                .replace(/!\[(.*?)\]\(.*?\)/g, "")
-                .replace(/\[(.*?)\]\(.*?\)/g, "$1")
-                .replace(/([\W\w]*?)(\n?#+\s+)/, "$2")
-                .replace(/(^|\n)#+\s+(.*)([\W\w]*)/, "$2")
-                .replace(/<!--.*?-->/g, "")
-                .replace(/<.*?>/g, "")
-                .split("\n")
-                .map(function(i){ return i.trim(); })
-                .filter(function(i) { return 0 < i.length })[0]
-                || "untitled"
-            )
-            .replace(/\s+/g," ")
-            .slice(0, 64);
-        var result = applyOption
+        return applyOptionOnce
         (
             source,
             "TITLE",
             function(option)
             {
-                title = option;
+                var title = option;
+                if (undefined === title || "" === title)
+                {
+                    title =
+                    (
+                        source
+                        .split("\n---\n")[0]
+                        .replace(/!\[(.*?)\]\(.*?\)/g, "")
+                        .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+                        .replace(/([\W\w]*?)(\n?#+\s+)/, "$2")
+                        .replace(/(^|\n)#+\s+(.*)([\W\w]*)/, "$2")
+                        .replace(/<!--.*?-->/g, "")
+                        .replace(/<.*?>/g, "")
+                        .split("\n")
+                        .map(function(i){ return i.trim(); })
+                        .filter(function(i) { return 0 < i.length })[0]
+                        || "untitled"
+                    )
+                    .replace(/\s+/g," ")
+                    .slice(0, 64);
+                }
+                document.title = title
+                    .replace(/&lt;/, "<")
+                    .replace(/&gt;/, ">");
+                document.getElementById("twitter-card-title").content = title;
             }
         );
-        document.title = title
-            .replace(/&lt;/, "<")
-            .replace(/&gt;/, ">");
-        document.getElementById("twitter-card-title").content = title;
-
-        return result;
     };
     var applyIcon = function(baseUrl, source)
     {

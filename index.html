@@ -481,7 +481,7 @@ MathJax.Hub.Config
             }
         );
     };
-    var skipEscapeBlock = function(source, map, escapeMap)
+    var skipEscapeBlock = function(source, map, escapeMap, finish)
     {
         var blocks = [];
         var current = [];
@@ -543,9 +543,13 @@ MathJax.Hub.Config
                     currentBlock
             );
         }
+        if (undefined !== finish)
+        {
+            finish();
+        }
         return blocks.join("\n");
     };
-    var applyOption = function(source, TAG, applyer)
+    var applyOption = function(source, TAG, applyer, finish)
     {
         return skipEscapeBlock
         (
@@ -558,7 +562,9 @@ MathJax.Hub.Config
                     applyer(matches[1]);
                 }
                 return block.replace(reg, "");
-            }
+            },
+            undefined,
+            finish
         );
     };
     var applyOptionOnce = function(source, TAG, applyer, defaultValue)

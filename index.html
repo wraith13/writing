@@ -957,8 +957,20 @@ MathJax.Hub.Config
     };
     var applyIcon = function(baseUrl, source)
     {
-        var favicon = (source+"<!--[FAVICON] -->").split("<!--[FAVICON]")[1].split("-->")[0].trim();
-        appendIcon(favicon ? makeAbsoluteUrl(baseUrl, favicon): makeAbsoluteUrl(location.href, "writinghex.128.png"));
+        return applyOptionOnce
+        (
+            source,
+            "FAVICON",
+            function(option)
+            {
+                appendIcon
+                (
+                    option ?
+                        makeAbsoluteUrl(baseUrl, option):
+                        makeAbsoluteUrl(location.href, "writinghex.128.png")
+                );
+            }
+        );
     };
     var applyTheme = function(baseUrl, source)
     {
@@ -1335,10 +1347,10 @@ MathJax.Hub.Config
         }
 
         //  title
-        applyTitle(source);
+        source = applyTitle(source);
 
         //  favicon
-        applyIcon(baseUrl, source);
+        source = applyIcon(baseUrl, source);
 
         var applyMarkdown = function(markdownToHtml)
         {

@@ -569,18 +569,20 @@ MathJax.Hub.Config
     };
     var applyOptionOnce = function(source, TAG, applyer, defaultValue)
     {
-        var option = defaultValue;
-        var result = applyOption
+        var context = { option: defaultValue };
+        return applyOption
         (
             source,
             TAG,
             function(value)
             {
-                option = value;
+                context.option = value;
+            },
+            function()
+            {
+                applyer(context.option);
             }
         );
-        applyer(option);
-        return result;
     };
     var markdownHeaderFragmentMaker = function()
     {

@@ -982,27 +982,24 @@ MathJax.Hub.Config
     };
     var applyTheme = function(baseUrl, source)
     {
-        var themes = (source+"<!--[THEME] -->").split("<!--[THEME]")
-            .slice(1)
-            .map
-            (
-                function(i)
-                {
-                    return i.split("-->")[0].trim();
-                }
-            )
-            .filter(function(i) { return "" !== i });
-        themes.forEach
+        var context = { has_theme: false };
+        return applyOption
         (
-            function(i)
+            source,
+            "THEME",
+            function(option)
             {
-                appendTheme(makeRebaseUrl(baseUrl, i));
+                appendTheme(makeRebaseUrl(baseUrl, option));
+                context.nohas_theme_theme = true;
+            },
+            function()
+            {
+                if (!context.has_theme)
+                {
+                    appendTheme("theme/default.css");
+                }
             }
         );
-        if (0 === themes.length)
-        {
-            appendTheme("theme/default.css");
-        }
     };
     var applyStyle = function(source)
     {
@@ -1364,7 +1361,7 @@ MathJax.Hub.Config
         {
             //  theme
             appendHighlightTheme();
-            applyTheme(baseUrl, source);
+            source = applyTheme(baseUrl, source);
 
             //  style
             source = applyStyle(source);
@@ -1488,7 +1485,7 @@ MathJax.Hub.Config
         if (isRemark)
         {
             //  theme
-            applyTheme(baseUrl, source);
+            source = applyTheme(baseUrl, source);
 
             //  style
             source = applyStyle(source);
@@ -1548,7 +1545,7 @@ MathJax.Hub.Config
             appendTheme(window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
             
             //  theme
-            applyTheme(baseUrl, source);
+            source = applyTheme(baseUrl, source);
 
             //  style
             source = applyStyle(source);

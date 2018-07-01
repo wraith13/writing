@@ -1023,25 +1023,30 @@ MathJax.Hub.Config
     var applyWallPaper = function(baseUrl, source)
     {
         document.body.className = "markdown";
-
-        var wallPaper = (source+"<!--[WALLPAPER] -->").split("<!--[WALLPAPER]")[1].split("-->")[0].trim();
-        if (wallPaper)
-        {
-            document.body.className += " with-wallpaper";
-            makeDomNode
-            (
+        return applyOptionOnce
+        (
+            source,
+            "WALLPAPER",
+            function(option)
+            {
+                if (option)
                 {
-                    parent: document.body,
-                    tag: "div",
-                    className: "wallpaper",
-                    style:
-                    {
-                        backgroundImage: "url(\"" +makeRebaseUrl(baseUrl, wallPaper) +"\")",
-                    },
+                    document.body.className += " with-wallpaper";
+                    makeDomNode
+                    (
+                        {
+                            parent: document.body,
+                            tag: "div",
+                            className: "wallpaper",
+                            style:
+                            {
+                                backgroundImage: "url(\"" +makeRebaseUrl(baseUrl, option) +"\")",
+                            },
+                        }
+                    );
                 }
-            );
-        }
-
+            }
+        );
     };
     var applyIndex = function(source)
     {

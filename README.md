@@ -5,7 +5,9 @@
 <!--
 class: center, middle
 -->
+<!--[TITLE] writing README -->
 <!--[REFERRER-OPTION] true -->
+<!--[RENDERER] markdown -->
 
 # writing
 

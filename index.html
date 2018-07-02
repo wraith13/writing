@@ -1319,11 +1319,17 @@ MathJax.Hub.Config
                 window.history.replaceState(null, document.title, newUrl);
             }
         }
-        if (!renderer)
-        {
-            renderer = /<!--\[RENDERER\]\s*(.*?)\s*-->/.exec(source +"<!--[RENDERER]MARKDOWN-->")[1].toLowerCase();
-            console.log("renderer: " +(renderer || "null"));
-        }
+        source = applyOptionOnce
+        (
+            source,
+            "RENDERER",
+            function(option)
+            {
+                renderer = renderer || option.toLowerCase();
+                console.log("renderer: " +(renderer || "null"));
+            },
+            "markdown"
+        );
         var isWriting = true;
         var isMarked = "marked" === renderer;
         var isCommonMark = "commonmark" === renderer;

@@ -230,6 +230,12 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 
 ⚠ JSONでの指定となる為、項目名をダブルクォーテーションで括るのを忘れないように注意してください。
 
+#### markdown 内コメントで壁紙を指定( markdown 表示の場合のみ有効 )
+
+```html
+<!--[WALLPAPER] wallpaper.png -->
+```
+
 ## remark themes
 
 <!--

@@ -871,7 +871,17 @@ MathJax.Hub.Config
     };
     var translateForSlide = function(source)
     {
-        var autoPageSeparate = /<!--\[AUTOPAGESEPARATE\]\s*(.*?)\s*-->/.exec(source +"<!--[AUTOPAGESEPARATE] auto -->")[1].toLowerCase();
+        var autoPageSeparate;
+        source = applyOptionOnce
+        (
+            source,
+            "AUTOPAGESEPARATE",
+            function(option)
+            {
+                autoPageSeparate = option.toLowerCase();
+            },
+            "auto"
+        );
         console.log("autoPageSeparate: " +autoPageSeparate);
         if ("true" === autoPageSeparate || ("false" !== autoPageSeparate && !/\n---\n/.test(source)))
         {

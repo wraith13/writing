@@ -8,6 +8,7 @@ class: center, middle
 <!--[TITLE] writing README -->
 <!--[REFERRER-OPTION] true -->
 <!--[RENDERER] markdown -->
+<!--[AUTOPAGESEPARATE] true -->
 
 # writing
 

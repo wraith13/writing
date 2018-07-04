@@ -47,6 +47,7 @@ MathJax.Hub.Config
     document.body.removeChild(document.getElementById("writing-HTML-selfloading-error"));
 
     var globalState = { };
+    globalState.config = { };
     var explicitFragmentIdPattern = /\{\#(.*?)\}$/;
 
     RegExp.escape = function(s)
@@ -581,6 +582,42 @@ MathJax.Hub.Config
             function()
             {
                 applyer(context.option);
+            }
+        );
+    };
+    var loadConfig = function(source)
+    {
+        return applyOption
+        (
+            source,
+            "WRTING-CONFING",
+            function(option)
+            {
+                try
+                {
+                    objectAssign
+                    (
+                        globalState.config,
+                        JSON.parse(option)
+                    );
+                }
+                catch(err)
+                {
+                    console.error(err);
+                    console.error("error WRTING-CONFING: " +option);
+                }
+            },
+            function()
+            {
+                console.log
+                (
+                    "WRTING-CONFING(globalState.config): " +JSON.stringify
+                    (
+                        globalState.config,
+                        null,
+                        4
+                    )
+                );
             }
         );
     };
@@ -1280,6 +1317,10 @@ MathJax.Hub.Config
         //  regulate return code
         source = source.replace(/\r\n/g,"\n");
 
+        //  preload config
+        loadConfig(source);
+        //  この段階ではレンダラが確定しておらずディレクティブが機能していないがレンダラーに関する指定を取得する為に一度読み込む。後でリロードする。
+
         if ("true" === (source+"<!--[REFERRER-OPTION] false -->").split("<!--[REFERRER-OPTION]")[1].split("-->")[0].trim().toLowerCase())
         {
             console.log("referrer: " +document.referrer);
@@ -1372,6 +1413,10 @@ MathJax.Hub.Config
             source = applyConditionalComment(source, isReveal, "REVEAL");
         }
 
+        //  reload config
+        globalState.config = { }; // ディレクティブが効いてない状態で読み込んだ設定をクリア
+        source = loadConfig(source);
+        
         //  title
         source = applyTitle(source);
 

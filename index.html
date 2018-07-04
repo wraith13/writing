@@ -1321,7 +1321,7 @@ MathJax.Hub.Config
         loadConfig(source);
         //  この段階ではレンダラが確定しておらずディレクティブが機能していないがレンダラーに関する指定を取得する為に一度読み込む。後でリロードする。
 
-        if ("true" === (source+"<!--[REFERRER-OPTION] false -->").split("<!--[REFERRER-OPTION]")[1].split("-->")[0].trim().toLowerCase())
+        if (globalState.config.referrer_option)
         {
             console.log("referrer: " +document.referrer);
             var newUrl = location.href;

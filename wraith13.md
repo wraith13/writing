@@ -2,7 +2,11 @@
 <link rel="canonical" href="https://wraith13.github.io/writing/?wraith13.md" />
 この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?wraith13.md">https://wraith13.github.io/writing/?wraith13.md</a>
 <!--[/NOWRITING]-->
-<!--[REFERRER-OPTION] true -->
+<!--[WRTING-CONFING]
+{
+    "referrer_option": true
+}
+-->
 <!--[REVEAL-THEME] BLACK -->
 <!--[REVEAL-TRANSITION] CONCAVE -->
 <!--

@@ -3,7 +3,11 @@
 この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?splatoon2/totsugekitarouexp.playmovie.md">https://wraith13.github.io/writing/?splatoon2/totsugekitarouexp.playmovie.md</a>
 <!--[/NOWRITING]-->
 <!--[AUTOPAGESEPARATE] true -->
-<!--[REFERRER-OPTION] true -->
+<!--[WRTING-CONFING]
+{
+    "referrer_option": true
+}
+-->
 <!--[RENDERER] REVEAL -->
 <!--[REVEAL-THEME] BLACK -->
 <!--[REVEAL-TRANSITION] CONCAVE -->

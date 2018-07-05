@@ -2,7 +2,11 @@
 この markdown の表示用URL: <https://wraith13.github.io/writing/?demo/reveal.md>
 <!--[/NOWRITING]-->
 <!--[TITLE] reveal.js – The HTML Presentation Framework -->
-<!--[RENDERER] REVEAL -->
+<!--[WRTING-CONFING]
+{
+    "renderer": "reveal"
+}
+-->
 <!--[REVEAL-THEME] black -->
 <!--[REVEAL-TRANSITION] slide -->
 <!--[THEME] ../theme/null.css -->

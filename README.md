@@ -6,9 +6,13 @@
 class: center, middle
 -->
 <!--[TITLE] writing README -->
-<!--[REFERRER-OPTION] true -->
-<!--[RENDERER] markdown -->
 <!--[AUTOPAGESEPARATE] true -->
+<!--[WRTING-CONFING]
+{
+    "referrer_option": true,
+    "renderer": markdown
+}
+-->
 
 # writing
 
@@ -164,7 +168,11 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 #### markdown 内コメントでレンダリングエンジンを指定
 
 ```html
-<!--[RENDERER] markdown -->
+<!--[WRTING-CONFING]
+{
+    "renderer": "reveal"
+}
+-->
 ```
 
 #### markdown 内コメントで自動ページ区切り指定

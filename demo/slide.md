@@ -2,7 +2,11 @@
 <link rel="canonical" href="https://wraith13.github.io/writing/?demo/slide.md" />
 この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?demo/slide.md">https://wraith13.github.io/writing/?demo/slide.md</a>
 <!--[/NOWRITING]-->
-<!--[RENDERER] REMARK -->
+<!--[WRTING-CONFING]
+{
+    "renderer": "remark"
+}
+-->
 <!--
 class: center, middle
 -->

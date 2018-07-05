@@ -1370,17 +1370,8 @@ MathJax.Hub.Config
                 window.history.replaceState(null, document.title, newUrl);
             }
         }
-        source = applyOptionOnce
-        (
-            source,
-            "RENDERER",
-            function(option)
-            {
-                renderer = renderer || option.toLowerCase();
-                console.log("renderer: " +(renderer || "null"));
-            },
-            "markdown"
-        );
+        renderer = renderer || (globalState.config.renderer || "markdown").toLowerCase();
+        console.log("renderer: " +(renderer || "null"));
         var isWriting = true;
         var isMarked = "marked" === renderer;
         var isCommonMark = "commonmark" === renderer;

@@ -5,10 +5,10 @@
 <!--[AUTOPAGESEPARATE] true -->
 <!--[WRTING-CONFING]
 {
-    "referrer_option": true
+    "referrer_option": true,
+    "renderer": "reveal"
 }
 -->
-<!--[RENDERER] REVEAL -->
 <!--[REVEAL-THEME] BLACK -->
 <!--[REVEAL-TRANSITION] CONCAVE -->
 <!--[NOREVEAL]-->

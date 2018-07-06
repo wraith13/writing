@@ -4,14 +4,14 @@
 <!--[/NOWRITING]-->
 <!--[REMARK-CONFIG]
 {
-    "ratio": "16:9"
+    "ratio": "16:9",
+    "favicon": "splash.1024.png"
 }
 -->
 <!--[REMARK]-->
 <!--[THEME] ../theme/chocolate.css -->
 <!--[THEME] ../animation/fade.css -->
 <!--[/REMARK]-->
-<!--[FAVICON] splash.1024.png -->
 <!--[TITLE] Splatoon2 基礎講座 -->
 <!--[AUTOPAGESEPARATE] true -->
 <!--[REVEAL-THEME] BLACK -->

@@ -4,7 +4,8 @@
 <!--[/NOWRITING]-->
 <!--[WRTING-CONFING]
 {
-    "referrer_option": true
+    "referrer_option": true,
+    "favicon": "https://github.com/wraith13.png"
 }
 -->
 <!--[REVEAL-THEME] BLACK -->
@@ -50,7 +51,6 @@ class: center, middle
 - [back to writing](index.md)
 
 <!--[TITLE] @wraith13 -->
-<!--[FAVICON] https://github.com/wraith13.png -->
 <!--[REMARK]-->
 <!--[THEME] ../theme/chocolate.css -->
 <!--[THEME] ../animation/fade.css -->

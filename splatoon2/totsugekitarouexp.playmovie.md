@@ -6,7 +6,8 @@
 <!--[WRTING-CONFING]
 {
     "referrer_option": true,
-    "renderer": "reveal"
+    "renderer": "reveal",
+    "favicon": "totsugekitarouexp.rounded.png"
 }
 -->
 <!--[REVEAL-THEME] BLACK -->
@@ -28,7 +29,6 @@
 <!--[THEME] ../theme/chocolate.css -->
 <!--[THEME] ../animation/fade.css -->
 <!--[/REMARK]-->
-<!--[FAVICON] totsugekitarouexp.rounded.png -->
 
 <img alt="とつげきたろうex+" src="totsugekitarouexp.rounded.png" style="display:block;width:300px;height:300px;border-radius:150px;margin-left:auto;margin-right:auto;">
 

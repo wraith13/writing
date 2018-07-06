@@ -10,7 +10,8 @@ class: center, middle
 <!--[WRTING-CONFING]
 {
     "referrer_option": true,
-    "renderer": markdown
+    "renderer": markdown,
+    "favicon": "https://wraith13.github.io/writing/writinghex.128.png"
 }
 -->
 
@@ -198,7 +199,11 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 #### markdown 内コメントで HTML の favicon を指定
 
 ```html
-<!--[FAVICON] https://wraith13.github.io/writing/writinghex.128.png -->
+<!--[WRTING-CONFING]
+{
+    "favicon": "https://wraith13.github.io/writing/writinghex.128.png"
+}
+-->
 ```
 
 > markdown からの相対パスでも絶対パスでも構いません。

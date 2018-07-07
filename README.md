@@ -5,12 +5,12 @@
 <!--
 class: center, middle
 -->
-<!--[TITLE] writing README -->
 <!--[AUTOPAGESEPARATE] true -->
 <!--[WRTING-CONFING]
 {
     "referrer_option": true,
     "renderer": markdown,
+    "title": "writing README",
     "favicon": "https://wraith13.github.io/writing/writinghex.128.png"
 }
 -->
@@ -193,7 +193,11 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 #### markdown 内コメントで HTML のタイトルを指定
 
 ```html
-<!--[TITLE] writing README -->
+<!--[WRTING-CONFING]
+{
+    "title": "writing README"
+}
+-->
 ```
 
 #### markdown 内コメントで HTML の favicon を指定

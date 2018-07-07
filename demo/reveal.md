@@ -1,10 +1,10 @@
 <!--[NOWRITING]-->
 この markdown の表示用URL: <https://wraith13.github.io/writing/?demo/reveal.md>
 <!--[/NOWRITING]-->
-<!--[TITLE] reveal.js – The HTML Presentation Framework -->
 <!--[WRTING-CONFING]
 {
-    "renderer": "reveal"
+    "renderer": "reveal",
+    "title": "reveal.js – The HTML Presentation Framework"
 }
 -->
 <!--[REVEAL-THEME] black -->

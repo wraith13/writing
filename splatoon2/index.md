@@ -5,6 +5,7 @@
 <!--[REMARK-CONFIG]
 {
     "ratio": "16:9",
+    "title": "Splatoon2 基礎講座",
     "favicon": "splash.1024.png"
 }
 -->
@@ -12,7 +13,6 @@
 <!--[THEME] ../theme/chocolate.css -->
 <!--[THEME] ../animation/fade.css -->
 <!--[/REMARK]-->
-<!--[TITLE] Splatoon2 基礎講座 -->
 <!--[AUTOPAGESEPARATE] true -->
 <!--[REVEAL-THEME] BLACK -->
 <!--[REVEAL-TRANSITION] CONCAVE -->

@@ -3,8 +3,12 @@
 <!--[/NOWRITING]-->
 # 江添亮の詳説C++17
 
-<!--[TITLE] 江添亮の詳説C++17 -->
-<!--[WALLPAPERX] map.jpg -->
+<!--[WRTING-CONFING]
+{
+    "title": "江添亮の詳説C++17",
+    "wallpaper-x": "map.jpg"
+}
+-->
 <!--[STYLE]
 body.marked .wallpaper
 {

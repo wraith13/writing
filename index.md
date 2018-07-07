@@ -5,7 +5,11 @@
 
 # ![](writinghex.128.png)writing index
 
-<!--[TITLE] writing index -->
+<!--[WRTING-CONFING]
+{
+    "title": "writing index"
+}
+-->
 <!--[THEME] theme/default.css -->
 <!--[STYLE]
 h1

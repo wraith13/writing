@@ -5,7 +5,11 @@
 
 # writing demo
 
-<!--[TITLE] writing demo -->
+<!--[WRTING-CONFING]
+{
+    "title": "writing demo"
+}
+-->
 <!--[THEME] ../theme/default.css -->
 <!--[STYLE]
 h1

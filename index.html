@@ -976,39 +976,30 @@ MathJax.Hub.Config
     };
     var applyTitle = function(source)
     {
-        return applyOptionOnce
-        (
-            source,
-            "TITLE",
-            function(option)
-            {
-                var title = option;
-                if (undefined === title || "" === title)
-                {
-                    title =
-                    (
-                        source
-                        .split("\n---\n")[0]
-                        .replace(/!\[(.*?)\]\(.*?\)/g, "")
-                        .replace(/\[(.*?)\]\(.*?\)/g, "$1")
-                        .replace(/([\W\w]*?)(\n?#+\s+)/, "$2")
-                        .replace(/(^|\n)#+\s+(.*)([\W\w]*)/, "$2")
-                        .replace(/<!--.*?-->/g, "")
-                        .replace(/<.*?>/g, "")
-                        .split("\n")
-                        .map(function(i){ return i.trim(); })
-                        .filter(function(i) { return 0 < i.length })[0]
-                        || "untitled"
-                    )
-                    .replace(/\s+/g," ")
-                    .slice(0, 64);
-                }
-                document.title = title
-                    .replace(/&lt;/, "<")
-                    .replace(/&gt;/, ">");
-                document.getElementById("twitter-card-title").content = title;
-            }
-        );
+        if (undefined === globalState.config.title || "" === globalState.config.title)
+        {
+            globalState.config.title =
+            (
+                source
+                .split("\n---\n")[0]
+                .replace(/!\[(.*?)\]\(.*?\)/g, "")
+                .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+                .replace(/([\W\w]*?)(\n?#+\s+)/, "$2")
+                .replace(/(^|\n)#+\s+(.*)([\W\w]*)/, "$2")
+                .replace(/<!--.*?-->/g, "")
+                .replace(/<.*?>/g, "")
+                .split("\n")
+                .map(function(i){ return i.trim(); })
+                .filter(function(i) { return 0 < i.length })[0]
+                || "untitled"
+            )
+            .replace(/\s+/g," ")
+            .slice(0, 64)
+            .replace(/&lt;/, "<")
+            .replace(/&gt;/, ">");
+        }
+        document.title = globalState.config.title;
+        document.getElementById("twitter-card-title").content = globalState.config.title;
     };
     var applyIcon = function(baseUrl)
     {
@@ -1401,7 +1392,7 @@ MathJax.Hub.Config
         source = loadConfig(source);
         
         //  title
-        source = applyTitle(source);
+        applyTitle(source);
 
         //  favicon
         applyIcon(baseUrl);

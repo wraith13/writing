@@ -5,6 +5,7 @@
 <!--[WRTING-CONFING]
 {
     "referrer_option": true,
+    "title": "@wraith13",
     "favicon": "https://github.com/wraith13.png"
 }
 -->
@@ -50,7 +51,6 @@ class: center, middle
 
 - [back to writing](index.md)
 
-<!--[TITLE] @wraith13 -->
 <!--[REMARK]-->
 <!--[THEME] ../theme/chocolate.css -->
 <!--[THEME] ../animation/fade.css -->

@@ -7,10 +7,10 @@
 
 <!--[WRTING-CONFING]
 {
-    "title": "writing demo"
+    "title": "writing demo",
+    "theme": ["../theme/default.css"]
 }
 -->
-<!--[THEME] ../theme/default.css -->
 <!--[STYLE]
 h1
 {

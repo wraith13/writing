@@ -11,7 +11,8 @@ class: center, middle
     "renderer": markdown,
     "title": "writing README",
     "favicon": "https://wraith13.github.io/writing/writinghex.128.png",
-    "autoPageSeparate": true
+    "autoPageSeparate": true,
+    "theme": ["theme/default.css"]
 }
 -->
 
@@ -219,8 +220,14 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 #### markdown 内コメントで HTML のテーマ(CSSファイル)を指定
 
 ```html
-<!--[THEME] theme/default.css -->
+<!--[WRTING-CONFING]
+{
+    "theme": ["theme/default.css"]
+}
+-->
 ```
+
+> ⚠ 一つしか指定しない場合でも必ず配列として指定してください。
 
 <!--[REVEAL]-->
 <!--[REVEAL-THEME] league -->

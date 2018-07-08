@@ -21,8 +21,15 @@
 }
 -->
 <!--[REMARK]-->
-<!--[THEME] ../theme/chocolate.css -->
-<!--[THEME] ../animation/fade.css -->
+<!--[WRTING-CONFING]
+{
+    "theme":
+    [
+        "../theme/chocolate.css",
+        "../animation/fade.css"
+    ]
+}
+-->
 <!--[/REMARK]-->
 
 <img alt="とつげきたろうex+" src="totsugekitarouexp.rounded.png" style="display:block;width:300px;height:300px;border-radius:150px;margin-left:auto;margin-right:auto;">

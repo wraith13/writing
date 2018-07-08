@@ -39,7 +39,11 @@ MathJax.Hub.Config
 
 なんからの手違いで writing のレンダリングシステムを markdown ソースとして読み込んでしまっているか、あるいは JavaScript が正常に動作していません。
 
-<!--[THEME] theme/default.css -->
+<!--[WRTING-CONFING]
+{
+    "theme": ["theme/default.css"]
+}
+-->
 </div><script>
 'use strict';
 (function()
@@ -1010,26 +1014,22 @@ MathJax.Hub.Config
                 makeAbsoluteUrl(location.href, "writinghex.128.png")
         );
     };
-    var applyTheme = function(baseUrl, source)
+    var applyTheme = function(baseUrl)
     {
-        var context = { has_theme: false };
-        return applyOption
-        (
-            source,
-            "THEME",
-            function(option)
-            {
-                appendTheme(makeRebaseUrl(baseUrl, option));
-                context.nohas_theme_theme = true;
-            },
-            function()
-            {
-                if (!context.has_theme)
+        if (globalState.config.theme)
+        {
+            globalState.config.theme.forEach
+            (
+                function(i)
                 {
-                    appendTheme("theme/default.css");
+                    appendTheme(makeRebaseUrl(baseUrl, i));
                 }
-            }
-        );
+            );
+        }
+        else
+        {
+            appendTheme("theme/default.css");
+        }
     };
     var applyStyle = function(source)
     {
@@ -1401,7 +1401,7 @@ MathJax.Hub.Config
         {
             //  theme
             appendHighlightTheme();
-            source = applyTheme(baseUrl, source);
+            applyTheme(baseUrl);
 
             //  style
             source = applyStyle(source);
@@ -1525,7 +1525,7 @@ MathJax.Hub.Config
         if (isRemark)
         {
             //  theme
-            source = applyTheme(baseUrl, source);
+            applyTheme(baseUrl);
 
             //  style
             source = applyStyle(source);
@@ -1585,7 +1585,7 @@ MathJax.Hub.Config
             appendTheme(window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
             
             //  theme
-            source = applyTheme(baseUrl, source);
+            applyTheme(baseUrl);
 
             //  style
             source = applyStyle(source);

@@ -52,8 +52,15 @@ class: center, middle
 - [back to writing](index.md)
 
 <!--[REMARK]-->
-<!--[THEME] ../theme/chocolate.css -->
-<!--[THEME] ../animation/fade.css -->
+<!--[WRTING-CONFING]
+{
+    "theme":
+    [
+        "../theme/chocolate.css",
+        "../animation/fade.css"
+    ]
+}
+-->
 <!--[/REMARK]-->
 <!--[REMARK-CONFIG]
 {

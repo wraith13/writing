@@ -11,8 +11,15 @@
 }
 -->
 <!--[REMARK]-->
-<!--[THEME] ../theme/chocolate.css -->
-<!--[THEME] ../animation/fade.css -->
+<!--[WRTING-CONFING]
+{
+    "theme":
+    [
+        "../theme/chocolate.css",
+        "../animation/fade.css"
+    ]
+}
+-->
 <!--[/REMARK]-->
 <!--[REVEAL-THEME] BLACK -->
 <!--[REVEAL-TRANSITION] CONCAVE -->

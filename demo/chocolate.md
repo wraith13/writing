@@ -4,7 +4,8 @@
 <!--[/NOWRITING]-->
 <!--[WRTING-CONFING]
 {
-    "renderer": "remark"
+    "renderer": "remark",
+    "theme": ["../theme/chocolate.css"]
 }
 -->
 <!--
@@ -33,7 +34,11 @@ layout: true
 このスライドではこのような指定をしています。
 
 ```HTML
-<!--[THEME] ../theme/chocolate.css -->
+<!--[WRTING-CONFING]
+{
+    "theme": ["../theme/chocolate.css"]
+}
+-->
 ```
 
 ---

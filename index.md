@@ -8,9 +8,9 @@
 <!--[WRTING-CONFING]
 {
     "title": "writing index"
+    "theme": ["theme/default.css"]
 }
 -->
-<!--[THEME] theme/default.css -->
 <!--[STYLE]
 h1
 {

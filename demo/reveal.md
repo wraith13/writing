@@ -4,12 +4,12 @@
 <!--[WRTING-CONFING]
 {
     "renderer": "reveal",
-    "title": "reveal.js – The HTML Presentation Framework"
+    "title": "reveal.js – The HTML Presentation Framework",
+    "theme": []]
 }
 -->
 <!--[REVEAL-THEME] black -->
 <!--[REVEAL-TRANSITION] slide -->
-<!--[THEME] ../theme/null.css -->
 <!--[STYLE]
 body:not(.remark-container) :not(pre) > code
 {

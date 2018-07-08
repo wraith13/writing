@@ -15,8 +15,15 @@
 }
 -->
 <!--[REMARK]-->
-<!--[THEME] ../theme/chocolate.css -->
-<!--[THEME] ../animation/fade.css -->
+<!--[WRTING-CONFING]
+{
+    "theme":
+    [
+        "../theme/chocolate.css",
+        "../animation/fade.css"
+    ]
+}
+-->
 <!--[/REMARK]-->
 
 <img alt="writinghex" src="../writinghex.128.png" style="display:block;width:128px;height:128px;margin-left:auto;margin-right:auto;border-style:none;background:none;box-shadow:none;">

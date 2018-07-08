@@ -5,13 +5,13 @@
 <!--
 class: center, middle
 -->
-<!--[AUTOPAGESEPARATE] true -->
 <!--[WRTING-CONFING]
 {
     "referrer_option": true,
     "renderer": markdown,
     "title": "writing README",
-    "favicon": "https://wraith13.github.io/writing/writinghex.128.png"
+    "favicon": "https://wraith13.github.io/writing/writinghex.128.png",
+    "autoPageSeparate": true
 }
 -->
 
@@ -179,7 +179,11 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 #### markdown 内コメントで自動ページ区切り指定
 
 ```html
-<!--[AUTOPAGESEPARATE] true -->
+<!--[WRTING-CONFING]
+{
+    "autoPageSeparate": true
+}
+-->
 ```
 
 <!--[REMARK/]----->

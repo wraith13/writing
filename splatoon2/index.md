@@ -6,14 +6,14 @@
 {
     "ratio": "16:9",
     "title": "Splatoon2 基礎講座",
-    "favicon": "splash.1024.png"
+    "favicon": "splash.1024.png",
+    "autoPageSeparate": true
 }
 -->
 <!--[REMARK]-->
 <!--[THEME] ../theme/chocolate.css -->
 <!--[THEME] ../animation/fade.css -->
 <!--[/REMARK]-->
-<!--[AUTOPAGESEPARATE] true -->
 <!--[REVEAL-THEME] BLACK -->
 <!--[REVEAL-TRANSITION] CONCAVE -->
 

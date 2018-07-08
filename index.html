@@ -908,19 +908,19 @@ MathJax.Hub.Config
     };
     var translateForSlide = function(source)
     {
-        var autoPageSeparate;
-        source = applyOptionOnce
+        globalState.config.autoPageSeparate =
+            undefined === globalState.config.autoPageSeparate ?
+            "auto":
+            globalState.config.autoPageSeparate;
+        console.log("autoPageSeparate: " +globalState.config.autoPageSeparate);
+        if
         (
-            source,
-            "AUTOPAGESEPARATE",
-            function(option)
-            {
-                autoPageSeparate = option.toLowerCase();
-            },
-            "auto"
-        );
-        console.log("autoPageSeparate: " +autoPageSeparate);
-        if ("true" === autoPageSeparate || ("false" !== autoPageSeparate && !/\n---\n/.test(source)))
+            "true" === globalState.config.autoPageSeparate ||
+            (
+                "false" !== globalState.config.autoPageSeparate &&
+                !/\n---\n/.test(source)
+            )
+        )
         {
             var lines = source.split("\n");
             var h1Count = 0;

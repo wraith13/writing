@@ -2,12 +2,12 @@
 <link rel="canonical" href="https://wraith13.github.io/writing/?splatoon2/totsugekitarouexp.md" />
 この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?splatoon2/totsugekitarouexp.md">https://wraith13.github.io/writing/?splatoon2/totsugekitarouexp.md</a>
 <!--[/NOWRITING]-->
-<!--[AUTOPAGESEPARATE] true -->
 <!--[WRTING-CONFING]
 {
     "referrer_option": true,
     "renderer": "reveal",
-    "favicon": "totsugekitarouexp.rounded.png"
+    "favicon": "totsugekitarouexp.rounded.png",
+    "autoPageSeparate": true
 }
 -->
 <!--[REVEAL-THEME] BLACK -->

@@ -919,9 +919,9 @@ MathJax.Hub.Config
         console.log("autoPageSeparate: " +globalState.config.autoPageSeparate);
         if
         (
-            "true" === globalState.config.autoPageSeparate ||
+            true === globalState.config.autoPageSeparate ||
             (
-                "false" !== globalState.config.autoPageSeparate &&
+                false !== globalState.config.autoPageSeparate &&
                 !/\n---\n/.test(source)
             )
         )

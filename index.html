@@ -1050,33 +1050,25 @@ MathJax.Hub.Config
             }
         );
     };
-    var applyWallPaper = function(baseUrl, source)
+    var applyWallPaper = function(baseUrl)
     {
         document.body.className = "markdown";
-        return applyOptionOnce
-        (
-            source,
-            "WALLPAPER",
-            function(option)
-            {
-                if (option)
+        if (globalState.config.wallpaper)
+        {
+            document.body.className += " with-wallpaper";
+            makeDomNode
+            (
                 {
-                    document.body.className += " with-wallpaper";
-                    makeDomNode
-                    (
-                        {
-                            parent: document.body,
-                            tag: "div",
-                            className: "wallpaper",
-                            style:
-                            {
-                                backgroundImage: "url(\"" +makeRebaseUrl(baseUrl, option) +"\")",
-                            },
-                        }
-                    );
+                    parent: document.body,
+                    tag: "div",
+                    className: "wallpaper",
+                    style:
+                    {
+                        backgroundImage: "url(\"" +makeRebaseUrl(baseUrl, globalState.config.wallpaper) +"\")",
+                    },
                 }
-            }
-        );
+            );
+        }
     };
     var applyIndex = function(source)
     {
@@ -1407,7 +1399,7 @@ MathJax.Hub.Config
             source = applyStyle(source);
             
             //  wallpaper
-            applyWallPaper(baseUrl, source);
+            applyWallPaper(baseUrl);
             
             source = translateRelativeLink(baseUrl, source);
             source = unescapeBackSlash(source);

@@ -261,7 +261,11 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 #### markdown 内コメントで壁紙を指定( markdown 表示の場合のみ有効 )
 
 ```html
-<!--[WALLPAPER] wallpaper.png -->
+<!--[WRTING-CONFING]
+{
+    "wallpaper": "wallpaper.png"
+}
+-->
 ```
 
 ## remark themes

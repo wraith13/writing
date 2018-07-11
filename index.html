@@ -990,15 +990,28 @@ MathJax.Hub.Config
 
             if (undefined === globalState.config.title || "" === globalState.config.title)
             {
+                var context = { };
+                skipEscape(source.split("\n"), function(line){
+                    if (undefined === globalState.config.title || "" === globalState.config.title)
+                    {
+                        if (line.match(/^\=+$/) && (undefined !== context.previousLine && "" !== context.previousLine))
+                        {
+                            globalState.config.title = context.previousLine;
+                        }
+                        context.previousLine = line;
+                    }
+                    return line;
+                });
+            }
+
+            if (undefined === globalState.config.title || "" === globalState.config.title)
+            {
                 globalState.config.title =
                 (
                     source
                     .split("\n---\n")[0]
-                    .replace(/!\[(.*?)\]\(.*?\)/g, "")
-                    .replace(/\[(.*?)\]\(.*?\)/g, "$1")
                     .replace(/([\W\w]*?)(\n?#+\s+)/, "$2")
                     .replace(/(^|\n)#+\s+(.*)([\W\w]*)/, "$2")
-                    .replace(/<!--.*?-->/g, "")
                     .replace(/<.*?>/g, "")
                     .split("\n")
                     .map(function(i){ return i.trim(); })
@@ -1010,6 +1023,9 @@ MathJax.Hub.Config
             }
 
             globalState.config.title = globalState.config.title
+                .replace(/!\[(.*?)\]\(.*?\)/g, "")
+                .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+                .replace(/<!--.*?-->/g, "")
                 .replace(/&lt;/, "<")
                 .replace(/&gt;/, ">");
         }

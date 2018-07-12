@@ -7,7 +7,7 @@
 
 <!--[WRTING-CONFING]
 {
-    "title": "writing index"
+    "title": "writing index",
     "theme": ["theme/default.css"]
 }
 -->

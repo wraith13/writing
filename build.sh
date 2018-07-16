@@ -1,0 +1,1 @@
+tsc ./js/writing.ts

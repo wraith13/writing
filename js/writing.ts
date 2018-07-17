@@ -4,16 +4,18 @@
 {
     document.body.removeChild(document.getElementById("writing-HTML-selfloading-error"));
 
-    var globalState = { };
-    globalState.config = { };
-    var explicitFragmentIdPattern = /\{\#(.*?)\}$/;
+    let globalState =
+    {
+        "config": { }
+    };
+    let explicitFragmentIdPattern = /\{\#(.*?)\}$/;
 
-    RegExp.escape = function(s)
+    RegExp["escape"] = function(s)
     {
         //  https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     };
-    var objectAssign = function(target, source)
+    let objectAssign = function(target, source)
     {
         //  copy from https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
         if (typeof Object.assign !== 'function') {
@@ -23,11 +25,11 @@
                 if (target === undefined || target === null) {
                     throw new TypeError('Cannot convert undefined or null to object');
                 }
-                var output = Object(target);
-                for (var index = 1; index < arguments.length; index++) {
-                    var source = arguments[index];
+                let output = Object(target);
+                for (let index = 1; index < arguments.length; index++) {
+                    let source = arguments[index];
                     if (source !== undefined && source !== null) {
-                        for (var nextKey in source) {
+                        for (let nextKey in source) {
                             if (Object.prototype.hasOwnProperty.call(source, nextKey)) {
                                 output[nextKey] = source[nextKey];
                             }
@@ -42,24 +44,24 @@
         Object.assign(target, source);
         return target;
     };
-    var deepCopy = function(source)
+    let deepCopy = function(source)
     {
         return JSON.parse(JSON.stringify(source));
     };
-    var recursiveAssign = function(target, source)
+    let recursiveAssign = function(target, source)
     {
-        for(var key in source)
+        for(let key in source)
         {
             if (source.hasOwnProperty(key))
             {
-                var value = source[key];
+                let value = source[key];
                 if ("object" === practicalTypeof(value))
                 {
                     if (undefined === target[key])
                     {
                         target[key] = { };
                     }
-                    recursiveSet(target[key], value);
+                    recursiveAssign(target[key], value);
                 }
                 else
                 {
@@ -68,7 +70,7 @@
             }
         }
     };
-    var practicalTypeof = function(obj)
+    let practicalTypeof = function(obj)
     {
         if (undefined === obj)
         {
@@ -85,7 +87,7 @@
 
         return typeof obj;
     }
-    var makeDomNode = function(arg)
+    let makeDomNode = function(arg)
     {
         if (arg instanceof Node)
         {
@@ -97,9 +99,9 @@
         }
         return setToElement(document.createElement(arg.tag), arg);
     };
-    var setToElement = function(element, arg)
+    let setToElement = function(element, arg)
     {
-        for(var key in arg)
+        for(let key in arg)
         {
             if (arg.hasOwnProperty(key))
             {
@@ -113,7 +115,7 @@
                     //  nop
                     break;
                 default:
-                    var value = arg[key];
+                    let value = arg[key];
                     if (undefined !== value)
                     {
                         if ("object" === practicalTypeof(value))
@@ -131,7 +133,7 @@
         }
         if (undefined !== arg.attributes)
         {
-            for(var key in arg.attributes)
+            for(let key in arg.attributes)
             {
                 if (arg.attributes.hasOwnProperty(key))
                 {
@@ -159,7 +161,7 @@
         }
         if (undefined !== arg.eventListener)
         {
-            for(var key in arg.eventListener)
+            for(let key in arg.eventListener)
             {
                 if (arg.eventListener.hasOwnProperty(key))
                 {
@@ -173,7 +175,7 @@
         }
         return element;
     };
-    var showError = function(arg)
+    let showError = function(arg)
     {
         recursiveAssign
         (
@@ -199,7 +201,7 @@
             }
         );
     };
-    var appendLink = function(args)
+    let appendLink = function(args)
     {
         makeDomNode
         (
@@ -213,7 +215,7 @@
             )
         );
     };
-    var appendTheme = function(href, id)
+    let appendTheme = function(href, id)
     {
         appendLink
         (
@@ -225,11 +227,11 @@
             }
         );
     };
-    var appendHighlightTheme = function()
+    let appendHighlightTheme = function()
     {
         appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
     }
-    var appendIcon = function(href)
+    let appendIcon = function(href)
     {
         appendLink
         (
@@ -249,7 +251,7 @@
         );
         document.getElementById("twitter-card-image").content = href;
     };
-    var loadScript = function(src, onload)
+    let loadScript = function(src, onload)
     {
         makeDomNode
         (
@@ -261,7 +263,7 @@
             }
         );
     };
-    var loadHighlightScript = function()
+    let loadHighlightScript = function()
     {
         loadScript
         (
@@ -273,21 +275,21 @@
             }
         );
     }
-    var loadMathJaxScript = function()
+    let loadMathJaxScript = function()
     {
         loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
     }
-    var loadTwitterScript = function()
+    let loadTwitterScript = function()
     {
         loadScript("//platform.twitter.com/widgets.js");
     }
-    var makeAbsoluteUrl = function(base, url)
+    let makeAbsoluteUrl = function(base, url)
     {
         if ("#" === url.substr(0, 1))
         {
             return base.split("#")[0] +url;
         }
-        var baseParts = base.split("?")[0].split("/");
+        let baseParts = base.split("?")[0].split("/");
         if (4 <= baseParts.length && "" !== baseParts[baseParts.length -1])
         {
             // ファイル名部分の除去
@@ -298,7 +300,7 @@
             // 末尾の空要素を除去(しておかないと結合時に余分に / が挟まる)
             baseParts = baseParts.slice(0, -1);
         }
-        var urlParts = url.split("/");
+        let urlParts = url.split("/");
         if (0 <= urlParts[0].indexOf(":"))
         {
             //  絶対パスなので base 側は全て破棄
@@ -344,9 +346,9 @@
         }
         return baseParts.concat(urlParts).join("/");
     };
-    var makeRelativeUrl = function(url)
+    let makeRelativeUrl = function(url)
     {
-        var base = location.href.split("#")[0];
+        let base = location.href.split("#")[0];
         if ("#" === url.substr(0, 1))
         {
             return base.split("#")[0] +url;
@@ -355,7 +357,7 @@
         {
             return url;
         }
-        var baseParts = base.split("?")[0].split("/");
+        let baseParts = base.split("?")[0].split("/");
         if (4 <= baseParts.length && "" !== baseParts[baseParts.length -1])
         {
             // ファイル名部分の除去
@@ -366,8 +368,8 @@
             // 末尾の空要素を除去(しておかないと結合時に余分に / が挟まる)
             baseParts = baseParts.slice(0, -1);
         }
-        var urlParts = url.split("/");
-        var matchLength = 0;
+        let urlParts = url.split("/");
+        let matchLength = 0;
         while(0 < baseParts.length && 0 < urlParts.length && baseParts[matchLength] === urlParts[matchLength])
         {
             ++matchLength;
@@ -384,14 +386,14 @@
             urlParts = urlParts.slice(matchLength);
             break;
         }
-        var result = urlParts.join("/");
+        let result = urlParts.join("/");
         if ("" === result)
         {
             result = ".";
         }
         return result;
     };
-    var makeRebaseUrl = function(base, url)
+    let makeRebaseUrl = function(base, url)
     {
         if ("#" === url.substr(0, 1))
         {
@@ -399,15 +401,15 @@
         }
         return makeRelativeUrl(makeAbsoluteUrl(base, url));
     };
-    var skipEscape = function(lines, map, escapeMap)
+    let skipEscape = function(lines, map, escapeMap)
     {
-        var currentEscape = null;
+        let currentEscape = null;
         return lines.map
         (
             function(line, line_number)
             {
-                var escape = "$$" === line.trim() ? "$$": line.trim().replace(/^(```+|~~~+).*/, "$1").replace(/^[`~]{0,2}(([^`~].*)|$)/,"");
-                var isEscape = null === currentEscape && ("" !== escape) || (null !== currentEscape && currentEscape.substr(0,1) === escape.substr(0,1) && currentEscape.length <= escape.length);
+                let escape = "$$" === line.trim() ? "$$": line.trim().replace(/^(```+|~~~+).*/, "$1").replace(/^[`~]{0,2}(([^`~].*)|$)/,"");
+                let isEscape = null === currentEscape && ("" !== escape) || (null !== currentEscape && currentEscape.substr(0,1) === escape.substr(0,1) && currentEscape.length <= escape.length);
                 if (isEscape)
                 {
                     if (null === currentEscape)
@@ -440,11 +442,11 @@
             }
         );
     };
-    var skipEscapeBlock = function(source, map, escapeMap, finish)
+    let skipEscapeBlock = function(source, map, escapeMap, finish)
     {
-        var blocks = [];
-        var current = [];
-        var isInEscape = false;
+        let blocks = [];
+        let current = [];
+        let isInEscape = false;
         skipEscape
         (
             source.split("\n"),
@@ -452,7 +454,7 @@
             {
                 if (isInEscape)
                 {
-                    var currentBlock = current.join("\n");
+                    let currentBlock = current.join("\n");
                     blocks.push
                     (
                         escapeMap ?
@@ -468,7 +470,7 @@
             {
                 if (!isInEscape)
                 {
-                    var currentBlock = current.join("\n");
+                    let currentBlock = current.join("\n");
                     blocks.push
                     (
                         map ?
@@ -483,7 +485,7 @@
         );
         if (!isInEscape)
         {
-            var currentBlock = current.join("\n");
+            let currentBlock = current.join("\n");
             blocks.push
             (
                 map ?
@@ -494,7 +496,7 @@
         else
         {
             //  ここにくるのは code escape が閉じてない時だけなので、基本的には到達してはいけない。
-            var currentBlock = current.join("\n");
+            let currentBlock = current.join("\n");
             blocks.push
             (
                 escapeMap ?
@@ -508,15 +510,15 @@
         }
         return blocks.join("\n");
     };
-    var applyOption = function(source, TAG, applyer, finish)
+    let applyOption = function(source, TAG, applyer, finish)
     {
         return skipEscapeBlock
         (
             source,
             function(block)
             {
-                var reg = new RegExp("<!--\\[" +TAG +"\\]\\s*([\\s\\S]*?)\\s*-->", "gm");
-                var matches = null;
+                let reg = new RegExp("<!--\\[" +TAG +"\\]\\s*([\\s\\S]*?)\\s*-->", "gm");
+                let matches = null;
                 while (matches = reg.exec(block)) {
                     applyer(matches[1]);
                 }
@@ -526,9 +528,9 @@
             finish
         );
     };
-    var applyOptionOnce = function(source, TAG, applyer, defaultValue)
+    let applyOptionOnce = function(source, TAG, applyer, defaultValue)
     {
-        var context = { option: defaultValue };
+        let context = { option: defaultValue };
         return applyOption
         (
             source,
@@ -543,7 +545,7 @@
             }
         );
     };
-    var loadConfig = function(source)
+    let loadConfig = function(source)
     {
         return applyOption
         (
@@ -579,12 +581,12 @@
             }
         );
     };
-    var markdownHeaderFragmentMaker = function()
+    let markdownHeaderFragmentMaker = function()
     {
         this.links = [];
         this.makeFragment = function(line) {
-            var explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);
-            var link = explicitFragmentIdMatch ?
+            let explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);
+            let link = explicitFragmentIdMatch ?
                 explicitFragmentIdMatch[1]:
                 line
                     .replace(/^#*/, "")
@@ -596,7 +598,7 @@
                     .toLowerCase()
                     .replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"")
                     .replace(/ /g,"-");
-            var index = this.links[link];
+            let index = this.links[link];
             if (undefined === index)
             {
                 this.links[link] = 0;
@@ -610,15 +612,15 @@
             }
         }
     };
-    var getAllElements = function(parent)
+    let getAllElements = function(parent)
     {
-        var result = [];
+        let result = [];
         parent = parent || document ;
         if (parent.children)
         {
-            for (var i in parent.children)
+            for (let i in parent.children)
             {
-                var child = parent.children[i];
+                let child = parent.children[i];
                 if (child)
                 {
                     result.push(child);
@@ -628,7 +630,7 @@
         }
         return result;
     };
-    var getHeadingTags = function()
+    let getHeadingTags = function()
     {
         return getAllElements().filter
         (
@@ -638,21 +640,21 @@
             }
         );
     };
-    var makeIndexFromContent = function()
+    let makeIndexFromContent = function()
     {
-        var linkMaker = new markdownHeaderFragmentMaker();
-        var anchors = [ ];
+        let linkMaker = new markdownHeaderFragmentMaker();
+        let anchors = [ ];
         getHeadingTags().forEach
         (
             function(i)
             {
-                var level = parseInt(i.tagName.substr(1), 10);
-                var title = i.textContent.trim();
+                let level = parseInt(i.tagName.substr(1), 10);
+                let title = i.textContent.trim();
                 if (!i.id)
                 {
                     i.id = linkMaker.makeFragment(title);
                 }
-                var link = "#" +i.id;
+                let link = "#" +i.id;
                 anchors.push
                 (
                     {
@@ -666,7 +668,7 @@
         return anchors;
     };
 
-    var translateRelativeUrl = function(baseUrl, url)
+    let translateRelativeUrl = function(baseUrl, url)
     {
         if ("?" === url.substr(0, 1))
         {
@@ -675,11 +677,11 @@
         else
         if ("#" !== url.substr(0, 1))
         {
-            var absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-            var relativeUrl = makeRelativeUrl(absoluteUrl);
+            let absoluteUrl = makeAbsoluteUrl(baseUrl, url);
+            let relativeUrl = makeRelativeUrl(absoluteUrl);
             if (/.*\.md(\.txt)?(#.*)?$/i.test(absoluteUrl))
             {
-                var thisPath = location.href.split("#")[0].split("?")[0];
+                let thisPath = location.href.split("#")[0].split("?")[0];
                 if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])
                 {
                     return "?" +encodeURIComponent(relativeUrl);
@@ -692,32 +694,32 @@
         }
         return url;
     }
-    var translateRelativeLink = function(baseUrl, source)
+    let translateRelativeLink = function(baseUrl, source)
     {
         return skipEscape
         (
             source.split("\n"),
             function(line)
             {
-                var isInInlineEscape = false;
-                var isInSquareBracket = false;
+                let isInInlineEscape = false;
+                let isInSquareBracket = false;
                 return line.split("`").map
                 (
                     function(part)
                     {
                         if (!isInInlineEscape)
                         {
-                            var match = null;
+                            let match = null;
 
                             if (isInSquareBracket)
                             {
                                 isInSquareBracket = false;
-                                var re = /(.*?[^\\])?\]\((.*?[^\\])\)/g;
+                                let re = /(.*?[^\\])?\]\((.*?[^\\])\)/g;
                                 if (null !== (match = re.exec(part)))
                                 {
-                                    var label = undefined === match[1] ? "": match[1];
-                                    var url = match[2];
-                                    var traslatedUrl = translateRelativeUrl(baseUrl, url);
+                                    let label = undefined === match[1] ? "": match[1];
+                                    let url = match[2];
+                                    let traslatedUrl = translateRelativeUrl(baseUrl, url);
                                     if (url !== traslatedUrl)
                                     {
                                         part = part.replace(match[0], label +"](" +traslatedUrl +")");
@@ -725,12 +727,12 @@
                                 }
                             }
 
-                            var re = /(^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
+                            let re = /(^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
                             while(null !== (match = re.exec(part)))
                             {
-                                var label = undefined === match[2] ? "": match[2];
-                                var url = match[3];
-                                var traslatedUrl = translateRelativeUrl(baseUrl, url);
+                                let label = undefined === match[2] ? "": match[2];
+                                let url = match[3];
+                                let traslatedUrl = translateRelativeUrl(baseUrl, url);
                                 if (url !== traslatedUrl)
                                 {
                                     part = part.replace(match[0], match[1] +"[" +label +"](" +traslatedUrl +")");
@@ -745,12 +747,12 @@
                                 isInSquareBracket = true;
                             }
 
-                            var img_re = /\<(\s*)img(\s.*?)src=([\"\'])(.*?)([\"\'].*?)\>/g;
+                            let img_re = /\<(\s*)img(\s.*?)src=([\"\'])(.*?)([\"\'].*?)\>/g;
                             while(null !== (match = img_re.exec(part)))
                             {
-                                var url = match[4];
-                                var absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-                                var relativeUrl = makeRelativeUrl(absoluteUrl);
+                                let url = match[4];
+                                let absoluteUrl = makeAbsoluteUrl(baseUrl, url);
+                                let relativeUrl = makeRelativeUrl(absoluteUrl);
                                 part = part.replace(match[0], "<" +match[1] +"img" +match[2] +"src=" +match[3] +relativeUrl +match[5] +">");
                             }
                         }
@@ -764,18 +766,18 @@
             }
         ).join("\n");
     };
-    var translateLinkWithinPageForRemark = function(source)
+    let translateLinkWithinPageForRemark = function(source)
     {
-        var lines = source.split("\n");
-        var anchors = [ ];
-        var page = 1;
-        var isLayout = false;
+        let lines = source.split("\n");
+        let anchors = [ ];
+        let page = 1;
+        let isLayout = false;
         skipEscape
         (
             lines,
             function(line)
             {
-                var trimed_line = line.trim();
+                let trimed_line = line.trim();
                 if ("--" === line || "---" === line)
                 {
                     if (!isLayout)
@@ -787,7 +789,7 @@
                 else
                 if (/^#+ [^ ]+/.test(trimed_line))
                 {
-                    var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
+                    let anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
                     anchors.push
                     (
                         {
@@ -819,17 +821,17 @@
             }
         ).join("\n");
     };
-    var translateLinkWithinPageForReveal = function(source)
+    let translateLinkWithinPageForReveal = function(source)
     {
-        var lines = source.split("\n");
-        var anchors = [ ];
-        var page = 0;
+        let lines = source.split("\n");
+        let anchors = [ ];
+        let page = 0;
         skipEscape
         (
             lines,
             function(line)
             {
-                var trimed_line = line.trim();
+                let trimed_line = line.trim();
                 if ("--" === line || "---" === line)
                 {
                     ++page;
@@ -837,7 +839,7 @@
                 else
                 if (/^#+ [^ ]+/.test(trimed_line))
                 {
-                    var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
+                    let anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
                     anchors.push
                     (
                         {
@@ -864,7 +866,7 @@
             }
         ).join("\n");
     };
-    var translateForSlide = function(source)
+    let translateForSlide = function(source)
     {
         globalState.config.autoPageSeparate =
             undefined === globalState.config.autoPageSeparate ?
@@ -880,14 +882,14 @@
             )
         )
         {
-            var lines = source.split("\n");
-            var h1Count = 0;
+            let lines = source.split("\n");
+            let h1Count = 0;
             skipEscape
             (
                 lines,
                 function(line)
                 {
-                    var trimed_line = line.trim();
+                    let trimed_line = line.trim();
                     if (/^# [^ ]+/.test(trimed_line))
                     {
                         ++h1Count;
@@ -895,14 +897,14 @@
                 }
             );
 
-            var isFirst = true;
-            var withJackUp = 1 < h1Count;
+            let isFirst = true;
+            let withJackUp = 1 < h1Count;
             return skipEscape
             (
                 lines,
                 function(line)
                 {
-                    var trimed_line = line.trim();
+                    let trimed_line = line.trim();
                     if (/^#+ [^ ]+/.test(trimed_line))
                     {
                         if (!isFirst)
@@ -924,7 +926,7 @@
             return source;
         }
     };
-    var translateForMathJax = function(source)
+    let translateForMathJax = function(source)
     {
         return source.replace
         (
@@ -932,11 +934,11 @@
             "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n"
         );
     };
-    var applyTitle = function(source)
+    let applyTitle = function(source)
     {
         if (undefined === globalState.config.title || "" === globalState.config.title)
         {
-            var matches = /(^|\n)#\s+(.*)([\W\w]*)/.exec(source);
+            let matches = /(^|\n)#\s+(.*)([\W\w]*)/.exec(source);
             if (matches)
             {
                 globalState.config.title = matches[2];
@@ -944,7 +946,7 @@
 
             if (undefined === globalState.config.title || "" === globalState.config.title)
             {
-                var context = { };
+                let context = { };
                 skipEscape(source.split("\n"), function(line){
                     if (undefined === globalState.config.title || "" === globalState.config.title)
                     {
@@ -986,7 +988,7 @@
         document.title = globalState.config.title;
         document.getElementById("twitter-card-title").content = globalState.config.title;
     };
-    var applyIcon = function(baseUrl)
+    let applyIcon = function(baseUrl)
     {
         appendIcon
         (
@@ -995,7 +997,7 @@
                 makeAbsoluteUrl(location.href, "writinghex.128.png")
         );
     };
-    var applyTheme = function(baseUrl)
+    let applyTheme = function(baseUrl)
     {
         if (globalState.config.theme)
         {
@@ -1012,7 +1014,7 @@
             appendTheme("theme/default.css");
         }
     };
-    var applyStyle = function(source)
+    let applyStyle = function(source)
     {
         return applyOption
         (
@@ -1031,7 +1033,7 @@
             }
         );
     };
-    var applyWallPaper = function(baseUrl)
+    let applyWallPaper = function(baseUrl)
     {
         document.body.className = "markdown";
         if (globalState.config.wallpaper)
@@ -1051,18 +1053,18 @@
             );
         }
     };
-    var applyIndex = function(source)
+    let applyIndex = function(source)
     {
-        var withIndex = /<!--\[WITH-INDEX\]\s*(.*?)\s*-->/.exec(source +"<!--[WITH-INDEX] true -->")[1].toLowerCase() === "true";
+        let withIndex = /<!--\[WITH-INDEX\]\s*(.*?)\s*-->/.exec(source +"<!--[WITH-INDEX] true -->")[1].toLowerCase() === "true";
         console.log("withIndex: " +withIndex);
-        var index = null;
+        let index = null;
         if (withIndex)
         {
             index = makeIndexFromContent();
             if (index && 0 < index.length)
             {
                 document.body.className += " with-index";
-                var contentDiv = document.getElementsByClassName("content")[0];
+                let contentDiv = document.getElementsByClassName("content")[0];
                 document.body.insertBefore
                 (
                     makeDomNode
@@ -1115,20 +1117,20 @@
         }
         return index;
     };
-    var applyIndexScript = function(index)
+    let applyIndexScript = function(index)
     {
         if (index)
         {
-            var previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(document.body.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
-            var isOver = function(i)
+            let previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(document.body.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
+            let isOver = function(i)
             {
                 return index.length <= i ||
                         (0 <= i && 32 < document.getElementById(index[i].link.substring(1)).getBoundingClientRect().top);
             }
-            var previousContent = null;
-            for(var i in index)
+            let previousContent = null;
+            for(let i in index)
             {
-                var content = document.getElementById(index[i].link.substring(1));
+                let content = document.getElementById(index[i].link.substring(1));
                 if (!content)
                 {
                     console.log("not found: " +index[i].link);
@@ -1151,11 +1153,11 @@
             {
                 document.body.onscroll = function()
                 {
-                    var previouseContetIsOver = isOver(previousState.i);
-                    var nextContetIsOver = isOver(previousState.i +1);
+                    let previouseContetIsOver = isOver(previousState.i);
+                    let nextContetIsOver = isOver(previousState.i +1);
                     if (previouseContetIsOver || !nextContetIsOver)
                     {
-                        var i = null;
+                        let i = null;
                         if (previouseContetIsOver)
                         {
                             //  上へ手繰る
@@ -1166,8 +1168,8 @@
                             // 下へ手繰る
                             while(!isOver((++previousState.i) +1)) { }
                         }
-                        var targetIndex = previousState.i < 0 ? null: index[previousState.i];
-                        var current = document.getElementsByClassName("current")[0];
+                        let targetIndex = previousState.i < 0 ? null: index[previousState.i];
+                        let current = document.getElementsByClassName("current")[0];
                         if (current !== (null === targetIndex ? null: targetIndex.anchor))
                         {
                             if (current)
@@ -1186,15 +1188,15 @@
                             }
                             if (!globalState.isMouseOnIndex)
                             {
-                                var frame = document.getElementsByClassName("index-frame")[0];
+                                let frame = document.getElementsByClassName("index-frame")[0];
                                 if (null === targetIndex)
                                 {
                                     frame.scrollTop = 0;
                                 }
                                 else
                                 {
-                                    var rect = targetIndex.anchor.getBoundingClientRect();
-                                    var targetTop = rect.top +frame.scrollTop;
+                                    let rect = targetIndex.anchor.getBoundingClientRect();
+                                    let targetTop = rect.top +frame.scrollTop;
                                     frame.scrollTop = targetTop - Math.min(frame.clientHeight -rect.height, ((targetTop / frame.scrollHeight) *frame.clientHeight));
                                 }
                             }
@@ -1205,7 +1207,7 @@
             }
         }
     };
-    var applyContent = function(html)
+    let applyContent = function(html)
     {
         return makeDomNode
         (
@@ -1217,17 +1219,17 @@
             }
         );
     };
-    var applyFragmentId = function()
+    let applyFragmentId = function()
     {
         //  body.onload の時点ではコンテンツが間に合っておらず、 Web ブラウザによる通常のフラグメント識別子位置への
         //  スクロールは期待できない為、コンテンツの取得及びDOM生成完了後に明示的にスクロール位置の移動を行う。
-        var fragmentId = decodeURI((location.href +"#").split("#")[1].trim());
+        let fragmentId = decodeURI((location.href +"#").split("#")[1].trim());
         if (fragmentId)
         {
             location.href = "#" +fragmentId;
         }
     };
-    var applyHighlight = function()
+    let applyHighlight = function()
     {
         document.querySelectorAll("code").forEach
         (
@@ -1245,7 +1247,7 @@
             }
         );
     };
-    var applyConditionalComment = function(source, condition, TAG)
+    let applyConditionalComment = function(source, condition, TAG)
     {
         return source
             .replace(new RegExp("<!--\\[" +TAG +"\\/\\]([\\s\\S]*?)-->", "g"), condition ? "$1": "")
@@ -1253,7 +1255,7 @@
             .replace(new RegExp("<!--\\[NO" +TAG +"\\/\\]([\\s\\S]*?)-->", "g"), !condition ? "$1": "")
             .replace(new RegExp("<!--\\[NO" +TAG +"\\]-->([\\s\\S]*?)<!--\\[\\/NO" +TAG +"\\]-->", "g"), !condition ? "$1": "");
     };
-    var unescapeBackSlash = function(source)
+    let unescapeBackSlash = function(source)
     {
         return skipEscape
         (
@@ -1268,7 +1270,7 @@
         ).join("\n");
     };
 
-    var render = function(renderer, baseUrl, source)
+    let render = function(renderer, baseUrl, source)
     {
         //  regulate return code
         source = source.replace(/\r\n/g,"\n");
@@ -1280,13 +1282,13 @@
         if (globalState.config.referrer_option)
         {
             console.log("referrer: " +document.referrer);
-            var newUrl = location.href;
-            var currentUrlParamNames = (location.href.split("#")[0] +"?")
+            let newUrl = location.href;
+            let currentUrlParamNames = (location.href.split("#")[0] +"?")
                 .split("?")[1]
                 .split("&")
                 .filter(function(i) { return 0 < i.indexOf("=") })
                 .map(function(i) { return i.substr(0, i.indexOf("=")); });
-            var referrerUrlParams = (document.referrer.split("#")[0] +"?")
+            let referrerUrlParams = (document.referrer.split("#")[0] +"?")
                 .split("?")[1]
                 .split("&")
                 .filter(function(i) { return 0 < i.indexOf("=") })
@@ -1294,8 +1296,8 @@
                 (
                     function(i)
                     {
-                        var name = i.substr(0, i.indexOf("="));
-                        var result = true;
+                        let name = i.substr(0, i.indexOf("="));
+                        let result = true;
                         currentUrlParamNames.forEach(function(j) { if (j === name) { result = false; }});
                         return result;
                     }
@@ -1308,8 +1310,8 @@
             {
                 if ((document.referrer || "").split("?")[0] === location.href.split("?")[0])
                 {
-                    var newUrl = location.href;
-                    var urlArgs = (document.referrer.split("#")[0] +"?")
+                    let newUrl = location.href;
+                    let urlArgs = (document.referrer.split("#")[0] +"?")
                         .split("?")[1]
                         .split("&")
                         .filter(function(i) { return i.indexOf("=") < 0 })
@@ -1328,17 +1330,17 @@
         }
         renderer = renderer || (globalState.config.renderer || "markdown").toLowerCase();
         console.log("renderer: " +(renderer || "null"));
-        var isWriting = true;
-        var isMarked = "marked" === renderer;
-        var isCommonMark = "commonmark" === renderer;
-        var isMarkdownIt = "markdown-it" === renderer;
-        var isMarkdown = isMarked || isCommonMark || isMarkdownIt || "markdown" === renderer;
-        var isRemark = "remark" === renderer;
-        var isReveal = "reveal" === renderer;
-        var isEdit = "edit" === renderer;
+        let isWriting = true;
+        let isMarked = "marked" === renderer;
+        let isCommonMark = "commonmark" === renderer;
+        let isMarkdownIt = "markdown-it" === renderer;
+        let isMarkdown = isMarked || isCommonMark || isMarkdownIt || "markdown" === renderer;
+        let isRemark = "remark" === renderer;
+        let isReveal = "reveal" === renderer;
+        let isEdit = "edit" === renderer;
         if (!isMarkdown && !isRemark && !isReveal && !isEdit)
         {
-            var message = "Unknown Rederer Name: \"" +renderer +"\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
+            let message = "Unknown Rederer Name: \"" +renderer +"\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
             showError(message);
             console.error(message);
             return;
@@ -1370,7 +1372,7 @@
         //  favicon
         applyIcon(baseUrl);
 
-        var applyMarkdown = function(markdownToHtml)
+        let applyMarkdown = function(markdownToHtml)
         {
             //  theme
             appendHighlightTheme();
@@ -1412,7 +1414,7 @@
                 "js/marked.js",
                 function()
                 {
-                    var config = { gfm: true, tables: true };
+                    let config = { gfm: true, tables: true };
                     try
                     {
                         config = JSON.parse((source+"<!--[MARKED-CONFIG] { \"gfm\": true, \"tables\": true } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
@@ -1423,8 +1425,8 @@
                         console.error(JSON.stringify(e));
                     }
                     console.log("marked-config: " +JSON.stringify(config, null, 4));
-                    var linkMaker = new markdownHeaderFragmentMaker();
-                    var markedRenderer = new marked.Renderer();
+                    let linkMaker = new markdownHeaderFragmentMaker();
+                    let markedRenderer = new marked.Renderer();
                     markedRenderer.heading = function (text, level, raw)
                     {
                         return '<h'
@@ -1522,7 +1524,7 @@
                 "js/remark-latest.min.js",
                 function()
                 {
-                    var config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
+                    let config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
                     source = skipEscapeBlock
                     (
                         source,
@@ -1536,7 +1538,7 @@
                         translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))
                         .replace(/([^\n])```([^\n])/g, "$1`$2")
                     );
-                    var slideshow = remark.create(config);
+                    let slideshow = remark.create(config);
                 }
             );
 
@@ -1550,10 +1552,10 @@
         {
             //  reveal
             appendTheme("css/reveal.css");
-            var revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-THEME]league-->")[1].toLowerCase();
+            let revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-THEME]league-->")[1].toLowerCase();
             console.log("reveal-theme: " +revealTheme);
             appendTheme("css/theme/" +revealTheme +".css", "theme");
-            var documentTheme = document.getElementById("theme");
+            let documentTheme = document.getElementById("theme");
             appendTheme("lib/css/zenburn.css");
             appendTheme(window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
             
@@ -1573,10 +1575,10 @@
             );
 
             //  paste markdown
-            var separator = (source+"<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();
-            var separator_vertical = (source+"<!--[REVEAL-SEPARATOR-VERTICAL] ^\\n>>>$ -->").split("<!--[REVEAL-SEPARATOR-VERTICAL]")[1].split("-->")[0].trim();
-            var separator_notes = (source+"<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
-            var pasteMarkdown = function(markdown)
+            let separator = (source+"<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();
+            let separator_vertical = (source+"<!--[REVEAL-SEPARATOR-VERTICAL] ^\\n>>>$ -->").split("<!--[REVEAL-SEPARATOR-VERTICAL]")[1].split("-->")[0].trim();
+            let separator_notes = (source+"<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
+            let pasteMarkdown = function(markdown)
             {
                 return makeDomNode
                 (
@@ -1620,11 +1622,11 @@
                         "js/reveal.js",
                         function()
                         {
-                            var revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
+                            let revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
                             console.log("reveal-transition: " +revealTransition);
                             console.log("reveal-theme(forced by url param): " +Reveal.getQueryHash().theme);
                             console.log("reveal-transition(forced by url param): " +Reveal.getQueryHash().transition);
-                            var forceTheme = Reveal.getQueryHash().theme;
+                            let forceTheme = Reveal.getQueryHash().theme;
                             if (forceTheme)
                             {
                                 documentTheme.href = "css/theme/" +forceTheme +".css";
@@ -1632,9 +1634,9 @@
                             // More info about config & dependencies:
                             // - https://github.com/hakimel/reveal.js#configuration
                             // - https://github.com/hakimel/reveal.js#dependencies
-                            var config = JSON.parse((source+"<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
+                            let config = JSON.parse((source+"<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
                             console.log("reveal-config: " +JSON.stringify(config, null, 4));
-                            var defaultConfig =
+                            let defaultConfig =
                             {
                                 controls: true,
                                 progress: true,
@@ -1680,7 +1682,7 @@
                     backgroundColor: "#86812A",
                 }
             );
-            var urlsDiv = makeDomNode
+            let urlsDiv = makeDomNode
             (
                 {
                     parent: document.body,
@@ -1695,7 +1697,7 @@
                     },
                 }
             );
-            var textCounter = makeDomNode
+            let textCounter = makeDomNode
             (
                 {
                     parent: urlsDiv,
@@ -1707,7 +1709,7 @@
                     }
                 }
             );
-            var makeLink = function(text)
+            let makeLink = function(text)
             {
                 return makeDomNode
                 (
@@ -1724,15 +1726,15 @@
                     }
                 );
             }
-            var defaultLink = makeLink("default");
-            var markedLink = makeLink("marked(markdown)");
-            var commonmarkLink = makeLink("commonmark(markdown)");
-            var markdownitLink = makeLink("markdown-it(markdown)");
-            var remarkLink = makeLink("remark(slide)");
-            var revealLink = makeLink("reveal(slide)");
-            var editLink = makeLink("edit");
-            var update = function() {
-                var text = encodeURIComponent(textarea.value);
+            let defaultLink = makeLink("default");
+            let markedLink = makeLink("marked(markdown)");
+            let commonmarkLink = makeLink("commonmark(markdown)");
+            let markdownitLink = makeLink("markdown-it(markdown)");
+            let remarkLink = makeLink("remark(slide)");
+            let revealLink = makeLink("reveal(slide)");
+            let editLink = makeLink("edit");
+            let update = function() {
+                let text = encodeURIComponent(textarea.value);
                 textCounter.innerText = "lenght:" +text.length;
                 defaultLink.href = "?text:" +text;
                 markedLink.href = "?marked&text:" +text;
@@ -1742,7 +1744,7 @@
                 revealLink.href = "?reveal&text:" +text;
                 editLink.href = "?edit&text:" +text;
             };
-            var textarea = makeDomNode
+            let textarea = makeDomNode
             (
                 {
                     parent: document.body,
@@ -1772,9 +1774,9 @@
             update();
         }
     };
-    var renderer = null; 
-    var sourceUrl = null;
-    var urlArgs = (location.href.split("#")[0] +"?")
+    let renderer = null; 
+    let sourceUrl = null;
+    let urlArgs = (location.href.split("#")[0] +"?")
         .split("?")[1]
         .split("&")
         .filter(function(i) { return i.indexOf("=") < 0 })
@@ -1805,7 +1807,7 @@
     }
     else
     {
-        var request = new XMLHttpRequest();
+        let request = new XMLHttpRequest();
         request.open('GET', sourceUrl, true);
         request.onreadystatechange = function()
         {
@@ -1833,7 +1835,7 @@
                             "\", \"status\": "+ request.status + "};"
                         ]
                     );
-                    var responseDiv =
+                    let responseDiv =
                     {
                         parent: document.body,
                         tag: "div",

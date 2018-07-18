@@ -2,10 +2,11 @@
 //  このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 (function () {
     document.body.removeChild(document.getElementById("writing-HTML-selfloading-error"));
-    var globalState = {};
-    globalState.config = {};
+    var globalState = {
+        "config": {}
+    };
     var explicitFragmentIdPattern = /\{\#(.*?)\}$/;
-    RegExp.escape = function (s) {
+    RegExp["escape"] = function (s) {
         //  https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     };
@@ -20,11 +21,11 @@
                     }
                     var output = Object(target);
                     for (var index = 1; index < arguments.length; index++) {
-                        var source = arguments[index];
-                        if (source !== undefined && source !== null) {
-                            for (var nextKey in source) {
-                                if (Object.prototype.hasOwnProperty.call(source, nextKey)) {
-                                    output[nextKey] = source[nextKey];
+                        var source_1 = arguments[index];
+                        if (source_1 !== undefined && source_1 !== null) {
+                            for (var nextKey in source_1) {
+                                if (Object.prototype.hasOwnProperty.call(source_1, nextKey)) {
+                                    output[nextKey] = source_1[nextKey];
                                 }
                             }
                         }
@@ -47,7 +48,7 @@
                     if (undefined === target[key]) {
                         target[key] = {};
                     }
-                    recursiveSet(target[key], value);
+                    recursiveAssign(target[key], value);
                 }
                 else {
                     target[key] = value;
@@ -155,6 +156,7 @@
         }));
     };
     var appendTheme = function (href, id) {
+        if (id === void 0) { id = undefined; }
         appendLink({
             rel: "stylesheet",
             type: "text/css",
@@ -179,6 +181,7 @@
         document.getElementById("twitter-card-image").content = href;
     };
     var loadScript = function (src, onload) {
+        if (onload === void 0) { onload = undefined; }
         makeDomNode({
             parent: document.head,
             tag: "script",
@@ -293,6 +296,7 @@
         return makeRelativeUrl(makeAbsoluteUrl(base, url));
     };
     var skipEscape = function (lines, map, escapeMap) {
+        if (escapeMap === void 0) { escapeMap = undefined; }
         var currentEscape = null;
         return lines.map(function (line, line_number) {
             var escape = "$$" === line.trim() ? "$$" : line.trim().replace(/^(```+|~~~+).*/, "$1").replace(/^[`~]{0,2}(([^`~].*)|$)/, "");
@@ -321,6 +325,8 @@
         });
     };
     var skipEscapeBlock = function (source, map, escapeMap, finish) {
+        if (escapeMap === void 0) { escapeMap = undefined; }
+        if (finish === void 0) { finish = undefined; }
         var blocks = [];
         var current = [];
         var isInEscape = false;
@@ -364,6 +370,7 @@
         return blocks.join("\n");
     };
     var applyOption = function (source, TAG, applyer, finish) {
+        if (finish === void 0) { finish = undefined; }
         return skipEscapeBlock(source, function (block) {
             var reg = new RegExp("<!--\\[" + TAG + "\\]\\s*([\\s\\S]*?)\\s*-->", "gm");
             var matches = null;
@@ -423,6 +430,7 @@
         };
     };
     var getAllElements = function (parent) {
+        if (parent === void 0) { parent = undefined; }
         var result = [];
         parent = parent || document;
         if (parent.children) {
@@ -487,8 +495,8 @@
                     var match = null;
                     if (isInSquareBracket) {
                         isInSquareBracket = false;
-                        var re = /(.*?[^\\])?\]\((.*?[^\\])\)/g;
-                        if (null !== (match = re.exec(part))) {
+                        var re_1 = /(.*?[^\\])?\]\((.*?[^\\])\)/g;
+                        if (null !== (match = re_1.exec(part))) {
                             var label = undefined === match[1] ? "" : match[1];
                             var url = match[2];
                             var traslatedUrl = translateRelativeUrl(baseUrl, url);
@@ -592,25 +600,25 @@
             (false !== globalState.config.autoPageSeparate &&
                 !/\n---\n/.test(source))) {
             var lines = source.split("\n");
-            var h1Count = 0;
+            var h1Count_1 = 0;
             skipEscape(lines, function (line) {
                 var trimed_line = line.trim();
                 if (/^# [^ ]+/.test(trimed_line)) {
-                    ++h1Count;
+                    ++h1Count_1;
                 }
             });
-            var isFirst = true;
-            var withJackUp = 1 < h1Count;
+            var isFirst_1 = true;
+            var withJackUp_1 = 1 < h1Count_1;
             return skipEscape(lines, function (line) {
                 var trimed_line = line.trim();
                 if (/^#+ [^ ]+/.test(trimed_line)) {
-                    if (!isFirst) {
-                        if (withJackUp) {
+                    if (!isFirst_1) {
+                        if (withJackUp_1) {
                             line = "#" + trimed_line;
                         }
                         line = "---\n" + line;
                     }
-                    isFirst = false;
+                    isFirst_1 = false;
                 }
                 return line;
             }).join("\n");
@@ -629,13 +637,13 @@
                 globalState.config.title = matches[2];
             }
             if (undefined === globalState.config.title || "" === globalState.config.title) {
-                var context = {};
+                var context_1 = {};
                 skipEscape(source.split("\n"), function (line) {
                     if (undefined === globalState.config.title || "" === globalState.config.title) {
-                        if (line.match(/^\=+$/) && (undefined !== context.previousLine && "" !== context.previousLine)) {
-                            globalState.config.title = context.previousLine;
+                        if (line.match(/^\=+$/) && (undefined !== context_1.previousLine && "" !== context_1.previousLine)) {
+                            globalState.config.title = context_1.previousLine;
                         }
-                        context.previousLine = line;
+                        context_1.previousLine = line;
                     }
                     return line;
                 });
@@ -745,8 +753,8 @@
     };
     var applyIndexScript = function (index) {
         if (index) {
-            var previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(document.body.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
-            var isOver = function (i) {
+            var previousState_1 = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(document.body.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
+            var isOver_1 = function (i) {
                 return index.length <= i ||
                     (0 <= i && 32 < document.getElementById(index[i].link.substring(1)).getBoundingClientRect().top);
             };
@@ -768,19 +776,19 @@
             index = index.filter(function (i) { return !i.withError; });
             if (0 < index.length) {
                 document.body.onscroll = function () {
-                    var previouseContetIsOver = isOver(previousState.i);
-                    var nextContetIsOver = isOver(previousState.i + 1);
+                    var previouseContetIsOver = isOver_1(previousState_1.i);
+                    var nextContetIsOver = isOver_1(previousState_1.i + 1);
                     if (previouseContetIsOver || !nextContetIsOver) {
                         var i = null;
                         if (previouseContetIsOver) {
                             //  上へ手繰る
-                            while (isOver(--previousState.i)) { }
+                            while (isOver_1(--previousState_1.i)) { }
                         }
                         else {
                             // 下へ手繰る
-                            while (!isOver((++previousState.i) + 1)) { }
+                            while (!isOver_1((++previousState_1.i) + 1)) { }
                         }
-                        var targetIndex = previousState.i < 0 ? null : index[previousState.i];
+                        var targetIndex = previousState_1.i < 0 ? null : index[previousState_1.i];
                         var current = document.getElementsByClassName("current")[0];
                         if (current !== (null === targetIndex ? null : targetIndex.anchor)) {
                             if (current) {
@@ -863,7 +871,7 @@
         if (globalState.config.referrer_option) {
             console.log("referrer: " + document.referrer);
             var newUrl = location.href;
-            var currentUrlParamNames = (location.href.split("#")[0] + "?")
+            var currentUrlParamNames_1 = (location.href.split("#")[0] + "?")
                 .split("?")[1]
                 .split("&")
                 .filter(function (i) { return 0 < i.indexOf("="); })
@@ -875,7 +883,7 @@
                 .filter(function (i) {
                 var name = i.substr(0, i.indexOf("="));
                 var result = true;
-                currentUrlParamNames.forEach(function (j) { if (j === name) {
+                currentUrlParamNames_1.forEach(function (j) { if (j === name) {
                     result = false;
                 } });
                 return result;
@@ -885,15 +893,15 @@
             }
             if (!renderer) {
                 if ((document.referrer || "").split("?")[0] === location.href.split("?")[0]) {
-                    var newUrl = location.href;
-                    var urlArgs = (document.referrer.split("#")[0] + "?")
+                    var newUrl_1 = location.href;
+                    var urlArgs_1 = (document.referrer.split("#")[0] + "?")
                         .split("?")[1]
                         .split("&")
                         .filter(function (i) { return i.indexOf("=") < 0; })
                         .map(function (i) { return unescape(decodeURI(i)); });
-                    if (2 <= urlArgs.length) {
-                        renderer = urlArgs[0];
-                        newUrl = newUrl.replace("?", "?" + renderer + "&");
+                    if (2 <= urlArgs_1.length) {
+                        renderer = urlArgs_1[0];
+                        newUrl_1 = newUrl_1.replace("?", "?" + renderer + "&");
                     }
                 }
             }
@@ -1041,7 +1049,7 @@
             var revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-THEME]league-->")[1].toLowerCase();
             console.log("reveal-theme: " + revealTheme);
             appendTheme("css/theme/" + revealTheme + ".css", "theme");
-            var documentTheme = document.getElementById("theme");
+            var documentTheme_1 = document.getElementById("theme");
             appendTheme("lib/css/zenburn.css");
             appendTheme(window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css');
             //  theme
@@ -1054,9 +1062,9 @@
                 innerHTML: (source + "<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim()
             });
             //  paste markdown
-            var separator = (source + "<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();
-            var separator_vertical = (source + "<!--[REVEAL-SEPARATOR-VERTICAL] ^\\n>>>$ -->").split("<!--[REVEAL-SEPARATOR-VERTICAL]")[1].split("-->")[0].trim();
-            var separator_notes = (source + "<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
+            var separator_1 = (source + "<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();
+            var separator_vertical_1 = (source + "<!--[REVEAL-SEPARATOR-VERTICAL] ^\\n>>>$ -->").split("<!--[REVEAL-SEPARATOR-VERTICAL]")[1].split("-->")[0].trim();
+            var separator_notes_1 = (source + "<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
             var pasteMarkdown = function (markdown) {
                 return makeDomNode({
                     parent: document.body,
@@ -1069,9 +1077,9 @@
                             tag: "section",
                             attributes: {
                                 "data-markdown": "",
-                                "data-separator": separator,
-                                "data-separator-vertical": separator_vertical,
-                                "data-separator-notes": separator_notes
+                                "data-separator": separator_1,
+                                "data-separator-vertical": separator_vertical_1,
+                                "data-separator-notes": separator_notes_1
                             },
                             children: {
                                 tag: "script",
@@ -1091,7 +1099,7 @@
                     console.log("reveal-transition(forced by url param): " + Reveal.getQueryHash().transition);
                     var forceTheme = Reveal.getQueryHash().theme;
                     if (forceTheme) {
-                        documentTheme.href = "css/theme/" + forceTheme + ".css";
+                        documentTheme_1.href = "css/theme/" + forceTheme + ".css";
                     }
                     // More info about config & dependencies:
                     // - https://github.com/hakimel/reveal.js#configuration
@@ -1134,7 +1142,7 @@
                 overflow: "hidden",
                 backgroundColor: "#86812A"
             });
-            var urlsDiv = makeDomNode({
+            var urlsDiv_1 = makeDomNode({
                 parent: document.body,
                 tag: "div",
                 style: {
@@ -1145,8 +1153,8 @@
                     lineHeight: "1rem"
                 }
             });
-            var textCounter = makeDomNode({
-                parent: urlsDiv,
+            var textCounter_1 = makeDomNode({
+                parent: urlsDiv_1,
                 tag: "span",
                 style: {
                     color: "#CCCCCC",
@@ -1155,7 +1163,7 @@
             });
             var makeLink = function (text) {
                 return makeDomNode({
-                    parent: urlsDiv,
+                    parent: urlsDiv_1,
                     tag: "a",
                     style: {
                         color: "#FFFFFF",
@@ -1165,25 +1173,25 @@
                     target: "_blank"
                 });
             };
-            var defaultLink = makeLink("default");
-            var markedLink = makeLink("marked(markdown)");
-            var commonmarkLink = makeLink("commonmark(markdown)");
-            var markdownitLink = makeLink("markdown-it(markdown)");
-            var remarkLink = makeLink("remark(slide)");
-            var revealLink = makeLink("reveal(slide)");
-            var editLink = makeLink("edit");
+            var defaultLink_1 = makeLink("default");
+            var markedLink_1 = makeLink("marked(markdown)");
+            var commonmarkLink_1 = makeLink("commonmark(markdown)");
+            var markdownitLink_1 = makeLink("markdown-it(markdown)");
+            var remarkLink_1 = makeLink("remark(slide)");
+            var revealLink_1 = makeLink("reveal(slide)");
+            var editLink_1 = makeLink("edit");
             var update = function () {
-                var text = encodeURIComponent(textarea.value);
-                textCounter.innerText = "lenght:" + text.length;
-                defaultLink.href = "?text:" + text;
-                markedLink.href = "?marked&text:" + text;
-                commonmarkLink.href = "?commonmark&text:" + text;
-                markdownitLink.href = "?markdown-it&text:" + text;
-                remarkLink.href = "?remark&text:" + text;
-                revealLink.href = "?reveal&text:" + text;
-                editLink.href = "?edit&text:" + text;
+                var text = encodeURIComponent(textarea_1.value);
+                textCounter_1.innerText = "lenght:" + text.length;
+                defaultLink_1.href = "?text:" + text;
+                markedLink_1.href = "?marked&text:" + text;
+                commonmarkLink_1.href = "?commonmark&text:" + text;
+                markdownitLink_1.href = "?markdown-it&text:" + text;
+                remarkLink_1.href = "?remark&text:" + text;
+                revealLink_1.href = "?reveal&text:" + text;
+                editLink_1.href = "?edit&text:" + text;
             };
-            var textarea = makeDomNode({
+            var textarea_1 = makeDomNode({
                 parent: document.body,
                 tag: "textarea",
                 style: {
@@ -1197,7 +1205,7 @@
                     keyup: update
                 }
             });
-            recursiveAssign(textarea.style, {
+            recursiveAssign(textarea_1.style, {
                 width: "calc(100vw - 2rem)",
                 height: "calc(100vh - 3rem)"
             });
@@ -1231,12 +1239,12 @@
         render(renderer, location.href, sourceUrl.slice(5));
     }
     else {
-        var request = new XMLHttpRequest();
-        request.open('GET', sourceUrl, true);
-        request.onreadystatechange = function () {
-            if (4 === request.readyState) {
-                if (200 <= request.status && request.status < 300) {
-                    render(renderer, makeAbsoluteUrl(location.href, sourceUrl), request.responseText);
+        var request_1 = new XMLHttpRequest();
+        request_1.open('GET', sourceUrl, true);
+        request_1.onreadystatechange = function () {
+            if (4 === request_1.readyState) {
+                if (200 <= request_1.status && request_1.status < 300) {
+                    render(renderer, makeAbsoluteUrl(location.href, sourceUrl), request_1.responseText);
                 }
                 else {
                     showError([
@@ -1249,14 +1257,14 @@
                             },
                             children: sourceUrl
                         },
-                        "\", \"status\": " + request.status + "};"
+                        "\", \"status\": " + request_1.status + "};"
                     ]);
                     var responseDiv = {
                         parent: document.body,
                         tag: "div"
                     };
-                    if (request.responseText) {
-                        responseDiv.innerHTML = request.responseText;
+                    if (request_1.responseText) {
+                        responseDiv.innerHTML = request_1.responseText;
                     }
                     else {
                         responseDiv.style =
@@ -1265,17 +1273,17 @@
                                 fontSize: "1.5rem",
                                 padding: "20px"
                             };
-                        if (0 === request.status) {
+                        if (0 === request_1.status) {
                             responseDiv.innerText = "There ia a possibility that server not found or it happened cross-domain issue.\nサーバーが見つからないかクロスドメインの問題が発生した可能性があります。";
                         }
                         else {
-                            responseDiv.innerText = JSON.stringify(request.getAllResponseHeaders(), null, 4);
+                            responseDiv.innerText = JSON.stringify(request_1.getAllResponseHeaders(), null, 4);
                         }
                     }
                     makeDomNode(responseDiv);
                 }
             }
         };
-        request.send(null);
+        request_1.send(null);
     }
 })();

@@ -215,7 +215,7 @@
             )
         );
     };
-    let appendTheme = function(href, id)
+    let appendTheme = function(href : string, id : string = undefined)
     {
         appendLink
         (
@@ -230,7 +230,7 @@
     let appendHighlightTheme = function()
     {
         appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
-    }
+    };
     let appendIcon = function(href)
     {
         appendLink
@@ -251,7 +251,7 @@
         );
         document.getElementById("twitter-card-image").content = href;
     };
-    let loadScript = function(src, onload)
+    let loadScript = function(src, onload = undefined)
     {
         makeDomNode
         (
@@ -274,15 +274,15 @@
                 applyHighlight();
             }
         );
-    }
+    };
     let loadMathJaxScript = function()
     {
         loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
-    }
+    };
     let loadTwitterScript = function()
     {
         loadScript("//platform.twitter.com/widgets.js");
-    }
+    };
     let makeAbsoluteUrl = function(base, url)
     {
         if ("#" === url.substr(0, 1))
@@ -401,7 +401,7 @@
         }
         return makeRelativeUrl(makeAbsoluteUrl(base, url));
     };
-    let skipEscape = function(lines, map, escapeMap)
+    let skipEscape = function(lines, map, escapeMap = undefined)
     {
         let currentEscape = null;
         return lines.map
@@ -442,7 +442,7 @@
             }
         );
     };
-    let skipEscapeBlock = function(source, map, escapeMap, finish)
+    let skipEscapeBlock = function(source, map, escapeMap = undefined, finish = undefined)
     {
         let blocks = [];
         let current = [];
@@ -510,7 +510,7 @@
         }
         return blocks.join("\n");
     };
-    let applyOption = function(source, TAG, applyer, finish)
+    let applyOption = function(source, TAG, applyer, finish = undefined)
     {
         return skipEscapeBlock
         (
@@ -610,9 +610,9 @@
                 this.links[link] = index;
                 return link +"-" +index;
             }
-        }
+        };
     };
-    let getAllElements = function(parent)
+    let getAllElements = function(parent = undefined)
     {
         let result = [];
         parent = parent || document ;
@@ -1725,7 +1725,7 @@
                         target: "_blank",
                     }
                 );
-            }
+            };
             let defaultLink = makeLink("default");
             let markedLink = makeLink("marked(markdown)");
             let commonmarkLink = makeLink("commonmark(markdown)");

@@ -4,7 +4,7 @@
 {
     document.body.removeChild(document.getElementById("writing-HTML-selfloading-error"));
 
-    let globalState =
+    let globalState : any =
     {
         "config": { }
     };
@@ -86,7 +86,7 @@
         }
 
         return typeof obj;
-    }
+    };
     let makeDomNode = function(arg)
     {
         if (arg instanceof Node)
@@ -249,7 +249,7 @@
                 href: href,
             }
         );
-        document.getElementById("twitter-card-image").content = href;
+        (document.getElementById("twitter-card-image") as HTMLMetaElement).content = href;
     };
     let loadScript = function(src, onload = undefined)
     {
@@ -693,7 +693,7 @@
             }
         }
         return url;
-    }
+    };
     let translateRelativeLink = function(baseUrl, source)
     {
         return skipEscape
@@ -971,7 +971,7 @@
                     .replace(/<.*?>/g, "")
                     .split("\n")
                     .map(function(i){ return i.trim(); })
-                    .filter(function(i) { return 0 < i.length })[0]
+                    .filter(function(i) { return 0 < i.length; })[0]
                     || "untitled"
                 )
                 .replace(/\s+/g," ")
@@ -986,7 +986,7 @@
                 .replace(/&gt;/, ">");
         }
         document.title = globalState.config.title;
-        document.getElementById("twitter-card-title").content = globalState.config.title;
+        (document.getElementById("twitter-card-title") as HTMLMetaElement).content = globalState.config.title;
     };
     let applyIcon = function(baseUrl)
     {
@@ -1126,7 +1126,7 @@
             {
                 return index.length <= i ||
                         (0 <= i && 32 < document.getElementById(index[i].link.substring(1)).getBoundingClientRect().top);
-            }
+            };
             let previousContent = null;
             for(let i in index)
             {
@@ -1147,7 +1147,7 @@
                     previousContent = content;
                 }
             }
-            index = index.filter(function(i) { return !i.withError });
+            index = index.filter(function(i) { return !i.withError; });
 
             if (0 < index.length)
             {
@@ -1231,7 +1231,8 @@
     };
     let applyHighlight = function()
     {
-        document.querySelectorAll("code").forEach
+        Array.from(document.querySelectorAll("code"))
+        .forEach
         (
             function(element)
             {
@@ -1286,12 +1287,12 @@
             let currentUrlParamNames = (location.href.split("#")[0] +"?")
                 .split("?")[1]
                 .split("&")
-                .filter(function(i) { return 0 < i.indexOf("=") })
+                .filter(function(i) { return 0 < i.indexOf("="); })
                 .map(function(i) { return i.substr(0, i.indexOf("=")); });
             let referrerUrlParams = (document.referrer.split("#")[0] +"?")
                 .split("?")[1]
                 .split("&")
-                .filter(function(i) { return 0 < i.indexOf("=") })
+                .filter(function(i) { return 0 < i.indexOf("="); })
                 .filter
                 (
                     function(i)
@@ -1314,7 +1315,7 @@
                     let urlArgs = (document.referrer.split("#")[0] +"?")
                         .split("?")[1]
                         .split("&")
-                        .filter(function(i) { return i.indexOf("=") < 0 })
+                        .filter(function(i) { return i.indexOf("=") < 0; })
                         .map(function(i) { return unescape(decodeURI(i));});
                     if (2 <= urlArgs.length)
                     {
@@ -1555,7 +1556,7 @@
             let revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-THEME]league-->")[1].toLowerCase();
             console.log("reveal-theme: " +revealTheme);
             appendTheme("css/theme/" +revealTheme +".css", "theme");
-            let documentTheme = document.getElementById("theme");
+            let documentTheme = document.getElementById("theme") as HTMLLinkElement;
             appendTheme("lib/css/zenburn.css");
             appendTheme(window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
             
@@ -1779,7 +1780,7 @@
     let urlArgs = (location.href.split("#")[0] +"?")
         .split("?")[1]
         .split("&")
-        .filter(function(i) { return i.indexOf("=") < 0 })
+        .filter(function(i) { return i.indexOf("=") < 0; })
         .map(function(i) { return unescape(decodeURI(i));});
     if (1 <= urlArgs.length)
     {
@@ -1835,7 +1836,7 @@
                             "\", \"status\": "+ request.status + "};"
                         ]
                     );
-                    let responseDiv =
+                    let responseDiv : any =
                     {
                         parent: document.body,
                         tag: "div",

@@ -837,7 +837,8 @@
         }
     };
     var applyHighlight = function () {
-        document.querySelectorAll("code").forEach(function (element) {
+        Array.from(document.querySelectorAll("code"))
+            .forEach(function (element) {
             //  highlightjs が知らない言語が指定されてるとなにも実行されなくなるので指定を消すなり類似した言語に変換する
             switch (element.className) {
                 case "lang-cmd":

@@ -1,5 +1,12 @@
 'use strict';
 //  このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
+
+declare var hljs: any;
+declare var marked: any;
+declare var remark: any;
+declare var commonmark: any;
+declare var Reveal: any;
+
 (function()
 {
     document.body.removeChild(document.getElementById("writing-HTML-selfloading-error"));
@@ -528,23 +535,6 @@
             finish
         );
     };
-    let applyOptionOnce = function(source, TAG, applyer, defaultValue)
-    {
-        let context = { option: defaultValue };
-        return applyOption
-        (
-            source,
-            TAG,
-            function(value)
-            {
-                context.option = value;
-            },
-            function()
-            {
-                applyer(context.option);
-            }
-        );
-    };
     let loadConfig = function(source)
     {
         return applyOption
@@ -581,10 +571,11 @@
             }
         );
     };
-    let markdownHeaderFragmentMaker = function()
+    class MarkdownHeaderFragmentMaker
     {
-        this.links = [];
-        this.makeFragment = function(line) {
+        links : string[];
+        makeFragment(line : string)
+        {
             let explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);
             let link = explicitFragmentIdMatch ?
                 explicitFragmentIdMatch[1]:
@@ -610,8 +601,8 @@
                 this.links[link] = index;
                 return link +"-" +index;
             }
-        };
-    };
+        }
+    }
     let getAllElements = function(parent = undefined)
     {
         let result = [];
@@ -642,7 +633,7 @@
     };
     let makeIndexFromContent = function()
     {
-        let linkMaker = new markdownHeaderFragmentMaker();
+        let linkMaker = new MarkdownHeaderFragmentMaker();
         let anchors = [ ];
         getHeadingTags().forEach
         (
@@ -946,7 +937,10 @@
 
             if (undefined === globalState.config.title || "" === globalState.config.title)
             {
-                let context = { };
+                let context =
+                {
+                    previousLine: undefined
+                };
                 skipEscape(source.split("\n"), function(line){
                     if (undefined === globalState.config.title || "" === globalState.config.title)
                     {
@@ -1157,7 +1151,6 @@
                     let nextContetIsOver = isOver(previousState.i +1);
                     if (previouseContetIsOver || !nextContetIsOver)
                     {
-                        let i = null;
                         if (previouseContetIsOver)
                         {
                             //  上へ手繰る
@@ -1415,7 +1408,7 @@
                 "js/marked.js",
                 function()
                 {
-                    let config = { gfm: true, tables: true };
+                    let config : any = { gfm: true, tables: true };
                     try
                     {
                         config = JSON.parse((source+"<!--[MARKED-CONFIG] { \"gfm\": true, \"tables\": true } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
@@ -1426,7 +1419,7 @@
                         console.error(JSON.stringify(e));
                     }
                     console.log("marked-config: " +JSON.stringify(config, null, 4));
-                    let linkMaker = new markdownHeaderFragmentMaker();
+                    let linkMaker = new MarkdownHeaderFragmentMaker();
                     let markedRenderer = new marked.Renderer();
                     markedRenderer.heading = function (text, level, raw)
                     {
@@ -1490,7 +1483,8 @@
                             (
                                 function(markdown)
                                 {
-                                    return window.markdownit({ html: true, }).use(window.markdownitEmoji).render(markdown);
+                                    var markdownitWindow : any = window;
+                                    return markdownitWindow.markdownit({ html: true, }).use(markdownitWindow.markdownitEmoji).render(markdown);
                                 }
                             );
                         }
@@ -1539,7 +1533,7 @@
                         translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))
                         .replace(/([^\n])```([^\n])/g, "$1`$2")
                     );
-                    let slideshow = remark.create(config);
+                    remark.create(config);
                 }
             );
 

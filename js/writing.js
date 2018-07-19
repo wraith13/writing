@@ -1,5 +1,4 @@
 'use strict';
-//  このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 (function () {
     document.body.removeChild(document.getElementById("writing-HTML-selfloading-error"));
     var globalState = {
@@ -380,14 +379,6 @@
             return block.replace(reg, "");
         }, undefined, finish);
     };
-    var applyOptionOnce = function (source, TAG, applyer, defaultValue) {
-        var context = { option: defaultValue };
-        return applyOption(source, TAG, function (value) {
-            context.option = value;
-        }, function () {
-            applyer(context.option);
-        });
-    };
     var loadConfig = function (source) {
         return applyOption(source, "WRTING-CONFING", function (option) {
             try {
@@ -401,9 +392,10 @@
             console.log("WRTING-CONFING(globalState.config): " + JSON.stringify(globalState.config, null, 4));
         });
     };
-    var markdownHeaderFragmentMaker = function () {
-        this.links = [];
-        this.makeFragment = function (line) {
+    var MarkdownHeaderFragmentMaker = (function () {
+        function MarkdownHeaderFragmentMaker() {
+        }
+        MarkdownHeaderFragmentMaker.prototype.makeFragment = function (line) {
             var explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);
             var link = explicitFragmentIdMatch ?
                 explicitFragmentIdMatch[1] :
@@ -428,7 +420,8 @@
                 return link + "-" + index;
             }
         };
-    };
+        return MarkdownHeaderFragmentMaker;
+    }());
     var getAllElements = function (parent) {
         if (parent === void 0) { parent = undefined; }
         var result = [];
@@ -450,7 +443,7 @@
         });
     };
     var makeIndexFromContent = function () {
-        var linkMaker = new markdownHeaderFragmentMaker();
+        var linkMaker = new MarkdownHeaderFragmentMaker();
         var anchors = [];
         getHeadingTags().forEach(function (i) {
             var level = parseInt(i.tagName.substr(1), 10);
@@ -637,7 +630,9 @@
                 globalState.config.title = matches[2];
             }
             if (undefined === globalState.config.title || "" === globalState.config.title) {
-                var context_1 = {};
+                var context_1 = {
+                    previousLine: undefined
+                };
                 skipEscape(source.split("\n"), function (line) {
                     if (undefined === globalState.config.title || "" === globalState.config.title) {
                         if (line.match(/^\=+$/) && (undefined !== context_1.previousLine && "" !== context_1.previousLine)) {
@@ -779,7 +774,6 @@
                     var previouseContetIsOver = isOver_1(previousState_1.i);
                     var nextContetIsOver = isOver_1(previousState_1.i + 1);
                     if (previouseContetIsOver || !nextContetIsOver) {
-                        var i = null;
                         if (previouseContetIsOver) {
                             //  上へ手繰る
                             while (isOver_1(--previousState_1.i)) { }
@@ -981,7 +975,7 @@
                     console.error(JSON.stringify(e));
                 }
                 console.log("marked-config: " + JSON.stringify(config, null, 4));
-                var linkMaker = new markdownHeaderFragmentMaker();
+                var linkMaker = new MarkdownHeaderFragmentMaker();
                 var markedRenderer = new marked.Renderer();
                 markedRenderer.heading = function (text, level, raw) {
                     return '<h'
@@ -1013,7 +1007,8 @@
             loadScript("js/markdown-it.js", function () {
                 loadScript("js/markdown-it-emoji.js", function () {
                     applyMarkdown(function (markdown) {
-                        return window.markdownit({ html: true }).use(window.markdownitEmoji).render(markdown);
+                        var markdownitWindow = window;
+                        return markdownitWindow.markdownit({ html: true }).use(markdownitWindow.markdownitEmoji).render(markdown);
                     });
                 });
             });
@@ -1037,7 +1032,7 @@
                 });
                 config.source = translateForMathJax(translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))
                     .replace(/([^\n])```([^\n])/g, "$1`$2"));
-                var slideshow = remark.create(config);
+                remark.create(config);
             });
             //  MathJax
             loadMathJaxScript();

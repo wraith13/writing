@@ -394,6 +394,7 @@
     };
     var MarkdownHeaderFragmentMaker = (function () {
         function MarkdownHeaderFragmentMaker() {
+            this.links = [];
         }
         MarkdownHeaderFragmentMaker.prototype.makeFragment = function (line) {
             var explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);

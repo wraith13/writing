@@ -573,7 +573,7 @@ declare var Reveal: any;
     };
     class MarkdownHeaderFragmentMaker
     {
-        links : string[];
+        links : string[] = [];
         makeFragment(line : string)
         {
             let explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);

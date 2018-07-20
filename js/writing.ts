@@ -7,6 +7,14 @@ declare var remark: any;
 declare var commonmark: any;
 declare var Reveal: any;
 
+interface ArrayConstructor {
+    from<T, U>(arrayLike: ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): Array<U>;
+    from<T>(arrayLike: ArrayLike<T>): Array<T>;
+}
+declare interface ObjectConstructor {
+    assign(target: any, ...sources: any[]): any;
+}
+
 (function()
 {
     document.body.removeChild(document.getElementById("writing-HTML-selfloading-error"));
@@ -1309,7 +1317,7 @@ declare var Reveal: any;
                         .split("?")[1]
                         .split("&")
                         .filter(function(i) { return i.indexOf("=") < 0; })
-                        .map(function(i) { return unescape(decodeURI(i));});
+                        .map(function(i) { return decodeURI(i);});
                     if (2 <= urlArgs.length)
                     {
                         renderer = urlArgs[0];
@@ -1775,7 +1783,7 @@ declare var Reveal: any;
         .split("?")[1]
         .split("&")
         .filter(function(i) { return i.indexOf("=") < 0; })
-        .map(function(i) { return unescape(decodeURI(i));});
+        .map(function(i) { return decodeURI(i);});
     if (1 <= urlArgs.length)
     {
         if (2 <= urlArgs.length)

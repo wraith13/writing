@@ -69,6 +69,10 @@
 
 <blockquote class="twitter-video" data-lang="ja"><p lang="ja" dir="ltr">ガチアサリ持ちx３が互いに囮になりあう形で敵を１キルもしないで大逆転したw　こっちは楽しかったけど、敵からしたらめっちゃクソな展開やろうな、これww <a href="https://t.co/0ig4iIfzmc">pic.twitter.com/0ig4iIfzmc</a></p>&mdash; 👻 道化師 (@wraith13) <a href="https://twitter.com/wraith13/status/956893821836541952?ref_src=twsrc%5Etfw">2018年1月26日</a></blockquote>
 
+## 2枚抜き
+
+<blockquote class="twitter-video" data-lang="ja"><p lang="ja" dir="ltr">本日の２枚抜き集。２枚抜きなんてそうそうできるもんじゃないんだけど、今日はなぜか２枚抜きシーンが頻出した。二つ目のシーンに限っては敵が固まり過ぎててアレはまとめて撃ち抜いてくださいって言ってるようなもんだった。 <a href="https://t.co/uGqscgrxLo">pic.twitter.com/uGqscgrxLo</a></p>&mdash; 👻 道化師 (@wraith13) <a href="https://twitter.com/wraith13/status/1021035986619252736?ref_src=twsrc%5Etfw">2018年7月22日</a></blockquote>
+
 ## ハイパープレッサーで一掃
 
 <!--[REVEAL/]その1 *(↓下方向に続きがあります)* -->

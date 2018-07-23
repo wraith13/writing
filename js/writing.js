@@ -148,6 +148,42 @@
             children: arg
         });
     };
+    var showLoadingError = function (sourceUrl, request) {
+        showError([
+            "loading failed: { \"method\": \"GET\", \"url\": \"",
+            {
+                tag: "a",
+                href: sourceUrl,
+                style: {
+                    color: "#6666FF"
+                },
+                children: sourceUrl
+            },
+            "\", \"status\": " + request.status + "};"
+        ]);
+        var responseDiv = {
+            parent: document.body,
+            tag: "div"
+        };
+        if (request.responseText) {
+            responseDiv.innerHTML = request.responseText;
+        }
+        else {
+            responseDiv.style =
+                {
+                    whiteSpace: "pre-wrap",
+                    fontSize: "1.5rem",
+                    padding: "20px"
+                };
+            if (0 === request.status) {
+                responseDiv.innerText = "There ia a possibility that server not found or it happened cross-domain issue.\nサーバーが見つからないかクロスドメインの問題が発生した可能性があります。";
+            }
+            else {
+                responseDiv.innerText = JSON.stringify(request.getAllResponseHeaders(), null, 4);
+            }
+        }
+        makeDomNode(responseDiv);
+    };
     var appendLink = function (args) {
         makeDomNode(objectAssign(deepCopy(args), {
             parent: document.head,
@@ -862,6 +898,7 @@
         //  regulate return code
         source = source.replace(/\r\n/g, "\n");
         //  preload config
+        globalState.configBackup = globalState.config; // グローバルな設定のバックアップ
         loadConfig(source);
         //  この段階ではレンダラが確定しておらずディレクティブが機能していないがレンダラーに関する指定を取得する為に一度読み込む。後でリロードする。
         if (globalState.config.referrer_option) {
@@ -890,13 +927,13 @@
             if (!renderer) {
                 if ((document.referrer || "").split("?")[0] === location.href.split("?")[0]) {
                     var newUrl_1 = location.href;
-                    var urlArgs_1 = (document.referrer.split("#")[0] + "?")
+                    var urlArgs = (document.referrer.split("#")[0] + "?")
                         .split("?")[1]
                         .split("&")
                         .filter(function (i) { return i.indexOf("=") < 0; })
                         .map(function (i) { return decodeURIComponent(i); });
-                    if (2 <= urlArgs_1.length) {
-                        renderer = urlArgs_1[0];
+                    if (2 <= urlArgs.length) {
+                        renderer = urlArgs[0];
                         newUrl_1 = newUrl_1.replace("?", "?" + renderer + "&");
                     }
                 }
@@ -935,7 +972,7 @@
             source = applyConditionalComment(source, isReveal, "REVEAL");
         }
         //  reload config
-        globalState.config = {}; // ディレクティブが効いてない状態で読み込んだ設定をクリア
+        globalState.config = globalState.configBackup; // ディレクティブが効いてない状態で読み込んだ設定をクリア
         source = loadConfig(source);
         //  title
         applyTitle(source);
@@ -1209,78 +1246,85 @@
             update();
         }
     };
-    var renderer = null;
-    var sourceUrl = null;
-    var urlArgs = (location.href.split("#")[0] + "?")
-        .split("?")[1]
-        .split("&")
-        .filter(function (i) { return i.indexOf("=") < 0; })
-        .map(function (i) { return decodeURIComponent(i); });
-    if (1 <= urlArgs.length) {
-        if (2 <= urlArgs.length) {
-            renderer = urlArgs[0];
-            sourceUrl = urlArgs[1];
+    var loadDocument = function () {
+        var renderer = null;
+        var sourceUrl = null;
+        var urlArgs = (location.href.split("#")[0] + "?")
+            .split("?")[1]
+            .split("&")
+            .filter(function (i) { return i.indexOf("=") < 0; })
+            .map(function (i) { return decodeURIComponent(i); });
+        if (1 <= urlArgs.length) {
+            if (2 <= urlArgs.length) {
+                renderer = urlArgs[0];
+                sourceUrl = urlArgs[1];
+            }
+            else {
+                sourceUrl = urlArgs[0];
+            }
+            sourceUrl = sourceUrl
+                .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
+        }
+        if (!sourceUrl) {
+            sourceUrl = "index.md";
+        }
+        console.log("renderer(forced by url param): " + (renderer || "null"));
+        console.log("loading: " + sourceUrl);
+        if ("text:" === sourceUrl.slice(0, 5)) {
+            render(renderer, location.href, sourceUrl.slice(5));
         }
         else {
-            sourceUrl = urlArgs[0];
-        }
-        sourceUrl = sourceUrl
-            .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
-    }
-    if (!sourceUrl) {
-        sourceUrl = "index.md";
-    }
-    console.log("renderer(forced by url param): " + (renderer || "null"));
-    console.log("loading: " + sourceUrl);
-    if ("text:" === sourceUrl.slice(0, 5)) {
-        render(renderer, location.href, sourceUrl.slice(5));
-    }
-    else {
-        var request_1 = new XMLHttpRequest();
-        request_1.open('GET', sourceUrl, true);
-        request_1.onreadystatechange = function () {
-            if (4 === request_1.readyState) {
-                if (200 <= request_1.status && request_1.status < 300) {
-                    render(renderer, makeAbsoluteUrl(location.href, sourceUrl), request_1.responseText);
-                }
-                else {
-                    showError([
-                        "loading failed: { \"method\": \"GET\", \"url\": \"",
-                        {
-                            tag: "a",
-                            href: sourceUrl,
-                            style: {
-                                color: "#6666FF"
-                            },
-                            children: sourceUrl
-                        },
-                        "\", \"status\": " + request_1.status + "};"
-                    ]);
-                    var responseDiv = {
-                        parent: document.body,
-                        tag: "div"
-                    };
-                    if (request_1.responseText) {
-                        responseDiv.innerHTML = request_1.responseText;
+            var request_1 = new XMLHttpRequest();
+            request_1.open('GET', sourceUrl, true);
+            request_1.onreadystatechange = function () {
+                if (4 === request_1.readyState) {
+                    if (200 <= request_1.status && request_1.status < 300) {
+                        render(renderer, makeAbsoluteUrl(location.href, sourceUrl), request_1.responseText);
                     }
                     else {
-                        responseDiv.style =
-                            {
-                                whiteSpace: "pre-wrap",
-                                fontSize: "1.5rem",
-                                padding: "20px"
-                            };
-                        if (0 === request_1.status) {
-                            responseDiv.innerText = "There ia a possibility that server not found or it happened cross-domain issue.\nサーバーが見つからないかクロスドメインの問題が発生した可能性があります。";
+                        showLoadingError(sourceUrl, request_1);
+                    }
+                }
+            };
+            request_1.send(null);
+        }
+    };
+    var loadJson = function () {
+        var jsonScripts = Array.from(document.getElementsByTagName('script'))
+            .filter(function (script) { return "application/json" === script.type; });
+        var loadCount = 0;
+        jsonScripts
+            .forEach(function (script) {
+            var name = script.getAttribute("data-let");
+            var sourceUrl = script.src;
+            console.log("loading(" + name + "): " + sourceUrl);
+            var request = new XMLHttpRequest();
+            request.open('GET', sourceUrl, true);
+            request.onreadystatechange = function () {
+                if (4 === request.readyState) {
+                    if (200 <= request.status && request.status < 300) {
+                        try {
+                            objectAssign(globalState[name], JSON.parse(request.responseText));
+                            console.log("load JSON(" + name + ") from " + sourceUrl + " : " + request.responseText);
                         }
-                        else {
-                            responseDiv.innerText = JSON.stringify(request_1.getAllResponseHeaders(), null, 4);
+                        catch (err) {
+                            console.error(err);
+                            console.error("error JSON(" + sourceUrl + "): " + request.responseText);
+                        }
+                        if (jsonScripts.length <= ++loadCount) {
+                            loadDocument();
                         }
                     }
-                    makeDomNode(responseDiv);
+                    else {
+                        showLoadingError(sourceUrl, request);
+                    }
                 }
-            }
-        };
-        request_1.send(null);
-    }
+            };
+            request.send(null);
+        });
+        if (jsonScripts.length <= 0) {
+            loadDocument();
+        }
+    };
+    loadJson();
 })();

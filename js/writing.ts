@@ -217,6 +217,52 @@ declare interface ObjectConstructor {
             }
         );
     };
+    let showLoadingError = function(sourceUrl, request)
+    {
+        showError
+        (
+            [
+                "loading failed: { \"method\": \"GET\", \"url\": \"",
+                {
+                    tag: "a",
+                    href: sourceUrl,
+                    style:
+                    {
+                        color: "#6666FF",
+                    },
+                    children: sourceUrl,
+                },
+                "\", \"status\": "+ request.status + "};"
+            ]
+        );
+        let responseDiv : any =
+        {
+            parent: document.body,
+            tag: "div",
+        };
+        if (request.responseText)
+        {
+            responseDiv.innerHTML = request.responseText;
+        }
+        else
+        {
+            responseDiv.style =
+            {
+                whiteSpace: "pre-wrap",
+                fontSize: "1.5rem",
+                padding: "20px",
+            };
+            if (0 === request.status)
+            {
+                responseDiv.innerText = "There ia a possibility that server not found or it happened cross-domain issue.\nサーバーが見つからないかクロスドメインの問題が発生した可能性があります。";
+            }
+            else
+            {
+                responseDiv.innerText = JSON.stringify(request.getAllResponseHeaders(), null, 4);
+            }
+        }
+        makeDomNode(responseDiv);
+};
     let appendLink = function(args)
     {
         makeDomNode
@@ -1279,6 +1325,7 @@ declare interface ObjectConstructor {
         source = source.replace(/\r\n/g,"\n");
 
         //  preload config
+        globalState.configBackup = globalState.config; // グローバルな設定のバックアップ
         loadConfig(source);
         //  この段階ではレンダラが確定しておらずディレクティブが機能していないがレンダラーに関する指定を取得する為に一度読み込む。後でリロードする。
 
@@ -1366,7 +1413,7 @@ declare interface ObjectConstructor {
         }
 
         //  reload config
-        globalState.config = { }; // ディレクティブが効いてない状態で読み込んだ設定をクリア
+        globalState.config = globalState.configBackup; // ディレクティブが効いてない状態で読み込んだ設定をクリア
         source = loadConfig(source);
         
         //  title
@@ -1778,97 +1825,114 @@ declare interface ObjectConstructor {
             update();
         }
     };
-    let renderer = null; 
-    let sourceUrl = null;
-    let urlArgs = (location.href.split("#")[0] +"?")
-        .split("?")[1]
-        .split("&")
-        .filter(function(i) { return i.indexOf("=") < 0; })
-        .map(function(i) { return decodeURIComponent(i);});
-    if (1 <= urlArgs.length)
+    var loadDocument = function()
     {
-        if (2 <= urlArgs.length)
+        let renderer = null; 
+        let sourceUrl = null;
+        let urlArgs = (location.href.split("#")[0] +"?")
+            .split("?")[1]
+            .split("&")
+            .filter(function(i) { return i.indexOf("=") < 0; })
+            .map(function(i) { return decodeURIComponent(i);});
+        if (1 <= urlArgs.length)
         {
-            renderer = urlArgs[0];
-            sourceUrl = urlArgs[1];
+            if (2 <= urlArgs.length)
+            {
+                renderer = urlArgs[0];
+                sourceUrl = urlArgs[1];
+            }
+            else
+            {
+                sourceUrl = urlArgs[0];
+            }
+            sourceUrl = sourceUrl
+                .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
+        }
+        if (!sourceUrl)
+        {
+            sourceUrl = "index.md";
+        }
+        console.log("renderer(forced by url param): " +(renderer || "null"));
+        console.log("loading: " +sourceUrl);
+        if ("text:" === sourceUrl.slice(0, 5))
+        {
+            render(renderer, location.href, sourceUrl.slice(5));
         }
         else
         {
-            sourceUrl = urlArgs[0];
-        }
-        sourceUrl = sourceUrl
-            .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
-    }
-    if (!sourceUrl)
-    {
-        sourceUrl = "index.md";
-    }
-    console.log("renderer(forced by url param): " +(renderer || "null"));
-    console.log("loading: " +sourceUrl);
-    if ("text:" === sourceUrl.slice(0, 5))
-    {
-        render(renderer, location.href, sourceUrl.slice(5));
-    }
-    else
-    {
-        let request = new XMLHttpRequest();
-        request.open('GET', sourceUrl, true);
-        request.onreadystatechange = function()
-        {
-            if (4 === request.readyState)
+            let request = new XMLHttpRequest();
+            request.open('GET', sourceUrl, true);
+            request.onreadystatechange = function()
             {
-                if (200 <= request.status && request.status < 300)
+                if (4 === request.readyState)
                 {
-                    render(renderer, makeAbsoluteUrl(location.href, sourceUrl), request.responseText);
-                }
-                else
-                {
-                    showError
-                    (
-                        [
-                            "loading failed: { \"method\": \"GET\", \"url\": \"",
-                            {
-                                tag: "a",
-                                href: sourceUrl,
-                                style:
-                                {
-                                    color: "#6666FF",
-                                },
-                                children: sourceUrl,
-                            },
-                            "\", \"status\": "+ request.status + "};"
-                        ]
-                    );
-                    let responseDiv : any =
+                    if (200 <= request.status && request.status < 300)
                     {
-                        parent: document.body,
-                        tag: "div",
-                    };
-                    if (request.responseText)
-                    {
-                        responseDiv.innerHTML = request.responseText;
+                        render(renderer, makeAbsoluteUrl(location.href, sourceUrl), request.responseText);
                     }
                     else
                     {
-                        responseDiv.style =
-                        {
-                            whiteSpace: "pre-wrap",
-                            fontSize: "1.5rem",
-                            padding: "20px",
-                        };
-                        if (0 === request.status)
-                        {
-                            responseDiv.innerText = "There ia a possibility that server not found or it happened cross-domain issue.\nサーバーが見つからないかクロスドメインの問題が発生した可能性があります。";
-                        }
-                        else
-                        {
-                            responseDiv.innerText = JSON.stringify(request.getAllResponseHeaders(), null, 4);
-                        }
+                        showLoadingError(sourceUrl, request);
                     }
-                    makeDomNode(responseDiv);
                 }
-            }
-        };
-        request.send(null);
-    }
+            };
+            request.send(null);
+        }
+    };
+    let loadJson = function()
+    {
+        let jsonScripts = Array.from(document.getElementsByTagName('script'))
+            .filter(function(script) { return "application/json" === script.type; });
+        let loadCount = 0;
+        jsonScripts
+            .forEach
+            (
+                function(script)
+                {
+                    let name = script.getAttribute("data-let");
+                    let sourceUrl = script.src;
+                    console.log("loading(" +name +"): " +sourceUrl);
+                                let request = new XMLHttpRequest();
+                    request.open('GET', sourceUrl, true);
+                    request.onreadystatechange = function()
+                    {
+                        if (4 === request.readyState)
+                        {
+                            if (200 <= request.status && request.status < 300)
+                            {
+                                try
+                                {
+                                    objectAssign
+                                    (
+                                        globalState[name],
+                                        JSON.parse(request.responseText)
+                                    );
+                                    console.log("load JSON(" +name +") from " +sourceUrl +" : " +request.responseText);
+                                }
+                                catch(err)
+                                {
+                                    console.error(err);
+                                    console.error("error JSON(" +sourceUrl +"): " +request.responseText);
+                                }
+                
+                                if (jsonScripts.length <= ++loadCount)
+                                {
+                                    loadDocument();
+                                }
+                            }
+                            else
+                            {
+                                showLoadingError(sourceUrl, request);
+                            }
+                        }
+                    };
+                    request.send(null);
+                }
+            );
+        if (jsonScripts.length <= 0)
+        {
+            loadDocument();
+        }
+    };
+    loadJson();
 })();

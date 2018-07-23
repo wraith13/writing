@@ -1317,7 +1317,7 @@ declare interface ObjectConstructor {
                         .split("?")[1]
                         .split("&")
                         .filter(function(i) { return i.indexOf("=") < 0; })
-                        .map(function(i) { return decodeURI(i);});
+                        .map(function(i) { return decodeURIComponent(i);});
                     if (2 <= urlArgs.length)
                     {
                         renderer = urlArgs[0];
@@ -1783,7 +1783,7 @@ declare interface ObjectConstructor {
         .split("?")[1]
         .split("&")
         .filter(function(i) { return i.indexOf("=") < 0; })
-        .map(function(i) { return decodeURI(i);});
+        .map(function(i) { return decodeURIComponent(i);});
     if (1 <= urlArgs.length)
     {
         if (2 <= urlArgs.length)

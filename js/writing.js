@@ -894,7 +894,7 @@
                         .split("?")[1]
                         .split("&")
                         .filter(function (i) { return i.indexOf("=") < 0; })
-                        .map(function (i) { return decodeURI(i); });
+                        .map(function (i) { return decodeURIComponent(i); });
                     if (2 <= urlArgs_1.length) {
                         renderer = urlArgs_1[0];
                         newUrl_1 = newUrl_1.replace("?", "?" + renderer + "&");
@@ -1215,7 +1215,7 @@
         .split("?")[1]
         .split("&")
         .filter(function (i) { return i.indexOf("=") < 0; })
-        .map(function (i) { return decodeURI(i); });
+        .map(function (i) { return decodeURIComponent(i); });
     if (1 <= urlArgs.length) {
         if (2 <= urlArgs.length) {
             renderer = urlArgs[0];

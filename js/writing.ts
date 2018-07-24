@@ -1825,8 +1825,20 @@ declare interface ObjectConstructor {
             update();
         }
     };
+    var loadGoogleAnalytics = function()
+    {
+        if (globalState && globalState.config && globalState.config.googleAnalyticsTracckingId)
+        {
+            loadScript("https://www.googletagmanager.com/gtag/js?" +globalState.config.googleAnalyticsTracckingId);
+            window["dataLayer"] = window["dataLayer"] || [];
+            window["dataLayer"].push(['js', new Date()]);
+            window["dataLayer"].push(['config', globalState.config.googleAnalyticsTracckingId]);
+            }
+    };
     var loadDocument = function()
     {
+        loadGoogleAnalytics();
+
         let renderer = null; 
         let sourceUrl = null;
         let urlArgs = (location.href.split("#")[0] +"?")

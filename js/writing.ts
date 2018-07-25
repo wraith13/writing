@@ -1325,7 +1325,7 @@ declare interface ObjectConstructor {
         source = source.replace(/\r\n/g,"\n");
 
         //  preload config
-        globalState.configBackup = globalState.config; // グローバルな設定のバックアップ
+        globalState.configBackup = deepCopy(globalState.config); // グローバルな設定のバックアップ
         loadConfig(source);
         //  この段階ではレンダラが確定しておらずディレクティブが機能していないがレンダラーに関する指定を取得する為に一度読み込む。後でリロードする。
 

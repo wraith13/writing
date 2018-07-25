@@ -1250,8 +1250,11 @@
         if (globalState && globalState.config && globalState.config.googleAnalyticsTracckingId) {
             loadScript("https://www.googletagmanager.com/gtag/js?" + globalState.config.googleAnalyticsTracckingId);
             window["dataLayer"] = window["dataLayer"] || [];
-            window["dataLayer"].push(['js', new Date()]);
-            window["dataLayer"].push(['config', globalState.config.googleAnalyticsTracckingId]);
+            var gtag = function (_a, _b) {
+                window["dataLayer"].push(arguments);
+            };
+            gtag("js", new Date());
+            gtag("config", globalState.config.googleAnalyticsTracckingId);
         }
     };
     var loadDocument = function () {

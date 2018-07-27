@@ -18,8 +18,6 @@ declare interface ObjectConstructor {
 
 (function()
 {
-    document.body.removeChild(document.getElementById("writing-HTML-selfloading-error"));
-
     let globalState : any =
     {
         "config": { }
@@ -1952,5 +1950,7 @@ declare interface ObjectConstructor {
             loadDocument();
         }
     };
+
+    document.body.removeChild(document.getElementById("writing-HTML-selfloading-error"));
     loadJson();
 })();

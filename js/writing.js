@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-    document.body.removeChild(document.getElementById("writing-HTML-selfloading-error"));
     var globalState = {
         "config": {}
     };
@@ -1338,5 +1337,6 @@
             loadDocument();
         }
     };
+    document.body.removeChild(document.getElementById("writing-HTML-selfloading-error"));
     loadJson();
 })();

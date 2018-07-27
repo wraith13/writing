@@ -1951,6 +1951,6 @@ declare interface ObjectConstructor {
         }
     };
 
-    document.body.removeChild(document.getElementById("writing-HTML-selfloading-error"));
+    document.body.removeChild(document.getElementById("writing-HTML-system-loading-error"));
     loadJson();
 })();

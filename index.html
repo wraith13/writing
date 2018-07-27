@@ -28,8 +28,33 @@ MathJax.Hub.Config
     }
 );
 </script>
-<body><div id="writing-HTML-selfloading-error">
-</div></body>
+<style>
+#writing-HTML-system-loading-error
+{
+    animation-name: writing-fade-in;
+    animation-duration: 10.0s;
+    animation-timing-function: ease-in-out;
+    color:#AA3322;
+    background-color:#442211;
+    font-size:2.0rem;
+    padding: calc(50vh - 1.0rem) 1.0rem 1.0rem 1.0rem;
+    text-align:center;
+    margin:-0.5rem;
+    height:50vh;
+}
+@keyframes writing-fade-in
+{
+    from
+    {
+        opacity: 0.0;
+    }
+    to
+    {
+        opacity: 1.0;
+    }
+}
+</style>
+<body><div id="writing-HTML-system-loading-error">rendering system loading error</div></body>
 <script src="js/writing.js"></script>
 <!--[/NOWRITING]-->
 <!--[WRTING-CONFING]

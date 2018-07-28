@@ -189,6 +189,14 @@ declare interface ObjectConstructor {
         }
         return element;
     };
+    let hideSystemLoadingError = function () {
+        var systemLoadingErrorDiv = document.getElementById("writing-HTML-system-loading-error");
+        if (systemLoadingErrorDiv)
+        {
+            document.body.removeChild(systemLoadingErrorDiv);
+            console.log("✅ system loading succeeded.");
+        }
+    };
     let showError = function(arg)
     {
         recursiveAssign
@@ -217,6 +225,7 @@ declare interface ObjectConstructor {
     };
     let showLoadingError = function(sourceUrl, request)
     {
+        hideSystemLoadingError();
         showError
         (
             [
@@ -1841,6 +1850,7 @@ declare interface ObjectConstructor {
     };
     var loadDocument = function()
     {
+        hideSystemLoadingError();
         loadGoogleAnalytics();
 
         let renderer = null; 
@@ -1951,6 +1961,5 @@ declare interface ObjectConstructor {
         }
     };
 
-    document.body.removeChild(document.getElementById("writing-HTML-system-loading-error"));
     loadJson();
 })();

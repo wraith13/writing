@@ -130,6 +130,13 @@
         }
         return element;
     };
+    var hideSystemLoadingError = function () {
+        var systemLoadingErrorDiv = document.getElementById("writing-HTML-system-loading-error");
+        if (systemLoadingErrorDiv) {
+            document.body.removeChild(systemLoadingErrorDiv);
+            console.log("✅ system loading succeeded.");
+        }
+    };
     var showError = function (arg) {
         recursiveAssign(document.body.style, {
             margin: "0px"
@@ -148,6 +155,7 @@
         });
     };
     var showLoadingError = function (sourceUrl, request) {
+        hideSystemLoadingError();
         showError([
             "loading failed: { \"method\": \"GET\", \"url\": \"",
             {
@@ -1257,6 +1265,7 @@
         }
     };
     var loadDocument = function () {
+        hideSystemLoadingError();
         loadGoogleAnalytics();
         var renderer = null;
         var sourceUrl = null;
@@ -1337,6 +1346,5 @@
             loadDocument();
         }
     };
-    document.body.removeChild(document.getElementById("writing-HTML-system-loading-error"));
     loadJson();
 })();

@@ -425,14 +425,12 @@
     var loadConfig = function (source) {
         return applyOption(source, "WRTING-CONFING", function (option) {
             try {
-                objectAssign(globalState.config, JSON.parse(option));
+                objectAssign(globalState.documentConfig, JSON.parse(option));
             }
             catch (err) {
                 console.error(err);
                 console.error("error WRTING-CONFING: " + option);
             }
-        }, function () {
-            console.log("⚙️ WRTING-CONFING(globalState.config): " + JSON.stringify(globalState.config, null, 4));
         });
     };
     var MarkdownHeaderFragmentMaker = (function () {
@@ -906,7 +904,9 @@
         source = source.replace(/\r\n/g, "\n");
         //  preload config
         globalState.configBackup = deepCopy(globalState.config); // グローバルな設定のバックアップ
+        globalState.documentConfig = {};
         loadConfig(source);
+        objectAssign(globalState.config, globalState.documentConfig);
         //  この段階ではレンダラが確定しておらずディレクティブが機能していないがレンダラーに関する指定を取得する為に一度読み込む。後でリロードする。
         if (globalState.config.referrer_option) {
             console.log("referrer: " + document.referrer);
@@ -980,7 +980,10 @@
         }
         //  reload config
         globalState.config = globalState.configBackup; // ディレクティブが効いてない状態で読み込んだ設定をクリア
+        globalState.documentConfig = {}; // ディレクティブが効いてない状態で読み込んだ設定をクリア
         source = loadConfig(source);
+        console.log("⚙️ WRTING-CONFING: " + JSON.stringify(globalState.documentConfig, null, 4));
+        objectAssign(globalState.config, globalState.documentConfig);
         //  title
         applyTitle(source);
         //  favicon

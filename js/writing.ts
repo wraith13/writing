@@ -623,7 +623,7 @@ declare interface ObjectConstructor {
             {
                 console.log
                 (
-                    "WRTING-CONFING(globalState.config): " +JSON.stringify
+                    "⚙️ WRTING-CONFING(globalState.config): " +JSON.stringify
                     (
                         globalState.config,
                         null,
@@ -1879,7 +1879,7 @@ declare interface ObjectConstructor {
             sourceUrl = "index.md";
         }
         console.log("renderer(forced by url param): " +(renderer || "null"));
-        console.log("loading: " +sourceUrl);
+        console.log("📥 loading: " +sourceUrl);
         if ("text:" === sourceUrl.slice(0, 5))
         {
             render(renderer, location.href, sourceUrl.slice(5));
@@ -1917,7 +1917,7 @@ declare interface ObjectConstructor {
                 {
                     let name = script.getAttribute("data-let");
                     let sourceUrl = script.src;
-                    console.log("loading(" +name +"): " +sourceUrl);
+                    console.log("📥 loading(" +name +"): " +sourceUrl);
                                 let request = new XMLHttpRequest();
                     request.open('GET', sourceUrl, true);
                     request.onreadystatechange = function()
@@ -1933,7 +1933,7 @@ declare interface ObjectConstructor {
                                         globalState[name],
                                         JSON.parse(request.responseText)
                                     );
-                                    console.log("load JSON(" +name +") from " +sourceUrl +" : " +request.responseText);
+                                    console.log("⚙️ load JSON(" +name +") from " +sourceUrl +" : " +request.responseText);
                                 }
                                 catch(err)
                                 {

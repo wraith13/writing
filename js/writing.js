@@ -432,7 +432,7 @@
                 console.error("error WRTING-CONFING: " + option);
             }
         }, function () {
-            console.log("WRTING-CONFING(globalState.config): " + JSON.stringify(globalState.config, null, 4));
+            console.log("⚙️ WRTING-CONFING(globalState.config): " + JSON.stringify(globalState.config, null, 4));
         });
     };
     var MarkdownHeaderFragmentMaker = (function () {
@@ -1289,7 +1289,7 @@
             sourceUrl = "index.md";
         }
         console.log("renderer(forced by url param): " + (renderer || "null"));
-        console.log("loading: " + sourceUrl);
+        console.log("📥 loading: " + sourceUrl);
         if ("text:" === sourceUrl.slice(0, 5)) {
             render(renderer, location.href, sourceUrl.slice(5));
         }
@@ -1317,7 +1317,7 @@
             .forEach(function (script) {
             var name = script.getAttribute("data-let");
             var sourceUrl = script.src;
-            console.log("loading(" + name + "): " + sourceUrl);
+            console.log("📥 loading(" + name + "): " + sourceUrl);
             var request = new XMLHttpRequest();
             request.open('GET', sourceUrl, true);
             request.onreadystatechange = function () {
@@ -1325,7 +1325,7 @@
                     if (200 <= request.status && request.status < 300) {
                         try {
                             objectAssign(globalState[name], JSON.parse(request.responseText));
-                            console.log("load JSON(" + name + ") from " + sourceUrl + " : " + request.responseText);
+                            console.log("⚙️ load JSON(" + name + ") from " + sourceUrl + " : " + request.responseText);
                         }
                         catch (err) {
                             console.error(err);

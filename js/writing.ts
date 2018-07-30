@@ -1380,7 +1380,7 @@ declare interface ObjectConstructor {
             }
         }
         renderer = renderer || (globalState.config.renderer || "markdown").toLowerCase();
-        console.log("renderer: " +(renderer || "null"));
+        console.log("🎨 renderer: " +(renderer || "null"));
         let isWriting = true;
         let isMarked = "marked" === renderer;
         let isCommonMark = "commonmark" === renderer;
@@ -1887,7 +1887,7 @@ declare interface ObjectConstructor {
         {
             sourceUrl = "index.md";
         }
-        console.log("renderer(forced by url param): " +(renderer || "null"));
+        //console.log("renderer(forced by url param): " +(renderer || "null"));
         console.log("📥 loading document: " +sourceUrl);
         if ("text:" === sourceUrl.slice(0, 5))
         {

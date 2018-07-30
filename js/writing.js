@@ -1292,7 +1292,7 @@
             sourceUrl = "index.md";
         }
         console.log("renderer(forced by url param): " + (renderer || "null"));
-        console.log("📥 loading: " + sourceUrl);
+        console.log("📥 loading document: " + sourceUrl);
         if ("text:" === sourceUrl.slice(0, 5)) {
             render(renderer, location.href, sourceUrl.slice(5));
         }
@@ -1320,7 +1320,7 @@
             .forEach(function (script) {
             var name = script.getAttribute("data-let");
             var sourceUrl = script.src;
-            console.log("📥 loading(" + name + "): " + sourceUrl);
+            console.log("📥 loading json(" + name + "): " + sourceUrl);
             var request = new XMLHttpRequest();
             request.open('GET', sourceUrl, true);
             request.onreadystatechange = function () {

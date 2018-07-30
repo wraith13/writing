@@ -1914,7 +1914,7 @@ declare interface ObjectConstructor {
             request.send(null);
         }
     };
-    let loadJson = function()
+    let loadJson = function(finish : () => void)
     {
         let jsonScripts = Array.from(document.getElementsByTagName('script'))
             .filter(function(script) { return "application/json" === script.type; });
@@ -1952,7 +1952,7 @@ declare interface ObjectConstructor {
                 
                                 if (jsonScripts.length <= ++loadCount)
                                 {
-                                    loadDocument();
+                                    finish();
                                 }
                             }
                             else
@@ -1966,9 +1966,9 @@ declare interface ObjectConstructor {
             );
         if (jsonScripts.length <= 0)
         {
-            loadDocument();
+            finish();
         }
     };
 
-    loadJson();
+    loadJson(loadDocument);
 })();

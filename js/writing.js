@@ -1312,7 +1312,7 @@
             request_1.send(null);
         }
     };
-    var loadJson = function () {
+    var loadJson = function (finish) {
         var jsonScripts = Array.from(document.getElementsByTagName('script'))
             .filter(function (script) { return "application/json" === script.type; });
         var loadCount = 0;
@@ -1335,7 +1335,7 @@
                             console.error("error JSON(" + sourceUrl + "): " + request.responseText);
                         }
                         if (jsonScripts.length <= ++loadCount) {
-                            loadDocument();
+                            finish();
                         }
                     }
                     else {
@@ -1346,8 +1346,8 @@
             request.send(null);
         });
         if (jsonScripts.length <= 0) {
-            loadDocument();
+            finish();
         }
     };
-    loadJson();
+    loadJson(loadDocument);
 })();

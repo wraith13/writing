@@ -1122,10 +1122,8 @@ declare interface ObjectConstructor {
     };
     let applyIndex = function(source : string)
     {
-        let withIndex = /<!--\[WITH-INDEX\]\s*(.*?)\s*-->/.exec(source +"<!--[WITH-INDEX] true -->")[1].toLowerCase() === "true";
-        console.log("withIndex: " +withIndex);
         let index = null;
-        if (withIndex)
+        if (undefined === globalState.config.withIndex && globalState.config.withIndex)
         {
             index = makeIndexFromContent();
             if (index && 0 < index.length)

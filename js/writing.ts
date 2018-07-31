@@ -701,7 +701,7 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let makeIndexFromContent = function() : Element[]
+    let makeIndexFromContent = function()
     {
         let linkMaker = new MarkdownHeaderFragmentMaker();
         let anchors = [];
@@ -755,7 +755,7 @@ declare interface ObjectConstructor {
         }
         return url;
     };
-    let translateRelativeLink = function(baseUrl, source)
+    let translateRelativeLink = function(baseUrl : string, source : string) : string
     {
         return skipEscape
         (
@@ -827,7 +827,7 @@ declare interface ObjectConstructor {
             }
         ).join("\n");
     };
-    let translateLinkWithinPageForRemark = function(source)
+    let translateLinkWithinPageForRemark = function(source : string) : string
     {
         let lines = source.split("\n");
         let anchors = [ ];
@@ -883,7 +883,7 @@ declare interface ObjectConstructor {
             }
         ).join("\n");
     };
-    let translateLinkWithinPageForReveal = function(source)
+    let translateLinkWithinPageForReveal = function(source : string) : string
     {
         let lines = source.split("\n");
         let anchors = [ ];
@@ -929,7 +929,7 @@ declare interface ObjectConstructor {
             }
         ).join("\n");
     };
-    let translateForSlide = function(source)
+    let translateForSlide = function(source : string) : string
     {
         globalState.config.autoPageSeparate =
             undefined === globalState.config.autoPageSeparate ?
@@ -990,7 +990,7 @@ declare interface ObjectConstructor {
             return source;
         }
     };
-    let translateForMathJax = function(source)
+    let translateForMathJax = function(source : string) : string
     {
         return source.replace
         (
@@ -998,7 +998,7 @@ declare interface ObjectConstructor {
             "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n"
         );
     };
-    let applyTitle = function(source)
+    let applyTitle = function(source : string) : void
     {
         if (undefined === globalState.config.title || "" === globalState.config.title)
         {
@@ -1055,7 +1055,7 @@ declare interface ObjectConstructor {
         document.title = globalState.config.title;
         (document.getElementById("twitter-card-title") as HTMLMetaElement).content = globalState.config.title;
     };
-    let applyIcon = function(baseUrl)
+    let applyIcon = function(baseUrl : string) : void
     {
         appendIcon
         (
@@ -1064,7 +1064,7 @@ declare interface ObjectConstructor {
                 makeAbsoluteUrl(location.href, "writinghex.128.png")
         );
     };
-    let applyTheme = function(baseUrl)
+    let applyTheme = function(baseUrl : string) : void
     {
         if (globalState.config.theme)
         {
@@ -1081,7 +1081,7 @@ declare interface ObjectConstructor {
             appendTheme("theme/default.css");
         }
     };
-    let applyStyle = function(source)
+    let applyStyle = function(source : string) : string
     {
         return applyOption
         (
@@ -1100,7 +1100,7 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let applyWallPaper = function(baseUrl)
+    let applyWallPaper = function(baseUrl : string) : void
     {
         document.body.className = "markdown";
         if (globalState.config.wallpaper)
@@ -1120,7 +1120,7 @@ declare interface ObjectConstructor {
             );
         }
     };
-    let applyIndex = function(source)
+    let applyIndex = function(source : string)
     {
         let withIndex = /<!--\[WITH-INDEX\]\s*(.*?)\s*-->/.exec(source +"<!--[WITH-INDEX] true -->")[1].toLowerCase() === "true";
         console.log("withIndex: " +withIndex);
@@ -1184,7 +1184,7 @@ declare interface ObjectConstructor {
         }
         return index;
     };
-    let applyIndexScript = function(index)
+    let applyIndexScript = function(index) : void
     {
         if (index)
         {
@@ -1273,7 +1273,7 @@ declare interface ObjectConstructor {
             }
         }
     };
-    let applyContent = function(html)
+    let applyContent = function(html : string) : HTMLDivElement
     {
         return makeDomNode
         (
@@ -1283,9 +1283,9 @@ declare interface ObjectConstructor {
                 className: "content",
                 innerHTML: html,
             }
-        );
+        ) as HTMLDivElement;
     };
-    let applyFragmentId = function()
+    let applyFragmentId = function() : void
     {
         //  body.onload の時点ではコンテンツが間に合っておらず、 Web ブラウザによる通常のフラグメント識別子位置への
         //  スクロールは期待できない為、コンテンツの取得及びDOM生成完了後に明示的にスクロール位置の移動を行う。
@@ -1295,7 +1295,7 @@ declare interface ObjectConstructor {
             location.href = "#" +fragmentId;
         }
     };
-    let applyHighlight = function()
+    let applyHighlight = function() : void
     {
         Array.from(document.querySelectorAll("code"))
         .forEach
@@ -1314,7 +1314,7 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let applyConditionalComment = function(source, condition, TAG)
+    let applyConditionalComment = function(source : string, condition : boolean, TAG : string) : string
     {
         return source
             .replace(new RegExp("<!--\\[" +TAG +"\\/\\]([\\s\\S]*?)-->", "g"), condition ? "$1": "")

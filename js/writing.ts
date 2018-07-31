@@ -24,12 +24,12 @@ declare interface ObjectConstructor {
     };
     let explicitFragmentIdPattern = /\{\#(.*?)\}$/;
 
-    RegExp["escape"] = function(s)
+    RegExp["escape"] = function(s : string) : string
     {
         //  https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     };
-    let objectAssign = function(target, source)
+    let objectAssign = function(target : object, source : object) : object
     {
         //  copy from https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
         if (typeof Object.assign !== 'function') {
@@ -58,11 +58,11 @@ declare interface ObjectConstructor {
         Object.assign(target, source);
         return target;
     };
-    let deepCopy = function(source)
+    let deepCopy = function(source : object) : object
     {
         return JSON.parse(JSON.stringify(source));
     };
-    let recursiveAssign = function(target, source)
+    let recursiveAssign = function(target : object, source : object) : void
     {
         for(let key in source)
         {
@@ -84,7 +84,7 @@ declare interface ObjectConstructor {
             }
         }
     };
-    let practicalTypeof = function(obj)
+    let practicalTypeof = function(obj : any) : string
     {
         if (undefined === obj)
         {
@@ -101,7 +101,7 @@ declare interface ObjectConstructor {
 
         return typeof obj;
     };
-    let makeDomNode = function(arg)
+    let makeDomNode = function(arg : any) : Node
     {
         if (arg instanceof Node)
         {
@@ -113,7 +113,7 @@ declare interface ObjectConstructor {
         }
         return setToElement(document.createElement(arg.tag), arg);
     };
-    let setToElement = function(element, arg)
+    let setToElement = function(element : Element, arg : any) : Node
     {
         for(let key in arg)
         {
@@ -189,7 +189,8 @@ declare interface ObjectConstructor {
         }
         return element;
     };
-    let hideSystemLoadingError = function () {
+    let hideSystemLoadingError = function () : void
+    {
         var systemLoadingErrorDiv = document.getElementById("writing-HTML-system-loading-error");
         if (systemLoadingErrorDiv)
         {
@@ -197,7 +198,7 @@ declare interface ObjectConstructor {
             console.log("✅ system loading succeeded.");
         }
     };
-    let showError = function(arg)
+    let showError = function(arg) : void
     {
         recursiveAssign
         (
@@ -223,7 +224,7 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let showLoadingError = function(sourceUrl, request)
+    let showLoadingError = function(sourceUrl, request) : void
     {
         hideSystemLoadingError();
         showError
@@ -270,7 +271,7 @@ declare interface ObjectConstructor {
         }
         makeDomNode(responseDiv);
 };
-    let appendLink = function(args)
+    let appendLink = function(args : object) : void
     {
         makeDomNode
         (
@@ -284,7 +285,7 @@ declare interface ObjectConstructor {
             )
         );
     };
-    let appendTheme = function(href : string, id : string = undefined)
+    let appendTheme = function(href : string, id : string = undefined) : void
     {
         appendLink
         (
@@ -296,11 +297,11 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let appendHighlightTheme = function()
+    let appendHighlightTheme = function() : void
     {
         appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
     };
-    let appendIcon = function(href)
+    let appendIcon = function(href : string) : void
     {
         appendLink
         (
@@ -320,7 +321,7 @@ declare interface ObjectConstructor {
         );
         (document.getElementById("twitter-card-image") as HTMLMetaElement).content = href;
     };
-    let loadScript = function(src, onload = undefined)
+    let loadScript = function(src : string, onload : () => void = undefined) : void
     {
         makeDomNode
         (
@@ -332,7 +333,7 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let loadHighlightScript = function()
+    let loadHighlightScript = function() : void
     {
         loadScript
         (
@@ -344,7 +345,7 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let loadMathJaxScript = function()
+    let loadMathJaxScript = function() : void
     {
         loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
     };
@@ -352,7 +353,7 @@ declare interface ObjectConstructor {
     {
         loadScript("//platform.twitter.com/widgets.js");
     };
-    let makeAbsoluteUrl = function(base, url)
+    let makeAbsoluteUrl = function(base : string, url : string) : string
     {
         if ("#" === url.substr(0, 1))
         {
@@ -415,7 +416,7 @@ declare interface ObjectConstructor {
         }
         return baseParts.concat(urlParts).join("/");
     };
-    let makeRelativeUrl = function(url)
+    let makeRelativeUrl = function(url : string) : string
     {
         let base = location.href.split("#")[0];
         if ("#" === url.substr(0, 1))
@@ -462,7 +463,7 @@ declare interface ObjectConstructor {
         }
         return result;
     };
-    let makeRebaseUrl = function(base, url)
+    let makeRebaseUrl = function(base : string, url : string) : string
     {
         if ("#" === url.substr(0, 1))
         {
@@ -470,7 +471,12 @@ declare interface ObjectConstructor {
         }
         return makeRelativeUrl(makeAbsoluteUrl(base, url));
     };
-    let skipEscape = function(lines, map, escapeMap = undefined)
+    let skipEscape = function
+    (
+        lines : string[],
+        map : (string, int) => string,
+        escapeMap : (string, int) => string = undefined
+    ) : string[]
     {
         let currentEscape = null;
         return lines.map
@@ -511,7 +517,13 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let skipEscapeBlock = function(source, map, escapeMap = undefined, finish = undefined)
+    let skipEscapeBlock = function
+    (
+        source : string,
+        map : (string) => string,
+        escapeMap : (string) => string = undefined,
+        finish : () => void = undefined
+    ) : string
     {
         let blocks = [];
         let current = [];
@@ -534,6 +546,7 @@ declare interface ObjectConstructor {
                     current = [];
                 }
                 current.push(line);
+                return line;
             },
             function(line)
             {
@@ -550,6 +563,7 @@ declare interface ObjectConstructor {
                     current = [];
                 }
                 current.push(line);
+                return line;
             }
         );
         if (!isInEscape)
@@ -579,7 +593,13 @@ declare interface ObjectConstructor {
         }
         return blocks.join("\n");
     };
-    let applyOption = function(source, TAG, applyer, finish = undefined)
+    let applyOption = function
+    (
+        source : string,
+        TAG : string,
+        applyer : (string) => void,
+        finish : () => void = undefined
+    ) : string
     {
         return skipEscapeBlock
         (
@@ -597,7 +617,7 @@ declare interface ObjectConstructor {
             finish
         );
     };
-    let loadConfig = function(source)
+    let loadConfig = function(source : string) : string
     {
         return applyOption
         (
@@ -624,7 +644,7 @@ declare interface ObjectConstructor {
     class MarkdownHeaderFragmentMaker
     {
         links : string[] = [];
-        makeFragment(line : string)
+        makeFragment(line : string) : string
         {
             let explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);
             let link = explicitFragmentIdMatch ?
@@ -653,7 +673,7 @@ declare interface ObjectConstructor {
             }
         }
     }
-    let getAllElements = function(parent = undefined)
+    let getAllElements = function(parent : Element | Document = undefined) : Element[]
     {
         let result = [];
         parent = parent || document ;
@@ -671,7 +691,7 @@ declare interface ObjectConstructor {
         }
         return result;
     };
-    let getHeadingTags = function()
+    let getHeadingTags = function() : Element[]
     {
         return getAllElements().filter
         (
@@ -681,10 +701,10 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let makeIndexFromContent = function()
+    let makeIndexFromContent = function() : Element[]
     {
         let linkMaker = new MarkdownHeaderFragmentMaker();
-        let anchors = [ ];
+        let anchors = [];
         getHeadingTags().forEach
         (
             function(i)
@@ -709,7 +729,7 @@ declare interface ObjectConstructor {
         return anchors;
     };
 
-    let translateRelativeUrl = function(baseUrl, url)
+    let translateRelativeUrl = function(baseUrl : string, url : string) : string
     {
         if ("?" === url.substr(0, 1))
         {
@@ -844,6 +864,7 @@ declare interface ObjectConstructor {
                 {
                     isLayout = true;
                 }
+                return line;
             }
         );
         return skipEscape
@@ -889,6 +910,7 @@ declare interface ObjectConstructor {
                         }
                     );
                 }
+                return line;
             }
         );
         return skipEscape
@@ -935,6 +957,7 @@ declare interface ObjectConstructor {
                     {
                         ++h1Count;
                     }
+                    return line;
                 }
             );
 
@@ -1775,8 +1798,8 @@ declare interface ObjectConstructor {
                         padding: "0rem 1.0rem",
                     }
                 }
-            );
-            let makeLink = function(text)
+            ) as HTMLSpanElement;
+            let makeLink = function(text) : HTMLAnchorElement
             {
                 return makeDomNode
                 (
@@ -1791,7 +1814,7 @@ declare interface ObjectConstructor {
                         text: text,
                         target: "_blank",
                     }
-                );
+                ) as HTMLAnchorElement;
             };
             let defaultLink = makeLink("default");
             let markedLink = makeLink("marked(markdown)");
@@ -1829,7 +1852,7 @@ declare interface ObjectConstructor {
                         keyup: update,
                     },
                 }
-            );
+            ) as HTMLTextAreaElement;
             recursiveAssign
             (
                 textarea.style,

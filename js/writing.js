@@ -382,6 +382,7 @@
                 current = [];
             }
             current.push(line);
+            return line;
         }, function (line) {
             if (!isInEscape) {
                 var currentBlock = current.join("\n");
@@ -392,6 +393,7 @@
                 current = [];
             }
             current.push(line);
+            return line;
         });
         if (!isInEscape) {
             var currentBlock = current.join("\n");
@@ -593,6 +595,7 @@
             else if ("layout:" === trimed_line.slice(0, 7) && "true" === trimed_line.slice(7).trim()) {
                 isLayout = true;
             }
+            return line;
         });
         return skipEscape(lines, function (line) {
             anchors.forEach(function (i) {
@@ -617,6 +620,7 @@
                     page: "](#/" + page + ")"
                 });
             }
+            return line;
         });
         return skipEscape(lines, function (line) {
             anchors.forEach(function (i) {
@@ -641,6 +645,7 @@
                 if (/^# [^ ]+/.test(trimed_line)) {
                     ++h1Count_1;
                 }
+                return line;
             });
             var isFirst_1 = true;
             var withJackUp_1 = 1 < h1Count_1;

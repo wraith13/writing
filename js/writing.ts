@@ -1320,7 +1320,7 @@ declare interface ObjectConstructor {
             .replace(new RegExp("<!--\\[NO" +TAG +"\\/\\]([\\s\\S]*?)-->", "g"), !condition ? "$1": "")
             .replace(new RegExp("<!--\\[NO" +TAG +"\\]-->([\\s\\S]*?)<!--\\[\\/NO" +TAG +"\\]-->", "g"), !condition ? "$1": "");
     };
-    let unescapeBackSlash = function(source)
+    let unescapeBackSlash = function(source) : string
     {
         return skipEscape
         (
@@ -1335,7 +1335,7 @@ declare interface ObjectConstructor {
         ).join("\n");
     };
 
-    let render = function(renderer, baseUrl, source)
+    let render = function(renderer : string, baseUrl : string, source : string) : void
     {
         //  regulate return code
         source = source.replace(/\r\n/g,"\n");
@@ -1459,7 +1459,7 @@ declare interface ObjectConstructor {
         //  favicon
         applyIcon(baseUrl);
 
-        let applyMarkdown = function(markdownToHtml)
+        let applyMarkdown = function(markdownToHtml : (string) => string) : void
         {
             //  theme
             appendHighlightTheme();
@@ -1862,7 +1862,7 @@ declare interface ObjectConstructor {
             update();
         }
     };
-    var loadGoogleAnalytics = function()
+    var loadGoogleAnalytics = function() : void
     {
         if (globalState && globalState.config && globalState.config.googleAnalyticsTracckingId)
         {
@@ -1878,7 +1878,7 @@ declare interface ObjectConstructor {
 
         }
     };
-    var loadDocument = function()
+    var loadDocument = function() : void
     {
         hideSystemLoadingError();
         loadGoogleAnalytics();
@@ -1935,7 +1935,7 @@ declare interface ObjectConstructor {
             request.send(null);
         }
     };
-    let loadJson = function(finish : () => void)
+    let loadJson = function(finish : () => void) : void
     {
         let jsonScripts = Array.from(document.getElementsByTagName('script'))
             .filter(function(script) { return "application/json" === script.type; });

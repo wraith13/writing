@@ -1491,7 +1491,7 @@ declare interface ObjectConstructor {
 
             //  twitter
             loadTwitterScript();
-            
+
             console.log("✅ document redering succeeded.");
         };
 
@@ -1911,7 +1911,7 @@ declare interface ObjectConstructor {
         }
         if (!sourceUrl)
         {
-            sourceUrl = "index.md";
+            sourceUrl = globalState.config.defaultDocument || "index.md";
         }
         //console.log("renderer(forced by url param): " +(renderer || "null"));
         console.log("📥 loading document: " +sourceUrl);

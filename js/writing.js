@@ -1296,7 +1296,7 @@
                 .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
         }
         if (!sourceUrl) {
-            sourceUrl = "index.md";
+            sourceUrl = globalState.config.defaultDocument || "index.md";
         }
         //console.log("renderer(forced by url param): " +(renderer || "null"));
         console.log("📥 loading document: " + sourceUrl);

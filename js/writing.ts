@@ -1491,6 +1491,8 @@ declare interface ObjectConstructor {
 
             //  twitter
             loadTwitterScript();
+            
+            console.log("✅ document redering succeeded.");
         };
 
         if (isMarked)
@@ -1627,6 +1629,7 @@ declare interface ObjectConstructor {
                         .replace(/([^\n])```([^\n])/g, "$1`$2")
                     );
                     remark.create(config);
+                    console.log("✅ document redering succeeded.");
                 }
             );
 
@@ -1753,6 +1756,7 @@ declare interface ObjectConstructor {
                             };
                             Reveal.initialize(objectAssign(defaultConfig, config));
                             loadTwitterScript();
+                            console.log("✅ document redering succeeded.");
                         }
                     );
                 }
@@ -1860,6 +1864,7 @@ declare interface ObjectConstructor {
                 }
             );
             update();
+            console.log("✅ document redering succeeded.");
         }
     };
     var loadGoogleAnalytics = function() : void

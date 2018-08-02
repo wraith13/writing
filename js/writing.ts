@@ -701,10 +701,22 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let makeIndexFromContent = function()
+    class IndexItem
+    {
+        constructor
+        (
+            public level : number,
+            public title : string,
+            public link : string,
+            public anchor : HTMLAnchorElement = null
+        )
+        {
+        }
+    }
+    let makeIndexFromContent = function() : IndexItem[]
     {
         let linkMaker = new MarkdownHeaderFragmentMaker();
-        let anchors = [];
+        let anchors : IndexItem[] = [];
         getHeadingTags().forEach
         (
             function(i)
@@ -718,11 +730,12 @@ declare interface ObjectConstructor {
                 let link = "#" +i.id;
                 anchors.push
                 (
-                    {
-                        level: level,
-                        title: title,
-                        link: link
-                    }
+                    new IndexItem
+                    (
+                        level,
+                        title,
+                        link
+                    )
                 );
             }
         );
@@ -1120,7 +1133,7 @@ declare interface ObjectConstructor {
             );
         }
     };
-    let applyIndex = function(source : string)
+    let applyIndex = function(_source : string)
     {
         let index = null;
         if (undefined === globalState.config.withIndex || globalState.config.withIndex)
@@ -1155,7 +1168,7 @@ declare interface ObjectConstructor {
                                                 href: i.link,
                                                 innerText: i.title,
                                             }
-                                        );
+                                        ) as HTMLAnchorElement;
                                     }
                                 )
                             }

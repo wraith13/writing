@@ -486,6 +486,16 @@
             return /^h\d+$/i.test(i.tagName);
         });
     };
+    var IndexItem = (function () {
+        function IndexItem(level, title, link, anchor) {
+            if (anchor === void 0) { anchor = null; }
+            this.level = level;
+            this.title = title;
+            this.link = link;
+            this.anchor = anchor;
+        }
+        return IndexItem;
+    }());
     var makeIndexFromContent = function () {
         var linkMaker = new MarkdownHeaderFragmentMaker();
         var anchors = [];
@@ -496,11 +506,7 @@
                 i.id = linkMaker.makeFragment(title);
             }
             var link = "#" + i.id;
-            anchors.push({
-                level: level,
-                title: title,
-                link: link
-            });
+            anchors.push(new IndexItem(level, title, link));
         });
         return anchors;
     };
@@ -752,7 +758,7 @@
             });
         }
     };
-    var applyIndex = function (source) {
+    var applyIndex = function (_source) {
         var index = null;
         if (undefined === globalState.config.withIndex || globalState.config.withIndex) {
             index = makeIndexFromContent();

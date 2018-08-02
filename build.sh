@@ -1,1 +1,1 @@
-tsc ./js/writing.ts
+tsc -P .

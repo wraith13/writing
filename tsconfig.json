@@ -1,10 +1,8 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
         "moduleResolution": "node",
         "declaration": false,
         "target": "es6",
-        "outDir": "out",
         "lib": [
             "es6",
             "dom",
@@ -29,8 +27,11 @@
         "skipLibCheck": false,
         "pretty": false,
         "noEmitOnError": true,
-        "rootDir": "."
+        "outFile": "js/writing.js"
     },
+    "files": [
+        "js/writing.ts"
+    ],
     "exclude": [
     ]
 }

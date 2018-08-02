@@ -754,7 +754,7 @@
     };
     var applyIndex = function (source) {
         var index = null;
-        if (undefined === globalState.config.withIndex && globalState.config.withIndex) {
+        if (undefined === globalState.config.withIndex || globalState.config.withIndex) {
             index = makeIndexFromContent();
             if (index && 0 < index.length) {
                 document.body.className += " with-index";

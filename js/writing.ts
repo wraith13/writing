@@ -1123,7 +1123,7 @@ declare interface ObjectConstructor {
     let applyIndex = function(source : string)
     {
         let index = null;
-        if (undefined === globalState.config.withIndex && globalState.config.withIndex)
+        if (undefined === globalState.config.withIndex || globalState.config.withIndex)
         {
             index = makeIndexFromContent();
             if (index && 0 < index.length)

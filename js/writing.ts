@@ -1953,61 +1953,70 @@ declare interface ObjectConstructor {
             request.send(null);
         }
     };
-    let loadJson = function(finish : () => void) : void
+    let loadJson = async function() : Promise<void>
     {
-        let jsonScripts = Array.from(document.getElementsByTagName('script'))
-            .filter(function(script) { return "application/json" === script.type; });
-        let loadCount = 0;
-        jsonScripts
-            .forEach
-            (
-                function(script)
-                {
-                    let name = script.getAttribute("data-let");
-                    let sourceUrl = script.src;
-                    console.log("📥 loading json(" +name +"): " +sourceUrl);
-                                let request = new XMLHttpRequest();
-                    request.open('GET', sourceUrl, true);
-                    request.onreadystatechange = function()
+        return new Promise<void>
+        (
+            async (resolve) =>
+            {
+                let jsonScripts = Array.from(document.getElementsByTagName('script'))
+                .filter(function(script) { return "application/json" === script.type; });
+                let loadCount = 0;
+                jsonScripts.forEach
+                (
+                    function(script)
                     {
-                        if (4 === request.readyState)
+                        let name = script.getAttribute("data-let");
+                        let sourceUrl = script.src;
+                        console.log("📥 loading json(" +name +"): " +sourceUrl);
+                                    let request = new XMLHttpRequest();
+                        request.open('GET', sourceUrl, true);
+                        request.onreadystatechange = function()
                         {
-                            if (200 <= request.status && request.status < 300)
+                            if (4 === request.readyState)
                             {
-                                try
+                                if (200 <= request.status && request.status < 300)
                                 {
-                                    objectAssign
-                                    (
-                                        globalState[name],
-                                        JSON.parse(request.responseText)
-                                    );
-                                    console.log("⚙️ load JSON(" +name +") from " +sourceUrl +" : " +request.responseText);
+                                    try
+                                    {
+                                        objectAssign
+                                        (
+                                            globalState[name],
+                                            JSON.parse(request.responseText)
+                                        );
+                                        console.log("⚙️ load JSON(" +name +") from " +sourceUrl +" : " +request.responseText);
+                                    }
+                                    catch(err)
+                                    {
+                                        console.error(err);
+                                        console.error("error JSON(" +sourceUrl +"): " +request.responseText);
+                                    }
+                    
+                                    if (jsonScripts.length <= ++loadCount)
+                                    {
+                                        resolve();
+                                    }
                                 }
-                                catch(err)
+                                else
                                 {
-                                    console.error(err);
-                                    console.error("error JSON(" +sourceUrl +"): " +request.responseText);
-                                }
-                
-                                if (jsonScripts.length <= ++loadCount)
-                                {
-                                    finish();
+                                    showLoadingError(sourceUrl, request);
                                 }
                             }
-                            else
-                            {
-                                showLoadingError(sourceUrl, request);
-                            }
-                        }
-                    };
-                    request.send(null);
+                        };
+                        request.send(null);
+                    }
+                );
+                if (jsonScripts.length <= 0)
+                {
+                    resolve();
                 }
-            );
-        if (jsonScripts.length <= 0)
-        {
-            finish();
-        }
+            }
+        );
     };
-
-    loadJson(loadDocument);
+    let startup = async function() : Promise<void>
+    {
+        await loadJson();
+        loadDocument();
+    };
+    startup();
 })();

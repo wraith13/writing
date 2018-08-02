@@ -1,14 +1,22 @@
 'use strict';
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 (function () {
-    var globalState = {
+    let globalState = {
         "config": {}
     };
-    var explicitFragmentIdPattern = /\{\#(.*?)\}$/;
+    let explicitFragmentIdPattern = /\{\#(.*?)\}$/;
     RegExp["escape"] = function (s) {
         //  https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     };
-    var objectAssign = function (target, source) {
+    let objectAssign = function (target, source) {
         //  copy from https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
         if (typeof Object.assign !== 'function') {
             (function () {
@@ -17,13 +25,13 @@
                     if (target === undefined || target === null) {
                         throw new TypeError('Cannot convert undefined or null to object');
                     }
-                    var output = Object(target);
-                    for (var index = 1; index < arguments.length; index++) {
-                        var source_1 = arguments[index];
-                        if (source_1 !== undefined && source_1 !== null) {
-                            for (var nextKey in source_1) {
-                                if (Object.prototype.hasOwnProperty.call(source_1, nextKey)) {
-                                    output[nextKey] = source_1[nextKey];
+                    let output = Object(target);
+                    for (let index = 1; index < arguments.length; index++) {
+                        let source = arguments[index];
+                        if (source !== undefined && source !== null) {
+                            for (let nextKey in source) {
+                                if (Object.prototype.hasOwnProperty.call(source, nextKey)) {
+                                    output[nextKey] = source[nextKey];
                                 }
                             }
                         }
@@ -35,13 +43,13 @@
         Object.assign(target, source);
         return target;
     };
-    var deepCopy = function (source) {
+    let deepCopy = function (source) {
         return JSON.parse(JSON.stringify(source));
     };
-    var recursiveAssign = function (target, source) {
-        for (var key in source) {
+    let recursiveAssign = function (target, source) {
+        for (let key in source) {
             if (source.hasOwnProperty(key)) {
-                var value = source[key];
+                let value = source[key];
                 if ("object" === practicalTypeof(value)) {
                     if (undefined === target[key]) {
                         target[key] = {};
@@ -54,7 +62,7 @@
             }
         }
     };
-    var practicalTypeof = function (obj) {
+    let practicalTypeof = function (obj) {
         if (undefined === obj) {
             return "undefined";
         }
@@ -66,7 +74,7 @@
         }
         return typeof obj;
     };
-    var makeDomNode = function (arg) {
+    let makeDomNode = function (arg) {
         if (arg instanceof Node) {
             return arg;
         }
@@ -75,8 +83,8 @@
         }
         return setToElement(document.createElement(arg.tag), arg);
     };
-    var setToElement = function (element, arg) {
-        for (var key in arg) {
+    let setToElement = function (element, arg) {
+        for (let key in arg) {
             if (arg.hasOwnProperty(key)) {
                 switch (key) {
                     case "tag":
@@ -87,7 +95,7 @@
                         //  nop
                         break;
                     default:
-                        var value = arg[key];
+                        let value = arg[key];
                         if (undefined !== value) {
                             if ("object" === practicalTypeof(value)) {
                                 recursiveAssign(element[key], value);
@@ -101,7 +109,7 @@
             }
         }
         if (undefined !== arg.attributes) {
-            for (var key in arg.attributes) {
+            for (let key in arg.attributes) {
                 if (arg.attributes.hasOwnProperty(key)) {
                     element.setAttribute(key, arg.attributes[key]);
                     //  memo: value を持たない attribute を設定したい場合には value として "" を指定すれば良い。
@@ -119,7 +127,7 @@
             }
         }
         if (undefined !== arg.eventListener) {
-            for (var key in arg.eventListener) {
+            for (let key in arg.eventListener) {
                 if (arg.eventListener.hasOwnProperty(key)) {
                     element.addEventListener(key, arg.eventListener[key]);
                 }
@@ -130,16 +138,16 @@
         }
         return element;
     };
-    var hideSystemLoadingError = function () {
+    let hideSystemLoadingError = function () {
         var systemLoadingErrorDiv = document.getElementById("writing-HTML-system-loading-error");
         if (systemLoadingErrorDiv) {
             document.body.removeChild(systemLoadingErrorDiv);
             console.log("✅ system loading succeeded.");
         }
     };
-    var showError = function (arg) {
+    let showError = function (arg) {
         recursiveAssign(document.body.style, {
-            margin: "0px"
+            margin: "0px",
         });
         makeDomNode({
             parent: document.body,
@@ -149,12 +157,12 @@
                 backgroundColor: "#442211",
                 fontSize: "1.5rem",
                 padding: "0.4rem",
-                textAlign: "center"
+                textAlign: "center",
             },
-            children: arg
+            children: arg,
         });
     };
-    var showLoadingError = function (sourceUrl, request) {
+    let showLoadingError = function (sourceUrl, request) {
         hideSystemLoadingError();
         showError([
             "loading failed: { \"method\": \"GET\", \"url\": \"",
@@ -162,15 +170,15 @@
                 tag: "a",
                 href: sourceUrl,
                 style: {
-                    color: "#6666FF"
+                    color: "#6666FF",
                 },
-                children: sourceUrl
+                children: sourceUrl,
             },
             "\", \"status\": " + request.status + "};"
         ]);
-        var responseDiv = {
+        let responseDiv = {
             parent: document.body,
-            tag: "div"
+            tag: "div",
         };
         if (request.responseText) {
             responseDiv.innerHTML = request.responseText;
@@ -180,7 +188,7 @@
                 {
                     whiteSpace: "pre-wrap",
                     fontSize: "1.5rem",
-                    padding: "20px"
+                    padding: "20px",
                 };
             if (0 === request.status) {
                 responseDiv.innerText = "There ia a possibility that server not found or it happened cross-domain issue.\nサーバーが見つからないかクロスドメインの問題が発生した可能性があります。";
@@ -191,14 +199,13 @@
         }
         makeDomNode(responseDiv);
     };
-    var appendLink = function (args) {
+    let appendLink = function (args) {
         makeDomNode(objectAssign(deepCopy(args), {
             parent: document.head,
             tag: "link"
         }));
     };
-    var appendTheme = function (href, id) {
-        if (id === void 0) { id = undefined; }
+    let appendTheme = function (href, id = undefined) {
         appendLink({
             rel: "stylesheet",
             type: "text/css",
@@ -206,48 +213,47 @@
             id: id
         });
     };
-    var appendHighlightTheme = function () {
+    let appendHighlightTheme = function () {
         appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
     };
-    var appendIcon = function (href) {
+    let appendIcon = function (href) {
         appendLink({
             rel: "shortcut icon",
             type: "image/x-icon",
-            href: href
+            href: href,
         });
         appendLink({
             rel: "apple-touch-icon",
             type: undefined,
-            href: href
+            href: href,
         });
         document.getElementById("twitter-card-image").content = href;
     };
-    var loadScript = function (src, onload) {
-        if (onload === void 0) { onload = undefined; }
+    let loadScript = function (src, onload = undefined) {
         makeDomNode({
             parent: document.head,
             tag: "script",
             src: src,
-            onload: onload
+            onload: onload,
         });
     };
-    var loadHighlightScript = function () {
+    let loadHighlightScript = function () {
         loadScript("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function () {
             hljs.initHighlightingOnLoad();
             applyHighlight();
         });
     };
-    var loadMathJaxScript = function () {
+    let loadMathJaxScript = function () {
         loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
     };
-    var loadTwitterScript = function () {
+    let loadTwitterScript = function () {
         loadScript("//platform.twitter.com/widgets.js");
     };
-    var makeAbsoluteUrl = function (base, url) {
+    let makeAbsoluteUrl = function (base, url) {
         if ("#" === url.substr(0, 1)) {
             return base.split("#")[0] + url;
         }
-        var baseParts = base.split("?")[0].split("/");
+        let baseParts = base.split("?")[0].split("/");
         if (4 <= baseParts.length && "" !== baseParts[baseParts.length - 1]) {
             // ファイル名部分の除去
             baseParts = baseParts.slice(0, -1);
@@ -256,7 +262,7 @@
             // 末尾の空要素を除去(しておかないと結合時に余分に / が挟まる)
             baseParts = baseParts.slice(0, -1);
         }
-        var urlParts = url.split("/");
+        let urlParts = url.split("/");
         if (0 <= urlParts[0].indexOf(":")) {
             //  絶対パスなので base 側は全て破棄
             baseParts = [];
@@ -292,15 +298,15 @@
         }
         return baseParts.concat(urlParts).join("/");
     };
-    var makeRelativeUrl = function (url) {
-        var base = location.href.split("#")[0];
+    let makeRelativeUrl = function (url) {
+        let base = location.href.split("#")[0];
         if ("#" === url.substr(0, 1)) {
             return base.split("#")[0] + url;
         }
         if (location.href.split("#")[0] === url.split("#")[0]) {
             return url;
         }
-        var baseParts = base.split("?")[0].split("/");
+        let baseParts = base.split("?")[0].split("/");
         if (4 <= baseParts.length && "" !== baseParts[baseParts.length - 1]) {
             // ファイル名部分の除去
             baseParts = baseParts.slice(0, -1);
@@ -309,8 +315,8 @@
             // 末尾の空要素を除去(しておかないと結合時に余分に / が挟まる)
             baseParts = baseParts.slice(0, -1);
         }
-        var urlParts = url.split("/");
-        var matchLength = 0;
+        let urlParts = url.split("/");
+        let matchLength = 0;
         while (0 < baseParts.length && 0 < urlParts.length && baseParts[matchLength] === urlParts[matchLength]) {
             ++matchLength;
         }
@@ -325,24 +331,23 @@
                 urlParts = urlParts.slice(matchLength);
                 break;
         }
-        var result = urlParts.join("/");
+        let result = urlParts.join("/");
         if ("" === result) {
             result = ".";
         }
         return result;
     };
-    var makeRebaseUrl = function (base, url) {
+    let makeRebaseUrl = function (base, url) {
         if ("#" === url.substr(0, 1)) {
             return url;
         }
         return makeRelativeUrl(makeAbsoluteUrl(base, url));
     };
-    var skipEscape = function (lines, map, escapeMap) {
-        if (escapeMap === void 0) { escapeMap = undefined; }
-        var currentEscape = null;
+    let skipEscape = function (lines, map, escapeMap = undefined) {
+        let currentEscape = null;
         return lines.map(function (line, line_number) {
-            var escape = "$$" === line.trim() ? "$$" : line.trim().replace(/^(```+|~~~+).*/, "$1").replace(/^[`~]{0,2}(([^`~].*)|$)/, "");
-            var isEscape = null === currentEscape && ("" !== escape) || (null !== currentEscape && currentEscape.substr(0, 1) === escape.substr(0, 1) && currentEscape.length <= escape.length);
+            let escape = "$$" === line.trim() ? "$$" : line.trim().replace(/^(```+|~~~+).*/, "$1").replace(/^[`~]{0,2}(([^`~].*)|$)/, "");
+            let isEscape = null === currentEscape && ("" !== escape) || (null !== currentEscape && currentEscape.substr(0, 1) === escape.substr(0, 1) && currentEscape.length <= escape.length);
             if (isEscape) {
                 if (null === currentEscape) {
                     currentEscape = escape;
@@ -366,15 +371,13 @@
             return line;
         });
     };
-    var skipEscapeBlock = function (source, map, escapeMap, finish) {
-        if (escapeMap === void 0) { escapeMap = undefined; }
-        if (finish === void 0) { finish = undefined; }
-        var blocks = [];
-        var current = [];
-        var isInEscape = false;
+    let skipEscapeBlock = function (source, map, escapeMap = undefined, finish = undefined) {
+        let blocks = [];
+        let current = [];
+        let isInEscape = false;
         skipEscape(source.split("\n"), function (line) {
             if (isInEscape) {
-                var currentBlock = current.join("\n");
+                let currentBlock = current.join("\n");
                 blocks.push(escapeMap ?
                     escapeMap(currentBlock) :
                     currentBlock);
@@ -385,7 +388,7 @@
             return line;
         }, function (line) {
             if (!isInEscape) {
-                var currentBlock = current.join("\n");
+                let currentBlock = current.join("\n");
                 blocks.push(map ?
                     map(currentBlock) :
                     currentBlock);
@@ -396,14 +399,14 @@
             return line;
         });
         if (!isInEscape) {
-            var currentBlock = current.join("\n");
+            let currentBlock = current.join("\n");
             blocks.push(map ?
                 map(currentBlock) :
                 currentBlock);
         }
         else {
             //  ここにくるのは code escape が閉じてない時だけなので、基本的には到達してはいけない。
-            var currentBlock = current.join("\n");
+            let currentBlock = current.join("\n");
             blocks.push(escapeMap ?
                 escapeMap(currentBlock) :
                 currentBlock);
@@ -413,18 +416,17 @@
         }
         return blocks.join("\n");
     };
-    var applyOption = function (source, TAG, applyer, finish) {
-        if (finish === void 0) { finish = undefined; }
+    let applyOption = function (source, TAG, applyer, finish = undefined) {
         return skipEscapeBlock(source, function (block) {
-            var reg = new RegExp("<!--\\[" + TAG + "\\]\\s*([\\s\\S]*?)\\s*-->", "gm");
-            var matches = null;
+            let reg = new RegExp("<!--\\[" + TAG + "\\]\\s*([\\s\\S]*?)\\s*-->", "gm");
+            let matches = null;
             while (matches = reg.exec(block)) {
                 applyer(matches[1]);
             }
             return block.replace(reg, "");
         }, undefined, finish);
     };
-    var loadConfig = function (source) {
+    let loadConfig = function (source) {
         return applyOption(source, "WRTING-CONFING", function (option) {
             try {
                 objectAssign(globalState.documentConfig, JSON.parse(option));
@@ -435,13 +437,13 @@
             }
         });
     };
-    var MarkdownHeaderFragmentMaker = (function () {
-        function MarkdownHeaderFragmentMaker() {
+    class MarkdownHeaderFragmentMaker {
+        constructor() {
             this.links = [];
         }
-        MarkdownHeaderFragmentMaker.prototype.makeFragment = function (line) {
-            var explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);
-            var link = explicitFragmentIdMatch ?
+        makeFragment(line) {
+            let explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);
+            let link = explicitFragmentIdMatch ?
                 explicitFragmentIdMatch[1] :
                 line
                     .replace(/^#*/, "")
@@ -453,7 +455,7 @@
                     .toLowerCase()
                     .replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g, "")
                     .replace(/ /g, "-");
-            var index = this.links[link];
+            let index = this.links[link];
             if (undefined === index) {
                 this.links[link] = 0;
                 return link;
@@ -463,16 +465,14 @@
                 this.links[link] = index;
                 return link + "-" + index;
             }
-        };
-        return MarkdownHeaderFragmentMaker;
-    }());
-    var getAllElements = function (parent) {
-        if (parent === void 0) { parent = undefined; }
-        var result = [];
+        }
+    }
+    let getAllElements = function (parent = undefined) {
+        let result = [];
         parent = parent || document;
         if (parent.children) {
-            for (var i in parent.children) {
-                var child = parent.children[i];
+            for (let i in parent.children) {
+                let child = parent.children[i];
                 if (child) {
                     result.push(child);
                     result = result.concat(getAllElements(child));
@@ -481,44 +481,42 @@
         }
         return result;
     };
-    var getHeadingTags = function () {
+    let getHeadingTags = function () {
         return getAllElements().filter(function (i) {
             return /^h\d+$/i.test(i.tagName);
         });
     };
-    var IndexItem = (function () {
-        function IndexItem(level, title, link, anchor) {
-            if (anchor === void 0) { anchor = null; }
+    class IndexItem {
+        constructor(level, title, link, anchor = null) {
             this.level = level;
             this.title = title;
             this.link = link;
             this.anchor = anchor;
         }
-        return IndexItem;
-    }());
-    var makeIndexFromContent = function () {
-        var linkMaker = new MarkdownHeaderFragmentMaker();
-        var anchors = [];
+    }
+    let makeIndexFromContent = function () {
+        let linkMaker = new MarkdownHeaderFragmentMaker();
+        let anchors = [];
         getHeadingTags().forEach(function (i) {
-            var level = parseInt(i.tagName.substr(1), 10);
-            var title = i.textContent.trim();
+            let level = parseInt(i.tagName.substr(1), 10);
+            let title = i.textContent.trim();
             if (!i.id) {
                 i.id = linkMaker.makeFragment(title);
             }
-            var link = "#" + i.id;
+            let link = "#" + i.id;
             anchors.push(new IndexItem(level, title, link));
         });
         return anchors;
     };
-    var translateRelativeUrl = function (baseUrl, url) {
+    let translateRelativeUrl = function (baseUrl, url) {
         if ("?" === url.substr(0, 1)) {
             return url + "&" + encodeURIComponent(makeRelativeUrl(baseUrl));
         }
         else if ("#" !== url.substr(0, 1)) {
-            var absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-            var relativeUrl = makeRelativeUrl(absoluteUrl);
+            let absoluteUrl = makeAbsoluteUrl(baseUrl, url);
+            let relativeUrl = makeRelativeUrl(absoluteUrl);
             if (/.*\.md(\.txt)?(#.*)?$/i.test(absoluteUrl)) {
-                var thisPath = location.href.split("#")[0].split("?")[0];
+                let thisPath = location.href.split("#")[0].split("?")[0];
                 if (thisPath !== absoluteUrl.split("#")[0].split("?")[0]) {
                     return "?" + encodeURIComponent(relativeUrl);
                 }
@@ -529,30 +527,30 @@
         }
         return url;
     };
-    var translateRelativeLink = function (baseUrl, source) {
+    let translateRelativeLink = function (baseUrl, source) {
         return skipEscape(source.split("\n"), function (line) {
-            var isInInlineEscape = false;
-            var isInSquareBracket = false;
+            let isInInlineEscape = false;
+            let isInSquareBracket = false;
             return line.split("`").map(function (part) {
                 if (!isInInlineEscape) {
-                    var match = null;
+                    let match = null;
                     if (isInSquareBracket) {
                         isInSquareBracket = false;
-                        var re_1 = /(.*?[^\\])?\]\((.*?[^\\])\)/g;
-                        if (null !== (match = re_1.exec(part))) {
-                            var label = undefined === match[1] ? "" : match[1];
-                            var url = match[2];
-                            var traslatedUrl = translateRelativeUrl(baseUrl, url);
+                        let re = /(.*?[^\\])?\]\((.*?[^\\])\)/g;
+                        if (null !== (match = re.exec(part))) {
+                            let label = undefined === match[1] ? "" : match[1];
+                            let url = match[2];
+                            let traslatedUrl = translateRelativeUrl(baseUrl, url);
                             if (url !== traslatedUrl) {
                                 part = part.replace(match[0], label + "](" + traslatedUrl + ")");
                             }
                         }
                     }
-                    var re = /(^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
+                    let re = /(^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
                     while (null !== (match = re.exec(part))) {
-                        var label = undefined === match[2] ? "" : match[2];
-                        var url = match[3];
-                        var traslatedUrl = translateRelativeUrl(baseUrl, url);
+                        let label = undefined === match[2] ? "" : match[2];
+                        let url = match[3];
+                        let traslatedUrl = translateRelativeUrl(baseUrl, url);
                         if (url !== traslatedUrl) {
                             part = part.replace(match[0], match[1] + "[" + label + "](" + traslatedUrl + ")");
                         }
@@ -563,11 +561,11 @@
                     if (/\[([^\]]|\\\])*$/.test(part)) {
                         isInSquareBracket = true;
                     }
-                    var img_re = /\<(\s*)img(\s.*?)src=([\"\'])(.*?)([\"\'].*?)\>/g;
+                    let img_re = /\<(\s*)img(\s.*?)src=([\"\'])(.*?)([\"\'].*?)\>/g;
                     while (null !== (match = img_re.exec(part))) {
-                        var url = match[4];
-                        var absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-                        var relativeUrl = makeRelativeUrl(absoluteUrl);
+                        let url = match[4];
+                        let absoluteUrl = makeAbsoluteUrl(baseUrl, url);
+                        let relativeUrl = makeRelativeUrl(absoluteUrl);
                         part = part.replace(match[0], "<" + match[1] + "img" + match[2] + "src=" + match[3] + relativeUrl + match[5] + ">");
                     }
                 }
@@ -578,13 +576,13 @@
             }).join("`");
         }).join("\n");
     };
-    var translateLinkWithinPageForRemark = function (source) {
-        var lines = source.split("\n");
-        var anchors = [];
-        var page = 1;
-        var isLayout = false;
+    let translateLinkWithinPageForRemark = function (source) {
+        let lines = source.split("\n");
+        let anchors = [];
+        let page = 1;
+        let isLayout = false;
         skipEscape(lines, function (line) {
-            var trimed_line = line.trim();
+            let trimed_line = line.trim();
             if ("--" === line || "---" === line) {
                 if (!isLayout) {
                     ++page;
@@ -592,7 +590,7 @@
                 isLayout = false;
             }
             else if (/^#+ [^ ]+/.test(trimed_line)) {
-                var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g, "").replace(/ /g, "-");
+                let anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g, "").replace(/ /g, "-");
                 anchors.push({
                     anchor: "](#" + anchor + ")",
                     page: "](#" + page + ")"
@@ -610,17 +608,17 @@
             return line;
         }).join("\n");
     };
-    var translateLinkWithinPageForReveal = function (source) {
-        var lines = source.split("\n");
-        var anchors = [];
-        var page = 0;
+    let translateLinkWithinPageForReveal = function (source) {
+        let lines = source.split("\n");
+        let anchors = [];
+        let page = 0;
         skipEscape(lines, function (line) {
-            var trimed_line = line.trim();
+            let trimed_line = line.trim();
             if ("--" === line || "---" === line) {
                 ++page;
             }
             else if (/^#+ [^ ]+/.test(trimed_line)) {
-                var anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g, "").replace(/ /g, "-");
+                let anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g, "").replace(/ /g, "-");
                 anchors.push({
                     anchor: "](#" + anchor + ")",
                     page: "](#/" + page + ")"
@@ -635,7 +633,7 @@
             return line;
         }).join("\n");
     };
-    var translateForSlide = function (source) {
+    let translateForSlide = function (source) {
         globalState.config.autoPageSeparate =
             undefined === globalState.config.autoPageSeparate ?
                 "auto" :
@@ -644,27 +642,27 @@
         if (true === globalState.config.autoPageSeparate ||
             (false !== globalState.config.autoPageSeparate &&
                 !/\n---\n/.test(source))) {
-            var lines = source.split("\n");
-            var h1Count_1 = 0;
+            let lines = source.split("\n");
+            let h1Count = 0;
             skipEscape(lines, function (line) {
-                var trimed_line = line.trim();
+                let trimed_line = line.trim();
                 if (/^# [^ ]+/.test(trimed_line)) {
-                    ++h1Count_1;
+                    ++h1Count;
                 }
                 return line;
             });
-            var isFirst_1 = true;
-            var withJackUp_1 = 1 < h1Count_1;
+            let isFirst = true;
+            let withJackUp = 1 < h1Count;
             return skipEscape(lines, function (line) {
-                var trimed_line = line.trim();
+                let trimed_line = line.trim();
                 if (/^#+ [^ ]+/.test(trimed_line)) {
-                    if (!isFirst_1) {
-                        if (withJackUp_1) {
+                    if (!isFirst) {
+                        if (withJackUp) {
                             line = "#" + trimed_line;
                         }
                         line = "---\n" + line;
                     }
-                    isFirst_1 = false;
+                    isFirst = false;
                 }
                 return line;
             }).join("\n");
@@ -673,25 +671,25 @@
             return source;
         }
     };
-    var translateForMathJax = function (source) {
+    let translateForMathJax = function (source) {
         return source.replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n");
     };
-    var applyTitle = function (source) {
+    let applyTitle = function (source) {
         if (undefined === globalState.config.title || "" === globalState.config.title) {
-            var matches = /(^|\n)#\s+(.*)([\W\w]*)/.exec(source);
+            let matches = /(^|\n)#\s+(.*)([\W\w]*)/.exec(source);
             if (matches) {
                 globalState.config.title = matches[2];
             }
             if (undefined === globalState.config.title || "" === globalState.config.title) {
-                var context_1 = {
+                let context = {
                     previousLine: undefined
                 };
                 skipEscape(source.split("\n"), function (line) {
                     if (undefined === globalState.config.title || "" === globalState.config.title) {
-                        if (line.match(/^\=+$/) && (undefined !== context_1.previousLine && "" !== context_1.previousLine)) {
-                            globalState.config.title = context_1.previousLine;
+                        if (line.match(/^\=+$/) && (undefined !== context.previousLine && "" !== context.previousLine)) {
+                            globalState.config.title = context.previousLine;
                         }
-                        context_1.previousLine = line;
+                        context.previousLine = line;
                     }
                     return line;
                 });
@@ -720,12 +718,12 @@
         document.title = globalState.config.title;
         document.getElementById("twitter-card-title").content = globalState.config.title;
     };
-    var applyIcon = function (baseUrl) {
+    let applyIcon = function (baseUrl) {
         appendIcon(globalState.config.favicon ?
             makeAbsoluteUrl(baseUrl, globalState.config.favicon) :
             makeAbsoluteUrl(location.href, "writinghex.128.png"));
     };
-    var applyTheme = function (baseUrl) {
+    let applyTheme = function (baseUrl) {
         if (globalState.config.theme) {
             globalState.config.theme.forEach(function (i) {
                 appendTheme(makeRebaseUrl(baseUrl, i));
@@ -735,16 +733,16 @@
             appendTheme("theme/default.css");
         }
     };
-    var applyStyle = function (source) {
+    let applyStyle = function (source) {
         return applyOption(source, "STYLE", function (option) {
             makeDomNode({
                 parent: document.head,
                 tag: "style",
-                innerHTML: option
+                innerHTML: option,
             });
         });
     };
-    var applyWallPaper = function (baseUrl) {
+    let applyWallPaper = function (baseUrl) {
         document.body.className = "markdown";
         if (globalState.config.wallpaper) {
             document.body.className += " with-wallpaper";
@@ -753,18 +751,18 @@
                 tag: "div",
                 className: "wallpaper",
                 style: {
-                    backgroundImage: "url(\"" + makeRebaseUrl(baseUrl, globalState.config.wallpaper) + "\")"
-                }
+                    backgroundImage: "url(\"" + makeRebaseUrl(baseUrl, globalState.config.wallpaper) + "\")",
+                },
             });
         }
     };
-    var applyIndex = function (_source) {
-        var index = null;
+    let applyIndex = function (_source) {
+        let index = null;
         if (undefined === globalState.config.withIndex || globalState.config.withIndex) {
             index = makeIndexFromContent();
             if (index && 0 < index.length) {
                 document.body.className += " with-index";
-                var contentDiv = document.getElementsByClassName("content")[0];
+                let contentDiv = document.getElementsByClassName("content")[0];
                 document.body.insertBefore(makeDomNode({
                     tag: "div",
                     className: "index-frame",
@@ -778,7 +776,7 @@
                                 tag: "a",
                                 className: "level" + i.level,
                                 href: i.link,
-                                innerText: i.title
+                                innerText: i.title,
                             });
                         })
                     }
@@ -786,7 +784,7 @@
                 makeDomNode({
                     parent: contentDiv,
                     tag: "div",
-                    style: { height: "90vh" }
+                    style: { height: "90vh", },
                 });
                 //  index script
                 applyIndexScript(index);
@@ -797,16 +795,16 @@
         }
         return index;
     };
-    var applyIndexScript = function (index) {
+    let applyIndexScript = function (index) {
         if (index) {
-            var previousState_1 = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(document.body.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
-            var isOver_1 = function (i) {
+            let previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(document.body.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
+            let isOver = function (i) {
                 return index.length <= i ||
                     (0 <= i && 32 < document.getElementById(index[i].link.substring(1)).getBoundingClientRect().top);
             };
-            var previousContent = null;
-            for (var i in index) {
-                var content = document.getElementById(index[i].link.substring(1));
+            let previousContent = null;
+            for (let i in index) {
+                let content = document.getElementById(index[i].link.substring(1));
                 if (!content) {
                     console.log("not found: " + index[i].link);
                     index[i].withError = true;
@@ -822,19 +820,19 @@
             index = index.filter(function (i) { return !i.withError; });
             if (0 < index.length) {
                 document.body.onscroll = function () {
-                    var previouseContetIsOver = isOver_1(previousState_1.i);
-                    var nextContetIsOver = isOver_1(previousState_1.i + 1);
+                    let previouseContetIsOver = isOver(previousState.i);
+                    let nextContetIsOver = isOver(previousState.i + 1);
                     if (previouseContetIsOver || !nextContetIsOver) {
                         if (previouseContetIsOver) {
                             //  上へ手繰る
-                            while (isOver_1(--previousState_1.i)) { }
+                            while (isOver(--previousState.i)) { }
                         }
                         else {
                             // 下へ手繰る
-                            while (!isOver_1((++previousState_1.i) + 1)) { }
+                            while (!isOver((++previousState.i) + 1)) { }
                         }
-                        var targetIndex = previousState_1.i < 0 ? null : index[previousState_1.i];
-                        var current = document.getElementsByClassName("current")[0];
+                        let targetIndex = previousState.i < 0 ? null : index[previousState.i];
+                        let current = document.getElementsByClassName("current")[0];
                         if (current !== (null === targetIndex ? null : targetIndex.anchor)) {
                             if (current) {
                                 current.classList.remove("current");
@@ -848,13 +846,13 @@
                                 window.history.replaceState(null, document.title, "#");
                             }
                             if (!globalState.isMouseOnIndex) {
-                                var frame = document.getElementsByClassName("index-frame")[0];
+                                let frame = document.getElementsByClassName("index-frame")[0];
                                 if (null === targetIndex) {
                                     frame.scrollTop = 0;
                                 }
                                 else {
-                                    var rect = targetIndex.anchor.getBoundingClientRect();
-                                    var targetTop = rect.top + frame.scrollTop;
+                                    let rect = targetIndex.anchor.getBoundingClientRect();
+                                    let targetTop = rect.top + frame.scrollTop;
                                     frame.scrollTop = targetTop - Math.min(frame.clientHeight - rect.height, ((targetTop / frame.scrollHeight) * frame.clientHeight));
                                 }
                             }
@@ -865,23 +863,23 @@
             }
         }
     };
-    var applyContent = function (html) {
+    let applyContent = function (html) {
         return makeDomNode({
             parent: document.body,
             tag: "div",
             className: "content",
-            innerHTML: html
+            innerHTML: html,
         });
     };
-    var applyFragmentId = function () {
+    let applyFragmentId = function () {
         //  body.onload の時点ではコンテンツが間に合っておらず、 Web ブラウザによる通常のフラグメント識別子位置への
         //  スクロールは期待できない為、コンテンツの取得及びDOM生成完了後に明示的にスクロール位置の移動を行う。
-        var fragmentId = decodeURI((location.href + "#").split("#")[1].trim());
+        let fragmentId = decodeURI((location.href + "#").split("#")[1].trim());
         if (fragmentId) {
             location.href = "#" + fragmentId;
         }
     };
-    var applyHighlight = function () {
+    let applyHighlight = function () {
         Array.from(document.querySelectorAll("code"))
             .forEach(function (element) {
             //  highlightjs が知らない言語が指定されてるとなにも実行されなくなるので指定を消すなり類似した言語に変換する
@@ -893,14 +891,14 @@
             return hljs.highlightBlock(element);
         });
     };
-    var applyConditionalComment = function (source, condition, TAG) {
+    let applyConditionalComment = function (source, condition, TAG) {
         return source
             .replace(new RegExp("<!--\\[" + TAG + "\\/\\]([\\s\\S]*?)-->", "g"), condition ? "$1" : "")
             .replace(new RegExp("<!--\\[" + TAG + "\\]-->([\\s\\S]*?)<!--\\[\\/" + TAG + "\\]-->", "g"), condition ? "$1" : "")
             .replace(new RegExp("<!--\\[NO" + TAG + "\\/\\]([\\s\\S]*?)-->", "g"), !condition ? "$1" : "")
             .replace(new RegExp("<!--\\[NO" + TAG + "\\]-->([\\s\\S]*?)<!--\\[\\/NO" + TAG + "\\]-->", "g"), !condition ? "$1" : "");
     };
-    var unescapeBackSlash = function (source) {
+    let unescapeBackSlash = function (source) {
         return skipEscape(source.split("\n"), function (line) {
             return line
                 .replace(/\\</g, "&lt;")
@@ -908,7 +906,7 @@
                 .replace(/\\\\/g, "\\");
         }).join("\n");
     };
-    var render = function (renderer, baseUrl, source) {
+    let render = function (renderer, baseUrl, source) {
         //  regulate return code
         source = source.replace(/\r\n/g, "\n");
         //  preload config
@@ -919,20 +917,20 @@
         //  この段階ではレンダラが確定しておらずディレクティブが機能していないがレンダラーに関する指定を取得する為に一度読み込む。後でリロードする。
         if (globalState.config.referrer_option) {
             console.log("referrer: " + document.referrer);
-            var newUrl = location.href;
-            var currentUrlParamNames_1 = (location.href.split("#")[0] + "?")
+            let newUrl = location.href;
+            let currentUrlParamNames = (location.href.split("#")[0] + "?")
                 .split("?")[1]
                 .split("&")
                 .filter(function (i) { return 0 < i.indexOf("="); })
                 .map(function (i) { return i.substr(0, i.indexOf("=")); });
-            var referrerUrlParams = (document.referrer.split("#")[0] + "?")
+            let referrerUrlParams = (document.referrer.split("#")[0] + "?")
                 .split("?")[1]
                 .split("&")
                 .filter(function (i) { return 0 < i.indexOf("="); })
                 .filter(function (i) {
-                var name = i.substr(0, i.indexOf("="));
-                var result = true;
-                currentUrlParamNames_1.forEach(function (j) { if (j === name) {
+                let name = i.substr(0, i.indexOf("="));
+                let result = true;
+                currentUrlParamNames.forEach(function (j) { if (j === name) {
                     result = false;
                 } });
                 return result;
@@ -942,15 +940,15 @@
             }
             if (!renderer) {
                 if ((document.referrer || "").split("?")[0] === location.href.split("?")[0]) {
-                    var newUrl_1 = location.href;
-                    var urlArgs = (document.referrer.split("#")[0] + "?")
+                    let newUrl = location.href;
+                    let urlArgs = (document.referrer.split("#")[0] + "?")
                         .split("?")[1]
                         .split("&")
                         .filter(function (i) { return i.indexOf("=") < 0; })
                         .map(function (i) { return decodeURIComponent(i); });
                     if (2 <= urlArgs.length) {
                         renderer = urlArgs[0];
-                        newUrl_1 = newUrl_1.replace("?", "?" + renderer + "&");
+                        newUrl = newUrl.replace("?", "?" + renderer + "&");
                     }
                 }
             }
@@ -960,16 +958,16 @@
         }
         renderer = renderer || (globalState.config.renderer || "markdown").toLowerCase();
         console.log("🎨 renderer: " + (renderer || "null"));
-        var isWriting = true;
-        var isMarked = "marked" === renderer;
-        var isCommonMark = "commonmark" === renderer;
-        var isMarkdownIt = "markdown-it" === renderer;
-        var isMarkdown = isMarked || isCommonMark || isMarkdownIt || "markdown" === renderer;
-        var isRemark = "remark" === renderer;
-        var isReveal = "reveal" === renderer;
-        var isEdit = "edit" === renderer;
+        let isWriting = true;
+        let isMarked = "marked" === renderer;
+        let isCommonMark = "commonmark" === renderer;
+        let isMarkdownIt = "markdown-it" === renderer;
+        let isMarkdown = isMarked || isCommonMark || isMarkdownIt || "markdown" === renderer;
+        let isRemark = "remark" === renderer;
+        let isReveal = "reveal" === renderer;
+        let isEdit = "edit" === renderer;
         if (!isMarkdown && !isRemark && !isReveal && !isEdit) {
-            var message = "Unknown Rederer Name: \"" + renderer + "\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
+            let message = "Unknown Rederer Name: \"" + renderer + "\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
             showError(message);
             console.error(message);
             return;
@@ -997,7 +995,7 @@
         applyTitle(source);
         //  favicon
         applyIcon(baseUrl);
-        var applyMarkdown = function (markdownToHtml) {
+        let applyMarkdown = function (markdownToHtml) {
             //  theme
             appendHighlightTheme();
             applyTheme(baseUrl);
@@ -1024,7 +1022,7 @@
         if (isMarked) {
             //  marked
             loadScript("js/marked.js", function () {
-                var config = { gfm: true, tables: true };
+                let config = { gfm: true, tables: true };
                 try {
                     config = JSON.parse((source + "<!--[MARKED-CONFIG] { \"gfm\": true, \"tables\": true } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
                 }
@@ -1033,8 +1031,8 @@
                     console.error(JSON.stringify(e));
                 }
                 console.log("marked-config: " + JSON.stringify(config, null, 4));
-                var linkMaker = new MarkdownHeaderFragmentMaker();
-                var markedRenderer = new marked.Renderer();
+                let linkMaker = new MarkdownHeaderFragmentMaker();
+                let markedRenderer = new marked.Renderer();
                 markedRenderer.heading = function (text, level, raw) {
                     return '<h'
                         + level
@@ -1066,7 +1064,7 @@
                 loadScript("js/markdown-it-emoji.js", function () {
                     applyMarkdown(function (markdown) {
                         var markdownitWindow = window;
-                        return markdownitWindow.markdownit({ html: true }).use(markdownitWindow.markdownitEmoji).render(markdown);
+                        return markdownitWindow.markdownit({ html: true, }).use(markdownitWindow.markdownitEmoji).render(markdown);
                     });
                 });
             });
@@ -1084,7 +1082,7 @@
             }).join("\n");
             //  remark
             loadScript("js/remark-latest.min.js", function () {
-                var config = JSON.parse((source + "<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
+                let config = JSON.parse((source + "<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
                 source = skipEscapeBlock(source, function (block) {
                     return block.replace(/<!--\[REMARK-CONFIG\][\S\s]*?-->/, "");
                 });
@@ -1101,10 +1099,10 @@
         if (isReveal) {
             //  reveal
             appendTheme("css/reveal.css");
-            var revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-THEME]league-->")[1].toLowerCase();
+            let revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-THEME]league-->")[1].toLowerCase();
             console.log("reveal-theme: " + revealTheme);
             appendTheme("css/theme/" + revealTheme + ".css", "theme");
-            var documentTheme_1 = document.getElementById("theme");
+            let documentTheme = document.getElementById("theme");
             appendTheme("lib/css/zenburn.css");
             appendTheme(window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css');
             //  theme
@@ -1114,13 +1112,13 @@
             makeDomNode({
                 parent: document.head,
                 tag: "style",
-                innerHTML: (source + "<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim()
+                innerHTML: (source + "<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim(),
             });
             //  paste markdown
-            var separator_1 = (source + "<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();
-            var separator_vertical_1 = (source + "<!--[REVEAL-SEPARATOR-VERTICAL] ^\\n>>>$ -->").split("<!--[REVEAL-SEPARATOR-VERTICAL]")[1].split("-->")[0].trim();
-            var separator_notes_1 = (source + "<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
-            var pasteMarkdown = function (markdown) {
+            let separator = (source + "<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();
+            let separator_vertical = (source + "<!--[REVEAL-SEPARATOR-VERTICAL] ^\\n>>>$ -->").split("<!--[REVEAL-SEPARATOR-VERTICAL]")[1].split("-->")[0].trim();
+            let separator_notes = (source + "<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
+            let pasteMarkdown = function (markdown) {
                 return makeDomNode({
                     parent: document.body,
                     tag: "div",
@@ -1132,36 +1130,36 @@
                             tag: "section",
                             attributes: {
                                 "data-markdown": "",
-                                "data-separator": separator_1,
-                                "data-separator-vertical": separator_vertical_1,
-                                "data-separator-notes": separator_notes_1
+                                "data-separator": separator,
+                                "data-separator-vertical": separator_vertical,
+                                "data-separator-notes": separator_notes,
                             },
                             children: {
                                 tag: "script",
                                 type: "text/template",
-                                innerHTML: translateForMathJax(markdown)
-                            }
-                        }
-                    }
+                                innerHTML: translateForMathJax(markdown),
+                            },
+                        },
+                    },
                 });
             };
             pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(translateForSlide(source))));
             loadScript("lib/js/head.min.js", function () {
                 loadScript("js/reveal.js", function () {
-                    var revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
+                    let revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
                     console.log("reveal-transition: " + revealTransition);
                     console.log("reveal-theme(forced by url param): " + Reveal.getQueryHash().theme);
                     console.log("reveal-transition(forced by url param): " + Reveal.getQueryHash().transition);
-                    var forceTheme = Reveal.getQueryHash().theme;
+                    let forceTheme = Reveal.getQueryHash().theme;
                     if (forceTheme) {
-                        documentTheme_1.href = "css/theme/" + forceTheme + ".css";
+                        documentTheme.href = "css/theme/" + forceTheme + ".css";
                     }
                     // More info about config & dependencies:
                     // - https://github.com/hakimel/reveal.js#configuration
                     // - https://github.com/hakimel/reveal.js#dependencies
-                    var config = JSON.parse((source + "<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
+                    let config = JSON.parse((source + "<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
                     console.log("reveal-config: " + JSON.stringify(config, null, 4));
-                    var defaultConfig = {
+                    let defaultConfig = {
                         controls: true,
                         progress: true,
                         history: true,
@@ -1196,9 +1194,9 @@
             recursiveAssign(document.body.style, {
                 margin: "0",
                 overflow: "hidden",
-                backgroundColor: "#86812A"
+                backgroundColor: "#86812A",
             });
-            var urlsDiv_1 = makeDomNode({
+            let urlsDiv = makeDomNode({
                 parent: document.body,
                 tag: "div",
                 style: {
@@ -1206,64 +1204,64 @@
                     width: "100%",
                     height: "1rem",
                     verticalAlign: "middle",
-                    lineHeight: "1rem"
-                }
+                    lineHeight: "1rem",
+                },
             });
-            var textCounter_1 = makeDomNode({
-                parent: urlsDiv_1,
+            let textCounter = makeDomNode({
+                parent: urlsDiv,
                 tag: "span",
                 style: {
                     color: "#CCCCCC",
-                    padding: "0rem 1.0rem"
+                    padding: "0rem 1.0rem",
                 }
             });
-            var makeLink = function (text) {
+            let makeLink = function (text) {
                 return makeDomNode({
-                    parent: urlsDiv_1,
+                    parent: urlsDiv,
                     tag: "a",
                     style: {
                         color: "#FFFFFF",
-                        padding: "0rem 1.0rem"
+                        padding: "0rem 1.0rem",
                     },
                     text: text,
-                    target: "_blank"
+                    target: "_blank",
                 });
             };
-            var defaultLink_1 = makeLink("default");
-            var markedLink_1 = makeLink("marked(markdown)");
-            var commonmarkLink_1 = makeLink("commonmark(markdown)");
-            var markdownitLink_1 = makeLink("markdown-it(markdown)");
-            var remarkLink_1 = makeLink("remark(slide)");
-            var revealLink_1 = makeLink("reveal(slide)");
-            var editLink_1 = makeLink("edit");
-            var update = function () {
-                var text = encodeURIComponent(textarea_1.value);
-                textCounter_1.innerText = "lenght:" + text.length;
-                defaultLink_1.href = "?text:" + text;
-                markedLink_1.href = "?marked&text:" + text;
-                commonmarkLink_1.href = "?commonmark&text:" + text;
-                markdownitLink_1.href = "?markdown-it&text:" + text;
-                remarkLink_1.href = "?remark&text:" + text;
-                revealLink_1.href = "?reveal&text:" + text;
-                editLink_1.href = "?edit&text:" + text;
+            let defaultLink = makeLink("default");
+            let markedLink = makeLink("marked(markdown)");
+            let commonmarkLink = makeLink("commonmark(markdown)");
+            let markdownitLink = makeLink("markdown-it(markdown)");
+            let remarkLink = makeLink("remark(slide)");
+            let revealLink = makeLink("reveal(slide)");
+            let editLink = makeLink("edit");
+            let update = function () {
+                let text = encodeURIComponent(textarea.value);
+                textCounter.innerText = "lenght:" + text.length;
+                defaultLink.href = "?text:" + text;
+                markedLink.href = "?marked&text:" + text;
+                commonmarkLink.href = "?commonmark&text:" + text;
+                markdownitLink.href = "?markdown-it&text:" + text;
+                remarkLink.href = "?remark&text:" + text;
+                revealLink.href = "?reveal&text:" + text;
+                editLink.href = "?edit&text:" + text;
             };
-            var textarea_1 = makeDomNode({
+            let textarea = makeDomNode({
                 parent: document.body,
                 tag: "textarea",
                 style: {
                     width: "100%",
                     height: "100%",
-                    margin: "0rem 1rem 1rem 1rem"
+                    margin: "0rem 1rem 1rem 1rem",
                 },
                 value: source,
                 eventListener: {
                     change: update,
-                    keyup: update
-                }
+                    keyup: update,
+                },
             });
-            recursiveAssign(textarea_1.style, {
+            recursiveAssign(textarea.style, {
                 width: "calc(100vw - 2rem)",
-                height: "calc(100vh - 3rem)"
+                height: "calc(100vh - 3rem)",
             });
             update();
             console.log("✅ document redering succeeded.");
@@ -1283,9 +1281,9 @@
     var loadDocument = function () {
         hideSystemLoadingError();
         loadGoogleAnalytics();
-        var renderer = null;
-        var sourceUrl = null;
-        var urlArgs = (location.href.split("#")[0] + "?")
+        let renderer = null;
+        let sourceUrl = null;
+        let urlArgs = (location.href.split("#")[0] + "?")
             .split("?")[1]
             .split("&")
             .filter(function (i) { return i.indexOf("=") < 0; })
@@ -1310,46 +1308,12 @@
             render(renderer, location.href, sourceUrl.slice(5));
         }
         else {
-            var request_1 = new XMLHttpRequest();
-            request_1.open('GET', sourceUrl, true);
-            request_1.onreadystatechange = function () {
-                if (4 === request_1.readyState) {
-                    if (200 <= request_1.status && request_1.status < 300) {
-                        render(renderer, makeAbsoluteUrl(location.href, sourceUrl), request_1.responseText);
-                    }
-                    else {
-                        showLoadingError(sourceUrl, request_1);
-                    }
-                }
-            };
-            request_1.send(null);
-        }
-    };
-    var loadJson = function (finish) {
-        var jsonScripts = Array.from(document.getElementsByTagName('script'))
-            .filter(function (script) { return "application/json" === script.type; });
-        var loadCount = 0;
-        jsonScripts
-            .forEach(function (script) {
-            var name = script.getAttribute("data-let");
-            var sourceUrl = script.src;
-            console.log("📥 loading json(" + name + "): " + sourceUrl);
-            var request = new XMLHttpRequest();
+            let request = new XMLHttpRequest();
             request.open('GET', sourceUrl, true);
             request.onreadystatechange = function () {
                 if (4 === request.readyState) {
                     if (200 <= request.status && request.status < 300) {
-                        try {
-                            objectAssign(globalState[name], JSON.parse(request.responseText));
-                            console.log("⚙️ load JSON(" + name + ") from " + sourceUrl + " : " + request.responseText);
-                        }
-                        catch (err) {
-                            console.error(err);
-                            console.error("error JSON(" + sourceUrl + "): " + request.responseText);
-                        }
-                        if (jsonScripts.length <= ++loadCount) {
-                            finish();
-                        }
+                        render(renderer, makeAbsoluteUrl(location.href, sourceUrl), request.responseText);
                     }
                     else {
                         showLoadingError(sourceUrl, request);
@@ -1357,10 +1321,54 @@
                 }
             };
             request.send(null);
-        });
-        if (jsonScripts.length <= 0) {
-            finish();
         }
     };
-    loadJson(loadDocument);
+    let loadJson = function () {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
+                let jsonScripts = Array.from(document.getElementsByTagName('script'))
+                    .filter(function (script) { return "application/json" === script.type; });
+                let loadCount = 0;
+                jsonScripts.forEach(function (script) {
+                    let name = script.getAttribute("data-let");
+                    let sourceUrl = script.src;
+                    console.log("📥 loading json(" + name + "): " + sourceUrl);
+                    let request = new XMLHttpRequest();
+                    request.open('GET', sourceUrl, true);
+                    request.onreadystatechange = function () {
+                        if (4 === request.readyState) {
+                            if (200 <= request.status && request.status < 300) {
+                                try {
+                                    objectAssign(globalState[name], JSON.parse(request.responseText));
+                                    console.log("⚙️ load JSON(" + name + ") from " + sourceUrl + " : " + request.responseText);
+                                }
+                                catch (err) {
+                                    console.error(err);
+                                    console.error("error JSON(" + sourceUrl + "): " + request.responseText);
+                                }
+                                if (jsonScripts.length <= ++loadCount) {
+                                    resolve();
+                                }
+                            }
+                            else {
+                                showLoadingError(sourceUrl, request);
+                            }
+                        }
+                    };
+                    request.send(null);
+                });
+                if (jsonScripts.length <= 0) {
+                    resolve();
+                }
+            }));
+        });
+    };
+    let startup = function () {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield loadJson();
+            loadDocument();
+        });
+    };
+    startup();
 })();
+//# sourceMappingURL=writing.js.map

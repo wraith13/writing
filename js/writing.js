@@ -1278,50 +1278,56 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             gtag("config", globalState.config.googleAnalyticsTracckingId);
         }
     };
-    var loadDocument = function () {
-        hideSystemLoadingError();
-        loadGoogleAnalytics();
-        let renderer = null;
-        let sourceUrl = null;
-        let urlArgs = (location.href.split("#")[0] + "?")
-            .split("?")[1]
-            .split("&")
-            .filter(function (i) { return i.indexOf("=") < 0; })
-            .map(function (i) { return decodeURIComponent(i); });
-        if (1 <= urlArgs.length) {
-            if (2 <= urlArgs.length) {
-                renderer = urlArgs[0];
-                sourceUrl = urlArgs[1];
-            }
-            else {
-                sourceUrl = urlArgs[0];
-            }
-            sourceUrl = sourceUrl
-                .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
-        }
-        if (!sourceUrl) {
-            sourceUrl = globalState.config.defaultDocument || "index.md";
-        }
-        //console.log("renderer(forced by url param): " +(renderer || "null"));
-        console.log("📥 loading document: " + sourceUrl);
-        if ("text:" === sourceUrl.slice(0, 5)) {
-            render(renderer, location.href, sourceUrl.slice(5));
-        }
-        else {
-            let request = new XMLHttpRequest();
-            request.open('GET', sourceUrl, true);
-            request.onreadystatechange = function () {
-                if (4 === request.readyState) {
-                    if (200 <= request.status && request.status < 300) {
-                        render(renderer, makeAbsoluteUrl(location.href, sourceUrl), request.responseText);
+    let loadDocument = function () {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
+                hideSystemLoadingError();
+                loadGoogleAnalytics();
+                let renderer = null;
+                let sourceUrl = null;
+                let urlArgs = (location.href.split("#")[0] + "?")
+                    .split("?")[1]
+                    .split("&")
+                    .filter(function (i) { return i.indexOf("=") < 0; })
+                    .map(function (i) { return decodeURIComponent(i); });
+                if (1 <= urlArgs.length) {
+                    if (2 <= urlArgs.length) {
+                        renderer = urlArgs[0];
+                        sourceUrl = urlArgs[1];
                     }
                     else {
-                        showLoadingError(sourceUrl, request);
+                        sourceUrl = urlArgs[0];
                     }
+                    sourceUrl = sourceUrl
+                        .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
                 }
-            };
-            request.send(null);
-        }
+                if (!sourceUrl) {
+                    sourceUrl = globalState.config.defaultDocument || "index.md";
+                }
+                //console.log("renderer(forced by url param): " +(renderer || "null"));
+                console.log("📥 loading document: " + sourceUrl);
+                if ("text:" === sourceUrl.slice(0, 5)) {
+                    render(renderer, location.href, sourceUrl.slice(5));
+                    resolve();
+                }
+                else {
+                    let request = new XMLHttpRequest();
+                    request.open('GET', sourceUrl, true);
+                    request.onreadystatechange = function () {
+                        if (4 === request.readyState) {
+                            if (200 <= request.status && request.status < 300) {
+                                render(renderer, makeAbsoluteUrl(location.href, sourceUrl), request.responseText);
+                            }
+                            else {
+                                showLoadingError(sourceUrl, request);
+                            }
+                            resolve();
+                        }
+                    };
+                    request.send(null);
+                }
+            }));
+        });
     };
     let loadJson = function () {
         return __awaiter(this, void 0, void 0, function* () {
@@ -1366,7 +1372,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     let startup = function () {
         return __awaiter(this, void 0, void 0, function* () {
             yield loadJson();
-            loadDocument();
+            yield loadDocument();
         });
     };
     startup();

@@ -1923,6 +1923,25 @@ declare interface ObjectConstructor {
         }
         return urlParameters;
     };
+    let loadUrlParameters = function() : void
+    {
+        globalState.urlParameters = parseUrlParameters(location.href);
+        console.log
+        (
+            "⚙️ urlParameters: " +JSON.stringify
+            (
+                globalState.urlParameters,
+                null,
+                4
+            )
+        );
+        if (!globalState.urlParameters.sourceUrl)
+        {
+            globalState.urlParameters.sourceUrl = globalState.config.defaultDocument || "index.md";
+        }
+        globalState.urlParameters.sourceUrl = globalState.urlParameters.sourceUrl
+            .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
+    };
     let loadDocument = async function() : Promise<void>
     {
         return new Promise<void>
@@ -1931,22 +1950,6 @@ declare interface ObjectConstructor {
             {
                 hideSystemLoadingError();
                 loadGoogleAnalytics();
-                globalState.urlParameters = parseUrlParameters(location.href);
-                console.log
-                (
-                    "⚙️ urlParameters: " +JSON.stringify
-                    (
-                        globalState.urlParameters,
-                        null,
-                        4
-                    )
-                );
-                if (!globalState.urlParameters.sourceUrl)
-                {
-                    globalState.urlParameters.sourceUrl = globalState.config.defaultDocument || "index.md";
-                }
-                globalState.urlParameters.sourceUrl = globalState.urlParameters.sourceUrl
-                    .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
                 
                 //console.log("renderer(forced by url param): " +(renderer || "null"));
                 console.log("📥 loading document: " +globalState.urlParameters.sourceUrl);
@@ -2042,6 +2045,7 @@ declare interface ObjectConstructor {
     let startup = async function() : Promise<void>
     {
         await loadJson();
+        loadUrlParameters();
         await loadDocument();
     };
     startup();

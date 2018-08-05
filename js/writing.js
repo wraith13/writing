@@ -1300,18 +1300,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
         return urlParameters;
     };
+    let loadUrlParameters = function () {
+        globalState.urlParameters = parseUrlParameters(location.href);
+        console.log("⚙️ urlParameters: " + JSON.stringify(globalState.urlParameters, null, 4));
+        if (!globalState.urlParameters.sourceUrl) {
+            globalState.urlParameters.sourceUrl = globalState.config.defaultDocument || "index.md";
+        }
+        globalState.urlParameters.sourceUrl = globalState.urlParameters.sourceUrl
+            .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
+    };
     let loadDocument = function () {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
                 hideSystemLoadingError();
                 loadGoogleAnalytics();
-                globalState.urlParameters = parseUrlParameters(location.href);
-                console.log("⚙️ urlParameters: " + JSON.stringify(globalState.urlParameters, null, 4));
-                if (!globalState.urlParameters.sourceUrl) {
-                    globalState.urlParameters.sourceUrl = globalState.config.defaultDocument || "index.md";
-                }
-                globalState.urlParameters.sourceUrl = globalState.urlParameters.sourceUrl
-                    .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
                 //console.log("renderer(forced by url param): " +(renderer || "null"));
                 console.log("📥 loading document: " + globalState.urlParameters.sourceUrl);
                 if ("text:" === globalState.urlParameters.sourceUrl.slice(0, 5)) {
@@ -1380,6 +1382,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     let startup = function () {
         return __awaiter(this, void 0, void 0, function* () {
             yield loadJson();
+            loadUrlParameters();
             yield loadDocument();
         });
     };

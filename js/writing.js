@@ -1278,48 +1278,56 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             gtag("config", globalState.config.googleAnalyticsTracckingId);
         }
     };
+    let parseUrlParameters = function (url) {
+        var urlParameters = {
+            "renderer": null,
+            "sourceUrl": null,
+        };
+        var basicUrlArgs = (url.split("#")[0] + "?")
+            .split("?")[1]
+            .split("&")
+            .filter(function (i) { return 0 < i.length; })
+            .filter(function (i) { return i.indexOf("=") < 0; })
+            .map(function (i) { return decodeURIComponent(i); });
+        if (1 <= basicUrlArgs.length) {
+            if (2 <= basicUrlArgs.length) {
+                urlParameters.renderer = basicUrlArgs[0];
+                urlParameters.sourceUrl = basicUrlArgs[1];
+            }
+            else {
+                urlParameters.sourceUrl = basicUrlArgs[0];
+            }
+        }
+        return urlParameters;
+    };
     let loadDocument = function () {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
                 hideSystemLoadingError();
                 loadGoogleAnalytics();
-                let renderer = null;
-                let sourceUrl = null;
-                let urlArgs = (location.href.split("#")[0] + "?")
-                    .split("?")[1]
-                    .split("&")
-                    .filter(function (i) { return i.indexOf("=") < 0; })
-                    .map(function (i) { return decodeURIComponent(i); });
-                if (1 <= urlArgs.length) {
-                    if (2 <= urlArgs.length) {
-                        renderer = urlArgs[0];
-                        sourceUrl = urlArgs[1];
-                    }
-                    else {
-                        sourceUrl = urlArgs[0];
-                    }
-                    sourceUrl = sourceUrl
-                        .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
+                globalState.urlParameters = parseUrlParameters(location.href);
+                console.log("⚙️ urlParameters: " + JSON.stringify(globalState.urlParameters, null, 4));
+                if (!globalState.urlParameters.sourceUrl) {
+                    globalState.urlParameters.sourceUrl = globalState.config.defaultDocument || "index.md";
                 }
-                if (!sourceUrl) {
-                    sourceUrl = globalState.config.defaultDocument || "index.md";
-                }
+                globalState.urlParameters.sourceUrl = globalState.urlParameters.sourceUrl
+                    .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
                 //console.log("renderer(forced by url param): " +(renderer || "null"));
-                console.log("📥 loading document: " + sourceUrl);
-                if ("text:" === sourceUrl.slice(0, 5)) {
-                    render(renderer, location.href, sourceUrl.slice(5));
+                console.log("📥 loading document: " + globalState.urlParameters.sourceUrl);
+                if ("text:" === globalState.urlParameters.sourceUrl.slice(0, 5)) {
+                    render(globalState.urlParameters.renderer, location.href, globalState.urlParameters.sourceUrl.slice(5));
                     resolve();
                 }
                 else {
                     let request = new XMLHttpRequest();
-                    request.open('GET', sourceUrl, true);
+                    request.open('GET', globalState.urlParameters.sourceUrl, true);
                     request.onreadystatechange = function () {
                         if (4 === request.readyState) {
                             if (200 <= request.status && request.status < 300) {
-                                render(renderer, makeAbsoluteUrl(location.href, sourceUrl), request.responseText);
+                                render(globalState.urlParameters.renderer, makeAbsoluteUrl(location.href, globalState.urlParameters.sourceUrl), request.responseText);
                             }
                             else {
-                                showLoadingError(sourceUrl, request);
+                                showLoadingError(globalState.urlParameters.sourceUrl, request);
                             }
                             resolve();
                         }

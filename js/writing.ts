@@ -2048,10 +2048,17 @@ declare interface ObjectConstructor {
     {
         await loadJson();
         loadUrlParameters();
-        hideSystemLoadingError();
-        var source = await loadDocument(globalState.urlParameters.sourceUrl);
-        loadGoogleAnalytics();
-        render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
+        if ("@system-loading-error" === globalState.urlParameters.sourceUrl.toLowerCase())
+        {
+            //  nop
+        }
+        else
+        {
+            hideSystemLoadingError();
+            var source = await loadDocument(globalState.urlParameters.sourceUrl);
+            loadGoogleAnalytics();
+            render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
+        }
     };
     startup();
 })();

@@ -1384,10 +1384,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         return __awaiter(this, void 0, void 0, function* () {
             yield loadJson();
             loadUrlParameters();
-            hideSystemLoadingError();
-            var source = yield loadDocument(globalState.urlParameters.sourceUrl);
-            loadGoogleAnalytics();
-            render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
+            if ("@system-loading-error" === globalState.urlParameters.sourceUrl.toLowerCase()) {
+                //  nop
+            }
+            else {
+                hideSystemLoadingError();
+                var source = yield loadDocument(globalState.urlParameters.sourceUrl);
+                loadGoogleAnalytics();
+                render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
+            }
         });
     };
     startup();

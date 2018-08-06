@@ -1935,46 +1935,48 @@ declare interface ObjectConstructor {
                 4
             )
         );
+
         if (!globalState.urlParameters.sourceUrl)
         {
             globalState.urlParameters.sourceUrl = globalState.config.defaultDocument || "index.md";
         }
         globalState.urlParameters.sourceUrl = globalState.urlParameters.sourceUrl
             .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
+
+        globalState.documentBaseUrl = "text:" === globalState.urlParameters.sourceUrl.slice(0, 5) ?
+            location.href:
+            makeAbsoluteUrl(location.href, globalState.urlParameters.sourceUrl);
     };
-    let loadDocument = async function() : Promise<void>
+    let loadDocument = async function(sourceUrl : string) : Promise<string>
     {
-        return new Promise<void>
+        return new Promise<string>
         (
-            async (resolve) =>
+            async (resolve, reject) =>
             {
-                hideSystemLoadingError();
-                loadGoogleAnalytics();
-                
-                //console.log("renderer(forced by url param): " +(renderer || "null"));
-                console.log("📥 loading document: " +globalState.urlParameters.sourceUrl);
-                if ("text:" === globalState.urlParameters.sourceUrl.slice(0, 5))
+                if ("text:" === sourceUrl.slice(0, 5))
                 {
-                    render(globalState.urlParameters.renderer, location.href, globalState.urlParameters.sourceUrl.slice(5));
-                    resolve();
+                    //render(globalState.urlParameters.renderer, location.href, globalState.urlParameters.sourceUrl.slice(5));
+                    resolve(sourceUrl.slice(5));
                 }
                 else
                 {
+                    console.log("📥 loading document: " +sourceUrl);
                     let request = new XMLHttpRequest();
-                    request.open('GET', globalState.urlParameters.sourceUrl, true);
+                    request.open('GET', sourceUrl, true);
                     request.onreadystatechange = function()
                     {
                         if (4 === request.readyState)
                         {
                             if (200 <= request.status && request.status < 300)
                             {
-                                render(globalState.urlParameters.renderer, makeAbsoluteUrl(location.href, globalState.urlParameters.sourceUrl), request.responseText);
+                                //render(globalState.urlParameters.renderer, makeAbsoluteUrl(location.href, globalState.urlParameters.sourceUrl), );
+                                resolve(request.responseText);
                             }
                             else
                             {
-                                showLoadingError(globalState.urlParameters.sourceUrl, request);
+                                showLoadingError(sourceUrl, request);
+                                reject();
                             }
-                            resolve();
                         }
                     };
                     request.send(null);
@@ -2046,7 +2048,10 @@ declare interface ObjectConstructor {
     {
         await loadJson();
         loadUrlParameters();
-        await loadDocument();
+        hideSystemLoadingError();
+        var source = await loadDocument(globalState.urlParameters.sourceUrl);
+        loadGoogleAnalytics();
+        render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
     };
     startup();
 })();

@@ -191,10 +191,11 @@ declare interface ObjectConstructor {
     };
     let hideSystemLoadingError = function () : void
     {
-        var systemLoadingErrorDiv = document.getElementById("writing-HTML-system-loading-error");
-        if (systemLoadingErrorDiv)
+        var systemLoadingErrorElement = document.getElementsByClassName("writing-HTML-system-loading-error")[0];
+        if (systemLoadingErrorElement)
         {
-            document.body.removeChild(systemLoadingErrorDiv);
+            systemLoadingErrorElement.className = "";
+            systemLoadingErrorElement.innerHTML = "";
             console.log("✅ system loading succeeded.");
         }
     };

@@ -139,9 +139,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         return element;
     };
     let hideSystemLoadingError = function () {
-        var systemLoadingErrorDiv = document.getElementById("writing-HTML-system-loading-error");
-        if (systemLoadingErrorDiv) {
-            document.body.removeChild(systemLoadingErrorDiv);
+        var systemLoadingErrorElement = document.getElementsByClassName("writing-HTML-system-loading-error")[0];
+        if (systemLoadingErrorElement) {
+            systemLoadingErrorElement.className = "";
+            systemLoadingErrorElement.innerHTML = "";
             console.log("✅ system loading succeeded.");
         }
     };

@@ -2,11 +2,11 @@
 //  The license of this file is Boost Software License, Version 1.0. ( Http://www.boost.org/LICENSE_1_0.txt ).
 //  このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 
-declare let hljs: any;
-declare let marked: any;
-declare let remark: any;
-declare let commonmark: any;
-declare let Reveal: any;
+declare const hljs: any;
+declare const marked: any;
+declare const remark: any;
+declare const commonmark: any;
+declare const Reveal: any;
 
 interface ArrayConstructor {
     from<T, U>(arrayLike: ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): Array<U>;
@@ -18,18 +18,18 @@ declare interface ObjectConstructor {
 
 (function()
 {
-    let globalState : any =
+    const globalState : any =
     {
         "config": { }
     };
-    let explicitFragmentIdPattern = /\{\#(.*?)\}$/;
+    const explicitFragmentIdPattern = /\{\#(.*?)\}$/;
 
     RegExp["escape"] = function(s : string) : string
     {
         //  https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     };
-    let objectAssign = function(target : object, source : object) : object
+    const objectAssign = function(target : object, source : object) : object
     {
         //  copy from https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
         if (typeof Object.assign !== 'function') {
@@ -39,11 +39,11 @@ declare interface ObjectConstructor {
                 if (target === undefined || target === null) {
                     throw new TypeError('Cannot convert undefined or null to object');
                 }
-                let output = Object(target);
+                const output = Object(target);
                 for (let index = 1; index < arguments.length; index++) {
-                    let source = arguments[index];
+                    const source = arguments[index];
                     if (source !== undefined && source !== null) {
-                        for (let nextKey in source) {
+                        for (const nextKey in source) {
                             if (Object.prototype.hasOwnProperty.call(source, nextKey)) {
                                 output[nextKey] = source[nextKey];
                             }
@@ -58,17 +58,17 @@ declare interface ObjectConstructor {
         Object.assign(target, source);
         return target;
     };
-    let deepCopy = function(source : object) : object
+    const deepCopy = function(source : object) : object
     {
         return JSON.parse(JSON.stringify(source));
     };
-    let recursiveAssign = function(target : object, source : object) : void
+    const recursiveAssign = function(target : object, source : object) : void
     {
-        for(let key in source)
+        for(const key in source)
         {
             if (source.hasOwnProperty(key))
             {
-                let value = source[key];
+                const value = source[key];
                 if ("object" === practicalTypeof(value))
                 {
                     if (undefined === target[key])
@@ -84,7 +84,7 @@ declare interface ObjectConstructor {
             }
         }
     };
-    let practicalTypeof = function(obj : any) : string
+    const practicalTypeof = function(obj : any) : string
     {
         if (undefined === obj)
         {
@@ -101,7 +101,7 @@ declare interface ObjectConstructor {
 
         return typeof obj;
     };
-    let makeDomNode = function(arg : any) : Node
+    const makeDomNode = function(arg : any) : Node
     {
         if (arg instanceof Node)
         {
@@ -113,9 +113,9 @@ declare interface ObjectConstructor {
         }
         return setToElement(document.createElement(arg.tag), arg);
     };
-    let setToElement = function(element : Element, arg : any) : Node
+    const setToElement = function(element : Element, arg : any) : Node
     {
-        for(let key in arg)
+        for(const key in arg)
         {
             if (arg.hasOwnProperty(key))
             {
@@ -129,7 +129,7 @@ declare interface ObjectConstructor {
                     //  nop
                     break;
                 default:
-                    let value = arg[key];
+                    const value = arg[key];
                     if (undefined !== value)
                     {
                         if ("object" === practicalTypeof(value))
@@ -147,7 +147,7 @@ declare interface ObjectConstructor {
         }
         if (undefined !== arg.attributes)
         {
-            for(let key in arg.attributes)
+            for(const key in arg.attributes)
             {
                 if (arg.attributes.hasOwnProperty(key))
                 {
@@ -175,7 +175,7 @@ declare interface ObjectConstructor {
         }
         if (undefined !== arg.eventListener)
         {
-            for(let key in arg.eventListener)
+            for(const key in arg.eventListener)
             {
                 if (arg.eventListener.hasOwnProperty(key))
                 {
@@ -189,9 +189,9 @@ declare interface ObjectConstructor {
         }
         return element;
     };
-    let hideSystemLoadingError = function () : void
+    const hideSystemLoadingError = function () : void
     {
-        let systemLoadingErrorElement = document.getElementsByClassName("writing-HTML-system-loading-error")[0];
+        const systemLoadingErrorElement = document.getElementsByClassName("writing-HTML-system-loading-error")[0];
         if (systemLoadingErrorElement)
         {
             systemLoadingErrorElement.className = "";
@@ -199,7 +199,7 @@ declare interface ObjectConstructor {
             console.log("✅ system loading succeeded.");
         }
     };
-    let showError = function(arg) : void
+    const showError = function(arg) : void
     {
         recursiveAssign
         (
@@ -225,7 +225,7 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let showLoadingError = function(sourceUrl, request) : void
+    const showLoadingError = function(sourceUrl, request) : void
     {
         hideSystemLoadingError();
         showError
@@ -244,7 +244,7 @@ declare interface ObjectConstructor {
                 "\", \"status\": "+ request.status + "};"
             ]
         );
-        let responseDiv : any =
+        const responseDiv : any =
         {
             parent: document.body,
             tag: "div",
@@ -272,7 +272,7 @@ declare interface ObjectConstructor {
         }
         makeDomNode(responseDiv);
 };
-    let appendLink = function(args : object) : void
+    const appendLink = function(args : object) : void
     {
         makeDomNode
         (
@@ -286,7 +286,7 @@ declare interface ObjectConstructor {
             )
         );
     };
-    let appendTheme = function(href : string, id : string = undefined) : void
+    const appendTheme = function(href : string, id : string = undefined) : void
     {
         appendLink
         (
@@ -298,11 +298,11 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let appendHighlightTheme = function() : void
+    const appendHighlightTheme = function() : void
     {
         appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
     };
-    let appendIcon = function(href : string) : void
+    const appendIcon = function(href : string) : void
     {
         appendLink
         (
@@ -322,7 +322,7 @@ declare interface ObjectConstructor {
         );
         (document.getElementById("twitter-card-image") as HTMLMetaElement).content = href;
     };
-    let loadScript = function(src : string, onload : () => void = undefined) : void
+    const loadScript = function(src : string, onload : () => void = undefined) : void
     {
         makeDomNode
         (
@@ -334,7 +334,7 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let loadHighlightScript = function() : void
+    const loadHighlightScript = function() : void
     {
         loadScript
         (
@@ -346,15 +346,15 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let loadMathJaxScript = function() : void
+    const loadMathJaxScript = function() : void
     {
         loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
     };
-    let loadTwitterScript = function()
+    const loadTwitterScript = function()
     {
         loadScript("//platform.twitter.com/widgets.js");
     };
-    let makeAbsoluteUrl = function(base : string, url : string) : string
+    const makeAbsoluteUrl = function(base : string, url : string) : string
     {
         if ("#" === url.substr(0, 1))
         {
@@ -417,9 +417,9 @@ declare interface ObjectConstructor {
         }
         return baseParts.concat(urlParts).join("/");
     };
-    let makeRelativeUrl = function(url : string) : string
+    const makeRelativeUrl = function(url : string) : string
     {
-        let base = location.href.split("#")[0];
+        const base = location.href.split("#")[0];
         if ("#" === url.substr(0, 1))
         {
             return base.split("#")[0] +url;
@@ -464,7 +464,7 @@ declare interface ObjectConstructor {
         }
         return result;
     };
-    let makeRebaseUrl = function(base : string, url : string) : string
+    const makeRebaseUrl = function(base : string, url : string) : string
     {
         if ("#" === url.substr(0, 1))
         {
@@ -472,7 +472,7 @@ declare interface ObjectConstructor {
         }
         return makeRelativeUrl(makeAbsoluteUrl(base, url));
     };
-    let skipEscape = function
+    const skipEscape = function
     (
         lines : string[],
         map : (string, int) => string,
@@ -484,8 +484,8 @@ declare interface ObjectConstructor {
         (
             function(line, line_number)
             {
-                let escape = "$$" === line.trim() ? "$$": line.trim().replace(/^(```+|~~~+).*/, "$1").replace(/^[`~]{0,2}(([^`~].*)|$)/,"");
-                let isEscape = null === currentEscape && ("" !== escape) || (null !== currentEscape && currentEscape.substr(0,1) === escape.substr(0,1) && currentEscape.length <= escape.length);
+                const escape = "$$" === line.trim() ? "$$": line.trim().replace(/^(```+|~~~+).*/, "$1").replace(/^[`~]{0,2}(([^`~].*)|$)/,"");
+                const isEscape = null === currentEscape && ("" !== escape) || (null !== currentEscape && currentEscape.substr(0,1) === escape.substr(0,1) && currentEscape.length <= escape.length);
                 if (isEscape)
                 {
                     if (null === currentEscape)
@@ -518,7 +518,7 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let skipEscapeBlock = function
+    const skipEscapeBlock = function
     (
         source : string,
         map : (string) => string,
@@ -526,7 +526,7 @@ declare interface ObjectConstructor {
         finish : () => void = undefined
     ) : string
     {
-        let blocks = [];
+        const blocks = [];
         let current = [];
         let isInEscape = false;
         skipEscape
@@ -536,7 +536,7 @@ declare interface ObjectConstructor {
             {
                 if (isInEscape)
                 {
-                    let currentBlock = current.join("\n");
+                    const currentBlock = current.join("\n");
                     blocks.push
                     (
                         escapeMap ?
@@ -553,7 +553,7 @@ declare interface ObjectConstructor {
             {
                 if (!isInEscape)
                 {
-                    let currentBlock = current.join("\n");
+                    const currentBlock = current.join("\n");
                     blocks.push
                     (
                         map ?
@@ -569,7 +569,7 @@ declare interface ObjectConstructor {
         );
         if (!isInEscape)
         {
-            let currentBlock = current.join("\n");
+            const currentBlock = current.join("\n");
             blocks.push
             (
                 map ?
@@ -580,7 +580,7 @@ declare interface ObjectConstructor {
         else
         {
             //  ここにくるのは code escape が閉じてない時だけなので、基本的には到達してはいけない。
-            let currentBlock = current.join("\n");
+            const currentBlock = current.join("\n");
             blocks.push
             (
                 escapeMap ?
@@ -594,7 +594,7 @@ declare interface ObjectConstructor {
         }
         return blocks.join("\n");
     };
-    let applyOption = function
+    const applyOption = function
     (
         source : string,
         TAG : string,
@@ -607,7 +607,7 @@ declare interface ObjectConstructor {
             source,
             function(block)
             {
-                let reg = new RegExp("<!--\\[" +TAG +"\\]\\s*([\\s\\S]*?)\\s*-->", "gm");
+                const reg = new RegExp("<!--\\[" +TAG +"\\]\\s*([\\s\\S]*?)\\s*-->", "gm");
                 let matches = null;
                 while (matches = reg.exec(block)) {
                     applyer(matches[1]);
@@ -618,7 +618,7 @@ declare interface ObjectConstructor {
             finish
         );
     };
-    let loadConfig = function(source : string) : string
+    const loadConfig = function(source : string) : string
     {
         return applyOption
         (
@@ -647,8 +647,8 @@ declare interface ObjectConstructor {
         links : string[] = [];
         makeFragment(line : string) : string
         {
-            let explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);
-            let link = explicitFragmentIdMatch ?
+            const explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);
+            const link = explicitFragmentIdMatch ?
                 explicitFragmentIdMatch[1]:
                 line
                     .replace(/^#*/, "")
@@ -674,15 +674,15 @@ declare interface ObjectConstructor {
             }
         }
     }
-    let getAllElements = function(parent : Element | Document = undefined) : Element[]
+    const getAllElements = function(parent : Element | Document = undefined) : Element[]
     {
         let result = [];
         parent = parent || document ;
         if (parent.children)
         {
-            for (let i in parent.children)
+            for (const i in parent.children)
             {
-                let child = parent.children[i];
+                const child = parent.children[i];
                 if (child)
                 {
                     result.push(child);
@@ -692,7 +692,7 @@ declare interface ObjectConstructor {
         }
         return result;
     };
-    let getHeadingTags = function() : Element[]
+    const getHeadingTags = function() : Element[]
     {
         return getAllElements().filter
         (
@@ -714,21 +714,21 @@ declare interface ObjectConstructor {
         {
         }
     }
-    let makeIndexFromContent = function() : IndexItem[]
+    const makeIndexFromContent = function() : IndexItem[]
     {
-        let linkMaker = new MarkdownHeaderFragmentMaker();
-        let anchors : IndexItem[] = [];
+        const linkMaker = new MarkdownHeaderFragmentMaker();
+        const anchors : IndexItem[] = [];
         getHeadingTags().forEach
         (
             function(i)
             {
-                let level = parseInt(i.tagName.substr(1), 10);
-                let title = i.textContent.trim();
+                const level = parseInt(i.tagName.substr(1), 10);
+                const title = i.textContent.trim();
                 if (!i.id)
                 {
                     i.id = linkMaker.makeFragment(title);
                 }
-                let link = "#" +i.id;
+                const link = "#" +i.id;
                 anchors.push
                 (
                     new IndexItem
@@ -743,7 +743,7 @@ declare interface ObjectConstructor {
         return anchors;
     };
 
-    let translateRelativeUrl = function(baseUrl : string, url : string) : string
+    const translateRelativeUrl = function(baseUrl : string, url : string) : string
     {
         if ("?" === url.substr(0, 1))
         {
@@ -752,11 +752,11 @@ declare interface ObjectConstructor {
         else
         if ("#" !== url.substr(0, 1))
         {
-            let absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-            let relativeUrl = makeRelativeUrl(absoluteUrl);
+            const absoluteUrl = makeAbsoluteUrl(baseUrl, url);
+            const relativeUrl = makeRelativeUrl(absoluteUrl);
             if (/.*\.md(\.txt)?(#.*)?$/i.test(absoluteUrl))
             {
-                let thisPath = location.href.split("#")[0].split("?")[0];
+                const thisPath = location.href.split("#")[0].split("?")[0];
                 if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])
                 {
                     return "?" +encodeURIComponent(relativeUrl);
@@ -769,7 +769,7 @@ declare interface ObjectConstructor {
         }
         return url;
     };
-    let translateRelativeLink = function(baseUrl : string, source : string) : string
+    const translateRelativeLink = function(baseUrl : string, source : string) : string
     {
         return skipEscape
         (
@@ -789,12 +789,12 @@ declare interface ObjectConstructor {
                             if (isInSquareBracket)
                             {
                                 isInSquareBracket = false;
-                                let re = /(.*?[^\\])?\]\((.*?[^\\])\)/g;
+                                const re = /(.*?[^\\])?\]\((.*?[^\\])\)/g;
                                 if (null !== (match = re.exec(part)))
                                 {
-                                    let label = undefined === match[1] ? "": match[1];
-                                    let url = match[2];
-                                    let traslatedUrl = translateRelativeUrl(baseUrl, url);
+                                    const label = undefined === match[1] ? "": match[1];
+                                    const url = match[2];
+                                    const traslatedUrl = translateRelativeUrl(baseUrl, url);
                                     if (url !== traslatedUrl)
                                     {
                                         part = part.replace(match[0], label +"](" +traslatedUrl +")");
@@ -802,12 +802,12 @@ declare interface ObjectConstructor {
                                 }
                             }
 
-                            let re = /(^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
+                            const re = /(^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
                             while(null !== (match = re.exec(part)))
                             {
-                                let label = undefined === match[2] ? "": match[2];
-                                let url = match[3];
-                                let traslatedUrl = translateRelativeUrl(baseUrl, url);
+                                const label = undefined === match[2] ? "": match[2];
+                                const url = match[3];
+                                const traslatedUrl = translateRelativeUrl(baseUrl, url);
                                 if (url !== traslatedUrl)
                                 {
                                     part = part.replace(match[0], match[1] +"[" +label +"](" +traslatedUrl +")");
@@ -822,12 +822,12 @@ declare interface ObjectConstructor {
                                 isInSquareBracket = true;
                             }
 
-                            let img_re = /\<(\s*)img(\s.*?)src=([\"\'])(.*?)([\"\'].*?)\>/g;
+                            const img_re = /\<(\s*)img(\s.*?)src=([\"\'])(.*?)([\"\'].*?)\>/g;
                             while(null !== (match = img_re.exec(part)))
                             {
-                                let url = match[4];
-                                let absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-                                let relativeUrl = makeRelativeUrl(absoluteUrl);
+                                const url = match[4];
+                                const absoluteUrl = makeAbsoluteUrl(baseUrl, url);
+                                const relativeUrl = makeRelativeUrl(absoluteUrl);
                                 part = part.replace(match[0], "<" +match[1] +"img" +match[2] +"src=" +match[3] +relativeUrl +match[5] +">");
                             }
                         }
@@ -841,10 +841,10 @@ declare interface ObjectConstructor {
             }
         ).join("\n");
     };
-    let translateLinkWithinPageForRemark = function(source : string) : string
+    const translateLinkWithinPageForRemark = function(source : string) : string
     {
-        let lines = source.split("\n");
-        let anchors = [ ];
+        const lines = source.split("\n");
+        const anchors = [ ];
         let page = 1;
         let isLayout = false;
         skipEscape
@@ -852,7 +852,7 @@ declare interface ObjectConstructor {
             lines,
             function(line)
             {
-                let trimed_line = line.trim();
+                const trimed_line = line.trim();
                 if ("--" === line || "---" === line)
                 {
                     if (!isLayout)
@@ -864,7 +864,7 @@ declare interface ObjectConstructor {
                 else
                 if (/^#+ [^ ]+/.test(trimed_line))
                 {
-                    let anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
+                    const anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
                     anchors.push
                     (
                         {
@@ -897,17 +897,17 @@ declare interface ObjectConstructor {
             }
         ).join("\n");
     };
-    let translateLinkWithinPageForReveal = function(source : string) : string
+    const translateLinkWithinPageForReveal = function(source : string) : string
     {
-        let lines = source.split("\n");
-        let anchors = [ ];
+        const lines = source.split("\n");
+        const anchors = [ ];
         let page = 0;
         skipEscape
         (
             lines,
             function(line)
             {
-                let trimed_line = line.trim();
+                const trimed_line = line.trim();
                 if ("--" === line || "---" === line)
                 {
                     ++page;
@@ -915,7 +915,7 @@ declare interface ObjectConstructor {
                 else
                 if (/^#+ [^ ]+/.test(trimed_line))
                 {
-                    let anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
+                    const anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-");
                     anchors.push
                     (
                         {
@@ -943,7 +943,7 @@ declare interface ObjectConstructor {
             }
         ).join("\n");
     };
-    let translateForSlide = function(source : string) : string
+    const translateForSlide = function(source : string) : string
     {
         globalState.config.autoPageSeparate =
             undefined === globalState.config.autoPageSeparate ?
@@ -959,14 +959,14 @@ declare interface ObjectConstructor {
             )
         )
         {
-            let lines = source.split("\n");
+            const lines = source.split("\n");
             let h1Count = 0;
             skipEscape
             (
                 lines,
                 function(line)
                 {
-                    let trimed_line = line.trim();
+                    const trimed_line = line.trim();
                     if (/^# [^ ]+/.test(trimed_line))
                     {
                         ++h1Count;
@@ -976,13 +976,13 @@ declare interface ObjectConstructor {
             );
 
             let isFirst = true;
-            let withJackUp = 1 < h1Count;
+            const withJackUp = 1 < h1Count;
             return skipEscape
             (
                 lines,
                 function(line)
                 {
-                    let trimed_line = line.trim();
+                    const trimed_line = line.trim();
                     if (/^#+ [^ ]+/.test(trimed_line))
                     {
                         if (!isFirst)
@@ -1004,7 +1004,7 @@ declare interface ObjectConstructor {
             return source;
         }
     };
-    let translateForMathJax = function(source : string) : string
+    const translateForMathJax = function(source : string) : string
     {
         return source.replace
         (
@@ -1012,11 +1012,11 @@ declare interface ObjectConstructor {
             "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n"
         );
     };
-    let applyTitle = function(source : string) : void
+    const applyTitle = function(source : string) : void
     {
         if (undefined === globalState.config.title || "" === globalState.config.title)
         {
-            let matches = /(^|\n)#\s+(.*)([\W\w]*)/.exec(source);
+            const matches = /(^|\n)#\s+(.*)([\W\w]*)/.exec(source);
             if (matches)
             {
                 globalState.config.title = matches[2];
@@ -1024,7 +1024,7 @@ declare interface ObjectConstructor {
 
             if (undefined === globalState.config.title || "" === globalState.config.title)
             {
-                let context =
+                const context =
                 {
                     previousLine: undefined
                 };
@@ -1069,7 +1069,7 @@ declare interface ObjectConstructor {
         document.title = globalState.config.title;
         (document.getElementById("twitter-card-title") as HTMLMetaElement).content = globalState.config.title;
     };
-    let applyIcon = function(baseUrl : string) : void
+    const applyIcon = function(baseUrl : string) : void
     {
         appendIcon
         (
@@ -1078,7 +1078,7 @@ declare interface ObjectConstructor {
                 makeAbsoluteUrl(location.href, "writinghex.128.png")
         );
     };
-    let applyTheme = function(baseUrl : string) : void
+    const applyTheme = function(baseUrl : string) : void
     {
         if (globalState.config.theme)
         {
@@ -1095,7 +1095,7 @@ declare interface ObjectConstructor {
             appendTheme("theme/default.css");
         }
     };
-    let applyStyle = function(source : string) : string
+    const applyStyle = function(source : string) : string
     {
         return applyOption
         (
@@ -1114,7 +1114,7 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let applyWallPaper = function(baseUrl : string) : void
+    const applyWallPaper = function(baseUrl : string) : void
     {
         document.body.className = "markdown";
         if (globalState.config.wallpaper)
@@ -1134,7 +1134,7 @@ declare interface ObjectConstructor {
             );
         }
     };
-    let applyIndex = function(_source : string)
+    const applyIndex = function(_source : string)
     {
         let index = null;
         if (undefined === globalState.config.withIndex || globalState.config.withIndex)
@@ -1143,7 +1143,7 @@ declare interface ObjectConstructor {
             if (index && 0 < index.length)
             {
                 document.body.className += " with-index";
-                let contentDiv = document.getElementsByClassName("content")[0];
+                const contentDiv = document.getElementsByClassName("content")[0];
                 document.body.insertBefore
                 (
                     makeDomNode
@@ -1196,20 +1196,20 @@ declare interface ObjectConstructor {
         }
         return index;
     };
-    let applyIndexScript = function(index) : void
+    const applyIndexScript = function(index) : void
     {
         if (index)
         {
-            let previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(document.body.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
-            let isOver = function(i)
+            const previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(document.body.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
+            const isOver = function(i)
             {
                 return index.length <= i ||
                         (0 <= i && 32 < document.getElementById(index[i].link.substring(1)).getBoundingClientRect().top);
             };
             let previousContent = null;
-            for(let i in index)
+            for(const i in index)
             {
-                let content = document.getElementById(index[i].link.substring(1));
+                const content = document.getElementById(index[i].link.substring(1));
                 if (!content)
                 {
                     console.log("not found: " +index[i].link);
@@ -1232,8 +1232,8 @@ declare interface ObjectConstructor {
             {
                 document.body.onscroll = function()
                 {
-                    let previouseContetIsOver = isOver(previousState.i);
-                    let nextContetIsOver = isOver(previousState.i +1);
+                    const previouseContetIsOver = isOver(previousState.i);
+                    const nextContetIsOver = isOver(previousState.i +1);
                     if (previouseContetIsOver || !nextContetIsOver)
                     {
                         if (previouseContetIsOver)
@@ -1246,8 +1246,8 @@ declare interface ObjectConstructor {
                             // 下へ手繰る
                             while(!isOver((++previousState.i) +1)) { }
                         }
-                        let targetIndex = previousState.i < 0 ? null: index[previousState.i];
-                        let current = document.getElementsByClassName("current")[0];
+                        const targetIndex = previousState.i < 0 ? null: index[previousState.i];
+                        const current = document.getElementsByClassName("current")[0];
                         if (current !== (null === targetIndex ? null: targetIndex.anchor))
                         {
                             if (current)
@@ -1266,15 +1266,15 @@ declare interface ObjectConstructor {
                             }
                             if (!globalState.isMouseOnIndex)
                             {
-                                let frame = document.getElementsByClassName("index-frame")[0];
+                                const frame = document.getElementsByClassName("index-frame")[0];
                                 if (null === targetIndex)
                                 {
                                     frame.scrollTop = 0;
                                 }
                                 else
                                 {
-                                    let rect = targetIndex.anchor.getBoundingClientRect();
-                                    let targetTop = rect.top +frame.scrollTop;
+                                    const rect = targetIndex.anchor.getBoundingClientRect();
+                                    const targetTop = rect.top +frame.scrollTop;
                                     frame.scrollTop = targetTop - Math.min(frame.clientHeight -rect.height, ((targetTop / frame.scrollHeight) *frame.clientHeight));
                                 }
                             }
@@ -1285,7 +1285,7 @@ declare interface ObjectConstructor {
             }
         }
     };
-    let applyContent = function(html : string) : HTMLDivElement
+    const applyContent = function(html : string) : HTMLDivElement
     {
         return makeDomNode
         (
@@ -1297,17 +1297,17 @@ declare interface ObjectConstructor {
             }
         ) as HTMLDivElement;
     };
-    let applyFragmentId = function() : void
+    const applyFragmentId = function() : void
     {
         //  body.onload の時点ではコンテンツが間に合っておらず、 Web ブラウザによる通常のフラグメント識別子位置への
         //  スクロールは期待できない為、コンテンツの取得及びDOM生成完了後に明示的にスクロール位置の移動を行う。
-        let fragmentId = decodeURI((location.href +"#").split("#")[1].trim());
+        const fragmentId = decodeURI((location.href +"#").split("#")[1].trim());
         if (fragmentId)
         {
             location.href = "#" +fragmentId;
         }
     };
-    let applyHighlight = function() : void
+    const applyHighlight = function() : void
     {
         Array.from(document.querySelectorAll("code"))
         .forEach
@@ -1326,7 +1326,7 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let applyConditionalComment = function(source : string, condition : boolean, TAG : string) : string
+    const applyConditionalComment = function(source : string, condition : boolean, TAG : string) : string
     {
         return source
             .replace(new RegExp("<!--\\[" +TAG +"\\/\\]([\\s\\S]*?)-->", "g"), condition ? "$1": "")
@@ -1334,7 +1334,7 @@ declare interface ObjectConstructor {
             .replace(new RegExp("<!--\\[NO" +TAG +"\\/\\]([\\s\\S]*?)-->", "g"), !condition ? "$1": "")
             .replace(new RegExp("<!--\\[NO" +TAG +"\\]-->([\\s\\S]*?)<!--\\[\\/NO" +TAG +"\\]-->", "g"), !condition ? "$1": "");
     };
-    let unescapeBackSlash = function(source) : string
+    const unescapeBackSlash = function(source) : string
     {
         return skipEscape
         (
@@ -1349,7 +1349,7 @@ declare interface ObjectConstructor {
         ).join("\n");
     };
 
-    let render = function(renderer : string, baseUrl : string, source : string) : void
+    const render = function(renderer : string, baseUrl : string, source : string) : void
     {
         //  regulate return code
         source = source.replace(/\r\n/g,"\n");
@@ -1369,12 +1369,12 @@ declare interface ObjectConstructor {
         {
             console.log("referrer: " +document.referrer);
             let newUrl = location.href;
-            let currentUrlParamNames = (location.href.split("#")[0] +"?")
+            const currentUrlParamNames = (location.href.split("#")[0] +"?")
                 .split("?")[1]
                 .split("&")
                 .filter(function(i) { return 0 < i.indexOf("="); })
                 .map(function(i) { return i.substr(0, i.indexOf("=")); });
-            let referrerUrlParams = (document.referrer.split("#")[0] +"?")
+            const referrerUrlParams = (document.referrer.split("#")[0] +"?")
                 .split("?")[1]
                 .split("&")
                 .filter(function(i) { return 0 < i.indexOf("="); })
@@ -1382,7 +1382,7 @@ declare interface ObjectConstructor {
                 (
                     function(i)
                     {
-                        let name = i.substr(0, i.indexOf("="));
+                        const name = i.substr(0, i.indexOf("="));
                         let result = true;
                         currentUrlParamNames.forEach(function(j) { if (j === name) { result = false; }});
                         return result;
@@ -1397,7 +1397,7 @@ declare interface ObjectConstructor {
                 if ((document.referrer || "").split("?")[0] === location.href.split("?")[0])
                 {
                     let newUrl = location.href;
-                    let urlArgs = (document.referrer.split("#")[0] +"?")
+                    const urlArgs = (document.referrer.split("#")[0] +"?")
                         .split("?")[1]
                         .split("&")
                         .filter(function(i) { return i.indexOf("=") < 0; })
@@ -1416,17 +1416,17 @@ declare interface ObjectConstructor {
         }
         renderer = renderer || (globalState.config.renderer || "markdown").toLowerCase();
         console.log("🎨 renderer: " +(renderer || "null"));
-        let isWriting = true;
+        const isWriting = true;
         let isMarked = "marked" === renderer;
-        let isCommonMark = "commonmark" === renderer;
-        let isMarkdownIt = "markdown-it" === renderer;
-        let isMarkdown = isMarked || isCommonMark || isMarkdownIt || "markdown" === renderer;
-        let isRemark = "remark" === renderer;
-        let isReveal = "reveal" === renderer;
-        let isEdit = "edit" === renderer;
+        const isCommonMark = "commonmark" === renderer;
+        const isMarkdownIt = "markdown-it" === renderer;
+        const isMarkdown = isMarked || isCommonMark || isMarkdownIt || "markdown" === renderer;
+        const isRemark = "remark" === renderer;
+        const isReveal = "reveal" === renderer;
+        const isEdit = "edit" === renderer;
         if (!isMarkdown && !isRemark && !isReveal && !isEdit)
         {
-            let message = "Unknown Rederer Name: \"" +renderer +"\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
+            const message = "Unknown Rederer Name: \"" +renderer +"\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
             showError(message);
             console.error(message);
             return;
@@ -1473,7 +1473,7 @@ declare interface ObjectConstructor {
         //  favicon
         applyIcon(baseUrl);
 
-        let applyMarkdown = function(markdownToHtml : (string) => string) : void
+        const applyMarkdown = function(markdownToHtml : (string) => string) : void
         {
             //  theme
             appendHighlightTheme();
@@ -1528,8 +1528,8 @@ declare interface ObjectConstructor {
                         console.error(JSON.stringify(e));
                     }
                     console.log("marked-config: " +JSON.stringify(config, null, 4));
-                    let linkMaker = new MarkdownHeaderFragmentMaker();
-                    let markedRenderer = new marked.Renderer();
+                    const linkMaker = new MarkdownHeaderFragmentMaker();
+                    const markedRenderer = new marked.Renderer();
                     markedRenderer.heading = function (text, level, raw)
                     {
                         return '<h'
@@ -1592,7 +1592,7 @@ declare interface ObjectConstructor {
                             (
                                 function(markdown)
                                 {
-                                    let markdownitWindow : any = window;
+                                    const markdownitWindow : any = window;
                                     return markdownitWindow.markdownit({ html: true, }).use(markdownitWindow.markdownitEmoji).render(markdown);
                                 }
                             );
@@ -1628,7 +1628,7 @@ declare interface ObjectConstructor {
                 "js/remark-latest.min.js",
                 function()
                 {
-                    let config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
+                    const config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
                     source = skipEscapeBlock
                     (
                         source,
@@ -1657,10 +1657,10 @@ declare interface ObjectConstructor {
         {
             //  reveal
             appendTheme("css/reveal.css");
-            let revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-THEME]league-->")[1].toLowerCase();
+            const revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-THEME]league-->")[1].toLowerCase();
             console.log("reveal-theme: " +revealTheme);
             appendTheme("css/theme/" +revealTheme +".css", "theme");
-            let documentTheme = document.getElementById("theme") as HTMLLinkElement;
+            const documentTheme = document.getElementById("theme") as HTMLLinkElement;
             appendTheme("lib/css/zenburn.css");
             appendTheme(window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css');
             
@@ -1680,10 +1680,10 @@ declare interface ObjectConstructor {
             );
 
             //  paste markdown
-            let separator = (source+"<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();
-            let separator_vertical = (source+"<!--[REVEAL-SEPARATOR-VERTICAL] ^\\n>>>$ -->").split("<!--[REVEAL-SEPARATOR-VERTICAL]")[1].split("-->")[0].trim();
-            let separator_notes = (source+"<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
-            let pasteMarkdown = function(markdown)
+            const separator = (source+"<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();
+            const separator_vertical = (source+"<!--[REVEAL-SEPARATOR-VERTICAL] ^\\n>>>$ -->").split("<!--[REVEAL-SEPARATOR-VERTICAL]")[1].split("-->")[0].trim();
+            const separator_notes = (source+"<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
+            const pasteMarkdown = function(markdown)
             {
                 return makeDomNode
                 (
@@ -1727,11 +1727,11 @@ declare interface ObjectConstructor {
                         "js/reveal.js",
                         function()
                         {
-                            let revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
+                            const revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
                             console.log("reveal-transition: " +revealTransition);
                             console.log("reveal-theme(forced by url param): " +Reveal.getQueryHash().theme);
                             console.log("reveal-transition(forced by url param): " +Reveal.getQueryHash().transition);
-                            let forceTheme = Reveal.getQueryHash().theme;
+                            const forceTheme = Reveal.getQueryHash().theme;
                             if (forceTheme)
                             {
                                 documentTheme.href = "css/theme/" +forceTheme +".css";
@@ -1739,9 +1739,9 @@ declare interface ObjectConstructor {
                             // More info about config & dependencies:
                             // - https://github.com/hakimel/reveal.js#configuration
                             // - https://github.com/hakimel/reveal.js#dependencies
-                            let config = JSON.parse((source+"<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
+                            const config = JSON.parse((source+"<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
                             console.log("reveal-config: " +JSON.stringify(config, null, 4));
-                            let defaultConfig =
+                            const defaultConfig =
                             {
                                 controls: true,
                                 progress: true,
@@ -1788,7 +1788,7 @@ declare interface ObjectConstructor {
                     backgroundColor: "#86812A",
                 }
             );
-            let urlsDiv = makeDomNode
+            const urlsDiv = makeDomNode
             (
                 {
                     parent: document.body,
@@ -1803,7 +1803,7 @@ declare interface ObjectConstructor {
                     },
                 }
             );
-            let textCounter = makeDomNode
+            const textCounter = makeDomNode
             (
                 {
                     parent: urlsDiv,
@@ -1815,7 +1815,7 @@ declare interface ObjectConstructor {
                     }
                 }
             ) as HTMLSpanElement;
-            let makeLink = function(text) : HTMLAnchorElement
+            const makeLink = function(text) : HTMLAnchorElement
             {
                 return makeDomNode
                 (
@@ -1832,15 +1832,15 @@ declare interface ObjectConstructor {
                     }
                 ) as HTMLAnchorElement;
             };
-            let defaultLink = makeLink("default");
-            let markedLink = makeLink("marked(markdown)");
-            let commonmarkLink = makeLink("commonmark(markdown)");
-            let markdownitLink = makeLink("markdown-it(markdown)");
-            let remarkLink = makeLink("remark(slide)");
-            let revealLink = makeLink("reveal(slide)");
-            let editLink = makeLink("edit");
-            let update = function() {
-                let text = encodeURIComponent(textarea.value);
+            const defaultLink = makeLink("default");
+            const markedLink = makeLink("marked(markdown)");
+            const commonmarkLink = makeLink("commonmark(markdown)");
+            const markdownitLink = makeLink("markdown-it(markdown)");
+            const remarkLink = makeLink("remark(slide)");
+            const revealLink = makeLink("reveal(slide)");
+            const editLink = makeLink("edit");
+            const update = function() {
+                const text = encodeURIComponent(textarea.value);
                 textCounter.innerText = "lenght:" +text.length;
                 defaultLink.href = "?text:" +text;
                 markedLink.href = "?marked&text:" +text;
@@ -1850,7 +1850,7 @@ declare interface ObjectConstructor {
                 revealLink.href = "?reveal&text:" +text;
                 editLink.href = "?edit&text:" +text;
             };
-            let textarea = makeDomNode
+            const textarea = makeDomNode
             (
                 {
                     parent: document.body,
@@ -1881,14 +1881,14 @@ declare interface ObjectConstructor {
             console.log("✅ document redering succeeded.");
         }
     };
-    let loadGoogleAnalytics = function() : void
+    const loadGoogleAnalytics = function() : void
     {
         if (globalState && globalState.config && globalState.config.googleAnalyticsTracckingId)
         {
             loadScript("https://www.googletagmanager.com/gtag/js?" +globalState.config.googleAnalyticsTracckingId);
             window["dataLayer"] = window["dataLayer"] || [];
 
-            let gtag = function(_a : any,  _b: any)
+            const gtag = function(_a : any,  _b: any)
             {
                 window["dataLayer"].push(arguments);
             };
@@ -1897,14 +1897,14 @@ declare interface ObjectConstructor {
 
         }
     };
-    let parseUrlParameters = function(url : string) : object
+    const parseUrlParameters = function(url : string) : object
     {
-        let urlParameters =
+        const urlParameters =
         {
             "renderer": null,
             "sourceUrl": null,
         };
-        let basicUrlArgs = (url.split("#")[0] +"?")
+        const basicUrlArgs = (url.split("#")[0] +"?")
             .split("?")[1]
             .split("&")
             .filter(function(i) { return 0 < i.length; })
@@ -1924,7 +1924,7 @@ declare interface ObjectConstructor {
         }
         return urlParameters;
     };
-    let loadUrlParameters = function() : void
+    const loadUrlParameters = function() : void
     {
         globalState.urlParameters = parseUrlParameters(location.href);
         console.log
@@ -1948,7 +1948,7 @@ declare interface ObjectConstructor {
             location.href:
             makeAbsoluteUrl(location.href, globalState.urlParameters.sourceUrl);
     };
-    let loadDocument = async function(sourceUrl : string) : Promise<string>
+    const loadDocument = async function(sourceUrl : string) : Promise<string>
     {
         return new Promise<string>
         (
@@ -1962,7 +1962,7 @@ declare interface ObjectConstructor {
                 else
                 {
                     console.log("📥 loading document: " +sourceUrl);
-                    let request = new XMLHttpRequest();
+                    const request = new XMLHttpRequest();
                     request.open('GET', sourceUrl, true);
                     request.onreadystatechange = function()
                     {
@@ -1985,23 +1985,23 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let loadJson = async function() : Promise<void>
+    const loadJson = async function() : Promise<void>
     {
         return new Promise<void>
         (
             async (resolve) =>
             {
-                let jsonScripts = Array.from(document.getElementsByTagName('script'))
-                .filter(function(script) { return "application/json" === script.type; });
+                const jsonScripts = Array.from(document.getElementsByTagName('script'))
+                    .filter(function(script) { return "application/json" === script.type; });
                 let loadCount = 0;
                 jsonScripts.forEach
                 (
                     function(script)
                     {
-                        let name = script.getAttribute("data-let");
-                        let sourceUrl = script.src;
+                        const name = script.getAttribute("data-let");
+                        const sourceUrl = script.src;
                         console.log("📥 loading json(" +name +"): " +sourceUrl);
-                                    let request = new XMLHttpRequest();
+                                    const request = new XMLHttpRequest();
                         request.open('GET', sourceUrl, true);
                         request.onreadystatechange = function()
                         {
@@ -2045,7 +2045,7 @@ declare interface ObjectConstructor {
             }
         );
     };
-    let startup = async function() : Promise<void>
+    const startup = async function() : Promise<void>
     {
         await loadJson();
         loadUrlParameters();
@@ -2056,7 +2056,7 @@ declare interface ObjectConstructor {
         else
         {
             hideSystemLoadingError();
-            let source = await loadDocument(globalState.urlParameters.sourceUrl);
+            const source = await loadDocument(globalState.urlParameters.sourceUrl);
             loadGoogleAnalytics();
             render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
         }

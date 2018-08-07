@@ -8,15 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 (function () {
-    let globalState = {
+    const globalState = {
         "config": {}
     };
-    let explicitFragmentIdPattern = /\{\#(.*?)\}$/;
+    const explicitFragmentIdPattern = /\{\#(.*?)\}$/;
     RegExp["escape"] = function (s) {
         //  https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     };
-    let objectAssign = function (target, source) {
+    const objectAssign = function (target, source) {
         //  copy from https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
         if (typeof Object.assign !== 'function') {
             (function () {
@@ -25,11 +25,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     if (target === undefined || target === null) {
                         throw new TypeError('Cannot convert undefined or null to object');
                     }
-                    let output = Object(target);
+                    const output = Object(target);
                     for (let index = 1; index < arguments.length; index++) {
-                        let source = arguments[index];
+                        const source = arguments[index];
                         if (source !== undefined && source !== null) {
-                            for (let nextKey in source) {
+                            for (const nextKey in source) {
                                 if (Object.prototype.hasOwnProperty.call(source, nextKey)) {
                                     output[nextKey] = source[nextKey];
                                 }
@@ -43,13 +43,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         Object.assign(target, source);
         return target;
     };
-    let deepCopy = function (source) {
+    const deepCopy = function (source) {
         return JSON.parse(JSON.stringify(source));
     };
-    let recursiveAssign = function (target, source) {
-        for (let key in source) {
+    const recursiveAssign = function (target, source) {
+        for (const key in source) {
             if (source.hasOwnProperty(key)) {
-                let value = source[key];
+                const value = source[key];
                 if ("object" === practicalTypeof(value)) {
                     if (undefined === target[key]) {
                         target[key] = {};
@@ -62,7 +62,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }
         }
     };
-    let practicalTypeof = function (obj) {
+    const practicalTypeof = function (obj) {
         if (undefined === obj) {
             return "undefined";
         }
@@ -74,7 +74,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
         return typeof obj;
     };
-    let makeDomNode = function (arg) {
+    const makeDomNode = function (arg) {
         if (arg instanceof Node) {
             return arg;
         }
@@ -83,8 +83,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
         return setToElement(document.createElement(arg.tag), arg);
     };
-    let setToElement = function (element, arg) {
-        for (let key in arg) {
+    const setToElement = function (element, arg) {
+        for (const key in arg) {
             if (arg.hasOwnProperty(key)) {
                 switch (key) {
                     case "tag":
@@ -95,7 +95,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                         //  nop
                         break;
                     default:
-                        let value = arg[key];
+                        const value = arg[key];
                         if (undefined !== value) {
                             if ("object" === practicalTypeof(value)) {
                                 recursiveAssign(element[key], value);
@@ -109,7 +109,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }
         }
         if (undefined !== arg.attributes) {
-            for (let key in arg.attributes) {
+            for (const key in arg.attributes) {
                 if (arg.attributes.hasOwnProperty(key)) {
                     element.setAttribute(key, arg.attributes[key]);
                     //  memo: value を持たない attribute を設定したい場合には value として "" を指定すれば良い。
@@ -127,7 +127,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }
         }
         if (undefined !== arg.eventListener) {
-            for (let key in arg.eventListener) {
+            for (const key in arg.eventListener) {
                 if (arg.eventListener.hasOwnProperty(key)) {
                     element.addEventListener(key, arg.eventListener[key]);
                 }
@@ -138,15 +138,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
         return element;
     };
-    let hideSystemLoadingError = function () {
-        let systemLoadingErrorElement = document.getElementsByClassName("writing-HTML-system-loading-error")[0];
+    const hideSystemLoadingError = function () {
+        const systemLoadingErrorElement = document.getElementsByClassName("writing-HTML-system-loading-error")[0];
         if (systemLoadingErrorElement) {
             systemLoadingErrorElement.className = "";
             systemLoadingErrorElement.innerHTML = "";
             console.log("✅ system loading succeeded.");
         }
     };
-    let showError = function (arg) {
+    const showError = function (arg) {
         recursiveAssign(document.body.style, {
             margin: "0px",
         });
@@ -163,7 +163,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             children: arg,
         });
     };
-    let showLoadingError = function (sourceUrl, request) {
+    const showLoadingError = function (sourceUrl, request) {
         hideSystemLoadingError();
         showError([
             "loading failed: { \"method\": \"GET\", \"url\": \"",
@@ -177,7 +177,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             },
             "\", \"status\": " + request.status + "};"
         ]);
-        let responseDiv = {
+        const responseDiv = {
             parent: document.body,
             tag: "div",
         };
@@ -200,13 +200,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
         makeDomNode(responseDiv);
     };
-    let appendLink = function (args) {
+    const appendLink = function (args) {
         makeDomNode(objectAssign(deepCopy(args), {
             parent: document.head,
             tag: "link"
         }));
     };
-    let appendTheme = function (href, id = undefined) {
+    const appendTheme = function (href, id = undefined) {
         appendLink({
             rel: "stylesheet",
             type: "text/css",
@@ -214,10 +214,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             id: id
         });
     };
-    let appendHighlightTheme = function () {
+    const appendHighlightTheme = function () {
         appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
     };
-    let appendIcon = function (href) {
+    const appendIcon = function (href) {
         appendLink({
             rel: "shortcut icon",
             type: "image/x-icon",
@@ -230,7 +230,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         });
         document.getElementById("twitter-card-image").content = href;
     };
-    let loadScript = function (src, onload = undefined) {
+    const loadScript = function (src, onload = undefined) {
         makeDomNode({
             parent: document.head,
             tag: "script",
@@ -238,19 +238,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             onload: onload,
         });
     };
-    let loadHighlightScript = function () {
+    const loadHighlightScript = function () {
         loadScript("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function () {
             hljs.initHighlightingOnLoad();
             applyHighlight();
         });
     };
-    let loadMathJaxScript = function () {
+    const loadMathJaxScript = function () {
         loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
     };
-    let loadTwitterScript = function () {
+    const loadTwitterScript = function () {
         loadScript("//platform.twitter.com/widgets.js");
     };
-    let makeAbsoluteUrl = function (base, url) {
+    const makeAbsoluteUrl = function (base, url) {
         if ("#" === url.substr(0, 1)) {
             return base.split("#")[0] + url;
         }
@@ -299,8 +299,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
         return baseParts.concat(urlParts).join("/");
     };
-    let makeRelativeUrl = function (url) {
-        let base = location.href.split("#")[0];
+    const makeRelativeUrl = function (url) {
+        const base = location.href.split("#")[0];
         if ("#" === url.substr(0, 1)) {
             return base.split("#")[0] + url;
         }
@@ -338,17 +338,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
         return result;
     };
-    let makeRebaseUrl = function (base, url) {
+    const makeRebaseUrl = function (base, url) {
         if ("#" === url.substr(0, 1)) {
             return url;
         }
         return makeRelativeUrl(makeAbsoluteUrl(base, url));
     };
-    let skipEscape = function (lines, map, escapeMap = undefined) {
+    const skipEscape = function (lines, map, escapeMap = undefined) {
         let currentEscape = null;
         return lines.map(function (line, line_number) {
-            let escape = "$$" === line.trim() ? "$$" : line.trim().replace(/^(```+|~~~+).*/, "$1").replace(/^[`~]{0,2}(([^`~].*)|$)/, "");
-            let isEscape = null === currentEscape && ("" !== escape) || (null !== currentEscape && currentEscape.substr(0, 1) === escape.substr(0, 1) && currentEscape.length <= escape.length);
+            const escape = "$$" === line.trim() ? "$$" : line.trim().replace(/^(```+|~~~+).*/, "$1").replace(/^[`~]{0,2}(([^`~].*)|$)/, "");
+            const isEscape = null === currentEscape && ("" !== escape) || (null !== currentEscape && currentEscape.substr(0, 1) === escape.substr(0, 1) && currentEscape.length <= escape.length);
             if (isEscape) {
                 if (null === currentEscape) {
                     currentEscape = escape;
@@ -372,13 +372,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             return line;
         });
     };
-    let skipEscapeBlock = function (source, map, escapeMap = undefined, finish = undefined) {
-        let blocks = [];
+    const skipEscapeBlock = function (source, map, escapeMap = undefined, finish = undefined) {
+        const blocks = [];
         let current = [];
         let isInEscape = false;
         skipEscape(source.split("\n"), function (line) {
             if (isInEscape) {
-                let currentBlock = current.join("\n");
+                const currentBlock = current.join("\n");
                 blocks.push(escapeMap ?
                     escapeMap(currentBlock) :
                     currentBlock);
@@ -389,7 +389,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             return line;
         }, function (line) {
             if (!isInEscape) {
-                let currentBlock = current.join("\n");
+                const currentBlock = current.join("\n");
                 blocks.push(map ?
                     map(currentBlock) :
                     currentBlock);
@@ -400,14 +400,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             return line;
         });
         if (!isInEscape) {
-            let currentBlock = current.join("\n");
+            const currentBlock = current.join("\n");
             blocks.push(map ?
                 map(currentBlock) :
                 currentBlock);
         }
         else {
             //  ここにくるのは code escape が閉じてない時だけなので、基本的には到達してはいけない。
-            let currentBlock = current.join("\n");
+            const currentBlock = current.join("\n");
             blocks.push(escapeMap ?
                 escapeMap(currentBlock) :
                 currentBlock);
@@ -417,9 +417,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
         return blocks.join("\n");
     };
-    let applyOption = function (source, TAG, applyer, finish = undefined) {
+    const applyOption = function (source, TAG, applyer, finish = undefined) {
         return skipEscapeBlock(source, function (block) {
-            let reg = new RegExp("<!--\\[" + TAG + "\\]\\s*([\\s\\S]*?)\\s*-->", "gm");
+            const reg = new RegExp("<!--\\[" + TAG + "\\]\\s*([\\s\\S]*?)\\s*-->", "gm");
             let matches = null;
             while (matches = reg.exec(block)) {
                 applyer(matches[1]);
@@ -427,7 +427,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             return block.replace(reg, "");
         }, undefined, finish);
     };
-    let loadConfig = function (source) {
+    const loadConfig = function (source) {
         return applyOption(source, "WRTING-CONFING", function (option) {
             try {
                 objectAssign(globalState.documentConfig, JSON.parse(option));
@@ -443,8 +443,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             this.links = [];
         }
         makeFragment(line) {
-            let explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);
-            let link = explicitFragmentIdMatch ?
+            const explicitFragmentIdMatch = line.match(explicitFragmentIdPattern);
+            const link = explicitFragmentIdMatch ?
                 explicitFragmentIdMatch[1] :
                 line
                     .replace(/^#*/, "")
@@ -468,12 +468,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }
         }
     }
-    let getAllElements = function (parent = undefined) {
+    const getAllElements = function (parent = undefined) {
         let result = [];
         parent = parent || document;
         if (parent.children) {
-            for (let i in parent.children) {
-                let child = parent.children[i];
+            for (const i in parent.children) {
+                const child = parent.children[i];
                 if (child) {
                     result.push(child);
                     result = result.concat(getAllElements(child));
@@ -482,7 +482,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
         return result;
     };
-    let getHeadingTags = function () {
+    const getHeadingTags = function () {
         return getAllElements().filter(function (i) {
             return /^h\d+$/i.test(i.tagName);
         });
@@ -495,29 +495,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             this.anchor = anchor;
         }
     }
-    let makeIndexFromContent = function () {
-        let linkMaker = new MarkdownHeaderFragmentMaker();
-        let anchors = [];
+    const makeIndexFromContent = function () {
+        const linkMaker = new MarkdownHeaderFragmentMaker();
+        const anchors = [];
         getHeadingTags().forEach(function (i) {
-            let level = parseInt(i.tagName.substr(1), 10);
-            let title = i.textContent.trim();
+            const level = parseInt(i.tagName.substr(1), 10);
+            const title = i.textContent.trim();
             if (!i.id) {
                 i.id = linkMaker.makeFragment(title);
             }
-            let link = "#" + i.id;
+            const link = "#" + i.id;
             anchors.push(new IndexItem(level, title, link));
         });
         return anchors;
     };
-    let translateRelativeUrl = function (baseUrl, url) {
+    const translateRelativeUrl = function (baseUrl, url) {
         if ("?" === url.substr(0, 1)) {
             return url + "&" + encodeURIComponent(makeRelativeUrl(baseUrl));
         }
         else if ("#" !== url.substr(0, 1)) {
-            let absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-            let relativeUrl = makeRelativeUrl(absoluteUrl);
+            const absoluteUrl = makeAbsoluteUrl(baseUrl, url);
+            const relativeUrl = makeRelativeUrl(absoluteUrl);
             if (/.*\.md(\.txt)?(#.*)?$/i.test(absoluteUrl)) {
-                let thisPath = location.href.split("#")[0].split("?")[0];
+                const thisPath = location.href.split("#")[0].split("?")[0];
                 if (thisPath !== absoluteUrl.split("#")[0].split("?")[0]) {
                     return "?" + encodeURIComponent(relativeUrl);
                 }
@@ -528,7 +528,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
         return url;
     };
-    let translateRelativeLink = function (baseUrl, source) {
+    const translateRelativeLink = function (baseUrl, source) {
         return skipEscape(source.split("\n"), function (line) {
             let isInInlineEscape = false;
             let isInSquareBracket = false;
@@ -537,21 +537,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     let match = null;
                     if (isInSquareBracket) {
                         isInSquareBracket = false;
-                        let re = /(.*?[^\\])?\]\((.*?[^\\])\)/g;
+                        const re = /(.*?[^\\])?\]\((.*?[^\\])\)/g;
                         if (null !== (match = re.exec(part))) {
-                            let label = undefined === match[1] ? "" : match[1];
-                            let url = match[2];
-                            let traslatedUrl = translateRelativeUrl(baseUrl, url);
+                            const label = undefined === match[1] ? "" : match[1];
+                            const url = match[2];
+                            const traslatedUrl = translateRelativeUrl(baseUrl, url);
                             if (url !== traslatedUrl) {
                                 part = part.replace(match[0], label + "](" + traslatedUrl + ")");
                             }
                         }
                     }
-                    let re = /(^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
+                    const re = /(^|[^\\])\[(.*?[^\\])?\]\((.*?[^\\])\)/g;
                     while (null !== (match = re.exec(part))) {
-                        let label = undefined === match[2] ? "" : match[2];
-                        let url = match[3];
-                        let traslatedUrl = translateRelativeUrl(baseUrl, url);
+                        const label = undefined === match[2] ? "" : match[2];
+                        const url = match[3];
+                        const traslatedUrl = translateRelativeUrl(baseUrl, url);
                         if (url !== traslatedUrl) {
                             part = part.replace(match[0], match[1] + "[" + label + "](" + traslatedUrl + ")");
                         }
@@ -562,11 +562,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     if (/\[([^\]]|\\\])*$/.test(part)) {
                         isInSquareBracket = true;
                     }
-                    let img_re = /\<(\s*)img(\s.*?)src=([\"\'])(.*?)([\"\'].*?)\>/g;
+                    const img_re = /\<(\s*)img(\s.*?)src=([\"\'])(.*?)([\"\'].*?)\>/g;
                     while (null !== (match = img_re.exec(part))) {
-                        let url = match[4];
-                        let absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-                        let relativeUrl = makeRelativeUrl(absoluteUrl);
+                        const url = match[4];
+                        const absoluteUrl = makeAbsoluteUrl(baseUrl, url);
+                        const relativeUrl = makeRelativeUrl(absoluteUrl);
                         part = part.replace(match[0], "<" + match[1] + "img" + match[2] + "src=" + match[3] + relativeUrl + match[5] + ">");
                     }
                 }
@@ -577,13 +577,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }).join("`");
         }).join("\n");
     };
-    let translateLinkWithinPageForRemark = function (source) {
-        let lines = source.split("\n");
-        let anchors = [];
+    const translateLinkWithinPageForRemark = function (source) {
+        const lines = source.split("\n");
+        const anchors = [];
         let page = 1;
         let isLayout = false;
         skipEscape(lines, function (line) {
-            let trimed_line = line.trim();
+            const trimed_line = line.trim();
             if ("--" === line || "---" === line) {
                 if (!isLayout) {
                     ++page;
@@ -591,7 +591,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 isLayout = false;
             }
             else if (/^#+ [^ ]+/.test(trimed_line)) {
-                let anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g, "").replace(/ /g, "-");
+                const anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g, "").replace(/ /g, "-");
                 anchors.push({
                     anchor: "](#" + anchor + ")",
                     page: "](#" + page + ")"
@@ -609,17 +609,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             return line;
         }).join("\n");
     };
-    let translateLinkWithinPageForReveal = function (source) {
-        let lines = source.split("\n");
-        let anchors = [];
+    const translateLinkWithinPageForReveal = function (source) {
+        const lines = source.split("\n");
+        const anchors = [];
         let page = 0;
         skipEscape(lines, function (line) {
-            let trimed_line = line.trim();
+            const trimed_line = line.trim();
             if ("--" === line || "---" === line) {
                 ++page;
             }
             else if (/^#+ [^ ]+/.test(trimed_line)) {
-                let anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g, "").replace(/ /g, "-");
+                const anchor = trimed_line.replace(/^#*/, "").trim().toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g, "").replace(/ /g, "-");
                 anchors.push({
                     anchor: "](#" + anchor + ")",
                     page: "](#/" + page + ")"
@@ -634,7 +634,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             return line;
         }).join("\n");
     };
-    let translateForSlide = function (source) {
+    const translateForSlide = function (source) {
         globalState.config.autoPageSeparate =
             undefined === globalState.config.autoPageSeparate ?
                 "auto" :
@@ -643,19 +643,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         if (true === globalState.config.autoPageSeparate ||
             (false !== globalState.config.autoPageSeparate &&
                 !/\n---\n/.test(source))) {
-            let lines = source.split("\n");
+            const lines = source.split("\n");
             let h1Count = 0;
             skipEscape(lines, function (line) {
-                let trimed_line = line.trim();
+                const trimed_line = line.trim();
                 if (/^# [^ ]+/.test(trimed_line)) {
                     ++h1Count;
                 }
                 return line;
             });
             let isFirst = true;
-            let withJackUp = 1 < h1Count;
+            const withJackUp = 1 < h1Count;
             return skipEscape(lines, function (line) {
-                let trimed_line = line.trim();
+                const trimed_line = line.trim();
                 if (/^#+ [^ ]+/.test(trimed_line)) {
                     if (!isFirst) {
                         if (withJackUp) {
@@ -672,17 +672,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             return source;
         }
     };
-    let translateForMathJax = function (source) {
+    const translateForMathJax = function (source) {
         return source.replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n");
     };
-    let applyTitle = function (source) {
+    const applyTitle = function (source) {
         if (undefined === globalState.config.title || "" === globalState.config.title) {
-            let matches = /(^|\n)#\s+(.*)([\W\w]*)/.exec(source);
+            const matches = /(^|\n)#\s+(.*)([\W\w]*)/.exec(source);
             if (matches) {
                 globalState.config.title = matches[2];
             }
             if (undefined === globalState.config.title || "" === globalState.config.title) {
-                let context = {
+                const context = {
                     previousLine: undefined
                 };
                 skipEscape(source.split("\n"), function (line) {
@@ -719,12 +719,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         document.title = globalState.config.title;
         document.getElementById("twitter-card-title").content = globalState.config.title;
     };
-    let applyIcon = function (baseUrl) {
+    const applyIcon = function (baseUrl) {
         appendIcon(globalState.config.favicon ?
             makeAbsoluteUrl(baseUrl, globalState.config.favicon) :
             makeAbsoluteUrl(location.href, "writinghex.128.png"));
     };
-    let applyTheme = function (baseUrl) {
+    const applyTheme = function (baseUrl) {
         if (globalState.config.theme) {
             globalState.config.theme.forEach(function (i) {
                 appendTheme(makeRebaseUrl(baseUrl, i));
@@ -734,7 +734,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             appendTheme("theme/default.css");
         }
     };
-    let applyStyle = function (source) {
+    const applyStyle = function (source) {
         return applyOption(source, "STYLE", function (option) {
             makeDomNode({
                 parent: document.head,
@@ -743,7 +743,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             });
         });
     };
-    let applyWallPaper = function (baseUrl) {
+    const applyWallPaper = function (baseUrl) {
         document.body.className = "markdown";
         if (globalState.config.wallpaper) {
             document.body.className += " with-wallpaper";
@@ -757,13 +757,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             });
         }
     };
-    let applyIndex = function (_source) {
+    const applyIndex = function (_source) {
         let index = null;
         if (undefined === globalState.config.withIndex || globalState.config.withIndex) {
             index = makeIndexFromContent();
             if (index && 0 < index.length) {
                 document.body.className += " with-index";
-                let contentDiv = document.getElementsByClassName("content")[0];
+                const contentDiv = document.getElementsByClassName("content")[0];
                 document.body.insertBefore(makeDomNode({
                     tag: "div",
                     className: "index-frame",
@@ -796,16 +796,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
         return index;
     };
-    let applyIndexScript = function (index) {
+    const applyIndexScript = function (index) {
         if (index) {
-            let previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(document.body.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
-            let isOver = function (i) {
+            const previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(document.body.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
+            const isOver = function (i) {
                 return index.length <= i ||
                     (0 <= i && 32 < document.getElementById(index[i].link.substring(1)).getBoundingClientRect().top);
             };
             let previousContent = null;
-            for (let i in index) {
-                let content = document.getElementById(index[i].link.substring(1));
+            for (const i in index) {
+                const content = document.getElementById(index[i].link.substring(1));
                 if (!content) {
                     console.log("not found: " + index[i].link);
                     index[i].withError = true;
@@ -821,8 +821,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             index = index.filter(function (i) { return !i.withError; });
             if (0 < index.length) {
                 document.body.onscroll = function () {
-                    let previouseContetIsOver = isOver(previousState.i);
-                    let nextContetIsOver = isOver(previousState.i + 1);
+                    const previouseContetIsOver = isOver(previousState.i);
+                    const nextContetIsOver = isOver(previousState.i + 1);
                     if (previouseContetIsOver || !nextContetIsOver) {
                         if (previouseContetIsOver) {
                             //  上へ手繰る
@@ -832,8 +832,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                             // 下へ手繰る
                             while (!isOver((++previousState.i) + 1)) { }
                         }
-                        let targetIndex = previousState.i < 0 ? null : index[previousState.i];
-                        let current = document.getElementsByClassName("current")[0];
+                        const targetIndex = previousState.i < 0 ? null : index[previousState.i];
+                        const current = document.getElementsByClassName("current")[0];
                         if (current !== (null === targetIndex ? null : targetIndex.anchor)) {
                             if (current) {
                                 current.classList.remove("current");
@@ -847,13 +847,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                                 window.history.replaceState(null, document.title, "#");
                             }
                             if (!globalState.isMouseOnIndex) {
-                                let frame = document.getElementsByClassName("index-frame")[0];
+                                const frame = document.getElementsByClassName("index-frame")[0];
                                 if (null === targetIndex) {
                                     frame.scrollTop = 0;
                                 }
                                 else {
-                                    let rect = targetIndex.anchor.getBoundingClientRect();
-                                    let targetTop = rect.top + frame.scrollTop;
+                                    const rect = targetIndex.anchor.getBoundingClientRect();
+                                    const targetTop = rect.top + frame.scrollTop;
                                     frame.scrollTop = targetTop - Math.min(frame.clientHeight - rect.height, ((targetTop / frame.scrollHeight) * frame.clientHeight));
                                 }
                             }
@@ -864,7 +864,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }
         }
     };
-    let applyContent = function (html) {
+    const applyContent = function (html) {
         return makeDomNode({
             parent: document.body,
             tag: "div",
@@ -872,15 +872,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             innerHTML: html,
         });
     };
-    let applyFragmentId = function () {
+    const applyFragmentId = function () {
         //  body.onload の時点ではコンテンツが間に合っておらず、 Web ブラウザによる通常のフラグメント識別子位置への
         //  スクロールは期待できない為、コンテンツの取得及びDOM生成完了後に明示的にスクロール位置の移動を行う。
-        let fragmentId = decodeURI((location.href + "#").split("#")[1].trim());
+        const fragmentId = decodeURI((location.href + "#").split("#")[1].trim());
         if (fragmentId) {
             location.href = "#" + fragmentId;
         }
     };
-    let applyHighlight = function () {
+    const applyHighlight = function () {
         Array.from(document.querySelectorAll("code"))
             .forEach(function (element) {
             //  highlightjs が知らない言語が指定されてるとなにも実行されなくなるので指定を消すなり類似した言語に変換する
@@ -892,14 +892,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             return hljs.highlightBlock(element);
         });
     };
-    let applyConditionalComment = function (source, condition, TAG) {
+    const applyConditionalComment = function (source, condition, TAG) {
         return source
             .replace(new RegExp("<!--\\[" + TAG + "\\/\\]([\\s\\S]*?)-->", "g"), condition ? "$1" : "")
             .replace(new RegExp("<!--\\[" + TAG + "\\]-->([\\s\\S]*?)<!--\\[\\/" + TAG + "\\]-->", "g"), condition ? "$1" : "")
             .replace(new RegExp("<!--\\[NO" + TAG + "\\/\\]([\\s\\S]*?)-->", "g"), !condition ? "$1" : "")
             .replace(new RegExp("<!--\\[NO" + TAG + "\\]-->([\\s\\S]*?)<!--\\[\\/NO" + TAG + "\\]-->", "g"), !condition ? "$1" : "");
     };
-    let unescapeBackSlash = function (source) {
+    const unescapeBackSlash = function (source) {
         return skipEscape(source.split("\n"), function (line) {
             return line
                 .replace(/\\</g, "&lt;")
@@ -907,7 +907,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 .replace(/\\\\/g, "\\");
         }).join("\n");
     };
-    let render = function (renderer, baseUrl, source) {
+    const render = function (renderer, baseUrl, source) {
         //  regulate return code
         source = source.replace(/\r\n/g, "\n");
         //  preload config
@@ -919,17 +919,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         if (globalState.config.referrer_option) {
             console.log("referrer: " + document.referrer);
             let newUrl = location.href;
-            let currentUrlParamNames = (location.href.split("#")[0] + "?")
+            const currentUrlParamNames = (location.href.split("#")[0] + "?")
                 .split("?")[1]
                 .split("&")
                 .filter(function (i) { return 0 < i.indexOf("="); })
                 .map(function (i) { return i.substr(0, i.indexOf("=")); });
-            let referrerUrlParams = (document.referrer.split("#")[0] + "?")
+            const referrerUrlParams = (document.referrer.split("#")[0] + "?")
                 .split("?")[1]
                 .split("&")
                 .filter(function (i) { return 0 < i.indexOf("="); })
                 .filter(function (i) {
-                let name = i.substr(0, i.indexOf("="));
+                const name = i.substr(0, i.indexOf("="));
                 let result = true;
                 currentUrlParamNames.forEach(function (j) { if (j === name) {
                     result = false;
@@ -942,7 +942,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             if (!renderer) {
                 if ((document.referrer || "").split("?")[0] === location.href.split("?")[0]) {
                     let newUrl = location.href;
-                    let urlArgs = (document.referrer.split("#")[0] + "?")
+                    const urlArgs = (document.referrer.split("#")[0] + "?")
                         .split("?")[1]
                         .split("&")
                         .filter(function (i) { return i.indexOf("=") < 0; })
@@ -959,16 +959,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
         renderer = renderer || (globalState.config.renderer || "markdown").toLowerCase();
         console.log("🎨 renderer: " + (renderer || "null"));
-        let isWriting = true;
+        const isWriting = true;
         let isMarked = "marked" === renderer;
-        let isCommonMark = "commonmark" === renderer;
-        let isMarkdownIt = "markdown-it" === renderer;
-        let isMarkdown = isMarked || isCommonMark || isMarkdownIt || "markdown" === renderer;
-        let isRemark = "remark" === renderer;
-        let isReveal = "reveal" === renderer;
-        let isEdit = "edit" === renderer;
+        const isCommonMark = "commonmark" === renderer;
+        const isMarkdownIt = "markdown-it" === renderer;
+        const isMarkdown = isMarked || isCommonMark || isMarkdownIt || "markdown" === renderer;
+        const isRemark = "remark" === renderer;
+        const isReveal = "reveal" === renderer;
+        const isEdit = "edit" === renderer;
         if (!isMarkdown && !isRemark && !isReveal && !isEdit) {
-            let message = "Unknown Rederer Name: \"" + renderer + "\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
+            const message = "Unknown Rederer Name: \"" + renderer + "\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
             showError(message);
             console.error(message);
             return;
@@ -996,7 +996,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         applyTitle(source);
         //  favicon
         applyIcon(baseUrl);
-        let applyMarkdown = function (markdownToHtml) {
+        const applyMarkdown = function (markdownToHtml) {
             //  theme
             appendHighlightTheme();
             applyTheme(baseUrl);
@@ -1032,8 +1032,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     console.error(JSON.stringify(e));
                 }
                 console.log("marked-config: " + JSON.stringify(config, null, 4));
-                let linkMaker = new MarkdownHeaderFragmentMaker();
-                let markedRenderer = new marked.Renderer();
+                const linkMaker = new MarkdownHeaderFragmentMaker();
+                const markedRenderer = new marked.Renderer();
                 markedRenderer.heading = function (text, level, raw) {
                     return '<h'
                         + level
@@ -1064,7 +1064,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             loadScript("js/markdown-it.js", function () {
                 loadScript("js/markdown-it-emoji.js", function () {
                     applyMarkdown(function (markdown) {
-                        let markdownitWindow = window;
+                        const markdownitWindow = window;
                         return markdownitWindow.markdownit({ html: true, }).use(markdownitWindow.markdownitEmoji).render(markdown);
                     });
                 });
@@ -1083,7 +1083,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }).join("\n");
             //  remark
             loadScript("js/remark-latest.min.js", function () {
-                let config = JSON.parse((source + "<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
+                const config = JSON.parse((source + "<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
                 source = skipEscapeBlock(source, function (block) {
                     return block.replace(/<!--\[REMARK-CONFIG\][\S\s]*?-->/, "");
                 });
@@ -1100,10 +1100,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         if (isReveal) {
             //  reveal
             appendTheme("css/reveal.css");
-            let revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-THEME]league-->")[1].toLowerCase();
+            const revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-THEME]league-->")[1].toLowerCase();
             console.log("reveal-theme: " + revealTheme);
             appendTheme("css/theme/" + revealTheme + ".css", "theme");
-            let documentTheme = document.getElementById("theme");
+            const documentTheme = document.getElementById("theme");
             appendTheme("lib/css/zenburn.css");
             appendTheme(window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css');
             //  theme
@@ -1116,10 +1116,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 innerHTML: (source + "<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim(),
             });
             //  paste markdown
-            let separator = (source + "<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();
-            let separator_vertical = (source + "<!--[REVEAL-SEPARATOR-VERTICAL] ^\\n>>>$ -->").split("<!--[REVEAL-SEPARATOR-VERTICAL]")[1].split("-->")[0].trim();
-            let separator_notes = (source + "<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
-            let pasteMarkdown = function (markdown) {
+            const separator = (source + "<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();
+            const separator_vertical = (source + "<!--[REVEAL-SEPARATOR-VERTICAL] ^\\n>>>$ -->").split("<!--[REVEAL-SEPARATOR-VERTICAL]")[1].split("-->")[0].trim();
+            const separator_notes = (source + "<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
+            const pasteMarkdown = function (markdown) {
                 return makeDomNode({
                     parent: document.body,
                     tag: "div",
@@ -1147,20 +1147,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(translateForSlide(source))));
             loadScript("lib/js/head.min.js", function () {
                 loadScript("js/reveal.js", function () {
-                    let revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
+                    const revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
                     console.log("reveal-transition: " + revealTransition);
                     console.log("reveal-theme(forced by url param): " + Reveal.getQueryHash().theme);
                     console.log("reveal-transition(forced by url param): " + Reveal.getQueryHash().transition);
-                    let forceTheme = Reveal.getQueryHash().theme;
+                    const forceTheme = Reveal.getQueryHash().theme;
                     if (forceTheme) {
                         documentTheme.href = "css/theme/" + forceTheme + ".css";
                     }
                     // More info about config & dependencies:
                     // - https://github.com/hakimel/reveal.js#configuration
                     // - https://github.com/hakimel/reveal.js#dependencies
-                    let config = JSON.parse((source + "<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
+                    const config = JSON.parse((source + "<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
                     console.log("reveal-config: " + JSON.stringify(config, null, 4));
-                    let defaultConfig = {
+                    const defaultConfig = {
                         controls: true,
                         progress: true,
                         history: true,
@@ -1197,7 +1197,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 overflow: "hidden",
                 backgroundColor: "#86812A",
             });
-            let urlsDiv = makeDomNode({
+            const urlsDiv = makeDomNode({
                 parent: document.body,
                 tag: "div",
                 style: {
@@ -1208,7 +1208,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     lineHeight: "1rem",
                 },
             });
-            let textCounter = makeDomNode({
+            const textCounter = makeDomNode({
                 parent: urlsDiv,
                 tag: "span",
                 style: {
@@ -1216,7 +1216,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     padding: "0rem 1.0rem",
                 }
             });
-            let makeLink = function (text) {
+            const makeLink = function (text) {
                 return makeDomNode({
                     parent: urlsDiv,
                     tag: "a",
@@ -1228,15 +1228,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     target: "_blank",
                 });
             };
-            let defaultLink = makeLink("default");
-            let markedLink = makeLink("marked(markdown)");
-            let commonmarkLink = makeLink("commonmark(markdown)");
-            let markdownitLink = makeLink("markdown-it(markdown)");
-            let remarkLink = makeLink("remark(slide)");
-            let revealLink = makeLink("reveal(slide)");
-            let editLink = makeLink("edit");
-            let update = function () {
-                let text = encodeURIComponent(textarea.value);
+            const defaultLink = makeLink("default");
+            const markedLink = makeLink("marked(markdown)");
+            const commonmarkLink = makeLink("commonmark(markdown)");
+            const markdownitLink = makeLink("markdown-it(markdown)");
+            const remarkLink = makeLink("remark(slide)");
+            const revealLink = makeLink("reveal(slide)");
+            const editLink = makeLink("edit");
+            const update = function () {
+                const text = encodeURIComponent(textarea.value);
                 textCounter.innerText = "lenght:" + text.length;
                 defaultLink.href = "?text:" + text;
                 markedLink.href = "?marked&text:" + text;
@@ -1246,7 +1246,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 revealLink.href = "?reveal&text:" + text;
                 editLink.href = "?edit&text:" + text;
             };
-            let textarea = makeDomNode({
+            const textarea = makeDomNode({
                 parent: document.body,
                 tag: "textarea",
                 style: {
@@ -1268,23 +1268,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             console.log("✅ document redering succeeded.");
         }
     };
-    let loadGoogleAnalytics = function () {
+    const loadGoogleAnalytics = function () {
         if (globalState && globalState.config && globalState.config.googleAnalyticsTracckingId) {
             loadScript("https://www.googletagmanager.com/gtag/js?" + globalState.config.googleAnalyticsTracckingId);
             window["dataLayer"] = window["dataLayer"] || [];
-            let gtag = function (_a, _b) {
+            const gtag = function (_a, _b) {
                 window["dataLayer"].push(arguments);
             };
             gtag("js", new Date());
             gtag("config", globalState.config.googleAnalyticsTracckingId);
         }
     };
-    let parseUrlParameters = function (url) {
-        let urlParameters = {
+    const parseUrlParameters = function (url) {
+        const urlParameters = {
             "renderer": null,
             "sourceUrl": null,
         };
-        let basicUrlArgs = (url.split("#")[0] + "?")
+        const basicUrlArgs = (url.split("#")[0] + "?")
             .split("?")[1]
             .split("&")
             .filter(function (i) { return 0 < i.length; })
@@ -1301,7 +1301,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
         return urlParameters;
     };
-    let loadUrlParameters = function () {
+    const loadUrlParameters = function () {
         globalState.urlParameters = parseUrlParameters(location.href);
         console.log("⚙️ urlParameters: " + JSON.stringify(globalState.urlParameters, null, 4));
         if (!globalState.urlParameters.sourceUrl) {
@@ -1313,7 +1313,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             location.href :
             makeAbsoluteUrl(location.href, globalState.urlParameters.sourceUrl);
     };
-    let loadDocument = function (sourceUrl) {
+    const loadDocument = function (sourceUrl) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
                 if ("text:" === sourceUrl.slice(0, 5)) {
@@ -1322,7 +1322,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 }
                 else {
                     console.log("📥 loading document: " + sourceUrl);
-                    let request = new XMLHttpRequest();
+                    const request = new XMLHttpRequest();
                     request.open('GET', sourceUrl, true);
                     request.onreadystatechange = function () {
                         if (4 === request.readyState) {
@@ -1341,17 +1341,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }));
         });
     };
-    let loadJson = function () {
+    const loadJson = function () {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
-                let jsonScripts = Array.from(document.getElementsByTagName('script'))
+                const jsonScripts = Array.from(document.getElementsByTagName('script'))
                     .filter(function (script) { return "application/json" === script.type; });
                 let loadCount = 0;
                 jsonScripts.forEach(function (script) {
-                    let name = script.getAttribute("data-let");
-                    let sourceUrl = script.src;
+                    const name = script.getAttribute("data-let");
+                    const sourceUrl = script.src;
                     console.log("📥 loading json(" + name + "): " + sourceUrl);
-                    let request = new XMLHttpRequest();
+                    const request = new XMLHttpRequest();
                     request.open('GET', sourceUrl, true);
                     request.onreadystatechange = function () {
                         if (4 === request.readyState) {
@@ -1381,7 +1381,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }));
         });
     };
-    let startup = function () {
+    const startup = function () {
         return __awaiter(this, void 0, void 0, function* () {
             yield loadJson();
             loadUrlParameters();
@@ -1390,7 +1390,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }
             else {
                 hideSystemLoadingError();
-                let source = yield loadDocument(globalState.urlParameters.sourceUrl);
+                const source = yield loadDocument(globalState.urlParameters.sourceUrl);
                 loadGoogleAnalytics();
                 render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
             }

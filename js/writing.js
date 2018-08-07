@@ -139,7 +139,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         return element;
     };
     let hideSystemLoadingError = function () {
-        var systemLoadingErrorElement = document.getElementsByClassName("writing-HTML-system-loading-error")[0];
+        let systemLoadingErrorElement = document.getElementsByClassName("writing-HTML-system-loading-error")[0];
         if (systemLoadingErrorElement) {
             systemLoadingErrorElement.className = "";
             systemLoadingErrorElement.innerHTML = "";
@@ -1064,7 +1064,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             loadScript("js/markdown-it.js", function () {
                 loadScript("js/markdown-it-emoji.js", function () {
                     applyMarkdown(function (markdown) {
-                        var markdownitWindow = window;
+                        let markdownitWindow = window;
                         return markdownitWindow.markdownit({ html: true, }).use(markdownitWindow.markdownitEmoji).render(markdown);
                     });
                 });
@@ -1268,11 +1268,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             console.log("✅ document redering succeeded.");
         }
     };
-    var loadGoogleAnalytics = function () {
+    let loadGoogleAnalytics = function () {
         if (globalState && globalState.config && globalState.config.googleAnalyticsTracckingId) {
             loadScript("https://www.googletagmanager.com/gtag/js?" + globalState.config.googleAnalyticsTracckingId);
             window["dataLayer"] = window["dataLayer"] || [];
-            var gtag = function (_a, _b) {
+            let gtag = function (_a, _b) {
                 window["dataLayer"].push(arguments);
             };
             gtag("js", new Date());
@@ -1280,11 +1280,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }
     };
     let parseUrlParameters = function (url) {
-        var urlParameters = {
+        let urlParameters = {
             "renderer": null,
             "sourceUrl": null,
         };
-        var basicUrlArgs = (url.split("#")[0] + "?")
+        let basicUrlArgs = (url.split("#")[0] + "?")
             .split("?")[1]
             .split("&")
             .filter(function (i) { return 0 < i.length; })
@@ -1390,7 +1390,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }
             else {
                 hideSystemLoadingError();
-                var source = yield loadDocument(globalState.urlParameters.sourceUrl);
+                let source = yield loadDocument(globalState.urlParameters.sourceUrl);
                 loadGoogleAnalytics();
                 render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
             }

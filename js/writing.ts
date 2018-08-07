@@ -2,11 +2,11 @@
 //  The license of this file is Boost Software License, Version 1.0. ( Http://www.boost.org/LICENSE_1_0.txt ).
 //  このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 
-declare var hljs: any;
-declare var marked: any;
-declare var remark: any;
-declare var commonmark: any;
-declare var Reveal: any;
+declare let hljs: any;
+declare let marked: any;
+declare let remark: any;
+declare let commonmark: any;
+declare let Reveal: any;
 
 interface ArrayConstructor {
     from<T, U>(arrayLike: ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): Array<U>;
@@ -191,7 +191,7 @@ declare interface ObjectConstructor {
     };
     let hideSystemLoadingError = function () : void
     {
-        var systemLoadingErrorElement = document.getElementsByClassName("writing-HTML-system-loading-error")[0];
+        let systemLoadingErrorElement = document.getElementsByClassName("writing-HTML-system-loading-error")[0];
         if (systemLoadingErrorElement)
         {
             systemLoadingErrorElement.className = "";
@@ -1592,7 +1592,7 @@ declare interface ObjectConstructor {
                             (
                                 function(markdown)
                                 {
-                                    var markdownitWindow : any = window;
+                                    let markdownitWindow : any = window;
                                     return markdownitWindow.markdownit({ html: true, }).use(markdownitWindow.markdownitEmoji).render(markdown);
                                 }
                             );
@@ -1881,14 +1881,14 @@ declare interface ObjectConstructor {
             console.log("✅ document redering succeeded.");
         }
     };
-    var loadGoogleAnalytics = function() : void
+    let loadGoogleAnalytics = function() : void
     {
         if (globalState && globalState.config && globalState.config.googleAnalyticsTracckingId)
         {
             loadScript("https://www.googletagmanager.com/gtag/js?" +globalState.config.googleAnalyticsTracckingId);
             window["dataLayer"] = window["dataLayer"] || [];
 
-            var gtag = function(_a : any,  _b: any)
+            let gtag = function(_a : any,  _b: any)
             {
                 window["dataLayer"].push(arguments);
             };
@@ -1899,12 +1899,12 @@ declare interface ObjectConstructor {
     };
     let parseUrlParameters = function(url : string) : object
     {
-        var urlParameters =
+        let urlParameters =
         {
             "renderer": null,
             "sourceUrl": null,
         };
-        var basicUrlArgs = (url.split("#")[0] +"?")
+        let basicUrlArgs = (url.split("#")[0] +"?")
             .split("?")[1]
             .split("&")
             .filter(function(i) { return 0 < i.length; })
@@ -2056,7 +2056,7 @@ declare interface ObjectConstructor {
         else
         {
             hideSystemLoadingError();
-            var source = await loadDocument(globalState.urlParameters.sourceUrl);
+            let source = await loadDocument(globalState.urlParameters.sourceUrl);
             loadGoogleAnalytics();
             render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
         }

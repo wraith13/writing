@@ -29,24 +29,40 @@ MathJax.Hub.Config
 );
 </script>
 <style>
-body.writing-HTML-system-loading-error
+body.writing-HTML-system-loading-error,
+body.writing-HTML-document-loading
 {
     padding: 0;
     margin:-0;
     overflow: hidden;
 }
-body.writing-HTML-system-loading-error div
+#writing-HTML-system-loading-error-panel,
+#writing-HTML-document-loading-panel
+{
+    display: none;
+}
+body.writing-HTML-system-loading-error #writing-HTML-system-loading-error-panel,
+body.writing-HTML-document-loading #writing-HTML-document-loading-panel
+{
+    display: block;
+    font-size:3.0rem;
+    line-height: 100%;
+    padding: calc(50vh - 1.5rem) 3.0rem;
+    text-align:center;
+    margin:-0;
+}
+body.writing-HTML-system-loading-error #writing-HTML-system-loading-error-panel
 {
     animation-name: writing-fade-in;
     animation-duration: 10.0s;
     animation-timing-function: ease-in-out;
     color:#AA3322;
     background-color:#442211;
-    font-size:3.0rem;
-    line-height: 100%;
-    padding: calc(50vh - 1.5rem) 3.0rem;
-    text-align:center;
-    margin:-0;
+}
+body.writing-HTML-document-loading #writing-HTML-document-loading-panel
+{
+    color:#FFFFCC;
+    background-color:#86812A;
 }
 @keyframes writing-fade-in
 {
@@ -60,7 +76,7 @@ body.writing-HTML-system-loading-error div
     }
 }
 </style>
-<body class="writing-HTML-system-loading-error"><div>rendering system loading error</div></body>
+<body class="writing-HTML-system-loading-error writing-HTML-document-loading"><div id="writing-HTML-system-loading-error-panel">rendering system loading error</div><div id="writing-HTML-document-loading-panel">document loading...</div></body>
 <script src="js/writing.js"></script>
 <!--[/NOWRITING]-->
 <!--[WRTING-CONFING]

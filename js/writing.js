@@ -139,11 +139,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         return element;
     };
     const hideSystemLoadingError = function () {
-        const systemLoadingErrorElement = document.getElementsByClassName("writing-HTML-system-loading-error")[0];
+        const systemLoadingErrorElement = document.getElementById("writing-HTML-system-loading-error-panel");
         if (systemLoadingErrorElement) {
-            systemLoadingErrorElement.className = "";
-            systemLoadingErrorElement.innerHTML = "";
+            document.body.classList.remove("writing-HTML-system-loading-error");
+            document.body.removeChild(systemLoadingErrorElement);
             console.log("✅ system loading succeeded.");
+        }
+    };
+    const hideLoading = function (withError = false) {
+        const loadingElement = document.getElementById("writing-HTML-document-loading-panel");
+        if (loadingElement) {
+            document.body.classList.remove("writing-HTML-document-loading");
+            document.body.removeChild(loadingElement);
+            if (!withError) {
+                console.log("✅ document redering succeeded.");
+            }
         }
     };
     const showError = function (arg) {
@@ -162,6 +172,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             },
             children: arg,
         });
+        hideLoading(true);
     };
     const showLoadingError = function (sourceUrl, request) {
         hideSystemLoadingError();
@@ -744,9 +755,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         });
     };
     const applyWallPaper = function (baseUrl) {
-        document.body.className = "markdown";
+        document.body.classList.add("markdown");
         if (globalState.config.wallpaper) {
-            document.body.className += " with-wallpaper";
+            document.body.classList.add("with-wallpaper");
             makeDomNode({
                 parent: document.body,
                 tag: "div",
@@ -762,7 +773,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         if (undefined === globalState.config.withIndex || globalState.config.withIndex) {
             index = makeIndexFromContent();
             if (index && 0 < index.length) {
-                document.body.className += " with-index";
+                document.body.classList.add("with-index");
                 const contentDiv = document.getElementsByClassName("content")[0];
                 document.body.insertBefore(makeDomNode({
                     tag: "div",
@@ -1018,7 +1029,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             loadMathJaxScript();
             //  twitter
             loadTwitterScript();
-            console.log("✅ document redering succeeded.");
+            hideLoading();
         };
         if (isMarked) {
             //  marked
@@ -1090,7 +1101,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 config.source = translateForMathJax(translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))
                     .replace(/([^\n])```([^\n])/g, "$1`$2"));
                 remark.create(config);
-                console.log("✅ document redering succeeded.");
+                hideLoading();
             });
             //  MathJax
             loadMathJaxScript();
@@ -1186,7 +1197,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     };
                     Reveal.initialize(objectAssign(defaultConfig, config));
                     loadTwitterScript();
-                    console.log("✅ document redering succeeded.");
+                    hideLoading();
                 });
             });
         }
@@ -1265,7 +1276,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 height: "calc(100vh - 3rem)",
             });
             update();
-            console.log("✅ document redering succeeded.");
+            hideLoading();
         }
     };
     const loadGoogleAnalytics = function () {
@@ -1387,6 +1398,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             loadUrlParameters();
             if ("@system-loading-error" === globalState.urlParameters.sourceUrl.toLowerCase()) {
                 //  nop
+            }
+            else if ("@loading" === globalState.urlParameters.sourceUrl.toLowerCase()) {
+                hideSystemLoadingError();
             }
             else {
                 hideSystemLoadingError();

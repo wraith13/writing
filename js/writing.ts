@@ -191,12 +191,25 @@ declare interface ObjectConstructor {
     };
     const hideSystemLoadingError = function () : void
     {
-        const systemLoadingErrorElement = document.getElementsByClassName("writing-HTML-system-loading-error")[0];
+        const systemLoadingErrorElement = document.getElementById("writing-HTML-system-loading-error-panel");
         if (systemLoadingErrorElement)
         {
-            systemLoadingErrorElement.className = "";
-            systemLoadingErrorElement.innerHTML = "";
+            document.body.classList.remove("writing-HTML-system-loading-error");
+            document.body.removeChild(systemLoadingErrorElement);
             console.log("✅ system loading succeeded.");
+        }
+    };
+    const hideLoading = function (withError : boolean = false) : void
+    {
+        const loadingElement = document.getElementById("writing-HTML-document-loading-panel");
+        if (loadingElement)
+        {
+            document.body.classList.remove("writing-HTML-document-loading");
+            document.body.removeChild(loadingElement);
+            if (!withError)
+            {
+                console.log("✅ document redering succeeded.");
+            }
         }
     };
     const showError = function(arg) : void
@@ -224,6 +237,7 @@ declare interface ObjectConstructor {
                 children: arg,
             }
         );
+        hideLoading(true);
     };
     const showLoadingError = function(sourceUrl, request) : void
     {
@@ -1116,10 +1130,10 @@ declare interface ObjectConstructor {
     };
     const applyWallPaper = function(baseUrl : string) : void
     {
-        document.body.className = "markdown";
+        document.body.classList.add("markdown");
         if (globalState.config.wallpaper)
         {
-            document.body.className += " with-wallpaper";
+            document.body.classList.add("with-wallpaper");
             makeDomNode
             (
                 {
@@ -1142,7 +1156,7 @@ declare interface ObjectConstructor {
             index = makeIndexFromContent();
             if (index && 0 < index.length)
             {
-                document.body.className += " with-index";
+                document.body.classList.add("with-index");
                 const contentDiv = document.getElementsByClassName("content")[0];
                 document.body.insertBefore
                 (
@@ -1506,7 +1520,7 @@ declare interface ObjectConstructor {
             //  twitter
             loadTwitterScript();
 
-            console.log("✅ document redering succeeded.");
+            hideLoading();
         };
 
         if (isMarked)
@@ -1643,7 +1657,7 @@ declare interface ObjectConstructor {
                         .replace(/([^\n])```([^\n])/g, "$1`$2")
                     );
                     remark.create(config);
-                    console.log("✅ document redering succeeded.");
+                    hideLoading();
                 }
             );
 
@@ -1770,7 +1784,7 @@ declare interface ObjectConstructor {
                             };
                             Reveal.initialize(objectAssign(defaultConfig, config));
                             loadTwitterScript();
-                            console.log("✅ document redering succeeded.");
+                            hideLoading();
                         }
                     );
                 }
@@ -1878,7 +1892,7 @@ declare interface ObjectConstructor {
                 }
             );
             update();
-            console.log("✅ document redering succeeded.");
+            hideLoading();
         }
     };
     const loadGoogleAnalytics = function() : void
@@ -2052,6 +2066,11 @@ declare interface ObjectConstructor {
         if ("@system-loading-error" === globalState.urlParameters.sourceUrl.toLowerCase())
         {
             //  nop
+        }
+        else
+        if ("@loading" === globalState.urlParameters.sourceUrl.toLowerCase())
+        {
+            hideSystemLoadingError();
         }
         else
         {

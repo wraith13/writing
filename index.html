@@ -68,6 +68,13 @@ body.writing-HTML-document-rendering #writing-HTML-document-rendering-panel
     color:#FFFFCC;
     background-color:#86812A;
 }
+body.writing-HTML-document-rendering.writing-HTML-document-rendering-slide-out #writing-HTML-document-rendering-panel
+{
+    animation-name: writing-slide-out;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-in-out;
+    margin-top: -100vh;
+}
 @keyframes writing-fade-in
 {
     from
@@ -77,6 +84,17 @@ body.writing-HTML-document-rendering #writing-HTML-document-rendering-panel
     to
     {
         opacity: 1.0;
+    }
+}
+@keyframes writing-slide-out
+{
+    from
+    {
+        margin-top: -0vh;
+    }
+    to
+    {
+        margin-top: -100vh;
     }
 }
 </style>

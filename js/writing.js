@@ -149,7 +149,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     };
     const hideRendering = function (withError = false) {
         hideLoading();
-        document.body.classList.remove("writing-HTML-document-rendering");
+        if (globalState.config.disabledRenderingAnimation) {
+            document.body.classList.remove("writing-HTML-document-rendering");
+        }
+        else {
+            setTimeout(() => {
+                document.body.classList.remove("writing-HTML-document-rendering");
+            }, 200);
+            document.body.classList.add("writing-HTML-document-rendering-slide-out");
+        }
         if (!withError) {
             console.log("✅ document rendering succeeded.");
         }

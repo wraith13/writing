@@ -139,21 +139,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         return element;
     };
     const hideSystemLoadingError = function () {
-        const systemLoadingErrorElement = document.getElementById("writing-HTML-system-loading-error-panel");
-        if (systemLoadingErrorElement) {
-            document.body.classList.remove("writing-HTML-system-loading-error");
-            document.body.removeChild(systemLoadingErrorElement);
-            console.log("✅ system loading succeeded.");
-        }
+        document.body.classList.remove("writing-HTML-system-loading-error");
+        document.body.classList.add("writing-HTML-document-loading");
+        console.log("✅ system loading succeeded.");
     };
-    const hideLoading = function (withError = false) {
-        const loadingElement = document.getElementById("writing-HTML-document-loading-panel");
-        if (loadingElement) {
-            document.body.classList.remove("writing-HTML-document-loading");
-            document.body.removeChild(loadingElement);
-            if (!withError) {
-                console.log("✅ document redering succeeded.");
-            }
+    const hideLoading = function () {
+        document.body.classList.remove("writing-HTML-document-loading");
+        document.body.classList.add("writing-HTML-document-rendering");
+    };
+    const hideRendering = function (withError = false) {
+        hideLoading();
+        document.body.classList.remove("writing-HTML-document-rendering");
+        if (!withError) {
+            console.log("✅ document rendering succeeded.");
         }
     };
     const showError = function (arg) {
@@ -172,7 +170,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             },
             children: arg,
         });
-        hideLoading(true);
+        hideRendering(true);
     };
     const showLoadingError = function (sourceUrl, request) {
         hideSystemLoadingError();
@@ -1029,7 +1027,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             loadMathJaxScript();
             //  twitter
             loadTwitterScript();
-            hideLoading();
+            hideRendering();
         };
         if (isMarked) {
             //  marked
@@ -1101,7 +1099,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 config.source = translateForMathJax(translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))
                     .replace(/([^\n])```([^\n])/g, "$1`$2"));
                 remark.create(config);
-                hideLoading();
+                hideRendering();
             });
             //  MathJax
             loadMathJaxScript();
@@ -1197,7 +1195,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     };
                     Reveal.initialize(objectAssign(defaultConfig, config));
                     loadTwitterScript();
-                    hideLoading();
+                    hideRendering();
                 });
             });
         }
@@ -1276,7 +1274,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 height: "calc(100vh - 3rem)",
             });
             update();
-            hideLoading();
+            hideRendering();
         }
     };
     const loadGoogleAnalytics = function () {
@@ -1402,9 +1400,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             else if ("@loading" === globalState.urlParameters.sourceUrl.toLowerCase()) {
                 hideSystemLoadingError();
             }
+            else if ("@rendering" === globalState.urlParameters.sourceUrl.toLowerCase()) {
+                hideSystemLoadingError();
+                hideLoading();
+            }
             else {
                 hideSystemLoadingError();
                 const source = yield loadDocument(globalState.urlParameters.sourceUrl);
+                hideLoading();
                 loadGoogleAnalytics();
                 render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
             }

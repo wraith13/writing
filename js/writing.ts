@@ -191,25 +191,22 @@ declare interface ObjectConstructor {
     };
     const hideSystemLoadingError = function () : void
     {
-        const systemLoadingErrorElement = document.getElementById("writing-HTML-system-loading-error-panel");
-        if (systemLoadingErrorElement)
-        {
-            document.body.classList.remove("writing-HTML-system-loading-error");
-            document.body.removeChild(systemLoadingErrorElement);
-            console.log("✅ system loading succeeded.");
-        }
+        document.body.classList.remove("writing-HTML-system-loading-error");
+        document.body.classList.add("writing-HTML-document-loading");
+        console.log("✅ system loading succeeded.");
     };
-    const hideLoading = function (withError : boolean = false) : void
+    const hideLoading = function () : void
     {
-        const loadingElement = document.getElementById("writing-HTML-document-loading-panel");
-        if (loadingElement)
+        document.body.classList.remove("writing-HTML-document-loading");
+        document.body.classList.add("writing-HTML-document-rendering");
+    };
+    const hideRendering = function (withError : boolean = false) : void
+    {
+        hideLoading();
+        document.body.classList.remove("writing-HTML-document-rendering");
+        if (!withError)
         {
-            document.body.classList.remove("writing-HTML-document-loading");
-            document.body.removeChild(loadingElement);
-            if (!withError)
-            {
-                console.log("✅ document redering succeeded.");
-            }
+            console.log("✅ document rendering succeeded.");
         }
     };
     const showError = function(arg) : void
@@ -237,7 +234,7 @@ declare interface ObjectConstructor {
                 children: arg,
             }
         );
-        hideLoading(true);
+        hideRendering(true);
     };
     const showLoadingError = function(sourceUrl, request) : void
     {
@@ -1520,7 +1517,7 @@ declare interface ObjectConstructor {
             //  twitter
             loadTwitterScript();
 
-            hideLoading();
+            hideRendering();
         };
 
         if (isMarked)
@@ -1657,7 +1654,7 @@ declare interface ObjectConstructor {
                         .replace(/([^\n])```([^\n])/g, "$1`$2")
                     );
                     remark.create(config);
-                    hideLoading();
+                    hideRendering();
                 }
             );
 
@@ -1784,7 +1781,7 @@ declare interface ObjectConstructor {
                             };
                             Reveal.initialize(objectAssign(defaultConfig, config));
                             loadTwitterScript();
-                            hideLoading();
+                            hideRendering();
                         }
                     );
                 }
@@ -1892,7 +1889,7 @@ declare interface ObjectConstructor {
                 }
             );
             update();
-            hideLoading();
+            hideRendering();
         }
     };
     const loadGoogleAnalytics = function() : void
@@ -2073,9 +2070,16 @@ declare interface ObjectConstructor {
             hideSystemLoadingError();
         }
         else
+        if ("@rendering" === globalState.urlParameters.sourceUrl.toLowerCase())
+        {
+            hideSystemLoadingError();
+            hideLoading();
+        }
+        else
         {
             hideSystemLoadingError();
             const source = await loadDocument(globalState.urlParameters.sourceUrl);
+            hideLoading();
             loadGoogleAnalytics();
             render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
         }

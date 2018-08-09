@@ -1127,7 +1127,6 @@ declare interface ObjectConstructor {
     };
     const applyWallPaper = function(baseUrl : string) : void
     {
-        document.body.classList.add("markdown");
         if (globalState.config.wallpaper)
         {
             document.body.classList.add("with-wallpaper");
@@ -1486,6 +1485,9 @@ declare interface ObjectConstructor {
 
         const applyMarkdown = function(markdownToHtml : (string) => string) : void
         {
+            document.body.classList.add("markdown");
+            document.body.classList.add("solid");
+
             //  theme
             appendHighlightTheme();
             applyTheme(baseUrl);

@@ -18,7 +18,8 @@ h1
 }
 h1 img
 {
-    margin-bottom:-48px;
+    margin-top:-20px;
+    margin-bottom:-100px;
 }
 .reveal section h1 img
 {

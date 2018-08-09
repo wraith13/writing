@@ -196,6 +196,7 @@ body.markdown div.index-frame div.index a
     word-wrap: break-word;
     white-space: wrap;
     text-decoration: none;
+    line-height: 100%;
 }
 body.markdown div.index-frame div.index a:not(.current):hover
 {
@@ -210,53 +211,53 @@ body.markdown div.index-frame div.index a.current
 }
 body.markdown div.index-frame div.index a.level1
 {
-    padding: 12px 24px 12px 24px;
+    padding: 14px 24px 14px 24px;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2);
 }
 body.markdown div.index-frame div.index a.level2
 {
-    padding: 8px 24px 8px 32px;
+    padding: 12px 24px 12px 32px;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.0);
 }
 body.markdown div.index-frame div.index a.level3
 {
-    padding: 4px 24px 4px 40px;
+    padding: 10px 24px 10px 40px;
     font-size: 70%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.9);
 }
 body.markdown div.index-frame div.index a.level4
 {
-    padding: 2px 24px 2px 48px;
+    padding: 8px 24px 8px 48px;
     font-size: 60%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level5
 {
-    padding: 2px 24px 2px 56px;
+    padding: 6px 24px 6px 56px;
     font-size: 50%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level6
 {
-    padding: 2px 24px 2px 64px;
+    padding: 4px 24px 4px 64px;
     font-size: 40%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level7
 {
-    padding: 2px 24px 2px 72px;
+    padding: 4px 24px 4px 72px;
     font-size: 35%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level8
 {
-    padding: 2px 24px 2px 80px;
+    padding: 4px 24px 4px 80px;
     font-size: 30%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level9
 {
-    padding: 2px 24px 2px 88px;
+    padding: 4px 24px 4px 88px;
     font-size: 30%;
     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
 }
@@ -276,6 +277,42 @@ body.markdown div.content h1
     font-size: 2.0em;
     font-weight: bold;
 }
+body.markdown.solid div.content h1
+{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: normal;
+    padding: 14px 24px 14px 0px;
+    font-size: calc(calc(calc(30.0rem / 180.0) + 1.0rem) * 1.2);
+    line-height: 100%;
+    color: #FFFFFF;
+    background-color: #86812A;
+    margin-top: 0px;
+}
+body.markdown.solid
+{
+    border-top-width: calc(calc(calc(calc(30.0rem / 180.0) + 1.0rem) * 1.2) + 28px);
+    border-top-color: #86812A;
+    border-top-style: solid;
+}
+body.markdown.solid div.content
+{
+    margin-top: calc(0px - calc(calc(calc(calc(30.0rem / 180.0) + 1.0rem) * 1.2) + 28px));
+}
+@media (min-width: 90.0rem)
+{
+    body.markdown.solid div.content h1
+    {
+        font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2);
+    }
+    body.markdown.solid
+    {
+        border-top-width: calc(calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2) + 28px);
+    }
+    body.markdown.solid div.content
+    {
+        margin-top: calc(0px - calc(calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2) + 28px));
+    }
+}
 body.markdown div.content h2
 {
     font-size: 1.5em;
@@ -291,6 +328,10 @@ body.markdown div.content h9
 {
     font-size: 1.2em;
     font-weight: bold;
+}
+body.markdown.solid div.content
+{
+    padding-top: 0px;
 }
 
 

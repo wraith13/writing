@@ -753,7 +753,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         });
     };
     const applyWallPaper = function (baseUrl) {
-        document.body.classList.add("markdown");
         if (globalState.config.wallpaper) {
             document.body.classList.add("with-wallpaper");
             makeDomNode({
@@ -1006,6 +1005,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         //  favicon
         applyIcon(baseUrl);
         const applyMarkdown = function (markdownToHtml) {
+            document.body.classList.add("markdown");
+            document.body.classList.add("solid");
             //  theme
             appendHighlightTheme();
             applyTheme(baseUrl);

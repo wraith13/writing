@@ -209,15 +209,27 @@ declare interface ObjectConstructor {
         }
         else
         {
+            document.body.classList.add("writing-HTML-document-rendering-slide-out");
             setTimeout
             (
                 () =>
                 {
                     document.body.classList.remove("writing-HTML-document-rendering");
+                    setTimeout
+                    (
+                        () =>
+                        {
+                            applyFragmentId();
+                            if (globalState.activateOnScroll)
+                            {
+                                globalState.activateOnScroll();
+                            }
+                        },
+                        100
+                    );
                 },
                 200
             );
-            document.body.classList.add("writing-HTML-document-rendering-slide-out");
         }
         if (!withError)
         {
@@ -1225,6 +1237,7 @@ declare interface ObjectConstructor {
     {
         if (index)
         {
+            index[0].anchor.classList.add("current");
             const previousState = { i: 0 }; // 本来は -1 で初期化するべきだが、それだと後ろの setTimeout(document.body.onscroll, 0); による初期表示が意図通りに機能しないので 0 にしてる。 
             const isOver = function(i)
             {
@@ -1255,58 +1268,65 @@ declare interface ObjectConstructor {
 
             if (0 < index.length)
             {
-                document.body.onscroll = function()
+                globalState.activateOnScroll = function()
                 {
-                    const previouseContetIsOver = isOver(previousState.i);
-                    const nextContetIsOver = isOver(previousState.i +1);
-                    if (previouseContetIsOver || !nextContetIsOver)
+                    document.body.onscroll = function()
                     {
-                        if (previouseContetIsOver)
+                        const previouseContetIsOver = isOver(previousState.i);
+                        const nextContetIsOver = isOver(previousState.i +1);
+                        if (previouseContetIsOver || !nextContetIsOver)
                         {
-                            //  上へ手繰る
-                            while(isOver(--previousState.i)) { }
-                        }
-                        else
-                        {
-                            // 下へ手繰る
-                            while(!isOver((++previousState.i) +1)) { }
-                        }
-                        const targetIndex = previousState.i < 0 ? null: index[previousState.i];
-                        const current = document.getElementsByClassName("current")[0];
-                        if (current !== (null === targetIndex ? null: targetIndex.anchor))
-                        {
-                            if (current)
+                            if (previouseContetIsOver)
                             {
-                                current.classList.remove("current");
-                            }
-                            if (targetIndex)
-                            {
-                                targetIndex.anchor.classList.add("current");
-                                window.history.replaceState(null, targetIndex.title, targetIndex.link);
+                                //  上へ手繰る
+                                while(isOver(--previousState.i)) { }
                             }
                             else
                             {
-                                index[0].anchor.classList.add("current");
-                                window.history.replaceState(null, document.title, "#");
+                                // 下へ手繰る
+                                while(!isOver((++previousState.i) +1)) { }
                             }
-                            if (!globalState.isMouseOnIndex)
+                            const targetIndex = previousState.i < 0 ? null: index[previousState.i];
+                            const current = document.getElementsByClassName("current")[0];
+                            if (current !== (null === targetIndex ? null: targetIndex.anchor))
                             {
-                                const frame = document.getElementsByClassName("index-frame")[0];
-                                if (null === targetIndex)
+                                if (current)
                                 {
-                                    frame.scrollTop = 0;
+                                    current.classList.remove("current");
+                                }
+                                if (targetIndex)
+                                {
+                                    targetIndex.anchor.classList.add("current");
+                                    window.history.replaceState(null, targetIndex.title, targetIndex.link);
                                 }
                                 else
                                 {
-                                    const rect = targetIndex.anchor.getBoundingClientRect();
-                                    const targetTop = rect.top +frame.scrollTop;
-                                    frame.scrollTop = targetTop - Math.min(frame.clientHeight -rect.height, ((targetTop / frame.scrollHeight) *frame.clientHeight));
+                                    index[0].anchor.classList.add("current");
+                                    window.history.replaceState(null, document.title, "#");
+                                }
+                                if (!globalState.isMouseOnIndex)
+                                {
+                                    const frame = document.getElementsByClassName("index-frame")[0];
+                                    if (null === targetIndex)
+                                    {
+                                        frame.scrollTop = 0;
+                                    }
+                                    else
+                                    {
+                                        const rect = targetIndex.anchor.getBoundingClientRect();
+                                        const targetTop = rect.top +frame.scrollTop;
+                                        frame.scrollTop = targetTop - Math.min(frame.clientHeight -rect.height, ((targetTop / frame.scrollHeight) *frame.clientHeight));
+                                    }
                                 }
                             }
                         }
-                    }
+                    };
+                    setTimeout(document.body.onscroll, 100);
                 };
-                setTimeout(document.body.onscroll, 0);
+                if (globalState.config.disabledRenderingAnimation)
+                {
+                    globalState.activateOnScroll();
+                }
             }
         }
     };
@@ -1523,7 +1543,10 @@ declare interface ObjectConstructor {
             applyIndex(source);
 
             //  fragment id
-            applyFragmentId();
+            if (globalState.config.disabledRenderingAnimation)
+            {
+                applyFragmentId();
+            }
 
             //  highlight
             loadHighlightScript();

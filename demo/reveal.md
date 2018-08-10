@@ -5,7 +5,7 @@
 {
     "renderer": "reveal",
     "title": "reveal.js – The HTML Presentation Framework",
-    "theme": []]
+    "theme": []
 }
 -->
 <!--[REVEAL-THEME] black -->

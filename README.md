@@ -8,7 +8,7 @@ class: center, middle
 <!--[WRTING-CONFING]
 {
     "referrer_option": true,
-    "renderer": markdown,
+    "renderer": "markdown",
     "title": "writing README",
     "favicon": "https://wraith13.github.io/writing/writinghex.128.png",
     "autoPageSeparate": true,

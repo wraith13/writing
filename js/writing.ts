@@ -33,6 +33,17 @@ declare interface ObjectConstructor {
     {
         return new Promise<void>(resolve => setTimeout(resolve, wait));
     };
+    const tryOrThrough = async function(title : string, f : () => Promise<void>) : Promise<void>
+    {
+        try
+        {
+            await f();
+        }
+        catch(err)
+        {
+            console.error(`🚫 ${title}: ${err}`);
+        }
+    };
     const objectAssign = function(target : object, source : object) : object
     {
         //  copy from https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
@@ -301,7 +312,7 @@ declare interface ObjectConstructor {
             }
         }
         makeDomNode(responseDiv);
-};
+    };
     const appendLink = function(args : object) : void
     {
         makeDomNode
@@ -356,13 +367,14 @@ declare interface ObjectConstructor {
     {
         return new Promise<void>
         (
-            resolved => makeDomNode
+            (resolve, reject) => makeDomNode
             (
                 {
                     parent: document.head,
                     tag: "script",
                     src: src,
-                    onload: resolved,
+                    onload: resolve,
+                    onerror: reject,
                 }
             )
         );
@@ -1538,13 +1550,13 @@ declare interface ObjectConstructor {
             }
 
             //  highlight
-            await loadHighlightScript();
+            await tryOrThrough("highlight", loadHighlightScript);
 
             //  MathJax
-            await loadMathJaxScript();
+            await tryOrThrough("MathJax", loadMathJaxScript);
 
             //  twitter
-            await loadTwitterScript();
+            await tryOrThrough("twitter", loadTwitterScript);
 
             await hideRendering();
         };
@@ -1657,10 +1669,10 @@ declare interface ObjectConstructor {
             remark.create(config);
 
             //  MathJax
-            await loadMathJaxScript();
+            await tryOrThrough("MathJax", loadMathJaxScript);
 
             //  twitter
-            await loadTwitterScript();
+            await tryOrThrough("twitter", loadTwitterScript);
 
             await hideRendering();
         }
@@ -1773,7 +1785,7 @@ declare interface ObjectConstructor {
                 ]
             };
             Reveal.initialize(objectAssign(defaultConfig, config));
-            await loadTwitterScript();
+            await tryOrThrough("twitter", loadTwitterScript);
             await hideRendering();
         }
         if (isEdit)

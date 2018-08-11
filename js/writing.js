@@ -21,6 +21,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             return new Promise(resolve => setTimeout(resolve, wait));
         });
     };
+    const tryOrThrough = function (title, f) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield f();
+            }
+            catch (err) {
+                console.error(`🚫 ${title}: ${err}`);
+            }
+        });
+    };
     const objectAssign = function (target, source) {
         //  copy from https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
         if (typeof Object.assign !== 'function') {
@@ -262,11 +272,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     };
     const loadScript = function (src) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise(resolved => makeDomNode({
+            return new Promise((resolve, reject) => makeDomNode({
                 parent: document.head,
                 tag: "script",
                 src: src,
-                onload: resolved,
+                onload: resolve,
+                onerror: reject,
             }));
         });
     };
@@ -1061,11 +1072,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                         applyFragmentId();
                     }
                     //  highlight
-                    yield loadHighlightScript();
+                    yield tryOrThrough("highlight", loadHighlightScript);
                     //  MathJax
-                    yield loadMathJaxScript();
+                    yield tryOrThrough("MathJax", loadMathJaxScript);
                     //  twitter
-                    yield loadTwitterScript();
+                    yield tryOrThrough("twitter", loadTwitterScript);
                     yield hideRendering();
                 });
             };
@@ -1136,9 +1147,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     .replace(/([^\n])```([^\n])/g, "$1`$2"));
                 remark.create(config);
                 //  MathJax
-                yield loadMathJaxScript();
+                yield tryOrThrough("MathJax", loadMathJaxScript);
                 //  twitter
-                yield loadTwitterScript();
+                yield tryOrThrough("twitter", loadTwitterScript);
                 yield hideRendering();
             }
             if (isReveal) {
@@ -1229,7 +1240,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     ]
                 };
                 Reveal.initialize(objectAssign(defaultConfig, config));
-                yield loadTwitterScript();
+                yield tryOrThrough("twitter", loadTwitterScript);
                 yield hideRendering();
             }
             if (isEdit) {

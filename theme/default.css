@@ -391,7 +391,7 @@ body.markdown.solid div.content
         overflow-x: auto;
     }
 
-    body.markdown div.index-frame
+    body.markdown:not(.writing-HTML-document-rendering) div.index-frame
     {
         display: block;
     }
@@ -452,7 +452,7 @@ body.markdown.solid div.content
     }
 }
 
-body.markdown div.index-frame
+body.markdown:not(.writing-HTML-document-rendering) div.index-frame
 {
     animation-name: index-fade;
     animation-duration: 0.6s;

@@ -29,6 +29,10 @@ declare interface ObjectConstructor {
         //  https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     };
+    const timeout = async function(wait : number) : Promise<void>
+    {
+        return new Promise<void>(resolve => setTimeout(resolve, wait));
+    };
     const objectAssign = function(target : object, source : object) : object
     {
         //  copy from https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
@@ -200,7 +204,7 @@ declare interface ObjectConstructor {
         document.body.classList.remove("writing-HTML-document-loading");
         document.body.classList.add("writing-HTML-document-rendering");
     };
-    const hideRendering = function (withError : boolean = false) : void
+    const hideRendering = async function (withError : boolean = false) : Promise<void>
     {
         hideLoading();
         if (globalState.config.disabledRenderingAnimation)
@@ -210,33 +214,21 @@ declare interface ObjectConstructor {
         else
         {
             document.body.classList.add("writing-HTML-document-rendering-slide-out");
-            setTimeout
-            (
-                () =>
-                {
-                    document.body.classList.remove("writing-HTML-document-rendering");
-                    setTimeout
-                    (
-                        () =>
-                        {
-                            applyFragmentId();
-                            if (globalState.activateOnScroll)
-                            {
-                                globalState.activateOnScroll();
-                            }
-                        },
-                        100
-                    );
-                },
-                200
-            );
+            await timeout(200);
+            document.body.classList.remove("writing-HTML-document-rendering");
+            await timeout(100);
+            applyFragmentId();
+            if (globalState.activateOnScroll)
+            {
+                globalState.activateOnScroll();
+            }
         }
         if (!withError)
         {
             console.log("✅ document rendering succeeded.");
         }
     };
-    const showError = function(arg) : void
+    const showError = async function(arg) : Promise<void>
     {
         recursiveAssign
         (
@@ -261,7 +253,7 @@ declare interface ObjectConstructor {
                 children: arg,
             }
         );
-        hideRendering(true);
+        await hideRendering(true);
     };
     const showLoadingError = function(sourceUrl, request) : void
     {
@@ -360,37 +352,34 @@ declare interface ObjectConstructor {
         );
         (document.getElementById("twitter-card-image") as HTMLMetaElement).content = href;
     };
-    const loadScript = function(src : string, onload : () => void = undefined) : void
+    const loadScript = async function(src : string) : Promise<void>
     {
-        makeDomNode
+        return new Promise<void>
         (
-            {
-                parent: document.head,
-                tag: "script",
-                src: src,
-                onload: onload,
-            }
+            resolved => makeDomNode
+            (
+                {
+                    parent: document.head,
+                    tag: "script",
+                    src: src,
+                    onload: resolved,
+                }
+            )
         );
     };
-    const loadHighlightScript = function() : void
+    const loadHighlightScript = async function() : Promise<void>
     {
-        loadScript
-        (
-            "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js",
-            function()
-            {
-                hljs.initHighlightingOnLoad();
-                applyHighlight();
-            }
-        );
+        await loadScript("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js");
+        hljs.initHighlightingOnLoad();
+        applyHighlight();
     };
-    const loadMathJaxScript = function() : void
+    const loadMathJaxScript = async function() : Promise<void>
     {
-        loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
+        await loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
     };
-    const loadTwitterScript = function()
+    const loadTwitterScript = async function() : Promise<void>
     {
-        loadScript("//platform.twitter.com/widgets.js");
+        await loadScript("//platform.twitter.com/widgets.js");
     };
     const makeAbsoluteUrl = function(base : string, url : string) : string
     {
@@ -1394,7 +1383,7 @@ declare interface ObjectConstructor {
         ).join("\n");
     };
 
-    const render = function(renderer : string, baseUrl : string, source : string) : void
+    const render = async function(renderer : string, baseUrl : string, source : string) : Promise<void>
     {
         //  regulate return code
         source = source.replace(/\r\n/g,"\n");
@@ -1518,7 +1507,7 @@ declare interface ObjectConstructor {
         //  favicon
         applyIcon(baseUrl);
 
-        const applyMarkdown = function(markdownToHtml : (string) => string) : void
+        const applyMarkdown = async function(markdownToHtml : (string) => string) : Promise<void>
         {
             document.body.classList.add("markdown");
             document.body.classList.add("solid");
@@ -1549,79 +1538,67 @@ declare interface ObjectConstructor {
             }
 
             //  highlight
-            loadHighlightScript();
+            await loadHighlightScript();
 
             //  MathJax
-            loadMathJaxScript();
+            await loadMathJaxScript();
 
             //  twitter
-            loadTwitterScript();
+            await loadTwitterScript();
 
-            hideRendering();
+            await hideRendering();
         };
 
         if (isMarked)
         {
             //  marked
-            loadScript
-            (
-                "js/marked.js",
-                function()
-                {
-                    let config : any = { gfm: true, tables: true };
-                    try
-                    {
-                        config = JSON.parse((source+"<!--[MARKED-CONFIG] { \"gfm\": true, \"tables\": true } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
-                    }
-                    catch(e)
-                    {
-                        console.error(new Error().stack);
-                        console.error(JSON.stringify(e));
-                    }
-                    console.log("marked-config: " +JSON.stringify(config, null, 4));
-                    const linkMaker = new MarkdownHeaderFragmentMaker();
-                    const markedRenderer = new marked.Renderer();
-                    markedRenderer.heading = function (text, level, raw)
-                    {
-                        return '<h'
-                        + level
-                        + ' id="'
-                        + this.options.headerPrefix
-                        + linkMaker.makeFragment(raw)
-                        //+ raw.toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-")
-                        + '">'
-                        + text.replace(explicitFragmentIdPattern, "")
-                        + '</h'
-                        + level
-                        + '>\n';
-                    };
-                    config.renderer = markedRenderer;
-                    marked.setOptions(config);
+            await loadScript("js/marked.js");
+            let config : any = { gfm: true, tables: true };
+            try
+            {
+                config = JSON.parse((source+"<!--[MARKED-CONFIG] { \"gfm\": true, \"tables\": true } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
+            }
+            catch(e)
+            {
+                console.error(new Error().stack);
+                console.error(JSON.stringify(e));
+            }
+            console.log("marked-config: " +JSON.stringify(config, null, 4));
+            const linkMaker = new MarkdownHeaderFragmentMaker();
+            const markedRenderer = new marked.Renderer();
+            markedRenderer.heading = function (text, level, raw)
+            {
+                return '<h'
+                + level
+                + ' id="'
+                + this.options.headerPrefix
+                + linkMaker.makeFragment(raw)
+                //+ raw.toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-")
+                + '">'
+                + text.replace(explicitFragmentIdPattern, "")
+                + '</h'
+                + level
+                + '>\n';
+            };
+            config.renderer = markedRenderer;
+            marked.setOptions(config);
 
-                    applyMarkdown(marked);
-                }
-            );
+            applyMarkdown(marked);
         }
         if (isCommonMark)
         {
             //  commonmark
-            loadScript
+            await loadScript("js/commonmark.js");
+            applyMarkdown
             (
-                "js/commonmark.js",
-                function()
+                function(markdown)
                 {
-                    applyMarkdown
+                    return new commonmark.HtmlRenderer().render
                     (
-                        function(markdown)
-                        {
-                            return new commonmark.HtmlRenderer().render
-                            (
-                                new commonmark.Parser().parse
-                                (
-                                    markdown
-                                )
-                            );
-                        }
+                        new commonmark.Parser().parse
+                        (
+                            markdown
+                        )
                     );
                 }
             );
@@ -1629,26 +1606,14 @@ declare interface ObjectConstructor {
         if (isMarkdownIt)
         {
             //  markdown-it
-            loadScript
+            await loadScript("js/markdown-it.js");
+            await loadScript("js/markdown-it-emoji.js");
+            applyMarkdown
             (
-                "js/markdown-it.js",
-                function()
+                function(markdown)
                 {
-                    loadScript
-                    (
-                        "js/markdown-it-emoji.js",
-                        function()
-                        {
-                            applyMarkdown
-                            (
-                                function(markdown)
-                                {
-                                    const markdownitWindow : any = window;
-                                    return markdownitWindow.markdownit({ html: true, }).use(markdownitWindow.markdownitEmoji).render(markdown);
-                                }
-                            );
-                        }
-                    );
+                    const markdownitWindow : any = window;
+                    return markdownitWindow.markdownit({ html: true, }).use(markdownitWindow.markdownitEmoji).render(markdown);
                 }
             );
         }
@@ -1674,35 +1639,30 @@ declare interface ObjectConstructor {
             ).join("\n");
             
             //  remark
-            loadScript
+            await loadScript("js/remark-latest.min.js");
+            const config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
+            source = skipEscapeBlock
             (
-                "js/remark-latest.min.js",
-                function()
+                source,
+                function(block)
                 {
-                    const config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
-                    source = skipEscapeBlock
-                    (
-                        source,
-                        function(block)
-                        {
-                            return block.replace(/<!--\[REMARK-CONFIG\][\S\s]*?-->/, "");
-                        }
-                    );
-                    config.source = translateForMathJax
-                    (
-                        translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))
-                        .replace(/([^\n])```([^\n])/g, "$1`$2")
-                    );
-                    remark.create(config);
-                    hideRendering();
+                    return block.replace(/<!--\[REMARK-CONFIG\][\S\s]*?-->/, "");
                 }
             );
+            config.source = translateForMathJax
+            (
+                translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))
+                .replace(/([^\n])```([^\n])/g, "$1`$2")
+            );
+            remark.create(config);
 
             //  MathJax
-            loadMathJaxScript();
+            await loadMathJaxScript();
 
             //  twitter
-            loadTwitterScript();
+            await loadTwitterScript();
+
+            await hideRendering();
         }
         if (isReveal)
         {
@@ -1768,64 +1728,53 @@ declare interface ObjectConstructor {
                 );
             };
             pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(translateForSlide(source))));
-            loadScript
-            (
-                "lib/js/head.min.js",
-                function()
+            await loadScript("lib/js/head.min.js");
+            await loadScript("js/reveal.js");
+            
+            const revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
+            console.log("reveal-transition: " +revealTransition);
+            console.log("reveal-theme(forced by url param): " +Reveal.getQueryHash().theme);
+            console.log("reveal-transition(forced by url param): " +Reveal.getQueryHash().transition);
+            const forceTheme = Reveal.getQueryHash().theme;
+            if (forceTheme)
+            {
+                documentTheme.href = "css/theme/" +forceTheme +".css";
+            }
+            // More info about config & dependencies:
+            // - https://github.com/hakimel/reveal.js#configuration
+            // - https://github.com/hakimel/reveal.js#dependencies
+            const config = JSON.parse((source+"<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
+            console.log("reveal-config: " +JSON.stringify(config, null, 4));
+            const defaultConfig =
+            {
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+                transition: Reveal.getQueryHash().transition || revealTransition, 
+                math:
                 {
-                    loadScript
-                    (
-                        "js/reveal.js",
-                        function()
-                        {
-                            const revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
-                            console.log("reveal-transition: " +revealTransition);
-                            console.log("reveal-theme(forced by url param): " +Reveal.getQueryHash().theme);
-                            console.log("reveal-transition(forced by url param): " +Reveal.getQueryHash().transition);
-                            const forceTheme = Reveal.getQueryHash().theme;
-                            if (forceTheme)
-                            {
-                                documentTheme.href = "css/theme/" +forceTheme +".css";
-                            }
-                            // More info about config & dependencies:
-                            // - https://github.com/hakimel/reveal.js#configuration
-                            // - https://github.com/hakimel/reveal.js#dependencies
-                            const config = JSON.parse((source+"<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
-                            console.log("reveal-config: " +JSON.stringify(config, null, 4));
-                            const defaultConfig =
-                            {
-                                controls: true,
-                                progress: true,
-                                history: true,
-                                center: true,
-                                transition: Reveal.getQueryHash().transition || revealTransition, 
-                                math:
-                                {
-                                    mathjax: '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js',
-                                    config: 'TeX-AMS_HTML-full'
-                                },
-                                dependencies:
-                                [
-                                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-                                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() {
-                                        hljs.initHighlightingOnLoad();
-                                        applyHighlight();
-                                    } },
-                                    { src: 'plugin/search/search.js', async: true },
-                                    { src: 'plugin/zoom-js/zoom.js', async: true },
-                                    { src: 'plugin/notes/notes.js', async: true },
-                                    { src: 'plugin/math/math.js', async: true }
-                                ]
-                            };
-                            Reveal.initialize(objectAssign(defaultConfig, config));
-                            loadTwitterScript();
-                            hideRendering();
-                        }
-                    );
-                }
-            );
+                    mathjax: '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js',
+                    config: 'TeX-AMS_HTML-full'
+                },
+                dependencies:
+                [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() {
+                        hljs.initHighlightingOnLoad();
+                        applyHighlight();
+                    } },
+                    { src: 'plugin/search/search.js', async: true },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/math/math.js', async: true }
+                ]
+            };
+            Reveal.initialize(objectAssign(defaultConfig, config));
+            await loadTwitterScript();
+            await hideRendering();
         }
         if (isEdit)
         {
@@ -1929,7 +1878,7 @@ declare interface ObjectConstructor {
                 }
             );
             update();
-            hideRendering();
+            await hideRendering();
         }
     };
     const loadGoogleAnalytics = function() : void
@@ -2121,7 +2070,7 @@ declare interface ObjectConstructor {
             const source = await loadDocument(globalState.urlParameters.sourceUrl);
             hideLoading();
             loadGoogleAnalytics();
-            render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
+            await render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
         }
     };
     startup();

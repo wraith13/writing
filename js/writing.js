@@ -16,6 +16,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         //  https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     };
+    const timeout = function (wait) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise(resolve => setTimeout(resolve, wait));
+        });
+    };
     const objectAssign = function (target, source) {
         //  copy from https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
         if (typeof Object.assign !== 'function') {
@@ -148,43 +153,45 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         document.body.classList.add("writing-HTML-document-rendering");
     };
     const hideRendering = function (withError = false) {
-        hideLoading();
-        if (globalState.config.disabledRenderingAnimation) {
-            document.body.classList.remove("writing-HTML-document-rendering");
-        }
-        else {
-            document.body.classList.add("writing-HTML-document-rendering-slide-out");
-            setTimeout(() => {
+        return __awaiter(this, void 0, void 0, function* () {
+            hideLoading();
+            if (globalState.config.disabledRenderingAnimation) {
                 document.body.classList.remove("writing-HTML-document-rendering");
-                setTimeout(() => {
-                    applyFragmentId();
-                    if (globalState.activateOnScroll) {
-                        globalState.activateOnScroll();
-                    }
-                }, 100);
-            }, 200);
-        }
-        if (!withError) {
-            console.log("✅ document rendering succeeded.");
-        }
+            }
+            else {
+                document.body.classList.add("writing-HTML-document-rendering-slide-out");
+                yield timeout(200);
+                document.body.classList.remove("writing-HTML-document-rendering");
+                yield timeout(100);
+                applyFragmentId();
+                if (globalState.activateOnScroll) {
+                    globalState.activateOnScroll();
+                }
+            }
+            if (!withError) {
+                console.log("✅ document rendering succeeded.");
+            }
+        });
     };
     const showError = function (arg) {
-        recursiveAssign(document.body.style, {
-            margin: "0px",
+        return __awaiter(this, void 0, void 0, function* () {
+            recursiveAssign(document.body.style, {
+                margin: "0px",
+            });
+            makeDomNode({
+                parent: document.body,
+                tag: "div",
+                style: {
+                    color: "#AA3322",
+                    backgroundColor: "#442211",
+                    fontSize: "1.5rem",
+                    padding: "0.4rem",
+                    textAlign: "center",
+                },
+                children: arg,
+            });
+            yield hideRendering(true);
         });
-        makeDomNode({
-            parent: document.body,
-            tag: "div",
-            style: {
-                color: "#AA3322",
-                backgroundColor: "#442211",
-                fontSize: "1.5rem",
-                padding: "0.4rem",
-                textAlign: "center",
-            },
-            children: arg,
-        });
-        hideRendering(true);
     };
     const showLoadingError = function (sourceUrl, request) {
         hideSystemLoadingError();
@@ -253,25 +260,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         });
         document.getElementById("twitter-card-image").content = href;
     };
-    const loadScript = function (src, onload = undefined) {
-        makeDomNode({
-            parent: document.head,
-            tag: "script",
-            src: src,
-            onload: onload,
+    const loadScript = function (src) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise(resolved => makeDomNode({
+                parent: document.head,
+                tag: "script",
+                src: src,
+                onload: resolved,
+            }));
         });
     };
     const loadHighlightScript = function () {
-        loadScript("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function () {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield loadScript("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js");
             hljs.initHighlightingOnLoad();
             applyHighlight();
         });
     };
     const loadMathJaxScript = function () {
-        loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
+        return __awaiter(this, void 0, void 0, function* () {
+            yield loadScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML");
+        });
     };
     const loadTwitterScript = function () {
-        loadScript("//platform.twitter.com/widgets.js");
+        return __awaiter(this, void 0, void 0, function* () {
+            yield loadScript("//platform.twitter.com/widgets.js");
+        });
     };
     const makeAbsoluteUrl = function (base, url) {
         if ("#" === url.substr(0, 1)) {
@@ -936,125 +950,128 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         }).join("\n");
     };
     const render = function (renderer, baseUrl, source) {
-        //  regulate return code
-        source = source.replace(/\r\n/g, "\n");
-        //  preload config
-        globalState.configBackup = deepCopy(globalState.config); // グローバルな設定のバックアップ
-        globalState.documentConfig = {};
-        loadConfig(source);
-        objectAssign(globalState.config, globalState.documentConfig);
-        //  この段階ではレンダラが確定しておらずディレクティブが機能していないがレンダラーに関する指定を取得する為に一度読み込む。後でリロードする。
-        if (globalState.config.referrer_option) {
-            console.log("referrer: " + document.referrer);
-            let newUrl = location.href;
-            const currentUrlParamNames = (location.href.split("#")[0] + "?")
-                .split("?")[1]
-                .split("&")
-                .filter(function (i) { return 0 < i.indexOf("="); })
-                .map(function (i) { return i.substr(0, i.indexOf("=")); });
-            const referrerUrlParams = (document.referrer.split("#")[0] + "?")
-                .split("?")[1]
-                .split("&")
-                .filter(function (i) { return 0 < i.indexOf("="); })
-                .filter(function (i) {
-                const name = i.substr(0, i.indexOf("="));
-                let result = true;
-                currentUrlParamNames.forEach(function (j) { if (j === name) {
-                    result = false;
-                } });
-                return result;
-            });
-            if (0 < referrerUrlParams.length) {
-                newUrl = newUrl.replace("?", "?" + referrerUrlParams.join("&") + "&");
-            }
-            if (!renderer) {
-                if ((document.referrer || "").split("?")[0] === location.href.split("?")[0]) {
-                    let newUrl = location.href;
-                    const urlArgs = (document.referrer.split("#")[0] + "?")
-                        .split("?")[1]
-                        .split("&")
-                        .filter(function (i) { return i.indexOf("=") < 0; })
-                        .map(function (i) { return decodeURIComponent(i); });
-                    if (2 <= urlArgs.length) {
-                        renderer = urlArgs[0];
-                        newUrl = newUrl.replace("?", "?" + renderer + "&");
+        return __awaiter(this, void 0, void 0, function* () {
+            //  regulate return code
+            source = source.replace(/\r\n/g, "\n");
+            //  preload config
+            globalState.configBackup = deepCopy(globalState.config); // グローバルな設定のバックアップ
+            globalState.documentConfig = {};
+            loadConfig(source);
+            objectAssign(globalState.config, globalState.documentConfig);
+            //  この段階ではレンダラが確定しておらずディレクティブが機能していないがレンダラーに関する指定を取得する為に一度読み込む。後でリロードする。
+            if (globalState.config.referrer_option) {
+                console.log("referrer: " + document.referrer);
+                let newUrl = location.href;
+                const currentUrlParamNames = (location.href.split("#")[0] + "?")
+                    .split("?")[1]
+                    .split("&")
+                    .filter(function (i) { return 0 < i.indexOf("="); })
+                    .map(function (i) { return i.substr(0, i.indexOf("=")); });
+                const referrerUrlParams = (document.referrer.split("#")[0] + "?")
+                    .split("?")[1]
+                    .split("&")
+                    .filter(function (i) { return 0 < i.indexOf("="); })
+                    .filter(function (i) {
+                    const name = i.substr(0, i.indexOf("="));
+                    let result = true;
+                    currentUrlParamNames.forEach(function (j) { if (j === name) {
+                        result = false;
+                    } });
+                    return result;
+                });
+                if (0 < referrerUrlParams.length) {
+                    newUrl = newUrl.replace("?", "?" + referrerUrlParams.join("&") + "&");
+                }
+                if (!renderer) {
+                    if ((document.referrer || "").split("?")[0] === location.href.split("?")[0]) {
+                        let newUrl = location.href;
+                        const urlArgs = (document.referrer.split("#")[0] + "?")
+                            .split("?")[1]
+                            .split("&")
+                            .filter(function (i) { return i.indexOf("=") < 0; })
+                            .map(function (i) { return decodeURIComponent(i); });
+                        if (2 <= urlArgs.length) {
+                            renderer = urlArgs[0];
+                            newUrl = newUrl.replace("?", "?" + renderer + "&");
+                        }
                     }
                 }
+                if (newUrl !== location.href) {
+                    window.history.replaceState(null, document.title, newUrl);
+                }
             }
-            if (newUrl !== location.href) {
-                window.history.replaceState(null, document.title, newUrl);
+            renderer = renderer || (globalState.config.renderer || "markdown").toLowerCase();
+            console.log("🎨 renderer: " + (renderer || "null"));
+            const isWriting = true;
+            let isMarked = "marked" === renderer;
+            const isCommonMark = "commonmark" === renderer;
+            const isMarkdownIt = "markdown-it" === renderer;
+            const isMarkdown = isMarked || isCommonMark || isMarkdownIt || "markdown" === renderer;
+            const isRemark = "remark" === renderer;
+            const isReveal = "reveal" === renderer;
+            const isEdit = "edit" === renderer;
+            if (!isMarkdown && !isRemark && !isReveal && !isEdit) {
+                const message = "Unknown Rederer Name: \"" + renderer + "\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
+                showError(message);
+                console.error(message);
+                return;
             }
-        }
-        renderer = renderer || (globalState.config.renderer || "markdown").toLowerCase();
-        console.log("🎨 renderer: " + (renderer || "null"));
-        const isWriting = true;
-        let isMarked = "marked" === renderer;
-        const isCommonMark = "commonmark" === renderer;
-        const isMarkdownIt = "markdown-it" === renderer;
-        const isMarkdown = isMarked || isCommonMark || isMarkdownIt || "markdown" === renderer;
-        const isRemark = "remark" === renderer;
-        const isReveal = "reveal" === renderer;
-        const isEdit = "edit" === renderer;
-        if (!isMarkdown && !isRemark && !isReveal && !isEdit) {
-            const message = "Unknown Rederer Name: \"" + renderer + "\" ( Rederer Names: \"markdown\"(default), \"remark\", \"reveal\", \"edit\" )";
-            showError(message);
-            console.error(message);
-            return;
-        }
-        if (isMarkdown && !isMarked && !isCommonMark && !isMarkdownIt) {
-            isMarked = true; // とりあえずいまは marked を default の markdown のレンダラーとして扱う
-        }
-        //  conditional comment
-        if (!isEdit) {
-            source = applyConditionalComment(source, isWriting, "WRITING");
-            source = applyConditionalComment(source, isMarkdown, "MD");
-            source = applyConditionalComment(source, isMarked, "MARKED");
-            source = applyConditionalComment(source, isCommonMark, "COMMONMARK");
-            source = applyConditionalComment(source, isMarkdownIt, "MARKDOWN-IT");
-            source = applyConditionalComment(source, isRemark, "REMARK");
-            source = applyConditionalComment(source, isReveal, "REVEAL");
-        }
-        //  reload config
-        globalState.config = globalState.configBackup; // ディレクティブが効いてない状態で読み込んだ設定をクリア
-        globalState.documentConfig = {}; // ディレクティブが効いてない状態で読み込んだ設定をクリア
-        source = loadConfig(source);
-        console.log("⚙️ WRTING-CONFING: " + JSON.stringify(globalState.documentConfig, null, 4));
-        objectAssign(globalState.config, globalState.documentConfig);
-        //  title
-        applyTitle(source);
-        //  favicon
-        applyIcon(baseUrl);
-        const applyMarkdown = function (markdownToHtml) {
-            document.body.classList.add("markdown");
-            document.body.classList.add("solid");
-            //  theme
-            appendHighlightTheme();
-            applyTheme(baseUrl);
-            //  style
-            source = applyStyle(source);
-            //  wallpaper
-            applyWallPaper(baseUrl);
-            source = translateRelativeLink(baseUrl, source);
-            source = unescapeBackSlash(source);
-            source = translateForMathJax(source);
-            applyContent(markdownToHtml(source));
-            //  index
-            applyIndex(source);
-            //  fragment id
-            if (globalState.config.disabledRenderingAnimation) {
-                applyFragmentId();
+            if (isMarkdown && !isMarked && !isCommonMark && !isMarkdownIt) {
+                isMarked = true; // とりあえずいまは marked を default の markdown のレンダラーとして扱う
             }
-            //  highlight
-            loadHighlightScript();
-            //  MathJax
-            loadMathJaxScript();
-            //  twitter
-            loadTwitterScript();
-            hideRendering();
-        };
-        if (isMarked) {
-            //  marked
-            loadScript("js/marked.js", function () {
+            //  conditional comment
+            if (!isEdit) {
+                source = applyConditionalComment(source, isWriting, "WRITING");
+                source = applyConditionalComment(source, isMarkdown, "MD");
+                source = applyConditionalComment(source, isMarked, "MARKED");
+                source = applyConditionalComment(source, isCommonMark, "COMMONMARK");
+                source = applyConditionalComment(source, isMarkdownIt, "MARKDOWN-IT");
+                source = applyConditionalComment(source, isRemark, "REMARK");
+                source = applyConditionalComment(source, isReveal, "REVEAL");
+            }
+            //  reload config
+            globalState.config = globalState.configBackup; // ディレクティブが効いてない状態で読み込んだ設定をクリア
+            globalState.documentConfig = {}; // ディレクティブが効いてない状態で読み込んだ設定をクリア
+            source = loadConfig(source);
+            console.log("⚙️ WRTING-CONFING: " + JSON.stringify(globalState.documentConfig, null, 4));
+            objectAssign(globalState.config, globalState.documentConfig);
+            //  title
+            applyTitle(source);
+            //  favicon
+            applyIcon(baseUrl);
+            const applyMarkdown = function (markdownToHtml) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    document.body.classList.add("markdown");
+                    document.body.classList.add("solid");
+                    //  theme
+                    appendHighlightTheme();
+                    applyTheme(baseUrl);
+                    //  style
+                    source = applyStyle(source);
+                    //  wallpaper
+                    applyWallPaper(baseUrl);
+                    source = translateRelativeLink(baseUrl, source);
+                    source = unescapeBackSlash(source);
+                    source = translateForMathJax(source);
+                    applyContent(markdownToHtml(source));
+                    //  index
+                    applyIndex(source);
+                    //  fragment id
+                    if (globalState.config.disabledRenderingAnimation) {
+                        applyFragmentId();
+                    }
+                    //  highlight
+                    yield loadHighlightScript();
+                    //  MathJax
+                    yield loadMathJaxScript();
+                    //  twitter
+                    yield loadTwitterScript();
+                    yield hideRendering();
+                });
+            };
+            if (isMarked) {
+                //  marked
+                yield loadScript("js/marked.js");
                 let config = { gfm: true, tables: true };
                 try {
                     config = JSON.parse((source + "<!--[MARKED-CONFIG] { \"gfm\": true, \"tables\": true } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
@@ -1081,40 +1098,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 config.renderer = markedRenderer;
                 marked.setOptions(config);
                 applyMarkdown(marked);
-            });
-        }
-        if (isCommonMark) {
-            //  commonmark
-            loadScript("js/commonmark.js", function () {
+            }
+            if (isCommonMark) {
+                //  commonmark
+                yield loadScript("js/commonmark.js");
                 applyMarkdown(function (markdown) {
                     return new commonmark.HtmlRenderer().render(new commonmark.Parser().parse(markdown));
                 });
-            });
-        }
-        if (isMarkdownIt) {
-            //  markdown-it
-            loadScript("js/markdown-it.js", function () {
-                loadScript("js/markdown-it-emoji.js", function () {
-                    applyMarkdown(function (markdown) {
-                        const markdownitWindow = window;
-                        return markdownitWindow.markdownit({ html: true, }).use(markdownitWindow.markdownitEmoji).render(markdown);
-                    });
+            }
+            if (isMarkdownIt) {
+                //  markdown-it
+                yield loadScript("js/markdown-it.js");
+                yield loadScript("js/markdown-it-emoji.js");
+                applyMarkdown(function (markdown) {
+                    const markdownitWindow = window;
+                    return markdownitWindow.markdownit({ html: true, }).use(markdownitWindow.markdownitEmoji).render(markdown);
                 });
-            });
-        }
-        if (isRemark) {
-            //  theme
-            applyTheme(baseUrl);
-            //  style
-            source = applyStyle(source);
-            source = skipEscape(source.split("\n"), function (line) {
-                if (">>>" === line) {
-                    line = "---";
-                }
-                return line;
-            }).join("\n");
-            //  remark
-            loadScript("js/remark-latest.min.js", function () {
+            }
+            if (isRemark) {
+                //  theme
+                applyTheme(baseUrl);
+                //  style
+                source = applyStyle(source);
+                source = skipEscape(source.split("\n"), function (line) {
+                    if (">>>" === line) {
+                        line = "---";
+                    }
+                    return line;
+                }).join("\n");
+                //  remark
+                yield loadScript("js/remark-latest.min.js");
                 const config = JSON.parse((source + "<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
                 source = skipEscapeBlock(source, function (block) {
                     return block.replace(/<!--\[REMARK-CONFIG\][\S\s]*?-->/, "");
@@ -1122,183 +1135,181 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 config.source = translateForMathJax(translateRelativeLink(baseUrl, translateLinkWithinPageForRemark(translateForSlide(source)))
                     .replace(/([^\n])```([^\n])/g, "$1`$2"));
                 remark.create(config);
-                hideRendering();
-            });
-            //  MathJax
-            loadMathJaxScript();
-            //  twitter
-            loadTwitterScript();
-        }
-        if (isReveal) {
-            //  reveal
-            appendTheme("css/reveal.css");
-            const revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-THEME]league-->")[1].toLowerCase();
-            console.log("reveal-theme: " + revealTheme);
-            appendTheme("css/theme/" + revealTheme + ".css", "theme");
-            const documentTheme = document.getElementById("theme");
-            appendTheme("lib/css/zenburn.css");
-            appendTheme(window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css');
-            //  theme
-            applyTheme(baseUrl);
-            //  style
-            source = applyStyle(source);
-            makeDomNode({
-                parent: document.head,
-                tag: "style",
-                innerHTML: (source + "<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim(),
-            });
-            //  paste markdown
-            const separator = (source + "<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();
-            const separator_vertical = (source + "<!--[REVEAL-SEPARATOR-VERTICAL] ^\\n>>>$ -->").split("<!--[REVEAL-SEPARATOR-VERTICAL]")[1].split("-->")[0].trim();
-            const separator_notes = (source + "<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
-            const pasteMarkdown = function (markdown) {
-                return makeDomNode({
+                //  MathJax
+                yield loadMathJaxScript();
+                //  twitter
+                yield loadTwitterScript();
+                yield hideRendering();
+            }
+            if (isReveal) {
+                //  reveal
+                appendTheme("css/reveal.css");
+                const revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-THEME]league-->")[1].toLowerCase();
+                console.log("reveal-theme: " + revealTheme);
+                appendTheme("css/theme/" + revealTheme + ".css", "theme");
+                const documentTheme = document.getElementById("theme");
+                appendTheme("lib/css/zenburn.css");
+                appendTheme(window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css');
+                //  theme
+                applyTheme(baseUrl);
+                //  style
+                source = applyStyle(source);
+                makeDomNode({
+                    parent: document.head,
+                    tag: "style",
+                    innerHTML: (source + "<!--[STYLE] -->").split("<!--[STYLE]")[1].split("-->")[0].trim(),
+                });
+                //  paste markdown
+                const separator = (source + "<!--[REVEAL-SEPARATOR] ^\\n---$ -->").split("<!--[REVEAL-SEPARATOR]")[1].split("-->")[0].trim();
+                const separator_vertical = (source + "<!--[REVEAL-SEPARATOR-VERTICAL] ^\\n>>>$ -->").split("<!--[REVEAL-SEPARATOR-VERTICAL]")[1].split("-->")[0].trim();
+                const separator_notes = (source + "<!--[REVEAL-SEPARATOR-NOTES] ^Note: -->").split("<!--[REVEAL-SEPARATOR-NOTES]")[1].split("-->")[0].trim();
+                const pasteMarkdown = function (markdown) {
+                    return makeDomNode({
+                        parent: document.body,
+                        tag: "div",
+                        className: "reveal",
+                        children: {
+                            tag: "div",
+                            className: "slides",
+                            children: {
+                                tag: "section",
+                                attributes: {
+                                    "data-markdown": "",
+                                    "data-separator": separator,
+                                    "data-separator-vertical": separator_vertical,
+                                    "data-separator-notes": separator_notes,
+                                },
+                                children: {
+                                    tag: "script",
+                                    type: "text/template",
+                                    innerHTML: translateForMathJax(markdown),
+                                },
+                            },
+                        },
+                    });
+                };
+                pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(translateForSlide(source))));
+                yield loadScript("lib/js/head.min.js");
+                yield loadScript("js/reveal.js");
+                const revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
+                console.log("reveal-transition: " + revealTransition);
+                console.log("reveal-theme(forced by url param): " + Reveal.getQueryHash().theme);
+                console.log("reveal-transition(forced by url param): " + Reveal.getQueryHash().transition);
+                const forceTheme = Reveal.getQueryHash().theme;
+                if (forceTheme) {
+                    documentTheme.href = "css/theme/" + forceTheme + ".css";
+                }
+                // More info about config & dependencies:
+                // - https://github.com/hakimel/reveal.js#configuration
+                // - https://github.com/hakimel/reveal.js#dependencies
+                const config = JSON.parse((source + "<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
+                console.log("reveal-config: " + JSON.stringify(config, null, 4));
+                const defaultConfig = {
+                    controls: true,
+                    progress: true,
+                    history: true,
+                    center: true,
+                    transition: Reveal.getQueryHash().transition || revealTransition,
+                    math: {
+                        mathjax: '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js',
+                        config: 'TeX-AMS_HTML-full'
+                    },
+                    dependencies: [
+                        { src: 'lib/js/classList.js', condition: function () { return !document.body.classList; } },
+                        { src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                        { src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                        { src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                                hljs.initHighlightingOnLoad();
+                                applyHighlight();
+                            } },
+                        { src: 'plugin/search/search.js', async: true },
+                        { src: 'plugin/zoom-js/zoom.js', async: true },
+                        { src: 'plugin/notes/notes.js', async: true },
+                        { src: 'plugin/math/math.js', async: true }
+                    ]
+                };
+                Reveal.initialize(objectAssign(defaultConfig, config));
+                yield loadTwitterScript();
+                yield hideRendering();
+            }
+            if (isEdit) {
+                //  edit
+                recursiveAssign(document.body.style, {
+                    margin: "0",
+                    overflow: "hidden",
+                    backgroundColor: "#86812A",
+                });
+                const urlsDiv = makeDomNode({
                     parent: document.body,
                     tag: "div",
-                    className: "reveal",
-                    children: {
-                        tag: "div",
-                        className: "slides",
-                        children: {
-                            tag: "section",
-                            attributes: {
-                                "data-markdown": "",
-                                "data-separator": separator,
-                                "data-separator-vertical": separator_vertical,
-                                "data-separator-notes": separator_notes,
-                            },
-                            children: {
-                                tag: "script",
-                                type: "text/template",
-                                innerHTML: translateForMathJax(markdown),
-                            },
-                        },
-                    },
-                });
-            };
-            pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(translateForSlide(source))));
-            loadScript("lib/js/head.min.js", function () {
-                loadScript("js/reveal.js", function () {
-                    const revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
-                    console.log("reveal-transition: " + revealTransition);
-                    console.log("reveal-theme(forced by url param): " + Reveal.getQueryHash().theme);
-                    console.log("reveal-transition(forced by url param): " + Reveal.getQueryHash().transition);
-                    const forceTheme = Reveal.getQueryHash().theme;
-                    if (forceTheme) {
-                        documentTheme.href = "css/theme/" + forceTheme + ".css";
-                    }
-                    // More info about config & dependencies:
-                    // - https://github.com/hakimel/reveal.js#configuration
-                    // - https://github.com/hakimel/reveal.js#dependencies
-                    const config = JSON.parse((source + "<!--[REVEAL-CONFIG] { } -->").split("<!--[REVEAL-CONFIG]")[1].split("-->")[0].trim());
-                    console.log("reveal-config: " + JSON.stringify(config, null, 4));
-                    const defaultConfig = {
-                        controls: true,
-                        progress: true,
-                        history: true,
-                        center: true,
-                        transition: Reveal.getQueryHash().transition || revealTransition,
-                        math: {
-                            mathjax: '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js',
-                            config: 'TeX-AMS_HTML-full'
-                        },
-                        dependencies: [
-                            { src: 'lib/js/classList.js', condition: function () { return !document.body.classList; } },
-                            { src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
-                            { src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
-                            { src: 'plugin/highlight/highlight.js', async: true, callback: function () {
-                                    hljs.initHighlightingOnLoad();
-                                    applyHighlight();
-                                } },
-                            { src: 'plugin/search/search.js', async: true },
-                            { src: 'plugin/zoom-js/zoom.js', async: true },
-                            { src: 'plugin/notes/notes.js', async: true },
-                            { src: 'plugin/math/math.js', async: true }
-                        ]
-                    };
-                    Reveal.initialize(objectAssign(defaultConfig, config));
-                    loadTwitterScript();
-                    hideRendering();
-                });
-            });
-        }
-        if (isEdit) {
-            //  edit
-            recursiveAssign(document.body.style, {
-                margin: "0",
-                overflow: "hidden",
-                backgroundColor: "#86812A",
-            });
-            const urlsDiv = makeDomNode({
-                parent: document.body,
-                tag: "div",
-                style: {
-                    padding: "0.5rem 1.0rem",
-                    width: "100%",
-                    height: "1rem",
-                    verticalAlign: "middle",
-                    lineHeight: "1rem",
-                },
-            });
-            const textCounter = makeDomNode({
-                parent: urlsDiv,
-                tag: "span",
-                style: {
-                    color: "#CCCCCC",
-                    padding: "0rem 1.0rem",
-                }
-            });
-            const makeLink = function (text) {
-                return makeDomNode({
-                    parent: urlsDiv,
-                    tag: "a",
                     style: {
-                        color: "#FFFFFF",
-                        padding: "0rem 1.0rem",
+                        padding: "0.5rem 1.0rem",
+                        width: "100%",
+                        height: "1rem",
+                        verticalAlign: "middle",
+                        lineHeight: "1rem",
                     },
-                    text: text,
-                    target: "_blank",
                 });
-            };
-            const defaultLink = makeLink("default");
-            const markedLink = makeLink("marked(markdown)");
-            const commonmarkLink = makeLink("commonmark(markdown)");
-            const markdownitLink = makeLink("markdown-it(markdown)");
-            const remarkLink = makeLink("remark(slide)");
-            const revealLink = makeLink("reveal(slide)");
-            const editLink = makeLink("edit");
-            const update = function () {
-                const text = encodeURIComponent(textarea.value);
-                textCounter.innerText = "lenght:" + text.length;
-                defaultLink.href = "?text:" + text;
-                markedLink.href = "?marked&text:" + text;
-                commonmarkLink.href = "?commonmark&text:" + text;
-                markdownitLink.href = "?markdown-it&text:" + text;
-                remarkLink.href = "?remark&text:" + text;
-                revealLink.href = "?reveal&text:" + text;
-                editLink.href = "?edit&text:" + text;
-            };
-            const textarea = makeDomNode({
-                parent: document.body,
-                tag: "textarea",
-                style: {
-                    width: "100%",
-                    height: "100%",
-                    margin: "0rem 1rem 1rem 1rem",
-                },
-                value: source,
-                eventListener: {
-                    change: update,
-                    keyup: update,
-                },
-            });
-            recursiveAssign(textarea.style, {
-                width: "calc(100vw - 2rem)",
-                height: "calc(100vh - 3rem)",
-            });
-            update();
-            hideRendering();
-        }
+                const textCounter = makeDomNode({
+                    parent: urlsDiv,
+                    tag: "span",
+                    style: {
+                        color: "#CCCCCC",
+                        padding: "0rem 1.0rem",
+                    }
+                });
+                const makeLink = function (text) {
+                    return makeDomNode({
+                        parent: urlsDiv,
+                        tag: "a",
+                        style: {
+                            color: "#FFFFFF",
+                            padding: "0rem 1.0rem",
+                        },
+                        text: text,
+                        target: "_blank",
+                    });
+                };
+                const defaultLink = makeLink("default");
+                const markedLink = makeLink("marked(markdown)");
+                const commonmarkLink = makeLink("commonmark(markdown)");
+                const markdownitLink = makeLink("markdown-it(markdown)");
+                const remarkLink = makeLink("remark(slide)");
+                const revealLink = makeLink("reveal(slide)");
+                const editLink = makeLink("edit");
+                const update = function () {
+                    const text = encodeURIComponent(textarea.value);
+                    textCounter.innerText = "lenght:" + text.length;
+                    defaultLink.href = "?text:" + text;
+                    markedLink.href = "?marked&text:" + text;
+                    commonmarkLink.href = "?commonmark&text:" + text;
+                    markdownitLink.href = "?markdown-it&text:" + text;
+                    remarkLink.href = "?remark&text:" + text;
+                    revealLink.href = "?reveal&text:" + text;
+                    editLink.href = "?edit&text:" + text;
+                };
+                const textarea = makeDomNode({
+                    parent: document.body,
+                    tag: "textarea",
+                    style: {
+                        width: "100%",
+                        height: "100%",
+                        margin: "0rem 1rem 1rem 1rem",
+                    },
+                    value: source,
+                    eventListener: {
+                        change: update,
+                        keyup: update,
+                    },
+                });
+                recursiveAssign(textarea.style, {
+                    width: "calc(100vw - 2rem)",
+                    height: "calc(100vh - 3rem)",
+                });
+                update();
+                yield hideRendering();
+            }
+        });
     };
     const loadGoogleAnalytics = function () {
         if (globalState && globalState.config && globalState.config.googleAnalyticsTracckingId) {
@@ -1432,7 +1443,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 const source = yield loadDocument(globalState.urlParameters.sourceUrl);
                 hideLoading();
                 loadGoogleAnalytics();
-                render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
+                yield render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
             }
         });
     };

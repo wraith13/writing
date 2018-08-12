@@ -294,9 +294,15 @@ body.markdown.solid
     border-top-color: #86812A;
     border-top-style: solid;
 }
-body.markdown.solid div.content
+body.markdown.solid div.content,
+body.markdown.solid.writing-HTML-document-rendering.writing-HTML-document-rendering-slide-out div.content,
+body.markdown.solid #writing-HTML-document-rendering-panel
 {
     margin-top: calc(0px - calc(calc(calc(calc(30.0rem / 180.0) + 1.0rem) * 1.2) + 28px));
+}
+body.markdown.solid.writing-HTML-document-rendering div.content
+{
+    margin-top: 0px;
 }
 @media (min-width: 90.0rem)
 {

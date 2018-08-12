@@ -170,8 +170,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }
             else {
                 document.body.classList.add("writing-HTML-document-rendering-slide-out");
-                yield timeout(300);
+                yield timeout(290);
                 document.body.classList.remove("writing-HTML-document-rendering");
+                document.body.classList.remove("writing-HTML-document-rendering-slide-out");
                 yield timeout(100);
                 applyFragmentId();
                 if (globalState.activateOnScroll) {

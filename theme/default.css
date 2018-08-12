@@ -1,322 +1,300 @@
-@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
-@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
-@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
-
-body
-{
-    font-family: 'Droid Serif',-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+@font-face {
+  font-family: 'Yanone Kaffeesatz';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), local('YanoneKaffeesatz-Regular'), url(https://fonts.gstatic.com/s/yanonekaffeesatz/v9/3y976aknfjLm_3lMKjiMgmUUYBs04Y8bH-8.ttf) format('truetype');
 }
-h1, h2, h3, h4, h5, h6, h7, h8, h9
-{
-    font-family: 'Yanone Kaffeesatz';
-    font-weight: normal;
+@font-face {
+  font-family: 'Droid Serif';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Droid Serif Italic'), local('DroidSerif-Italic'), url(https://fonts.gstatic.com/s/droidserif/v8/tDbK2oqRg1oM3QBjjcaDkOr4nAfcGw.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Droid Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Serif Regular'), local('DroidSerif-Regular'), url(https://fonts.gstatic.com/s/droidserif/v8/tDbI2oqRg1oM3QBjjcaDkOr9rAA.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Droid Serif';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Droid Serif Bold'), local('DroidSerif-Bold'), url(https://fonts.gstatic.com/s/droidserif/v8/tDbV2oqRg1oM3QBjjcaDkOJGiRD7OwQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ubuntu Mono';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Ubuntu Mono Italic'), local('UbuntuMono-Italic'), url(https://fonts.gstatic.com/s/ubuntumono/v7/KFOhCneDtsqEr0keqCMhbCc_OsbSlQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ubuntu Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Ubuntu Mono'), local('UbuntuMono-Regular'), url(https://fonts.gstatic.com/s/ubuntumono/v7/KFOjCneDtsqEr0keqCMhbCc6CsE.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ubuntu Mono';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Ubuntu Mono Bold'), local('UbuntuMono-Bold'), url(https://fonts.gstatic.com/s/ubuntumono/v7/KFO-CneDtsqEr0keqCMhbC-BL9H1tYg.ttf) format('truetype');
+}
+body {
+  font-family: 'Droid Serif', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h7,
+h8,
+h9 {
+  font-family: 'Yanone Kaffeesatz';
+  font-weight: normal;
 }
 .remark-code,
-.remark-inline-code
-{
-    font-family: 'Ubuntu Mono';
+.remark-inline-code {
+  font-family: 'Ubuntu Mono';
 }
-
-.remark-inline-code
-{
-    border-radius: 6px;
-    background-color: #EEEEAA;
+.remark-inline-code {
+  border-radius: 6px;
+  background-color: #EEEEAA;
 }
-
-.remark-slide-content
-{
-    font-size: 35px;
+.remark-slide-content {
+  font-size: 35px;
 }
-.remark-code
-{
-    border-radius: 8px;
-    font-size: 30px;
+.remark-code {
+  border-radius: 8px;
+  font-size: 30px;
 }
-.remark-slide pre.mathjax
-{
-    font-size: 1.0em;
+.remark-slide pre.mathjax {
+  font-size: 1.0em;
 }
-
-.reveal .slides
-{
-    text-align: left;
+.reveal .slides {
+  text-align: left;
 }
-
-table
-{
-    color: inherit;
-    font-size: inherit;
+table {
+  color: inherit;
+  font-size: inherit;
 }
-
-.reveal pre.mathjax
-{
-    box-shadow: initial;
-    font-size: 1.0em;
+.reveal pre.mathjax {
+  box-shadow: initial;
+  font-size: 1.0em;
 }
-
-iframe.twitter-tweet-rendered
-{
-    margin-left: auto;
-    margin-right: auto;
+iframe.twitter-tweet-rendered {
+  margin-left: auto;
+  margin-right: auto;
 }
-
-body:not(.remark-container) *:not(pre) > code
-{
-    display: inline;
-    padding: 0.2em;
+body:not(.remark-container) *:not(pre) > code {
+  display: inline;
+  padding: 0.2em;
 }
-
-a
-{
-    color: #4444DD;
+a {
+  color: #4444DD;
 }
-
-a:hover
-{
-    color: #DD4444;
+a:hover {
+  color: #DD4444;
 }
-
-a:active
-{
-    color: #DD44DD;
+a:active {
+  color: #DD44DD;
 }
-
-blockquote
-{
-    border-radius: 12px;
-    opacity: 0.6;
-    background-color: #DDDDDD;
-    padding: 8px;
-    min-height: 57px;
+blockquote {
+  border-radius: 12px;
+  opacity: 0.6;
+  background-color: #DDDDDD;
+  padding: 8px;
+  min-height: 57px;
 }
-.reveal .slides blockquote
-{
-    width: auto;
+.reveal .slides blockquote {
+  width: auto;
 }
-blockquote::before
-{
-    margin-top: -35px;
-    opacity: 0.3;
-    content: "“";
-    font-size: 180px;
-    float: left;
-    overflow-y: hidden;
-    max-height: 100px;
+blockquote::before {
+  margin-top: -35px;
+  opacity: 0.3;
+  content: "“";
+  font-size: 180px;
+  float: left;
+  overflow-y: hidden;
+  max-height: 100px;
 }
 blockquote > p,
-.reveal .slides blockquote > p
-{
-    margin-left: 100px;
-    margin-top: 20px;
-    margin-bottom: 15px;
+.reveal .slides blockquote > p {
+  margin-left: 100px;
+  margin-top: 20px;
+  margin-bottom: 15px;
 }
-.reveal .slides blockquote > p
-{
-    display: block;
-    margin-right: 10px;
+.reveal .slides blockquote > p {
+  display: block;
+  margin-right: 10px;
 }
 body.markdown,
-body.markdown table
-{
-    overflow-x: hidden;
-    padding: 0;
-    margin: 0px;
+body.markdown table {
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0px;
 }
-body.markdown
-{
-    font-size: 1.0rem;
+body.markdown {
+  font-size: 1.0rem;
 }
-
-body.markdown .wallpaper
-{
-    /* 壁紙用のレイヤー */
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 100vw;
-    height: 100vh;
-    content: '';
-    overflow: hidden;
-    padding: 0;
-    opacity: 0.2;
-    z-index: -2;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+body.markdown .wallpaper {
+  /* 壁紙用のレイヤー */
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  content: '';
+  overflow: hidden;
+  padding: 0;
+  opacity: 0.2;
+  z-index: -2;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
-body.markdown .wallpaper::before
-{
-    /* 壁紙(body.markdown::before)の上にグラデーションをかける為のレイヤー */
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100vw;
-    height: 100vh;
-    content: '';
-    overflow: hidden;
-    padding: 0;
-    opacity: 0.6;
-    z-index: -1;
+body.markdown .wallpaper::before {
+  /* 壁紙(body.markdown::before)の上にグラデーションをかける為のレイヤー */
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  content: '';
+  overflow: hidden;
+  padding: 0;
+  opacity: 0.6;
+  z-index: -1;
 }
-
-body.markdown div.index-frame
-{
-    margin: 0px;
-    padding: 0px;
-    display: none;
-    visibility: hidden;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    height: 100vh;
+body.markdown div.index-frame {
+  margin: 0px;
+  padding: 0px;
+  display: none;
+  visibility: hidden;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100vh;
 }
-body.markdown div.index-frame div.index
-{
-    padding: 0px;
-    width: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
-    max-width: 60rem;
-    min-height: 100vh;
-
-    background-color: #EEEEEE;
-    opacity: 0.8;
-
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+body.markdown div.index-frame div.index {
+  padding: 0px;
+  width: calc(calc(100vw - 53.52786405rem) / 3.23606798);
+  max-width: 60rem;
+  min-height: 100vh;
+  background-color: #EEEEEE;
+  opacity: 0.8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 body.markdown div.index-frame:hover,
-body.markdown div.index-frame div.index
-{
-    visibility: visible;
+body.markdown div.index-frame div.index {
+  visibility: visible;
 }
-
-body.markdown div.index-frame div.index a
-{
-    display: block;
-    word-wrap: break-word;
-    white-space: wrap;
-    text-decoration: none;
-    line-height: 100%;
+body.markdown div.index-frame div.index a {
+  display: block;
+  word-wrap: break-word;
+  white-space: wrap;
+  text-decoration: none;
+  line-height: 100%;
 }
-body.markdown div.index-frame div.index a:not(.current):hover
-{
-    color: #FFFFFF;
-    background-color: #86812A;
-    text-decoration: underline;
+body.markdown div.index-frame div.index a:not(.current):hover {
+  color: #FFFFFF;
+  background-color: #86812A;
+  text-decoration: underline;
 }
-body.markdown div.index-frame div.index a.current
-{
-    color: #FFFFFF;
-    background-color: #4444DD;
+body.markdown div.index-frame div.index a.current {
+  color: #FFFFFF;
+  background-color: #4444DD;
 }
-body.markdown div.index-frame div.index a.level1
-{
-    padding: 14px 24px 14px 24px;
-    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2);
+body.markdown div.index-frame div.index a.level1 {
+  padding: 14px 24px 14px 24px;
+  font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 1.2);
 }
-body.markdown div.index-frame div.index a.level2
-{
-    padding: 12px 24px 12px 32px;
-    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.0);
+body.markdown div.index-frame div.index a.level2 {
+  padding: 12px 24px 12px 32px;
+  font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 1);
 }
-body.markdown div.index-frame div.index a.level3
-{
-    padding: 10px 24px 10px 40px;
-    font-size: 70%;
-    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.9);
+body.markdown div.index-frame div.index a.level3 {
+  padding: 10px 24px 10px 40px;
+  font-size: 70%;
+  font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 0.9);
 }
-body.markdown div.index-frame div.index a.level4
-{
-    padding: 8px 24px 8px 48px;
-    font-size: 60%;
-    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
+body.markdown div.index-frame div.index a.level4 {
+  padding: 8px 24px 8px 48px;
+  font-size: 60%;
+  font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 0.8);
 }
-body.markdown div.index-frame div.index a.level5
-{
-    padding: 6px 24px 6px 56px;
-    font-size: 50%;
-    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
+body.markdown div.index-frame div.index a.level5 {
+  padding: 6px 24px 6px 56px;
+  font-size: 50%;
+  font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 0.8);
 }
-body.markdown div.index-frame div.index a.level6
-{
-    padding: 4px 24px 4px 64px;
-    font-size: 40%;
-    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
+body.markdown div.index-frame div.index a.level6 {
+  padding: 4px 24px 4px 64px;
+  font-size: 40%;
+  font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 0.8);
 }
-body.markdown div.index-frame div.index a.level7
-{
-    padding: 4px 24px 4px 72px;
-    font-size: 35%;
-    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
+body.markdown div.index-frame div.index a.level7 {
+  padding: 4px 24px 4px 72px;
+  font-size: 35%;
+  font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 0.8);
 }
-body.markdown div.index-frame div.index a.level8
-{
-    padding: 4px 24px 4px 80px;
-    font-size: 30%;
-    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
+body.markdown div.index-frame div.index a.level8 {
+  padding: 4px 24px 4px 80px;
+  font-size: 30%;
+  font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 0.8);
 }
-body.markdown div.index-frame div.index a.level9
-{
-    padding: 4px 24px 4px 88px;
-    font-size: 30%;
-    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
+body.markdown div.index-frame div.index a.level9 {
+  padding: 4px 24px 4px 88px;
+  font-size: 30%;
+  font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 0.8);
 }
-
-body.markdown div.content
-{
-    overflow-y: auto;
+body.markdown div.content {
+  overflow-y: auto;
 }
-body.markdown.with-wallpaperx div.content
-{
-    -text-shadow: 6px 6px 6px #FFFFFF, 6px -6px 6px #FFFFFF, -6px -6px 6px #FFFFFF, -6px 6px 6px #FFFFFF; 
-    text-shadow: 3px 3px 3px #FFFFFF, 3px -3px 3px #FFFFFF, -3px -3px 3px #FFFFFF, -3px 3px 3px #FFFFFF; 
+body.markdown.with-wallpaperx div.content {
+  -text-shadow: 6px 6px 6px #FFFFFF, 6px -6px 6px #FFFFFF, -6px -6px 6px #FFFFFF, -6px 6px 6px #FFFFFF;
+  text-shadow: 3px 3px 3px #FFFFFF, 3px -3px 3px #FFFFFF, -3px -3px 3px #FFFFFF, -3px 3px 3px #FFFFFF;
 }
-
-body.markdown div.content h1
-{
-    font-size: 2.0em;
-    font-weight: bold;
+body.markdown div.content h1 {
+  font-size: 2.0em;
+  font-weight: bold;
 }
-body.markdown.solid div.content h1
-{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: normal;
-    padding: 14px 24px 14px 0px;
-    font-size: calc(calc(calc(30.0rem / 180.0) + 1.0rem) * 1.2);
-    line-height: 100%;
-    color: #FFFFFF;
-    background-color: #86812A;
-    margin-top: 0px;
+body.markdown.solid div.content h1 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: normal;
+  padding: 14px 24px 14px 0px;
+  font-size: calc(calc(calc(30rem / 180) + 1rem) * 1.2);
+  line-height: 100%;
+  color: #FFFFFF;
+  background-color: #86812A;
+  margin-top: 0px;
 }
-body.markdown.solid
-{
-    border-top-width: calc(calc(calc(calc(30.0rem / 180.0) + 1.0rem) * 1.2) + 28px);
-    border-top-color: #86812A;
-    border-top-style: solid;
+body.markdown.solid {
+  border-top-width: calc(calc(calc(calc(30rem / 180) + 1rem) * 1.2) + 28px);
+  border-top-color: #86812A;
+  border-top-style: solid;
 }
-body.markdown.solid div.content
-{
-    margin-top: calc(0px - calc(calc(calc(calc(30.0rem / 180.0) + 1.0rem) * 1.2) + 28px));
+body.markdown.solid div.content {
+  margin-top: calc(0px - calc(calc(calc(calc(30rem / 180) + 1rem) * 1.2) + 28px));
 }
-@media (min-width: 90.0rem)
-{
-    body.markdown.solid div.content h1
-    {
-        font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2);
-    }
-    body.markdown.solid
-    {
-        border-top-width: calc(calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2) + 28px);
-    }
-    body.markdown.solid div.content
-    {
-        margin-top: calc(0px - calc(calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2) + 28px));
-    }
+@media (min-width: 90rem) {
+  body.markdown.solid div.content h1 {
+    font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 1.2);
+  }
+  body.markdown.solid {
+    border-top-width: calc(calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 1.2) + 28px);
+  }
+  body.markdown.solid div.content {
+    margin-top: calc(0px - calc(calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 1.2) + 28px));
+  }
 }
-body.markdown div.content h2
-{
-    font-size: 1.5em;
-    font-weight: bold;
+body.markdown div.content h2 {
+  font-size: 1.5em;
+  font-weight: bold;
 }
 body.markdown div.content h3,
 body.markdown div.content h4,
@@ -324,194 +302,147 @@ body.markdown div.content h5,
 body.markdown div.content h6,
 body.markdown div.content h7,
 body.markdown div.content h8,
-body.markdown div.content h9
-{
-    font-size: 1.2em;
-    font-weight: bold;
+body.markdown div.content h9 {
+  font-size: 1.2em;
+  font-weight: bold;
 }
-body.markdown.solid div.content
-{
-    padding-top: 0px;
+body.markdown.solid div.content {
+  padding-top: 0px;
 }
-
-
-@media (max-width: 60.0rem)
-{
-    body.markdown div.content
-    {
-        padding: 1.0rem; /* calc が poor な環境の保険 */
-        padding: calc(calc(100vw / 40) + 0.5rem);
-        width: calc(100vw - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0));
-        /* max-height: calc(100vh - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0)); */
-    }
+@media (max-width: 60rem) {
+  body.markdown div.content {
+    padding: 1.0rem;
+    /* calc が poor な環境の保険 */
+    padding: calc(calc(100vw / 40) + 0.5rem);
+    width: calc(100vw - calc(calc(calc(100vw / 40) + 0.5rem) * 2));
+    /* max-height: calc(100vh - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0)); */
+  }
 }
-
-@media (min-width: 60.0rem)
-{
-    body.markdown
-    {
-        font-size: calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem);
-    }
-    body.markdown div.content
-    {
-        padding: 2.0rem; /* calc が poor な環境の保険を兼ねる */
-        padding-left: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
-        padding-right: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
-        /* 3.2360679774 黄金律(1.6180339887) * 2.0 */
-        /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
-        width: calc(100vw - calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 2.0));
-        /* max-height: calc(100vh - 4.0rem); */
-    }
+@media (min-width: 60rem) {
+  body.markdown {
+    font-size: calc(calc(calc(100vw - 60rem) / 180) + 1rem);
+  }
+  body.markdown div.content {
+    padding: 2.0rem;
+    /* calc が poor な環境の保険を兼ねる */
+    padding-left: calc(calc(100vw - 53.52786405rem) / 3.23606798);
+    padding-right: calc(calc(100vw - 53.52786405rem) / 3.23606798);
+    /* 3.2360679774 黄金律(1.6180339887) * 2.0 */
+    /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
+    width: calc(100vw - calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 2));
+    /* max-height: calc(100vh - 4.0rem); */
+  }
 }
-
-@media (min-width: 90.0rem)
-{
-    body.markdown.with-index
-    {
-        /* 3.2360679774 ????(1.6180339887) * 2.0 */
-        /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
-        font-size: calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem);
-    }
-    body.markdown.with-index div.content
-    {
-        display: block;
-        float: left;
-        overflow-y: auto;
-        margin-left: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 1.50);
-        padding-left: 2.0rem;
-        padding-right: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 0.5);
-        width: calc(100vw - calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 2.00) + 2.0rem));
-    }
-    body.markdown.with-index div.content *
-    {
-        max-width: calc(100vw - calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 2.00) - 2.0rem));
-    }
-    body.markdown.with-index div.content pre
-    {
-        overflow-x: auto;
-    }
-
-    body.markdown:not(.writing-HTML-document-rendering) div.index-frame
-    {
-        display: block;
-    }
-}
-@media (min-width: 180.0rem)
-{
-    body.markdown div.index-frame div.index
-    {
-        width: 36rem;
-    }
-    body.markdown.with-index div.content
-    {
-        margin-left: calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 0.5) + 40rem);
-        width: calc(100vw - calc(calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 1.0)) + 42rem));
-    }
-    body.markdown.with-index div.content *
-    {
-        max-width: calc(100vw - calc(calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 1.0)) + 42rem));
-        overflow-x: auto;
-    }
-}
-
-@media (min-width: 360px) and (max-width: 720px)
-{
-    body.markdown blockquote
-    {
-        margin-left: calc(calc(calc(100vw - 360px) / 11.25) + 8px);
-        margin-right: calc(calc(calc(100vw - 360px) / 11.25) + 8px);
-    }
-    body.markdown blockquote::before
-    {
-        margin-top: calc(calc(calc(100vw - 360px) / -12.41) - 6px);
-        font-size: calc(calc(calc(100vw - 360px) / 2.4) + 30px);
-    }
-
-    blockquote > p
-    {
-        margin-left: calc(calc(calc(100vw - 360px) / 4.5) + 20px);
-    }
-}
-
-@media (max-width: 360px)
-{
-    body.markdown blockquote
-    {
-        margin-left: 8px;
-        margin-right: 8px;
-    }
-    body.markdown blockquote::before
-    {
-        margin-top: -6px;
-        font-size: 30px;
-    }
-
-    blockquote > p
-    {
-        margin-left: 20px;
-    }
-}
-
-body.markdown:not(.writing-HTML-document-rendering) div.index-frame
-{
-    animation-name: index-fade;
-    animation-duration: 0.6s;
-    animation-timing-function: ease-in-out;
-    -webkit-animation-name: index-fade;
-    -webkit-animation-duration: 0.6s;
-    -webkit-animation-timing-function: ease-in-out;
-}
-
-@keyframes index-fade
-{
-    from
-    {
-        opacity: 0.0;
-    }
-    to
-    {
-        opacity: 0.8;
-    }
-}
-@-webkit-keyframes index-fade
-{
-    from
-    {
-        opacity: 0.0;
-    }
-    to
-    {
-        opacity: 0.8;
-    }
-}
-
-body.markdown pre.mathjax
-{
-    font-size: 1.3em;
-}
-
-body.markdown table {
-    border-spacing: 0;
-    border-collapse: collapse;
+@media (min-width: 90rem) {
+  body.markdown.with-index {
+    /* 3.2360679774 ????(1.6180339887) * 2.0 */
+    /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
+    font-size: calc(calc(calc(100vw - 60rem) / 180) + 1rem);
+  }
+  body.markdown.with-index div.content {
     display: block;
-    width: 100%;
-    overflow: auto;
+    float: left;
+    overflow-y: auto;
+    margin-left: calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 1.5);
+    padding-left: 2.0rem;
+    padding-right: calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 0.5);
+    width: calc(100vw - calc(calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 2) + 2rem));
+  }
+  body.markdown.with-index div.content * {
+    max-width: calc(100vw - calc(calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 2) - 2rem));
+  }
+  body.markdown.with-index div.content pre {
+    overflow-x: auto;
+  }
+  body.markdown:not(.writing-HTML-document-rendering) div.index-frame {
+    display: block;
+  }
 }
-
+@media (min-width: 180rem) {
+  body.markdown div.index-frame div.index {
+    width: 36rem;
+  }
+  body.markdown.with-index div.content {
+    margin-left: calc(calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 0.5) + 40rem);
+    width: calc(100vw - calc(calc(calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 1)) + 42rem));
+  }
+  body.markdown.with-index div.content * {
+    max-width: calc(100vw - calc(calc(calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 1)) + 42rem));
+    overflow-x: auto;
+  }
+}
+@media (min-width: 360px) and (max-width: 720px) {
+  body.markdown blockquote {
+    margin-left: calc(calc(calc(100vw - 360px) / 11.25) + 8px);
+    margin-right: calc(calc(calc(100vw - 360px) / 11.25) + 8px);
+  }
+  body.markdown blockquote::before {
+    margin-top: calc(calc(calc(100vw - 360px) / -12.41) - 6px);
+    font-size: calc(calc(calc(100vw - 360px) / 2.4) + 30px);
+  }
+  blockquote > p {
+    margin-left: calc(calc(calc(100vw - 360px) / 4.5) + 20px);
+  }
+}
+@media (max-width: 360px) {
+  body.markdown blockquote {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+  body.markdown blockquote::before {
+    margin-top: -6px;
+    font-size: 30px;
+  }
+  blockquote > p {
+    margin-left: 20px;
+  }
+}
+body.markdown:not(.writing-HTML-document-rendering) div.index-frame {
+  animation-name: index-fade;
+  animation-duration: 0.6s;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-name: index-fade;
+  -webkit-animation-duration: 0.6s;
+  -webkit-animation-timing-function: ease-in-out;
+}
+@keyframes index-fade {
+  from {
+    opacity: 0.0;
+  }
+  to {
+    opacity: 0.8;
+  }
+}
+@-webkit-keyframes index-fade {
+  from {
+    opacity: 0.0;
+  }
+  to {
+    opacity: 0.8;
+  }
+}
+body.markdown pre.mathjax {
+  font-size: 1.3em;
+}
+body.markdown table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
 body.markdown table tr {
-    background-color: #fff;
-    border-top: 1px solid #c6cbd1;
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
 }
-
 body.markdown table tr:nth-child(2n) {
-    background-color: #f6f8fa;
+  background-color: #f6f8fa;
 }
-
 body.markdown table th {
-    font-weight: 600;
+  font-weight: 600;
 }
-
-body.markdown table th, body.markdown table td {
-    padding: 0.5em 1.0em;
-    border: 1px solid #dfe2e5;
+body.markdown table th,
+body.markdown table td {
+  padding: 0.5em 1.0em;
+  border: 1px solid #dfe2e5;
 }

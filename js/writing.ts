@@ -225,8 +225,9 @@ declare interface ObjectConstructor {
         else
         {
             document.body.classList.add("writing-HTML-document-rendering-slide-out");
-            await timeout(200);
+            await timeout(290);
             document.body.classList.remove("writing-HTML-document-rendering");
+            document.body.classList.remove("writing-HTML-document-rendering-slide-out");
             await timeout(100);
             applyFragmentId();
             if (globalState.activateOnScroll)

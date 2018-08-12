@@ -170,7 +170,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }
             else {
                 document.body.classList.add("writing-HTML-document-rendering-slide-out");
-                yield timeout(200);
+                yield timeout(300);
                 document.body.classList.remove("writing-HTML-document-rendering");
                 yield timeout(100);
                 applyFragmentId();

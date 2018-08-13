@@ -22,6 +22,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         });
     };
     const tryOrThrough = function (title, f) {
+        try {
+            f();
+        }
+        catch (err) {
+            console.error(`🚫 ${title}: ${err}`);
+        }
+    };
+    const tryOrThroughAsync = function (title, f) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield f();
@@ -1073,11 +1081,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                         applyFragmentId();
                     }
                     //  highlight
-                    yield tryOrThrough("highlight", loadHighlightScript);
+                    yield tryOrThroughAsync("highlight", loadHighlightScript);
                     //  MathJax
-                    yield tryOrThrough("MathJax", loadMathJaxScript);
+                    yield tryOrThroughAsync("MathJax", loadMathJaxScript);
                     //  twitter
-                    yield tryOrThrough("twitter", loadTwitterScript);
+                    yield tryOrThroughAsync("twitter", loadTwitterScript);
                     yield hideRendering();
                 });
             };
@@ -1148,9 +1156,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     .replace(/([^\n])```([^\n])/g, "$1`$2"));
                 remark.create(config);
                 //  MathJax
-                yield tryOrThrough("MathJax", loadMathJaxScript);
+                yield tryOrThroughAsync("MathJax", loadMathJaxScript);
                 //  twitter
-                yield tryOrThrough("twitter", loadTwitterScript);
+                yield tryOrThroughAsync("twitter", loadTwitterScript);
                 yield hideRendering();
             }
             if (isReveal) {
@@ -1241,7 +1249,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     ]
                 };
                 Reveal.initialize(objectAssign(defaultConfig, config));
-                yield tryOrThrough("twitter", loadTwitterScript);
+                yield tryOrThroughAsync("twitter", loadTwitterScript);
                 yield hideRendering();
             }
             if (isEdit) {
@@ -1454,7 +1462,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 hideSystemLoadingError();
                 const source = yield loadDocument(globalState.urlParameters.sourceUrl);
                 hideLoading();
-                loadGoogleAnalytics();
+                tryOrThrough("GoogleAnalytics", loadGoogleAnalytics);
                 yield render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
             }
         });

@@ -33,7 +33,18 @@ declare interface ObjectConstructor {
     {
         return new Promise<void>(resolve => setTimeout(resolve, wait));
     };
-    const tryOrThrough = async function(title : string, f : () => Promise<void>) : Promise<void>
+    const tryOrThrough = function(title : string, f : () => void) : void
+    {
+        try
+        {
+            f();
+        }
+        catch(err)
+        {
+            console.error(`🚫 ${title}: ${err}`);
+        }
+    };
+    const tryOrThroughAsync = async function(title : string, f : () => Promise<void>) : Promise<void>
     {
         try
         {
@@ -1551,13 +1562,13 @@ declare interface ObjectConstructor {
             }
 
             //  highlight
-            await tryOrThrough("highlight", loadHighlightScript);
+            await tryOrThroughAsync("highlight", loadHighlightScript);
 
             //  MathJax
-            await tryOrThrough("MathJax", loadMathJaxScript);
+            await tryOrThroughAsync("MathJax", loadMathJaxScript);
 
             //  twitter
-            await tryOrThrough("twitter", loadTwitterScript);
+            await tryOrThroughAsync("twitter", loadTwitterScript);
 
             await hideRendering();
         };
@@ -1670,10 +1681,10 @@ declare interface ObjectConstructor {
             remark.create(config);
 
             //  MathJax
-            await tryOrThrough("MathJax", loadMathJaxScript);
+            await tryOrThroughAsync("MathJax", loadMathJaxScript);
 
             //  twitter
-            await tryOrThrough("twitter", loadTwitterScript);
+            await tryOrThroughAsync("twitter", loadTwitterScript);
 
             await hideRendering();
         }
@@ -1786,7 +1797,7 @@ declare interface ObjectConstructor {
                 ]
             };
             Reveal.initialize(objectAssign(defaultConfig, config));
-            await tryOrThrough("twitter", loadTwitterScript);
+            await tryOrThroughAsync("twitter", loadTwitterScript);
             await hideRendering();
         }
         if (isEdit)
@@ -2082,7 +2093,7 @@ declare interface ObjectConstructor {
             hideSystemLoadingError();
             const source = await loadDocument(globalState.urlParameters.sourceUrl);
             hideLoading();
-            loadGoogleAnalytics();
+            tryOrThrough("GoogleAnalytics", loadGoogleAnalytics);
             await render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
         }
     };

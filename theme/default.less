@@ -115,48 +115,47 @@ blockquote > p,
     display: block;
     margin-right: 10px;
 }
-body.markdown,
-body.markdown table
-{
-    overflow-x: hidden;
-    padding: 0;
-    margin: 0px;
-}
 body.markdown
 {
+    &,
+    table
+    {
+        overflow-x: hidden;
+        padding: 0;
+        margin: 0px;
+    }
     font-size: 1.0rem;
-}
-
-body.markdown .wallpaper
-{
-    /* 壁紙用のレイヤー */
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 100vw;
-    height: 100vh;
-    content: '';
-    overflow: hidden;
-    padding: 0;
-    opacity: 0.2;
-    z-index: -2;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-}
-body.markdown .wallpaper::before
-{
-    /* 壁紙(body.markdown::before)の上にグラデーションをかける為のレイヤー */
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100vw;
-    height: 100vh;
-    content: '';
-    overflow: hidden;
-    padding: 0;
-    opacity: 0.6;
-    z-index: -1;
+    .wallpaper
+    {
+        /* 壁紙用のレイヤー */
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100vw;
+        height: 100vh;
+        content: '';
+        overflow: hidden;
+        padding: 0;
+        opacity: 0.2;
+        z-index: -2;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        &::before
+        {
+            /* 壁紙(body.markdown::before)の上にグラデーションをかける為のレイヤー */
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 100vw;
+            height: 100vh;
+            content: '';
+            overflow: hidden;
+            padding: 0;
+            opacity: 0.6;
+            z-index: -1;
+        }
+    }
 }
 
 body.markdown div.index-frame

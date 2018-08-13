@@ -130,14 +130,14 @@ blockquote > p,
   display: block;
   margin-right: 10px;
 }
+body.markdown {
+  font-size: 1.0rem;
+}
 body.markdown,
 body.markdown table {
   overflow-x: hidden;
   padding: 0;
   margin: 0px;
-}
-body.markdown {
-  font-size: 1.0rem;
 }
 body.markdown .wallpaper {
   /* 壁紙用のレイヤー */

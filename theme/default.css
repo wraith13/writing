@@ -189,10 +189,6 @@ body.markdown div.index-frame div.index {
   opacity: 0.8;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-body.markdown div.index-frame:hover,
-body.markdown div.index-frame div.index {
-  visibility: visible;
-}
 body.markdown div.index-frame div.index a {
   display: block;
   word-wrap: break-word;
@@ -251,6 +247,10 @@ body.markdown div.index-frame div.index a.level9 {
   padding: 4px 24px 4px 88px;
   font-size: 30%;
   font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 0.8);
+}
+body.markdown div.index-frame:hover,
+body.markdown div.index-frame div.index {
+  visibility: visible;
 }
 body.markdown div.content {
   overflow-y: auto;

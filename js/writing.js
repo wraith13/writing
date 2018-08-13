@@ -192,6 +192,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             }
         });
     };
+    const showRenderingError = function () {
+        //  中途半端にレンダリングされたモノの影響を受けないようにガッツリ書き換える
+        document.body.className = "writing-HTML-document-rendering-error";
+        document.body.innerHTML = document.getElementById("writing-HTML-document-rendering-error-panel").outerHTML;
+    };
     const showError = function (arg) {
         return __awaiter(this, void 0, void 0, function* () {
             recursiveAssign(document.body.style, {
@@ -1458,12 +1463,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 hideSystemLoadingError();
                 hideLoading();
             }
+            else if ("@rendering-error" === globalState.urlParameters.sourceUrl.toLowerCase()) {
+                showRenderingError();
+            }
             else {
                 hideSystemLoadingError();
                 const source = yield loadDocument(globalState.urlParameters.sourceUrl);
                 hideLoading();
                 tryOrThrough("GoogleAnalytics", loadGoogleAnalytics);
-                yield render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
+                try {
+                    yield render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
+                }
+                catch (err) {
+                    showRenderingError();
+                    console.error(`🚫 ${err}`);
+                }
             }
         });
     };

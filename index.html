@@ -31,7 +31,8 @@ MathJax.Hub.Config
 <style>
 body.writing-HTML-system-loading-error,
 body.writing-HTML-document-loading,
-body.writing-HTML-document-rendering
+body.writing-HTML-document-rendering,
+body.writing-HTML-document-rendering-error
 {
     padding: 0;
     margin:-0;
@@ -39,14 +40,16 @@ body.writing-HTML-document-rendering
 }
 #writing-HTML-system-loading-error-panel,
 #writing-HTML-document-loading-panel,
-#writing-HTML-document-rendering-panel
+#writing-HTML-document-rendering-panel,
+#writing-HTML-document-rendering-error-panel
 {
     display: none;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 body.writing-HTML-system-loading-error #writing-HTML-system-loading-error-panel,
 body.writing-HTML-document-loading #writing-HTML-document-loading-panel,
-body.writing-HTML-document-rendering #writing-HTML-document-rendering-panel
+body.writing-HTML-document-rendering #writing-HTML-document-rendering-panel,
+body.writing-HTML-document-rendering-error #writing-HTML-document-rendering-error-panel
 {
     display: block;
     font-size:3.0rem;
@@ -55,13 +58,21 @@ body.writing-HTML-document-rendering #writing-HTML-document-rendering-panel
     text-align:center;
     margin:-0;
 }
-body.writing-HTML-system-loading-error #writing-HTML-system-loading-error-panel
+body.writing-HTML-system-loading-error #writing-HTML-system-loading-error-panel,
+body.writing-HTML-document-rendering-error #writing-HTML-document-rendering-error-panel
 {
     animation-name: writing-fade-in;
-    animation-duration: 10.0s;
     animation-timing-function: ease-in-out;
     color:#AA3322;
     background-color:#442211;
+}
+body.writing-HTML-system-loading-error #writing-HTML-system-loading-error-panel
+{
+    animation-duration: 10.0s;
+}
+body.writing-HTML-document-rendering-error #writing-HTML-document-rendering-error-panel
+{
+    animation-duration: 0.3s;
 }
 body.writing-HTML-document-loading #writing-HTML-document-loading-panel,
 body.writing-HTML-document-rendering #writing-HTML-document-rendering-panel
@@ -99,7 +110,7 @@ body.writing-HTML-document-rendering.writing-HTML-document-rendering-slide-out #
     }
 }
 </style>
-<body class="writing-HTML-system-loading-error"><div id="writing-HTML-system-loading-error-panel">rendering system loading error</div><div id="writing-HTML-document-loading-panel">document loading...</div><div id="writing-HTML-document-rendering-panel">document rendering...</div></body>
+<body class="writing-HTML-system-loading-error"><div id="writing-HTML-system-loading-error-panel">rendering system loading error</div><div id="writing-HTML-document-loading-panel">document loading...</div><div id="writing-HTML-document-rendering-panel">document rendering...</div><div id="writing-HTML-document-rendering-error-panel">document rendering error</div></body>
 <script src="js/writing.js"></script>
 <!--[/NOWRITING]-->
 <!--[WRTING-CONFING]

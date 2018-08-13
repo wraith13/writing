@@ -251,6 +251,12 @@ declare interface ObjectConstructor {
             console.log("✅ document rendering succeeded.");
         }
     };
+    const showRenderingError = function () : void
+    {
+        //  中途半端にレンダリングされたモノの影響を受けないようにガッツリ書き換える
+        document.body.className = "writing-HTML-document-rendering-error";
+        document.body.innerHTML = document.getElementById("writing-HTML-document-rendering-error-panel").outerHTML;
+    };
     const showError = async function(arg) : Promise<void>
     {
         recursiveAssign
@@ -2089,12 +2095,25 @@ declare interface ObjectConstructor {
             hideLoading();
         }
         else
+        if ("@rendering-error" === globalState.urlParameters.sourceUrl.toLowerCase())
+        {
+            showRenderingError();
+        }
+        else
         {
             hideSystemLoadingError();
             const source = await loadDocument(globalState.urlParameters.sourceUrl);
             hideLoading();
             tryOrThrough("GoogleAnalytics", loadGoogleAnalytics);
-            await render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
+            try
+            {
+                await render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
+            }
+            catch(err)
+            {
+                showRenderingError();
+                console.error(`🚫 ${err}`);
+            }
         }
     };
     startup();

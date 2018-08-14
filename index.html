@@ -57,6 +57,15 @@ body.writing-HTML-document-rendering-error #writing-HTML-document-rendering-erro
     padding: calc(50vh - 1.5rem) 3.0rem;
     text-align:center;
     margin:-0;
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100vw;
+    z-index: 10000;
+}
+body.writing-HTML-document-rendering-error #writing-HTML-document-rendering-error-panel
+{
+    padding: calc(50vh - 5.0rem) 3.0rem;
 }
 body.writing-HTML-system-loading-error #writing-HTML-system-loading-error-panel,
 body.writing-HTML-document-rendering-error #writing-HTML-document-rendering-error-panel
@@ -110,7 +119,7 @@ body.writing-HTML-document-rendering.writing-HTML-document-rendering-slide-out #
     }
 }
 </style>
-<body class="writing-HTML-system-loading-error"><div id="writing-HTML-system-loading-error-panel">rendering system loading error</div><div id="writing-HTML-document-loading-panel">document loading...</div><div id="writing-HTML-document-rendering-panel">document rendering...</div><div id="writing-HTML-document-rendering-error-panel">document rendering error</div></body>
+<body class="writing-HTML-system-loading-error"><div id="writing-HTML-system-loading-error-panel">rendering system loading error</div><div id="writing-HTML-document-loading-panel">document loading...</div><div id="writing-HTML-document-rendering-panel">document rendering...</div><div id="writing-HTML-document-rendering-error-panel">document rendering error<p>click to try resuming</p></div></body>
 <script src="js/writing.js"></script>
 <!--[/NOWRITING]-->
 <!--[WRTING-CONFING]

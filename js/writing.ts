@@ -253,9 +253,14 @@ declare interface ObjectConstructor {
     };
     const showRenderingError = function () : void
     {
-        //  中途半端にレンダリングされたモノの影響を受けないようにガッツリ書き換える
-        document.body.className = "writing-HTML-document-rendering-error";
-        document.body.innerHTML = document.getElementById("writing-HTML-document-rendering-error-panel").outerHTML;
+        document.body.classList.add("writing-HTML-document-rendering-error");
+        
+        //  画面をクリックしたら復元(エラーがあってもとにかく表示された方が嬉しい場面もあるので)
+        document.getElementById("writing-HTML-document-rendering-error-panel").onclick = async function()
+        {
+            document.body.classList.remove("writing-HTML-document-rendering-error");
+            await hideRendering();
+        };
     };
     const showError = async function(arg) : Promise<void>
     {

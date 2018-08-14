@@ -193,9 +193,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         });
     };
     const showRenderingError = function () {
-        //  中途半端にレンダリングされたモノの影響を受けないようにガッツリ書き換える
-        document.body.className = "writing-HTML-document-rendering-error";
-        document.body.innerHTML = document.getElementById("writing-HTML-document-rendering-error-panel").outerHTML;
+        document.body.classList.add("writing-HTML-document-rendering-error");
+        //  画面をクリックしたら復元(エラーがあってもとにかく表示された方が嬉しい場面もあるので)
+        document.getElementById("writing-HTML-document-rendering-error-panel").onclick = function () {
+            return __awaiter(this, void 0, void 0, function* () {
+                document.body.classList.remove("writing-HTML-document-rendering-error");
+                yield hideRendering();
+            });
+        };
     };
     const showError = function (arg) {
         return __awaiter(this, void 0, void 0, function* () {

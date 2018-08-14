@@ -255,13 +255,18 @@ body.markdown div.index-frame div.index {
 body.markdown div.content {
   overflow-y: auto;
 }
+body.markdown div.content h1 {
+  font-size: 2.0em;
+  font-weight: bold;
+}
 body.markdown.with-wallpaperx div.content {
   -text-shadow: 6px 6px 6px #FFFFFF, 6px -6px 6px #FFFFFF, -6px -6px 6px #FFFFFF, -6px 6px 6px #FFFFFF;
   text-shadow: 3px 3px 3px #FFFFFF, 3px -3px 3px #FFFFFF, -3px -3px 3px #FFFFFF, -3px 3px 3px #FFFFFF;
 }
-body.markdown div.content h1 {
-  font-size: 2.0em;
-  font-weight: bold;
+body.markdown.solid {
+  border-top-width: calc(calc(calc(calc(30rem / 180) + 1rem) * 1.2) + 28px);
+  border-top-color: #86812A;
+  border-top-style: solid;
 }
 body.markdown.solid div.content h1 {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -272,11 +277,6 @@ body.markdown.solid div.content h1 {
   color: #FFFFFF;
   background-color: #86812A;
   margin-top: 0px;
-}
-body.markdown.solid {
-  border-top-width: calc(calc(calc(calc(30rem / 180) + 1rem) * 1.2) + 28px);
-  border-top-color: #86812A;
-  border-top-style: solid;
 }
 body.markdown.solid div.content,
 body.markdown.solid.writing-HTML-document-rendering.writing-HTML-document-rendering-slide-out div.content,

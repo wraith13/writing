@@ -261,9 +261,19 @@ body.markdown
     div.content
     {
         overflow-y: auto;
-        & h1
+        h1
         {
             font-size: 2.0em;
+            font-weight: bold;
+        }
+        h2
+        {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        h3, h4, h5, h6, h7, h8, h9
+        {
+            font-size: 1.2em;
             font-weight: bold;
         }
     }
@@ -277,16 +287,20 @@ body.markdown
         border-top-width: calc(calc(calc(calc(30.0rem / 180.0) + 1.0rem) * 1.2) + 28px);
         border-top-color: #86812A;
         border-top-style: solid;
-        div.content h1
+        div.content
         {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-weight: normal;
-            padding: 14px 24px 14px 0px;
-            font-size: calc(calc(calc(30.0rem / 180.0) + 1.0rem) * 1.2);
-            line-height: 100%;
-            color: #FFFFFF;
-            background-color: #86812A;
-            margin-top: 0px;
+            padding-top: 0px;
+            h1
+            {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-weight: normal;
+                padding: 14px 24px 14px 0px;
+                font-size: calc(calc(calc(30.0rem / 180.0) + 1.0rem) * 1.2);
+                line-height: 100%;
+                color: #FFFFFF;
+                background-color: #86812A;
+                margin-top: 0px;
+            }
         }
         div.content,
         &.writing-HTML-document-rendering.writing-HTML-document-rendering-slide-out div.content,
@@ -298,43 +312,22 @@ body.markdown
         {
             margin-top: 0px;
         }
+        @media (min-width: 90.0rem)
+        {
+            &
+            {
+                border-top-width: calc(calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2) + 28px);
+            }
+            div.content
+            {
+                margin-top: calc(0px - calc(calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2) + 28px));
+                h1
+                {
+                    font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2);
+                }
+            }
+        }
     }
-}
-
-@media (min-width: 90.0rem)
-{
-    body.markdown.solid div.content h1
-    {
-        font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2);
-    }
-    body.markdown.solid
-    {
-        border-top-width: calc(calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2) + 28px);
-    }
-    body.markdown.solid div.content
-    {
-        margin-top: calc(0px - calc(calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2) + 28px));
-    }
-}
-body.markdown div.content h2
-{
-    font-size: 1.5em;
-    font-weight: bold;
-}
-body.markdown div.content h3,
-body.markdown div.content h4,
-body.markdown div.content h5,
-body.markdown div.content h6,
-body.markdown div.content h7,
-body.markdown div.content h8,
-body.markdown div.content h9
-{
-    font-size: 1.2em;
-    font-weight: bold;
-}
-body.markdown.solid div.content
-{
-    padding-top: 0px;
 }
 
 @media (max-width: 60.0rem)

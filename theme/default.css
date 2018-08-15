@@ -259,6 +259,20 @@ body.markdown div.content h1 {
   font-size: 2.0em;
   font-weight: bold;
 }
+body.markdown div.content h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+body.markdown div.content h3,
+body.markdown div.content h4,
+body.markdown div.content h5,
+body.markdown div.content h6,
+body.markdown div.content h7,
+body.markdown div.content h8,
+body.markdown div.content h9 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
 body.markdown.with-wallpaperx div.content {
   -text-shadow: 6px 6px 6px #FFFFFF, 6px -6px 6px #FFFFFF, -6px -6px 6px #FFFFFF, -6px 6px 6px #FFFFFF;
   text-shadow: 3px 3px 3px #FFFFFF, 3px -3px 3px #FFFFFF, -3px -3px 3px #FFFFFF, -3px 3px 3px #FFFFFF;
@@ -267,6 +281,9 @@ body.markdown.solid {
   border-top-width: calc(calc(calc(calc(30rem / 180) + 1rem) * 1.2) + 28px);
   border-top-color: #86812A;
   border-top-style: solid;
+}
+body.markdown.solid div.content {
+  padding-top: 0px;
 }
 body.markdown.solid div.content h1 {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -287,32 +304,15 @@ body.markdown.solid.writing-HTML-document-rendering div.content {
   margin-top: 0px;
 }
 @media (min-width: 90rem) {
-  body.markdown.solid div.content h1 {
-    font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 1.2);
-  }
   body.markdown.solid {
     border-top-width: calc(calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 1.2) + 28px);
   }
   body.markdown.solid div.content {
     margin-top: calc(0px - calc(calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 1.2) + 28px));
   }
-}
-body.markdown div.content h2 {
-  font-size: 1.5em;
-  font-weight: bold;
-}
-body.markdown div.content h3,
-body.markdown div.content h4,
-body.markdown div.content h5,
-body.markdown div.content h6,
-body.markdown div.content h7,
-body.markdown div.content h8,
-body.markdown div.content h9 {
-  font-size: 1.2em;
-  font-weight: bold;
-}
-body.markdown.solid div.content {
-  padding-top: 0px;
+  body.markdown.solid div.content h1 {
+    font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 1.2);
+  }
 }
 @media (max-width: 60rem) {
   body.markdown div.content {

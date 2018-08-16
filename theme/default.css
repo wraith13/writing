@@ -296,11 +296,11 @@ body.markdown.solid div.content h1 {
   margin-top: 0px;
 }
 body.markdown.solid div.content,
-body.markdown.solid.writing-HTML-document-rendering.writing-HTML-document-rendering-slide-out div.content,
-body.markdown.solid #writing-HTML-document-rendering-panel {
+body.markdown.solid.writing-HTML-document-rendering.writing-HTML-document-rendering-slide-out div.content {
   margin-top: calc(0px - calc(calc(calc(calc(30rem / 180) + 1rem) * 1.2) + 28px));
 }
-body.markdown.solid.writing-HTML-document-rendering div.content {
+body.markdown.solid.writing-HTML-document-rendering div.content,
+body.markdown.solid #writing-HTML-document-rendering-panel {
   margin-top: 0px;
 }
 @media (min-width: 90rem) {

@@ -55,34 +55,9 @@ h9 {
   font-family: 'Yanone Kaffeesatz';
   font-weight: normal;
 }
-.remark-code,
-.remark-inline-code {
-  font-family: 'Ubuntu Mono';
-}
-.remark-inline-code {
-  border-radius: 6px;
-  background-color: #EEEEAA;
-}
-.remark-slide-content {
-  font-size: 35px;
-}
-.remark-code {
-  border-radius: 8px;
-  font-size: 30px;
-}
-.remark-slide pre.mathjax {
-  font-size: 1.0em;
-}
-.reveal .slides {
-  text-align: left;
-}
 table {
   color: inherit;
   font-size: inherit;
-}
-.reveal pre.mathjax {
-  box-shadow: initial;
-  font-size: 1.0em;
 }
 iframe.twitter-tweet-rendered {
   margin-left: auto;
@@ -108,9 +83,6 @@ blockquote {
   padding: 8px;
   min-height: 57px;
 }
-.reveal .slides blockquote {
-  width: auto;
-}
 blockquote::before {
   margin-top: -35px;
   opacity: 0.3;
@@ -120,15 +92,45 @@ blockquote::before {
   overflow-y: hidden;
   max-height: 100px;
 }
-blockquote > p,
-.reveal .slides blockquote > p {
+blockquote > p {
   margin-left: 100px;
   margin-top: 20px;
   margin-bottom: 15px;
 }
+.remark-code,
+.remark-inline-code {
+  font-family: 'Ubuntu Mono';
+}
+.remark-inline-code {
+  border-radius: 6px;
+  background-color: #EEEEAA;
+}
+.remark-slide-content {
+  font-size: 35px;
+}
+.remark-code {
+  border-radius: 8px;
+  font-size: 30px;
+}
+.remark-slide pre.mathjax {
+  font-size: 1.0em;
+}
+.reveal .slides {
+  text-align: left;
+}
+.reveal .slides blockquote {
+  width: auto;
+}
 .reveal .slides blockquote > p {
+  margin-left: 100px;
+  margin-top: 20px;
+  margin-bottom: 15px;
   display: block;
   margin-right: 10px;
+}
+.reveal pre.mathjax {
+  box-shadow: initial;
+  font-size: 1.0em;
 }
 body.markdown {
   font-size: 1.0rem;

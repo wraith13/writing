@@ -252,6 +252,11 @@ body.markdown div.index-frame:hover,
 body.markdown div.index-frame div.index {
   visibility: visible;
 }
+@media (min-width: 60rem) {
+  body.markdown {
+    font-size: calc(calc(calc(100vw - 60rem) / 180) + 1rem);
+  }
+}
 body.markdown div.content {
   overflow-y: auto;
 }
@@ -272,6 +277,27 @@ body.markdown div.content h8,
 body.markdown div.content h9 {
   font-size: 1.2em;
   font-weight: bold;
+}
+@media (max-width: 60rem) {
+  body.markdown div.content {
+    padding: 1.0rem;
+    /* calc が poor な環境の保険 */
+    padding: calc(calc(100vw / 40) + 0.5rem);
+    width: calc(100vw - calc(calc(calc(100vw / 40) + 0.5rem) * 2));
+    /* max-height: calc(100vh - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0)); */
+  }
+}
+@media (min-width: 60rem) {
+  body.markdown div.content {
+    padding: 2.0rem;
+    /* calc が poor な環境の保険を兼ねる */
+    padding-left: calc(calc(100vw - 53.52786405rem) / 3.23606798);
+    padding-right: calc(calc(100vw - 53.52786405rem) / 3.23606798);
+    /* 3.2360679774 黄金律(1.6180339887) * 2.0 */
+    /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
+    width: calc(100vw - calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 2));
+    /* max-height: calc(100vh - 4.0rem); */
+  }
 }
 body.markdown.with-wallpaperx div.content {
   -text-shadow: 6px 6px 6px #FFFFFF, 6px -6px 6px #FFFFFF, -6px -6px 6px #FFFFFF, -6px 6px 6px #FFFFFF;
@@ -312,30 +338,6 @@ body.markdown.solid #writing-HTML-document-rendering-panel {
   }
   body.markdown.solid div.content h1 {
     font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 1.2);
-  }
-}
-@media (max-width: 60rem) {
-  body.markdown div.content {
-    padding: 1.0rem;
-    /* calc が poor な環境の保険 */
-    padding: calc(calc(100vw / 40) + 0.5rem);
-    width: calc(100vw - calc(calc(calc(100vw / 40) + 0.5rem) * 2));
-    /* max-height: calc(100vh - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0)); */
-  }
-}
-@media (min-width: 60rem) {
-  body.markdown {
-    font-size: calc(calc(calc(100vw - 60rem) / 180) + 1rem);
-  }
-  body.markdown div.content {
-    padding: 2.0rem;
-    /* calc が poor な環境の保険を兼ねる */
-    padding-left: calc(calc(100vw - 53.52786405rem) / 3.23606798);
-    padding-right: calc(calc(100vw - 53.52786405rem) / 3.23606798);
-    /* 3.2360679774 黄金律(1.6180339887) * 2.0 */
-    /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
-    width: calc(100vw - calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 2));
-    /* max-height: calc(100vh - 4.0rem); */
   }
 }
 @media (min-width: 90rem) {

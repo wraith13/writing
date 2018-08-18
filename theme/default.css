@@ -389,9 +389,6 @@ body.markdown.solid #writing-HTML-document-rendering-panel {
     margin-top: calc(calc(calc(100vw - 360px) / -12.41) - 6px);
     font-size: calc(calc(calc(100vw - 360px) / 2.4) + 30px);
   }
-  blockquote > p {
-    margin-left: calc(calc(calc(100vw - 360px) / 4.5) + 20px);
-  }
 }
 @media (max-width: 360px) {
   body.markdown blockquote {
@@ -402,6 +399,13 @@ body.markdown.solid #writing-HTML-document-rendering-panel {
     margin-top: -6px;
     font-size: 30px;
   }
+}
+@media (min-width: 360px) and (max-width: 720px) {
+  blockquote > p {
+    margin-left: calc(calc(calc(100vw - 360px) / 4.5) + 20px);
+  }
+}
+@media (max-width: 360px) {
   blockquote > p {
     margin-left: 20px;
   }

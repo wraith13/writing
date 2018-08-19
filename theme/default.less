@@ -120,7 +120,7 @@ blockquote
     }
 }
 
-@markdown-short-width: 90.0rem;
+@markdown-min-width-with-index: 90.0rem;
 
 body.markdown
 {
@@ -349,7 +349,7 @@ body.markdown
         {
             margin-top: 0px;
         }
-        @media (min-width: @markdown-short-width)
+        @media (min-width: @markdown-min-width-with-index)
         {
             &
             {
@@ -365,7 +365,7 @@ body.markdown
             }
         }
     }
-    @media (min-width: @markdown-short-width)
+    @media (min-width: @markdown-min-width-with-index)
     {
         &.with-index
         {

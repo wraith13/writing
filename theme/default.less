@@ -414,6 +414,48 @@ body.markdown
         }
     }
 
+    &:not(.writing-HTML-document-rendering) div.index-frame
+    {
+        animation-name: index-fade;
+        animation-duration: 0.6s;
+        animation-timing-function: ease-in-out;
+        -webkit-animation-name: index-fade;
+        -webkit-animation-duration: 0.6s;
+        -webkit-animation-timing-function: ease-in-out;
+    }
+
+    & pre.mathjax
+    {
+        font-size: 1.3em;
+    }
+    
+    & table
+    {
+        border-spacing: 0;
+        border-collapse: collapse;
+        display: block;
+        width: 100%;
+        overflow: auto;
+        & tr
+        {
+            background-color: #fff;
+            border-top: 1px solid #c6cbd1;
+            &:nth-child(2n)
+            {
+                background-color: #f6f8fa;
+            }
+            th
+            {
+                font-weight: 600;
+            }
+            th, td
+            {
+                padding: 0.5em 1.0em;
+                border: 1px solid #dfe2e5;
+            }
+        }
+    }
+    
     @media (min-width: 360px) and (max-width: 720px)
     {
         blockquote
@@ -458,16 +500,6 @@ body.markdown
     }
 }
 
-body.markdown:not(.writing-HTML-document-rendering) div.index-frame
-{
-    animation-name: index-fade;
-    animation-duration: 0.6s;
-    animation-timing-function: ease-in-out;
-    -webkit-animation-name: index-fade;
-    -webkit-animation-duration: 0.6s;
-    -webkit-animation-timing-function: ease-in-out;
-}
-
 @keyframes index-fade
 {
     from
@@ -489,35 +521,4 @@ body.markdown:not(.writing-HTML-document-rendering) div.index-frame
     {
         opacity: 0.8;
     }
-}
-
-body.markdown pre.mathjax
-{
-    font-size: 1.3em;
-}
-
-body.markdown table {
-    border-spacing: 0;
-    border-collapse: collapse;
-    display: block;
-    width: 100%;
-    overflow: auto;
-}
-
-body.markdown table tr {
-    background-color: #fff;
-    border-top: 1px solid #c6cbd1;
-}
-
-body.markdown table tr:nth-child(2n) {
-    background-color: #f6f8fa;
-}
-
-body.markdown table th {
-    font-weight: 600;
-}
-
-body.markdown table th, body.markdown table td {
-    padding: 0.5em 1.0em;
-    border: 1px solid #dfe2e5;
 }

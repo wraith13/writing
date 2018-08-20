@@ -293,11 +293,10 @@ body.markdown div.content h9 {
   body.markdown div.content {
     padding: 2.0rem;
     /* calc が poor な環境の保険を兼ねる */
-    padding-left: calc(calc(100vw - 53.52786405rem) / 3.23606798);
-    padding-right: calc(calc(100vw - 53.52786405rem) / 3.23606798);
+    padding-left: calc(calc(100vw - calc(60rem - calc(2rem * 3.23606798))) / 3.23606798);
+    padding-right: calc(calc(100vw - calc(60rem - calc(2rem * 3.23606798))) / 3.23606798);
     /* 3.2360679774 黄金律(1.6180339887) * 2.0 */
-    /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
-    width: calc(100vw - calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 2));
+    width: calc(100vw - calc(calc(calc(100vw - calc(60rem - calc(2rem * 3.23606798))) / 3.23606798) * 2));
     /* max-height: calc(100vh - 4.0rem); */
   }
 }

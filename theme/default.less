@@ -121,6 +121,7 @@ blockquote
 }
 
 @markdown-min-width-with-index: 90.0rem;
+@markdown-size-a-screen-max-width: 60.0rem;
 
 body.markdown
 {
@@ -265,11 +266,11 @@ body.markdown
             visibility: visible;
         }
     }
-    @media (min-width: 60.0rem)
+    @media (min-width: @markdown-size-a-screen-max-width)
     {
         &
         {
-            font-size: calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem);
+            font-size: calc(calc(calc(100vw - @markdown-size-a-screen-max-width) / 180.0) + 1.0rem);
         }
     }
     div.content
@@ -290,7 +291,7 @@ body.markdown
             font-size: 1.2em;
             font-weight: bold;
         }
-        @media (max-width: 60.0rem)
+        @media (max-width: @markdown-size-a-screen-max-width)
         {
             &
             {
@@ -300,16 +301,15 @@ body.markdown
                 /* max-height: calc(100vh - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0)); */
             }
         }
-        @media (min-width: 60.0rem)
+        @media (min-width: @markdown-size-a-screen-max-width)
         {
             &
             {
                 padding: 2.0rem; /* calc が poor な環境の保険を兼ねる */
-                padding-left: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
-                padding-right: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
+                padding-left: calc(calc(100vw - calc(@markdown-size-a-screen-max-width - calc(2.0rem * 3.2360679774))) / 3.2360679774);
+                padding-right: calc(calc(100vw - calc(@markdown-size-a-screen-max-width - calc(2.0rem * 3.2360679774))) / 3.2360679774);
                 /* 3.2360679774 黄金律(1.6180339887) * 2.0 */
-                /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
-                width: calc(100vw - calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 2.0));
+                width: calc(100vw - calc(calc(calc(100vw - calc(@markdown-size-a-screen-max-width - calc(2.0rem * 3.2360679774))) / 3.2360679774) * 2.0));
                 /* max-height: calc(100vh - 4.0rem); */
             }
         }

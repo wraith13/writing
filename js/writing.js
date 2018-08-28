@@ -12,10 +12,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         "config": {}
     };
     const explicitFragmentIdPattern = /\{\#(.*?)\}$/;
-    RegExp["escape"] = function (s) {
-        //  https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
-        return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-    };
     const timeout = function (wait) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise(resolve => setTimeout(resolve, wait));

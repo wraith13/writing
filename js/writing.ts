@@ -24,11 +24,6 @@ declare interface ObjectConstructor {
     };
     const explicitFragmentIdPattern = /\{\#(.*?)\}$/;
 
-    RegExp["escape"] = function(s : string) : string
-    {
-        //  https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
-        return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-    };
     const timeout = async function(wait : number) : Promise<void>
     {
         return new Promise<void>(resolve => setTimeout(resolve, wait));

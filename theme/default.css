@@ -184,8 +184,7 @@ body.markdown div.index-frame {
 }
 body.markdown div.index-frame div.index {
   padding: 0px;
-  width: calc(calc(100vw - 53.52786405rem) / 3.23606798);
-  max-width: 60rem;
+  width: calc(calc(100vw - calc(100vw / 1.61803399)) * 0.75);
   min-height: 100vh;
   background-color: #EEEEEE;
   opacity: 0.8;
@@ -208,6 +207,7 @@ body.markdown div.index-frame div.index a.current {
   background-color: #4444DD;
 }
 body.markdown div.index-frame div.index a.level1 {
+  white-space: nowrap;
   padding: 14px 24px 14px 24px;
   font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 1.2);
 }
@@ -330,7 +330,7 @@ body.markdown.solid.writing-HTML-document-rendering div.content,
 body.markdown.solid #writing-HTML-document-rendering-panel {
   margin-top: 0px;
 }
-@media (min-width: 60rem) {
+@media (min-width: 45rem) {
   body.markdown.solid {
     border-top-width: calc(calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 1.2) + 28px);
   }
@@ -341,42 +341,24 @@ body.markdown.solid #writing-HTML-document-rendering-panel {
     font-size: calc(calc(calc(calc(100vw - 60rem) / 180) + 1rem) * 1.2);
   }
 }
-@media (min-width: 60rem) {
-  body.markdown.with-index {
-    /* 3.2360679774 ????(1.6180339887) * 2.0 */
-    /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
-    font-size: calc(calc(calc(100vw - 60rem) / 180) + 1rem);
-  }
+@media (min-width: 45rem) {
   body.markdown.with-index div.content {
     display: block;
     float: left;
     overflow-y: auto;
-    margin-left: calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 1.5);
-    padding-left: 2.0rem;
-    padding-right: calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 0.5);
-    width: calc(100vw - calc(calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 2) + 2rem));
+    margin-left: calc(calc(calc(100vw - calc(100vw / 1.61803399)) * 0.75) + calc(calc(calc(100vw - calc(100vw / 1.61803399)) * 0.125) + 1rem));
+    padding-left: 0;
+    padding-right: calc(calc(calc(100vw - calc(100vw / 1.61803399)) * 0.125) + 1rem);
+    width: calc(100vw - calc(calc(calc(calc(calc(100vw - calc(100vw / 1.61803399)) * 0.125) + 1rem) * 2) + calc(calc(100vw - calc(100vw / 1.61803399)) * 0.75)));
   }
   body.markdown.with-index div.content * {
-    max-width: calc(100vw - calc(calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 2) - 2rem));
+    max-width: calc(100vw - calc(calc(calc(calc(calc(100vw - calc(100vw / 1.61803399)) * 0.125) + 1rem) * 2) + calc(calc(100vw - calc(100vw / 1.61803399)) * 0.75)));
   }
   body.markdown.with-index div.content pre {
     overflow-x: auto;
   }
   body.markdown:not(.writing-HTML-document-rendering) div.index-frame {
     display: block;
-  }
-}
-@media (min-width: 180rem) {
-  body.markdown div.index-frame div.index {
-    width: 36rem;
-  }
-  body.markdown.with-index div.content {
-    margin-left: calc(calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 0.5) + 40rem);
-    width: calc(100vw - calc(calc(calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 1)) + 42rem));
-  }
-  body.markdown.with-index div.content * {
-    max-width: calc(100vw - calc(calc(calc(calc(calc(100vw - 53.52786405rem) / 3.23606798) * 1)) + 42rem));
-    overflow-x: auto;
   }
 }
 body.markdown:not(.writing-HTML-document-rendering) div.index-frame {

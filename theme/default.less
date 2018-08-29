@@ -120,8 +120,11 @@ blockquote
     }
 }
 
-@markdown-min-width-with-index: 60.0rem;
+@markdown-min-width-with-index: 45.0rem;
 @markdown-size-a-screen-max-width: 60.0rem;
+@wrinting-phi: 1.6180339887;
+@markdown-index-width: calc(calc(100vw - calc(100vw / @wrinting-phi)) * 0.75);
+@markdown-content-horizontal-padding: calc(calc(calc(100vw - calc(100vw / @wrinting-phi)) * 0.125) + 1.0rem);
 
 body.markdown
 {
@@ -179,8 +182,7 @@ body.markdown
         div.index
         {
             padding: 0px;
-            width: calc(calc(100vw - 53.5278640452rem) / 3.2360679774);
-            max-width: 60rem;
+            width: @markdown-index-width;
             min-height: 100vh;
         
             background-color: #EEEEEE;
@@ -208,6 +210,7 @@ body.markdown
                 }
                 &.level1
                 {
+                    white-space: nowrap;
                     padding: 14px 24px 14px 24px;
                     font-size: calc(calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2);
                 }
@@ -369,21 +372,18 @@ body.markdown
     {
         &.with-index
         {
-            /* 3.2360679774 ????(1.6180339887) * 2.0 */
-            /* 53.5278640452 == 60.0 - (2.0 * 3.2360679774) */
-            font-size: calc(calc(calc(100vw - 60.0rem) / 180.0) + 1.0rem);
             div.content
             {
                 display: block;
                 float: left;
                 overflow-y: auto;
-                margin-left: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 1.50);
-                padding-left: 2.0rem;
-                padding-right: calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 0.5);
-                width: calc(100vw - calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 2.00) + 2.0rem));
+                margin-left: calc(@markdown-index-width + @markdown-content-horizontal-padding);
+                padding-left: 0;
+                padding-right: @markdown-content-horizontal-padding;
+                width: calc(100vw - calc(calc(@markdown-content-horizontal-padding * 2.0) + @markdown-index-width));
                 *
                 {
-                    max-width: calc(100vw - calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 2.00) - 2.0rem));
+                    max-width: calc(100vw - calc(calc(@markdown-content-horizontal-padding * 2.0) + @markdown-index-width));
                 }
                 pre
                 {
@@ -394,23 +394,6 @@ body.markdown
         &:not(.writing-HTML-document-rendering) div.index-frame
         {
             display: block;
-        }
-    }
-    @media (min-width: 180.0rem)
-    {
-        & div.index-frame div.index
-        {
-            width: 36rem;
-        }
-        &.with-index div.content
-        {
-            margin-left: calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 0.5) + 40rem);
-            width: calc(100vw - calc(calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 1.0)) + 42rem));
-            *
-            {
-                max-width: calc(100vw - calc(calc(calc(calc(calc(100vw - 53.5278640452rem) / 3.2360679774) * 1.0)) + 42rem));
-                overflow-x: auto;
-            }
         }
     }
 

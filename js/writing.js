@@ -920,11 +920,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     };
     var applyIndex = function (_source) {
         var index = null;
-        if (undefined === globalState.config.withIndex || globalState.config.withIndex) {
+        var contentDiv = document.getElementsByClassName("content")[0];
+        var isSmallDocument = contentDiv.clientHeight < document.body.clientHeight;
+        if (((undefined === globalState.config.withIndex || null === globalState.config.withIndex) && !isSmallDocument) || globalState.config.withIndex) {
             index = makeIndexFromContent();
             if (index && 0 < index.length) {
                 document.body.classList.add("with-index");
-                var contentDiv = document.getElementsByClassName("content")[0];
                 document.body.insertBefore(makeDomNode({
                     tag: "div",
                     className: "index-frame",
@@ -1186,12 +1187,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                                             source = unescapeBackSlash(source);
                                             source = translateForMathJax(source);
                                             applyContent(markdownToHtml(source));
-                                            //  index
-                                            applyIndex(source);
-                                            //  fragment id
-                                            if (globalState.config.disabledRenderingAnimation) {
-                                                applyFragmentId();
-                                            }
                                             //  highlight
                                             return [4 /*yield*/, tryOrThroughAsync("highlight", loadHighlightScript)];
                                         case 1:
@@ -1207,6 +1202,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                                         case 3:
                                             //  twitter
                                             _c.sent();
+                                            //  index
+                                            applyIndex(source);
+                                            //  fragment id
+                                            if (globalState.config.disabledRenderingAnimation) {
+                                                applyFragmentId();
+                                            }
                                             return [4 /*yield*/, hideRendering()];
                                         case 4:
                                             _c.sent();

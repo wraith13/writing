@@ -1193,13 +1193,14 @@ declare interface ObjectConstructor {
     const applyIndex = function(_source : string)
     {
         let index = null;
-        if (undefined === globalState.config.withIndex || globalState.config.withIndex)
+        const contentDiv = document.getElementsByClassName("content")[0];
+        const isSmallDocument = contentDiv.clientHeight < document.body.clientHeight;
+        if (((undefined === globalState.config.withIndex || null === globalState.config.withIndex) && !isSmallDocument) || globalState.config.withIndex)
         {
             index = makeIndexFromContent();
             if (index && 0 < index.length)
             {
                 document.body.classList.add("with-index");
-                const contentDiv = document.getElementsByClassName("content")[0];
                 document.body.insertBefore
                 (
                     makeDomNode
@@ -1558,15 +1559,6 @@ declare interface ObjectConstructor {
             
             applyContent(markdownToHtml(source));
 
-            //  index
-            applyIndex(source);
-
-            //  fragment id
-            if (globalState.config.disabledRenderingAnimation)
-            {
-                applyFragmentId();
-            }
-
             //  highlight
             await tryOrThroughAsync("highlight", loadHighlightScript);
 
@@ -1575,6 +1567,15 @@ declare interface ObjectConstructor {
 
             //  twitter
             await tryOrThroughAsync("twitter", loadTwitterScript);
+
+            //  index
+            applyIndex(source);
+
+            //  fragment id
+            if (globalState.config.disabledRenderingAnimation)
+            {
+                applyFragmentId();
+            }
 
             await hideRendering();
         };

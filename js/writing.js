@@ -628,9 +628,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         return MarkdownHeaderFragmentMaker;
     }());
     var getAllElements = function (parent) {
-        if (parent === void 0) { parent = undefined; }
+        if (parent === void 0) { parent = document; }
         var result = [];
-        parent = parent || document;
         if (parent.children) {
             for (var i in parent.children) {
                 var child = parent.children[i];
@@ -643,7 +642,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         return result;
     };
     var getHeadingTags = function () {
-        return getAllElements().filter(function (i) {
+        return getAllElements(document.body).filter(function (i) {
             return /^h\d+$/i.test(i.tagName);
         });
     };

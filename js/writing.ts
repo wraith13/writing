@@ -731,10 +731,9 @@ declare interface ObjectConstructor {
             }
         }
     }
-    const getAllElements = function(parent : Element | Document = undefined) : Element[]
+    const getAllElements = function(parent : Element | Document = document) : Element[]
     {
         let result = [];
-        parent = parent || document ;
         if (parent.children)
         {
             for (const i in parent.children)
@@ -751,7 +750,7 @@ declare interface ObjectConstructor {
     };
     const getHeadingTags = function() : Element[]
     {
-        return getAllElements().filter
+        return getAllElements(document.body).filter
         (
             function(i)
             {

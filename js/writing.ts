@@ -1282,7 +1282,9 @@ declare interface ObjectConstructor {
             {
                 globalState.activateOnScroll = function()
                 {
-                    document.body.onscroll = function()
+                    document.body.onscroll =
+                    document.documentElement.onscroll = // これは IE 用
+                    function()
                     {
                         const previouseContetIsOver = isOver(previousState.i);
                         const nextContetIsOver = isOver(previousState.i +1);

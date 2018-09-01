@@ -978,46 +978,48 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             index = index.filter(function (i) { return !i.withError; });
             if (0 < index.length) {
                 globalState.activateOnScroll = function () {
-                    document.body.onscroll = function () {
-                        var previouseContetIsOver = isOver_1(previousState_1.i);
-                        var nextContetIsOver = isOver_1(previousState_1.i + 1);
-                        if (previouseContetIsOver || !nextContetIsOver) {
-                            if (previouseContetIsOver) {
-                                //  上へ手繰る
-                                while (isOver_1(--previousState_1.i)) { }
-                            }
-                            else {
-                                // 下へ手繰る
-                                while (!isOver_1((++previousState_1.i) + 1)) { }
-                            }
-                            var targetIndex = previousState_1.i < 0 ? null : index[previousState_1.i];
-                            var current = document.getElementsByClassName("current")[0];
-                            if (current !== (null === targetIndex ? null : targetIndex.anchor)) {
-                                if (current) {
-                                    current.classList.remove("current");
-                                }
-                                if (targetIndex) {
-                                    targetIndex.anchor.classList.add("current");
-                                    window.history.replaceState(null, targetIndex.title, targetIndex.link);
-                                }
-                                else {
-                                    index[0].anchor.classList.add("current");
-                                    window.history.replaceState(null, document.title, "#");
-                                }
-                                if (!globalState.isMouseOnIndex) {
-                                    var frame = document.getElementsByClassName("index-frame")[0];
-                                    if (null === targetIndex) {
-                                        frame.scrollTop = 0;
+                    document.body.onscroll =
+                        document.documentElement.onscroll =
+                            function () {
+                                var previouseContetIsOver = isOver_1(previousState_1.i);
+                                var nextContetIsOver = isOver_1(previousState_1.i + 1);
+                                if (previouseContetIsOver || !nextContetIsOver) {
+                                    if (previouseContetIsOver) {
+                                        //  上へ手繰る
+                                        while (isOver_1(--previousState_1.i)) { }
                                     }
                                     else {
-                                        var rect = targetIndex.anchor.getBoundingClientRect();
-                                        var targetTop = rect.top + frame.scrollTop;
-                                        frame.scrollTop = targetTop - Math.min(frame.clientHeight - rect.height, ((targetTop / frame.scrollHeight) * frame.clientHeight));
+                                        // 下へ手繰る
+                                        while (!isOver_1((++previousState_1.i) + 1)) { }
+                                    }
+                                    var targetIndex = previousState_1.i < 0 ? null : index[previousState_1.i];
+                                    var current = document.getElementsByClassName("current")[0];
+                                    if (current !== (null === targetIndex ? null : targetIndex.anchor)) {
+                                        if (current) {
+                                            current.classList.remove("current");
+                                        }
+                                        if (targetIndex) {
+                                            targetIndex.anchor.classList.add("current");
+                                            window.history.replaceState(null, targetIndex.title, targetIndex.link);
+                                        }
+                                        else {
+                                            index[0].anchor.classList.add("current");
+                                            window.history.replaceState(null, document.title, "#");
+                                        }
+                                        if (!globalState.isMouseOnIndex) {
+                                            var frame = document.getElementsByClassName("index-frame")[0];
+                                            if (null === targetIndex) {
+                                                frame.scrollTop = 0;
+                                            }
+                                            else {
+                                                var rect = targetIndex.anchor.getBoundingClientRect();
+                                                var targetTop = rect.top + frame.scrollTop;
+                                                frame.scrollTop = targetTop - Math.min(frame.clientHeight - rect.height, ((targetTop / frame.scrollHeight) * frame.clientHeight));
+                                            }
+                                        }
                                     }
                                 }
-                            }
-                        }
-                    };
+                            };
                     setTimeout(document.body.onscroll, 100);
                 };
                 if (globalState.config.disabledRenderingAnimation) {

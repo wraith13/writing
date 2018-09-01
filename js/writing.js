@@ -631,20 +631,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (parent === void 0) { parent = document; }
         var result = [];
         if (parent.children) {
-            for (var i in parent.children) {
-                var child = parent.children[i];
-                if (child) {
-                    result.push(child);
-                    result = result.concat(getAllElements(child));
-                }
-            }
+            Array.from(parent.children).forEach(function (i) {
+                result.push(i);
+                result = result.concat(getAllElements(i));
+            });
         }
         return result;
     };
     var getHeadingTags = function () {
-        return getAllElements(document.body).filter(function (i) {
-            return /^h\d+$/i.test(i.tagName);
-        });
+        return getAllElements(document.body).filter(function (i) { return /^h\d+$/i.test(i.tagName); });
     };
     var IndexItem = (function () {
         function IndexItem(level, title, link, anchor) {

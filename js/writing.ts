@@ -736,27 +736,20 @@ declare interface ObjectConstructor {
         let result = [];
         if (parent.children)
         {
-            for (const i in parent.children)
-            {
-                const child = parent.children[i];
-                if (child)
+            Array.from(parent.children).forEach
+            (
+                i =>
                 {
-                    result.push(child);
-                    result = result.concat(getAllElements(child));
+                    result.push(i);
+                    result = result.concat(getAllElements(i));
                 }
-            }
+            );
         }
         return result;
     };
     const getHeadingTags = function() : Element[]
     {
-        return getAllElements(document.body).filter
-        (
-            function(i)
-            {
-                return /^h\d+$/i.test(i.tagName);
-            }
-        );
+        return getAllElements(document.body).filter(i =>  /^h\d+$/i.test(i.tagName));
     };
     class IndexItem
     {

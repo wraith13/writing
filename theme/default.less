@@ -123,8 +123,9 @@ blockquote
 @markdown-min-width-with-index: 45.0rem;
 @markdown-size-a-screen-max-width: 60.0rem;
 @wrinting-phi: 1.6180339887;
-@markdown-index-width: ((100vw - (100vw / @wrinting-phi)) * 0.75);
-@markdown-content-horizontal-padding: (((100vw - (100vw / @wrinting-phi)) * 0.125) + 1.0rem);
+@markdown-content-width: (100vw / @wrinting-phi);
+@markdown-index-width: ((100vw - @markdown-content-width) / @wrinting-phi);
+@markdown-content-horizontal-padding: ((100vw - @markdown-content-width) * (1.0 - (1.0 / @wrinting-phi)) / 2.0);
 
 body.markdown
 {
@@ -299,9 +300,12 @@ body.markdown
             &
             {
                 padding: 1.0rem; // calc が poor な環境の保険
-                padding: calc(cac(100vw / 40) + 0.5rem);
-                width: calc(100vw - (((100vw / 40) + 0.5rem) * 2.0));
                 // max-height: calc(100vh - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0));
+                width: calc(100vw - 2.0rem);
+                *
+                {
+                    max-width: calc(100vw - 2.0rem);
+                }
             }
         }
         @media (min-width: @markdown-size-a-screen-max-width)
@@ -309,11 +313,14 @@ body.markdown
             &
             {
                 padding: 2.0rem; // calc が poor な環境の保険を兼ねる
-                padding-left: calc((100vw - (@markdown-size-a-screen-max-width - (2.0rem * 3.2360679774))) / 3.2360679774);
-                padding-right: calc((100vw - (@markdown-size-a-screen-max-width - (2.0rem * 3.2360679774))) / 3.2360679774);
-                // 3.2360679774 黄金律(1.6180339887) * 2.0
-                width: calc(100vw - (((100vw - (@markdown-size-a-screen-max-width - (2.0rem * 3.2360679774))) / 3.2360679774) * 2.0));
-                // max-height: calc(100vh - 4.0rem);
+                padding-left: calc(((100vw - @markdown-content-width) / 2.0) + 1.0rem);
+                padding-right: calc(((100vw - @markdown-content-width) / 2.0) + 1.0rem);
+                width: calc(@markdown-content-width - 2.0rem);
+                *
+                {
+                    max-width: calc(@markdown-content-width - 2.0rem);
+                }
+
             }
         }
     }
@@ -377,13 +384,13 @@ body.markdown
                 display: block;
                 float: left;
                 overflow-y: auto;
-                margin-left: calc(@markdown-index-width + @markdown-content-horizontal-padding);
-                padding-left: 0;
-                padding-right: @markdown-content-horizontal-padding;
-                width: calc(100vw - ((@markdown-content-horizontal-padding * 2.0) + @markdown-index-width));
+                margin-left: @markdown-index-width;
+                padding-left: calc(@markdown-content-horizontal-padding + 1.0rem);
+                padding-right: calc(@markdown-content-horizontal-padding + 1.0rem);
+                width: calc(@markdown-content-width - 2.0rem);
                 *
                 {
-                    max-width: calc(100vw - ((@markdown-content-horizontal-padding * 2.0) + @markdown-index-width));
+                    max-width: calc(@markdown-content-width - 2.0rem);
                 }
                 pre
                 {

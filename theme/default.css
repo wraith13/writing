@@ -142,7 +142,6 @@ body.markdown table {
   margin: 0px;
 }
 body.markdown .wallpaper {
-  /* 壁紙用のレイヤー */
   position: fixed;
   left: 0px;
   top: 0px;
@@ -158,7 +157,6 @@ body.markdown .wallpaper {
   background-attachment: fixed;
 }
 body.markdown .wallpaper::before {
-  /* 壁紙(body.markdown::before)の上にグラデーションをかける為のレイヤー */
   position: absolute;
   left: 0px;
   top: 0px;
@@ -283,21 +281,16 @@ body.markdown div.content h9 {
 @media (max-width: 60rem) {
   body.markdown div.content {
     padding: 1.0rem;
-    /* calc が poor な環境の保険 */
     padding: calc(cac(2.5vw) + 0.5rem);
     width: calc(100vw - (((100vw / 40) + 0.5rem) * 2));
-    /* max-height: calc(100vh - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0)); */
   }
 }
 @media (min-width: 60rem) {
   body.markdown div.content {
     padding: 2.0rem;
-    /* calc が poor な環境の保険を兼ねる */
     padding-left: calc((100vw - (60rem - (2rem * 3.23606798))) / 3.23606798);
     padding-right: calc((100vw - (60rem - (2rem * 3.23606798))) / 3.23606798);
-    /* 3.2360679774 黄金律(1.6180339887) * 2.0 */
     width: calc(100vw - (((100vw - (60rem - (2rem * 3.23606798))) / 3.23606798) * 2));
-    /* max-height: calc(100vh - 4.0rem); */
   }
 }
 body.markdown.with-wallpaperx div.content {

@@ -138,7 +138,7 @@ body.markdown
     font-size: 1.0rem;
     .wallpaper
     {
-        /* 壁紙用のレイヤー */
+        // 壁紙用のレイヤー
         position: fixed;
         left: 0px;
         top: 0px;
@@ -154,7 +154,7 @@ body.markdown
         background-attachment: fixed;
         &::before
         {
-            /* 壁紙(body.markdown::before)の上にグラデーションをかける為のレイヤー */
+            // 壁紙(body.markdown::before)の上にグラデーションをかける為のレイヤー
             position: absolute;
             left: 0px;
             top: 0px;
@@ -298,22 +298,22 @@ body.markdown
         {
             &
             {
-                padding: 1.0rem; /* calc が poor な環境の保険 */
+                padding: 1.0rem; // calc が poor な環境の保険
                 padding: calc(cac(100vw / 40) + 0.5rem);
                 width: calc(100vw - (((100vw / 40) + 0.5rem) * 2.0));
-                /* max-height: calc(100vh - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0)); */
+                // max-height: calc(100vh - calc(calc(calc(100vw / 40) + 0.5rem) * 2.0));
             }
         }
         @media (min-width: @markdown-size-a-screen-max-width)
         {
             &
             {
-                padding: 2.0rem; /* calc が poor な環境の保険を兼ねる */
+                padding: 2.0rem; // calc が poor な環境の保険を兼ねる
                 padding-left: calc((100vw - (@markdown-size-a-screen-max-width - (2.0rem * 3.2360679774))) / 3.2360679774);
                 padding-right: calc((100vw - (@markdown-size-a-screen-max-width - (2.0rem * 3.2360679774))) / 3.2360679774);
-                /* 3.2360679774 黄金律(1.6180339887) * 2.0 */
+                // 3.2360679774 黄金律(1.6180339887) * 2.0
                 width: calc(100vw - (((100vw - (@markdown-size-a-screen-max-width - (2.0rem * 3.2360679774))) / 3.2360679774) * 2.0));
-                /* max-height: calc(100vh - 4.0rem); */
+                // max-height: calc(100vh - 4.0rem);
             }
         }
     }

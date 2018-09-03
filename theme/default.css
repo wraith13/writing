@@ -191,7 +191,7 @@ body.markdown div.index-frame div.index {
 body.markdown div.index-frame div.index a {
   display: block;
   word-wrap: break-word;
-  white-space: wrap;
+  white-space: nowrap;
   text-decoration: none;
   line-height: 100%;
 }
@@ -205,7 +205,6 @@ body.markdown div.index-frame div.index a.current {
   background-color: #4444DD;
 }
 body.markdown div.index-frame div.index a.level1 {
-  white-space: nowrap;
   padding: 14px 24px 14px 24px;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 1.2);
 }

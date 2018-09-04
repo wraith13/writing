@@ -169,6 +169,7 @@ body.markdown .wallpaper::before {
   z-index: -1;
 }
 body.markdown div.index-frame {
+  z-index: 10;
   margin: 0px;
   padding: 0px;
   display: none;
@@ -302,41 +303,37 @@ body.markdown.with-wallpaperx div.content {
   text-shadow: 3px 3px 3px #FFFFFF, 3px -3px 3px #FFFFFF, -3px -3px 3px #FFFFFF, -3px 3px 3px #FFFFFF;
 }
 body.markdown.solid {
-  border-top-width: calc((((30rem / 180) + 1rem) * 1.2) + 28px);
+  border-top-width: calc(4.4vw + 28px);
   border-top-color: #86812A;
   border-top-style: solid;
+}
+body.markdown.solid div.index-frame div.index a.level1 {
+  font-size: calc(4.4vw);
 }
 body.markdown.solid div.content {
   padding-top: 0px;
 }
 body.markdown.solid div.content h1 {
+  white-space: nowrap;
+  top: 0px;
+  position: absolute;
+  margin-top: 0px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: normal;
-  padding: 14px 24px 14px 0px;
-  font-size: calc(((30rem / 180) + 1rem) * 1.2);
+  padding: 14px 24px 14px 24px;
+  font-size: calc(4.4vw);
   line-height: 100%;
   color: #FFFFFF;
   background-color: #86812A;
-  margin-top: 0px;
+  x-margin-top: calc(0px - (4.4vw + 28px));
 }
 body.markdown.solid div.content,
 body.markdown.solid.writing-HTML-document-rendering.writing-HTML-document-rendering-slide-out div.content {
-  margin-top: calc(0px - ((((30rem / 180) + 1rem) * 1.2) + 28px));
+  x-margin-top: calc(0px - (4.4vw + 28px));
 }
 body.markdown.solid.writing-HTML-document-rendering div.content,
 body.markdown.solid #writing-HTML-document-rendering-panel {
   margin-top: 0px;
-}
-@media (min-width: 45rem) {
-  body.markdown.solid {
-    border-top-width: calc(((((100vw - 60rem) / 180) + 1rem) * 1.2) + 28px);
-  }
-  body.markdown.solid div.content {
-    margin-top: calc(0px - (((((100vw - 60rem) / 180) + 1rem) * 1.2) + 28px));
-  }
-  body.markdown.solid div.content h1 {
-    font-size: calc((((100vw - 60rem) / 180) + 1rem) * 1.2);
-  }
 }
 @media (min-width: 45rem) {
   body.markdown.with-index div.content {
@@ -353,6 +350,10 @@ body.markdown.solid #writing-HTML-document-rendering-panel {
   }
   body.markdown.with-index div.content pre {
     overflow-x: auto;
+  }
+  body.markdown.with-index.solid div.content h1 {
+    margin-left: calc(0px - (((100vw - 100vw / 1.61803399) / 1.61803399 + (100vw - 100vw / 1.61803399) * (1 - (1 / 1.61803399)) / 2) + 1rem));
+    margin-right: calc(0px - ((100vw - 100vw / 1.61803399) * (1 - (1 / 1.61803399)) / 2 + 1rem));
   }
   body.markdown:not(.writing-HTML-document-rendering) div.index-frame {
     display: block;

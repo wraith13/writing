@@ -1,3 +1,5 @@
+# Wraith the Trickster
+
 <!--[NOWRITING]-->
 <link rel="canonical" href="https://wraith13.github.io/writing/?wraith13.md" />
 この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?wraith13.md">https://wraith13.github.io/writing/?wraith13.md</a>
@@ -5,7 +7,7 @@
 <!--[WRTING-CONFING]
 {
     "referrer_option": true,
-    "title": "@wraith13",
+    "title": "Wraith the Trickster",
     "favicon": "https://github.com/wraith13.png"
 }
 -->
@@ -14,8 +16,6 @@
 <!--
 class: center, middle
 -->
-
-# @wraith13
 
 <!--[NOREVEAL/]<span style="font-size:0.7em;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal)</span>-->
 <!--[REVEAL/]<span style="display:block;margin-left:auto;margin-right:auto;font-size:0.6em;width:450px;text-align:center;white-space:pre;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal)</span>-->

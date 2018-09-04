@@ -1,3 +1,5 @@
+# プレイ動画セレクション
+
 <!--[NOWRITING]-->
 <link rel="canonical" href="https://wraith13.github.io/writing/?splatoon2/totsugekitarouexp.playmovie.md" />
 この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?splatoon2/totsugekitarouexp.playmovie.md">https://wraith13.github.io/writing/?splatoon2/totsugekitarouexp.playmovie.md</a>
@@ -13,8 +15,6 @@
 <!--[REVEAL-THEME] BLACK -->
 <!--[REVEAL-TRANSITION] CONCAVE -->
 <!--[NOREVEAL]-->
-
-# プレイ動画セレクション
 
 <!--[/NOREVEAL]-->
 

@@ -1535,7 +1535,6 @@ declare interface ObjectConstructor {
         const applyMarkdown = async function(markdownToHtml : (string) => string) : Promise<void>
         {
             document.body.classList.add("markdown");
-            document.body.classList.add("solid");
 
             //  theme
             appendHighlightTheme();
@@ -1550,8 +1549,18 @@ declare interface ObjectConstructor {
             source = translateRelativeLink(baseUrl, source);
             source = unescapeBackSlash(source);
             source = translateForMathJax(source);
-            
             applyContent(markdownToHtml(source));
+
+            const contentDiv = document.getElementsByClassName("content")[0];
+            const isSolidavailableDocument =
+                0 < contentDiv.children.length &&
+                "h1" === contentDiv.firstChild.nodeName.toLowerCase() &&
+                1 === contentDiv.firstChild.childNodes.length &&
+                document.TEXT_NODE === contentDiv.firstChild.firstChild.nodeType;
+            if (((undefined === globalState.config.solid || null === globalState.config.solid) && isSolidavailableDocument) || globalState.config.solid)
+            {
+                document.body.classList.add("solid");
+            }
 
             //  highlight
             await tryOrThroughAsync("highlight", loadHighlightScript);

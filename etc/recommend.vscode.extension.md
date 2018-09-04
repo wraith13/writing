@@ -1,9 +1,9 @@
+# オススメの VSCODE 拡張
+
 <!--[NOWRITING]-->
 <link rel="canonical" href="https://wraith13.github.io/writing/?etc%2Frecommend.vscode.extension.md" />
 この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?etc%2Frecommend.vscode.extension.md">https://wraith13.github.io/writing/?etc%2Frecommend.vscode.extension.md</a>
 <!--[/NOWRITING]-->
-
-# オススメの VSCODE 拡張
 
 著： [@wraith13](../wraith13.md)
 

@@ -1,3 +1,5 @@
+# demo:  default
+
 <!--[NOWRITING]-->
 <link rel="canonical" href="https://wraith13.github.io/writing/?demo/default.md" />
 この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?demo/default.md">https://wraith13.github.io/writing/?demo/default.md</a>
@@ -11,8 +13,6 @@
 <!--
 class: center, middle
 -->
-
-# demo:  default
 
 ---
 

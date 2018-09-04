@@ -1,9 +1,9 @@
+# ![](writinghex.128.png)writing index
+
 <!--[NOWRITING]-->
 <link rel="canonical" href="https://wraith13.github.io/writing/" />
 この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/">https://wraith13.github.io/writing/</a>
 <!--[/NOWRITING]-->
-
-# ![](writinghex.128.png)writing index
 
 <!--[WRTING-CONFING]
 {

@@ -1167,11 +1167,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         applyIcon(baseUrl);
                         applyMarkdown = function (markdownToHtml) {
                             return __awaiter(this, void 0, void 0, function () {
+                                var contentDiv, isSolidavailableDocument;
                                 return __generator(this, function (_c) {
                                     switch (_c.label) {
                                         case 0:
                                             document.body.classList.add("markdown");
-                                            document.body.classList.add("solid");
                                             //  theme
                                             appendHighlightTheme();
                                             applyTheme(baseUrl);
@@ -1183,6 +1183,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                                             source = unescapeBackSlash(source);
                                             source = translateForMathJax(source);
                                             applyContent(markdownToHtml(source));
+                                            contentDiv = document.getElementsByClassName("content")[0];
+                                            isSolidavailableDocument = 0 < contentDiv.children.length &&
+                                                "h1" === contentDiv.firstChild.nodeName.toLowerCase() &&
+                                                1 === contentDiv.firstChild.childNodes.length &&
+                                                document.TEXT_NODE === contentDiv.firstChild.firstChild.nodeType;
+                                            if (((undefined === globalState.config.solid || null === globalState.config.solid) && isSolidavailableDocument) || globalState.config.solid) {
+                                                document.body.classList.add("solid");
+                                            }
                                             //  highlight
                                             return [4 /*yield*/, tryOrThroughAsync("highlight", loadHighlightScript)];
                                         case 1:

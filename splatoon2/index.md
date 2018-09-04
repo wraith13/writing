@@ -1,3 +1,5 @@
+# Splatoon2 基礎講座
+
 <!--[NOWRITING]-->
 <link rel="canonical" href="https://wraith13.github.io/writing/?splatoon2/index.md" />
 この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?splatoon2/index.md">https://wraith13.github.io/writing/?splatoon2/index.md</a>
@@ -25,8 +27,6 @@
 <!--[REVEAL-TRANSITION] CONCAVE -->
 
 <!--[NOREVEAL]-->
-
-# Splatoon2 基礎講座
 
 <!--[/NOREVEAL]-->
 <!--[REVEAL/]# Splatoon

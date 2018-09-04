@@ -1,3 +1,5 @@
+# Reveal.js
+
 <!--[NOWRITING]-->
 この markdown の表示用URL: <https://wraith13.github.io/writing/?demo/reveal.md>
 <!--[/NOWRITING]-->
@@ -22,8 +24,6 @@ table
     font-size: inherit;
 }
 -->
-
-# Reveal.js
 
 ### The HTML Presentation Framework
 

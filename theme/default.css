@@ -307,13 +307,13 @@ body.markdown.solid {
   border-top-color: #86812A;
   border-top-style: solid;
 }
-body.markdown.solid div.index-frame div.index a.level1 {
+body.markdown.solid div.index-frame div.index a.level1:first-child {
   font-size: calc(4.4vw);
 }
 body.markdown.solid div.content {
   padding-top: 0px;
 }
-body.markdown.solid div.content h1 {
+body.markdown.solid div.content h1:first-child {
   white-space: nowrap;
   top: 0px;
   position: absolute;
@@ -351,7 +351,7 @@ body.markdown.solid #writing-HTML-document-rendering-panel {
   body.markdown.with-index div.content pre {
     overflow-x: auto;
   }
-  body.markdown.with-index.solid div.content h1 {
+  body.markdown.with-index.solid div.content h1:first-child {
     margin-left: calc(0px - (((100vw - 100vw / 1.61803399) / 1.61803399 + (100vw - 100vw / 1.61803399) * (1 - (1 / 1.61803399)) / 2) + 1rem));
     margin-right: calc(0px - ((100vw - 100vw / 1.61803399) * (1 - (1 / 1.61803399)) / 2 + 1rem));
   }

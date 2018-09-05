@@ -1187,7 +1187,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                                             isSolidavailableDocument = 0 < contentDiv.children.length &&
                                                 "h1" === contentDiv.firstChild.nodeName.toLowerCase() &&
                                                 1 === contentDiv.firstChild.childNodes.length &&
-                                                document.TEXT_NODE === contentDiv.firstChild.firstChild.nodeType;
+                                                Node.TEXT_NODE === contentDiv.firstChild.firstChild.nodeType;
                                             if (((undefined === globalState.config.solid || null === globalState.config.solid) && isSolidavailableDocument) || globalState.config.solid) {
                                                 document.body.classList.add("solid");
                                             }

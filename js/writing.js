@@ -1161,6 +1161,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         source = loadConfig(source);
                         console.log("⚙️ WRTING-CONFING: " + JSON.stringify(globalState.documentConfig, null, 4));
                         objectAssign(globalState.config, globalState.documentConfig);
+                        //  レンダラー別の設定の適用
+                        objectAssign(globalState.config, isMarkdown && globalState.config.markdown);
+                        objectAssign(globalState.config, isMarked && globalState.config.marked);
+                        objectAssign(globalState.config, isCommonMark && globalState.config.commonmark);
+                        objectAssign(globalState.config, isMarkdownIt && globalState.config.markdownit);
+                        objectAssign(globalState.config, isRemark && globalState.config.remark);
+                        objectAssign(globalState.config, isReveal && globalState.config.reveal);
+                        console.log("⚙️ finally config: " + JSON.stringify(globalState.config, null, 4));
                         //  title
                         applyTitle(source);
                         //  favicon

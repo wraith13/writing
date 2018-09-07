@@ -405,9 +405,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         });
     };
     var makeAbsoluteUrl = function (base, url) {
-        if ("@" === url.substr(0, 1)) {
-            return makeAbsoluteUrl(location.href, url.substr(1));
-        }
         if ("#" === url.substr(0, 1)) {
             return base.split("#")[0] + url;
         }
@@ -457,16 +454,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         return baseParts.concat(urlParts).join("/");
     };
     var makeRelativeUrl = function (url) {
-        var base = "@" === url.substr(0, 1) ?
-            location.href.split("#")[0] :
-            globalState.config.baseUrl;
-        while ("@" === url.substr(0, 1)) {
-            url = url.substr(1);
-        }
+        var base = location.href.split("#")[0];
         if ("#" === url.substr(0, 1)) {
             return base.split("#")[0] + url;
         }
-        if (base === url.split("#")[0]) {
+        if (location.href.split("#")[0] === url.split("#")[0]) {
             return url;
         }
         var baseParts = base.split("?")[0].split("/");
@@ -480,9 +472,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         }
         var urlParts = url.split("/");
         var matchLength = 0;
-        while (matchLength < baseParts.length &&
-            matchLength < urlParts.length &&
-            baseParts[matchLength] === urlParts[matchLength]) {
+        while (0 < baseParts.length && 0 < urlParts.length && baseParts[matchLength] === urlParts[matchLength]) {
             ++matchLength;
         }
         switch (matchLength) {
@@ -495,11 +485,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             default:
                 urlParts = urlParts.slice(matchLength);
                 break;
-        }
-        if (2 < matchLength) {
-            while (matchLength++ < baseParts.length) {
-                urlParts = [".."].concat(urlParts);
-            }
         }
         var result = urlParts.join("/");
         if ("" === result) {
@@ -688,7 +673,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             var absoluteUrl = makeAbsoluteUrl(baseUrl, url);
             var relativeUrl = makeRelativeUrl(absoluteUrl);
             if (/.*\.md(\.txt)?(#.*)?$/i.test(absoluteUrl)) {
-                var thisPath = globalState.documentBaseUrl.split("#")[0].split("?")[0];
+                var thisPath = location.href.split("#")[0].split("?")[0];
                 if (thisPath !== absoluteUrl.split("#")[0].split("?")[0]) {
                     return "?" + encodeURIComponent(relativeUrl);
                 }
@@ -1563,8 +1548,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         globalState.urlParameters.sourceUrl = globalState.urlParameters.sourceUrl
             .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
         globalState.documentBaseUrl = "text:" === globalState.urlParameters.sourceUrl.slice(0, 5) ?
-            globalState.config.baseUrl :
-            makeAbsoluteUrl(globalState.config.baseUrl, globalState.urlParameters.sourceUrl);
+            location.href :
+            makeAbsoluteUrl(location.href, globalState.urlParameters.sourceUrl);
     };
     var loadDocument = function (sourceUrl) {
         return __awaiter(this, void 0, void 0, function () {
@@ -1656,7 +1641,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     case 0: return [4 /*yield*/, loadJson()];
                     case 1:
                         _c.sent();
-                        globalState.config.baseUrl = makeAbsoluteUrl(location.href, "@" + (globalState.config.baseUrl || "."));
                         loadUrlParameters();
                         if (!("@system-loading-error" === globalState.urlParameters.sourceUrl.toLowerCase())) return [3 /*break*/, 2];
                         return [3 /*break*/, 10];
@@ -1675,7 +1659,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         return [3 /*break*/, 10];
                     case 5:
                         hideSystemLoadingError();
-                        return [4 /*yield*/, loadDocument(globalState.documentBaseUrl)];
+                        return [4 /*yield*/, loadDocument(globalState.urlParameters.sourceUrl)];
                     case 6:
                         source = _c.sent();
                         hideLoading();

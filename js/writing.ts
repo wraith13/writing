@@ -413,6 +413,10 @@ declare interface ObjectConstructor {
     };
     const makeAbsoluteUrl = function(base : string, url : string) : string
     {
+        if ("@" === url.substr(0, 1))
+        {
+            return makeAbsoluteUrl(location.href, url.substr(1));
+        }
         if ("#" === url.substr(0, 1))
         {
             return base.split("#")[0] +url;
@@ -476,12 +480,18 @@ declare interface ObjectConstructor {
     };
     const makeRelativeUrl = function(url : string) : string
     {
-        const base = location.href.split("#")[0];
+        const base = "@" === url.substr(0, 1) ?
+            location.href.split("#")[0]:
+            globalState.config.baseUrl;
+        while("@" === url.substr(0, 1))
+        {
+            url = url.substr(1);
+        }
         if ("#" === url.substr(0, 1))
         {
             return base.split("#")[0] +url;
         }
-        if (location.href.split("#")[0] === url.split("#")[0])
+        if (base === url.split("#")[0])
         {
             return url;
         }
@@ -498,7 +508,12 @@ declare interface ObjectConstructor {
         }
         let urlParts = url.split("/");
         let matchLength = 0;
-        while(0 < baseParts.length && 0 < urlParts.length && baseParts[matchLength] === urlParts[matchLength])
+        while
+        (
+            matchLength < baseParts.length &&
+            matchLength < urlParts.length &&
+            baseParts[matchLength] === urlParts[matchLength]
+        )
         {
             ++matchLength;
         }
@@ -513,6 +528,13 @@ declare interface ObjectConstructor {
         default:
             urlParts = urlParts.slice(matchLength);
             break;
+        }
+        if (2 < matchLength)
+        {
+            while(matchLength++ < baseParts.length)
+            {
+                urlParts = [".."].concat(urlParts);
+            }
         }
         let result = urlParts.join("/");
         if ("" === result)
@@ -805,7 +827,7 @@ declare interface ObjectConstructor {
             const relativeUrl = makeRelativeUrl(absoluteUrl);
             if (/.*\.md(\.txt)?(#.*)?$/i.test(absoluteUrl))
             {
-                const thisPath = location.href.split("#")[0].split("?")[0];
+                const thisPath = globalState.documentBaseUrl.split("#")[0].split("?")[0];
                 if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])
                 {
                     return "?" +encodeURIComponent(relativeUrl);
@@ -1996,8 +2018,8 @@ declare interface ObjectConstructor {
             .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
 
         globalState.documentBaseUrl = "text:" === globalState.urlParameters.sourceUrl.slice(0, 5) ?
-            location.href:
-            makeAbsoluteUrl(location.href, globalState.urlParameters.sourceUrl);
+            globalState.config.baseUrl:
+            makeAbsoluteUrl(globalState.config.baseUrl, globalState.urlParameters.sourceUrl);
     };
     const loadDocument = async function(sourceUrl : string) : Promise<string>
     {
@@ -2099,6 +2121,7 @@ declare interface ObjectConstructor {
     const startup = async function() : Promise<void>
     {
         await loadJson();
+        globalState.config.baseUrl = makeAbsoluteUrl(location.href, "@" + (globalState.config.baseUrl || "."));
         loadUrlParameters();
         if ("@system-loading-error" === globalState.urlParameters.sourceUrl.toLowerCase())
         {
@@ -2123,7 +2146,7 @@ declare interface ObjectConstructor {
         else
         {
             hideSystemLoadingError();
-            const source = await loadDocument(globalState.urlParameters.sourceUrl);
+            const source = await loadDocument(globalState.documentBaseUrl);
             hideLoading();
             tryOrThrough("GoogleAnalytics", loadGoogleAnalytics);
             try

@@ -478,11 +478,8 @@ declare interface ObjectConstructor {
         }
         return baseParts.concat(urlParts).join("/");
     };
-    const makeRelativeUrl = function(url : string) : string
+    const makeBaseRelativeUrl = function(base : string, url : string) : string
     {
-        const base = "@" === url.substr(0, 1) ?
-            location.href.split("#")[0]:
-            globalState.config.baseUrl;
         while("@" === url.substr(0, 1))
         {
             url = url.substr(1);
@@ -542,6 +539,14 @@ declare interface ObjectConstructor {
             result = ".";
         }
         return result;
+    };
+    const makeRelativeUrl = function(url : string) : string
+    {
+        return makeBaseRelativeUrl(globalState.config.baseUrl, url);
+    };
+    const makeSystemRelativeUrl = function(url : string) : string
+    {
+        return makeBaseRelativeUrl(location.href.split("#")[0], url);
     };
     const makeRebaseUrl = function(base : string, url : string) : string
     {
@@ -830,7 +835,13 @@ declare interface ObjectConstructor {
                 const thisPath = globalState.documentBaseUrl.split("#")[0].split("?")[0];
                 if (thisPath !== absoluteUrl.split("#")[0].split("?")[0])
                 {
-                    return "?" +encodeURIComponent(relativeUrl);
+                    const systemRelativeUrl = "@" + makeSystemRelativeUrl(absoluteUrl);
+                    return "?" +encodeURIComponent
+                    (
+                        relativeUrl.length <= systemRelativeUrl.length ?
+                            relativeUrl:
+                            systemRelativeUrl
+                    );
                 }
             }
             else

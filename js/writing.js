@@ -456,10 +456,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         }
         return baseParts.concat(urlParts).join("/");
     };
-    var makeRelativeUrl = function (url) {
-        var base = "@" === url.substr(0, 1) ?
-            location.href.split("#")[0] :
-            globalState.config.baseUrl;
+    var makeBaseRelativeUrl = function (base, url) {
         while ("@" === url.substr(0, 1)) {
             url = url.substr(1);
         }
@@ -506,6 +503,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             result = ".";
         }
         return result;
+    };
+    var makeRelativeUrl = function (url) {
+        return makeBaseRelativeUrl(globalState.config.baseUrl, url);
+    };
+    var makeSystemRelativeUrl = function (url) {
+        return makeBaseRelativeUrl(location.href.split("#")[0], url);
     };
     var makeRebaseUrl = function (base, url) {
         if ("#" === url.substr(0, 1)) {
@@ -690,7 +693,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             if (/.*\.md(\.txt)?(#.*)?$/i.test(absoluteUrl)) {
                 var thisPath = globalState.documentBaseUrl.split("#")[0].split("?")[0];
                 if (thisPath !== absoluteUrl.split("#")[0].split("?")[0]) {
-                    return "?" + encodeURIComponent(relativeUrl);
+                    var systemRelativeUrl = "@" + makeSystemRelativeUrl(absoluteUrl);
+                    return "?" + encodeURIComponent(relativeUrl.length <= systemRelativeUrl.length ?
+                        relativeUrl :
+                        systemRelativeUrl);
                 }
             }
             else {

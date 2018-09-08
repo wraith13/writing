@@ -554,7 +554,7 @@ declare interface ObjectConstructor {
         {
             return url;
         }
-        return makeRelativeUrl(makeAbsoluteUrl(base, url));
+        return makeSystemRelativeUrl(makeAbsoluteUrl(base, url));
     };
     const skipEscape = function
     (
@@ -1162,20 +1162,13 @@ declare interface ObjectConstructor {
     };
     const applyTheme = function(baseUrl : string) : void
     {
-        if (globalState.config.theme)
-        {
-            globalState.config.theme.forEach
-            (
-                function(i)
-                {
-                    appendTheme(makeRebaseUrl(baseUrl, i));
-                }
-            );
-        }
-        else
-        {
-            appendTheme("theme/default.css");
-        }
+        (globalState.config.theme || ["@theme/default.css"]).forEach
+        (
+            function(i)
+            {
+                appendTheme(makeRebaseUrl(baseUrl, i));
+            }
+        );
     };
     const applyStyle = function(source : string) : string
     {

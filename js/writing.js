@@ -514,7 +514,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if ("#" === url.substr(0, 1)) {
             return url;
         }
-        return makeRelativeUrl(makeAbsoluteUrl(base, url));
+        return makeSystemRelativeUrl(makeAbsoluteUrl(base, url));
     };
     var skipEscape = function (lines, map, escapeMap) {
         if (escapeMap === void 0) { escapeMap = undefined; }
@@ -902,14 +902,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             makeAbsoluteUrl(location.href, "writinghex.128.png"));
     };
     var applyTheme = function (baseUrl) {
-        if (globalState.config.theme) {
-            globalState.config.theme.forEach(function (i) {
-                appendTheme(makeRebaseUrl(baseUrl, i));
-            });
-        }
-        else {
-            appendTheme("theme/default.css");
-        }
+        (globalState.config.theme || ["@theme/default.css"]).forEach(function (i) {
+            appendTheme(makeRebaseUrl(baseUrl, i));
+        });
     };
     var applyStyle = function (source) {
         return applyOption(source, "STYLE", function (option) {

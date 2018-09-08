@@ -322,4 +322,7 @@ layout: true
 
 ## end of document
 
-- [back to writing](./index.md)
+<!--[NOWRITING]-->
+- [back to writing index](./index.md)
+<!--[/NOWRITING]-->
+<!--[WRITING/]- [back to writing index](@./)-->

@@ -77,4 +77,7 @@ h1 img
 
 ## end of index
 
-- [writing へ戻る](../index.md)
+<!--[NOWRITING]-->
+- [back to writing index](../index.md)
+<!--[/NOWRITING]-->
+<!--[WRITING/]- [back to writing index](@./)-->

@@ -8,7 +8,7 @@
 <!--[WRTING-CONFING]
 {
     "title": "writing index",
-    "theme": ["theme/default.css"]
+    "theme": ["@theme/default.css"]
 }
 -->
 <!--[STYLE]

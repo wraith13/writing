@@ -8,7 +8,7 @@
 <!--[WRTING-CONFING]
 {
     "title": "writing demo",
-    "theme": ["../theme/default.css"]
+    "theme": ["@theme/default.css"]
 }
 -->
 <!--[STYLE]

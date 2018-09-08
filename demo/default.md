@@ -7,7 +7,7 @@
 <!--[WRTING-CONFING]
 {
     "renderer": "remark",
-    "theme": ["../theme/default.css"]
+    "theme": ["@theme/default.css"]
 }
 -->
 <!--
@@ -36,7 +36,7 @@ layout: true
 ```HTML
 <!--[WRTING-CONFING]
 {
-    "theme": ["../theme/default.css"]
+    "theme": ["@theme/default.css"]
 }
 -->
 ```

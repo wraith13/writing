@@ -14,7 +14,7 @@ class: center, middle
     "title": "writing README",
     "favicon": "https://wraith13.github.io/writing/writinghex.128.png",
     "autoPageSeparate": true,
-    "theme": ["theme/default.css"]
+    "theme": ["@theme/default.css"]
 }
 -->
 
@@ -220,7 +220,7 @@ markdown 内のコメントで明示されたレンダラーでレンダリン�
 ```html
 <!--[WRTING-CONFING]
 {
-    "theme": ["theme/default.css"]
+    "theme": ["@theme/default.css"]
 }
 -->
 ```

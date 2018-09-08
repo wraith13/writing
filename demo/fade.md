@@ -9,8 +9,8 @@
     "renderer": "remark",
     "theme":
     [
-        "../theme/default.css",
-        "../animation/fade.css"
+        "@theme/default.css",
+        "@animation/fade.css"
     ]
 }
 -->
@@ -42,8 +42,8 @@ layout: true
 {
     "theme":
     [
-        "../theme/default.css",
-        "../animation/fade.css"
+        "@theme/default.css",
+        "@animation/fade.css"
     ]
 }
 -->

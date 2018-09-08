@@ -9,8 +9,8 @@
     "renderer": "remark",
     "theme":
     [
-        "../theme/default.css",
-        "../animation/slide.css"
+        "@theme/default.css",
+        "@animation/slide.css"
     ]
 }
 -->
@@ -42,8 +42,8 @@ layout: true
 {
     "theme":
     [
-        "../theme/default.css",
-        "../animation/slide.css"
+        "@theme/default.css",
+        "@animation/slide.css"
     ]
 }
 -->

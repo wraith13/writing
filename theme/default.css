@@ -1,6 +1,12 @@
 @import url(https://fonts.googleapis.com/earlyaccess/notosansjapanese.css);
 @import url(https://fonts.googleapis.com/earlyaccess/roundedmplus1c.css);
 @font-face {
+  font-family: 'Droid Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Serif Regular'), local('DroidSerif-Regular'), url(https://fonts.gstatic.com/s/droidserif/v8/tDbI2oqRg1oM3QBjjcaDkOr9rAA.ttf) format('truetype');
+}
+@font-face {
   font-family: 'Ubuntu Mono';
   font-style: italic;
   font-weight: 400;
@@ -62,6 +68,7 @@ blockquote {
   min-height: 57px;
 }
 blockquote::before {
+  font-family: 'Droid Serif';
   margin-top: -35px;
   opacity: 0.3;
   content: "“";

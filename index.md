@@ -1,4 +1,4 @@
-# ![](writinghex.128.png)writing index
+# writing index
 
 <!--[NOWRITING]-->
 <link rel="canonical" href="https://wraith13.github.io/writing/" />
@@ -8,26 +8,8 @@
 <!--[WRTING-CONFING]
 {
     "title": "writing index",
-    "theme": ["@theme/default.css"]
-}
--->
-<!--[STYLE]
-h1
-{
-    margin-bottom:48px;
-}
-h1 img
-{
-    margin-top:-20px;
-    margin-bottom:-100px;
-}
-.reveal section h1 img
-{
-    margin-bottom: -8px;
-    border-style: none;
-    background-color: transparent;
-    box-shadow: inherit;
-    margin-right: 24px;
+    "theme": ["@theme/default.css"],
+    "withIndex": true
 }
 -->
 <!--[REMARK-CONFIG]

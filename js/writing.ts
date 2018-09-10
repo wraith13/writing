@@ -2022,7 +2022,7 @@ declare interface ObjectConstructor {
             .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
 
         globalState.documentBaseUrl = "text:" === globalState.urlParameters.sourceUrl.slice(0, 5) ?
-            globalState.config.baseUrl:
+            globalState.urlParameters.sourceUrl:
             makeAbsoluteUrl(globalState.config.baseUrl, globalState.urlParameters.sourceUrl);
     };
     const loadDocument = async function(sourceUrl : string) : Promise<string>

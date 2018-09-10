@@ -1564,7 +1564,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         globalState.urlParameters.sourceUrl = globalState.urlParameters.sourceUrl
             .replace(/^(?:https\:)?\/\/github\.com\/([^/]+\/[^/]+)\/blob\/(.*\.md)(#.*)?$/, "https://raw.githubusercontent.com/$1/$2");
         globalState.documentBaseUrl = "text:" === globalState.urlParameters.sourceUrl.slice(0, 5) ?
-            globalState.config.baseUrl :
+            globalState.urlParameters.sourceUrl :
             makeAbsoluteUrl(globalState.config.baseUrl, globalState.urlParameters.sourceUrl);
     };
     var loadDocument = function (sourceUrl) {

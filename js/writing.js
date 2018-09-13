@@ -176,9 +176,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         }
         if (undefined !== arg.children) {
             if ("array" === practicalTypeof(arg.children)) {
-                arg.children.forEach(function (i) {
-                    element.appendChild(makeDomNode(i));
-                });
+                arg.children.forEach(function (i) { return element.appendChild(makeDomNode(i)); });
             }
             else {
                 element.appendChild(makeDomNode(arg.children));
@@ -780,9 +778,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             return line;
         });
         return skipEscape(lines, function (line) {
-            anchors.forEach(function (i) {
-                line = line.split(i.anchor).join(i.page);
-            });
+            anchors.forEach(function (i) { return line = line.split(i.anchor).join(i.page); });
             return line;
         }).join("\n");
     };

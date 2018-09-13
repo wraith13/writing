@@ -181,13 +181,7 @@ declare interface ObjectConstructor {
         {
             if ("array" === practicalTypeof(arg.children))
             {
-                arg.children.forEach
-                (
-                    function(i)
-                    {
-                        element.appendChild(makeDomNode(i));
-                    }
-                );
+                arg.children.forEach(i => element.appendChild(makeDomNode(i)));
             }
             else
             {
@@ -566,7 +560,7 @@ declare interface ObjectConstructor {
         let currentEscape = null;
         return lines.map
         (
-            function(line, line_number)
+            (line : string, line_number : number) : string =>
             {
                 const escape = "$$" === line.trim() ? "$$": line.trim().replace(/^(```+|~~~+).*/, "$1").replace(/^[`~]{0,2}(([^`~].*)|$)/,"");
                 const isEscape = null === currentEscape && ("" !== escape) || (null !== currentEscape && currentEscape.substr(0,1) === escape.substr(0,1) && currentEscape.length <= escape.length);
@@ -616,7 +610,7 @@ declare interface ObjectConstructor {
         skipEscape
         (
             source.split("\n"),
-            function(line)
+            (line : string) : string =>
             {
                 if (isInEscape)
                 {
@@ -633,7 +627,7 @@ declare interface ObjectConstructor {
                 current.push(line);
                 return line;
             },
-            function(line)
+            (line : string) : string =>
             {
                 if (!isInEscape)
                 {
@@ -689,7 +683,7 @@ declare interface ObjectConstructor {
         return skipEscapeBlock
         (
             source,
-            function(block)
+            (block : string) : string =>
             {
                 const reg = new RegExp("<!--\\[" +TAG +"\\]\\s*([\\s\\S]*?)\\s*-->", "gm");
                 let matches = null;
@@ -708,7 +702,7 @@ declare interface ObjectConstructor {
         (
             source,
             "WRTING-CONFING",
-            function(option)
+            (option : string) =>
             {
                 try
                 {
@@ -796,7 +790,7 @@ declare interface ObjectConstructor {
         const anchors : IndexItem[] = [];
         getHeadingTags().forEach
         (
-            function(i)
+            (i : Element) =>
             {
                 const level = parseInt(i.tagName.substr(1), 10);
                 const title = i.textContent.trim();
@@ -856,13 +850,13 @@ declare interface ObjectConstructor {
         return skipEscape
         (
             source.split("\n"),
-            function(line)
+            (line : string) : string =>
             {
                 let isInInlineEscape = false;
                 let isInSquareBracket = false;
                 return line.split("`").map
                 (
-                    function(part)
+                    (part : string) : string =>
                     {
                         if (!isInInlineEscape)
                         {
@@ -932,7 +926,7 @@ declare interface ObjectConstructor {
         skipEscape
         (
             lines,
-            function(line)
+            (line : string) : string =>
             {
                 const trimed_line = line.trim();
                 if ("--" === line || "---" === line)
@@ -966,14 +960,11 @@ declare interface ObjectConstructor {
         return skipEscape
         (
             lines,
-            function(line)
+            (line : string) : string =>
             {
                 anchors.forEach
                 (
-                    function(i)
-                    {
-                        line = line.split(i.anchor).join(i.page);
-                    }
+                    i => line = line.split(i.anchor).join(i.page)
                 );
                 return line;
             }

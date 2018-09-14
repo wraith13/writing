@@ -978,7 +978,7 @@ declare interface ObjectConstructor {
         skipEscape
         (
             lines,
-            function(line)
+            (line : string) : string =>
             {
                 const trimed_line = line.trim();
                 if ("--" === line || "---" === line)
@@ -1003,7 +1003,7 @@ declare interface ObjectConstructor {
         return skipEscape
         (
             lines,
-            function(line)
+            (line : string) : string =>
             {
                 anchors.forEach
                 (
@@ -1037,7 +1037,7 @@ declare interface ObjectConstructor {
             skipEscape
             (
                 lines,
-                function(line)
+                (line : string) : string =>
                 {
                     const trimed_line = line.trim();
                     if (/^# [^ ]+/.test(trimed_line))
@@ -1053,7 +1053,7 @@ declare interface ObjectConstructor {
             return skipEscape
             (
                 lines,
-                function(line)
+                (line : string) : string =>
                 {
                     const trimed_line = line.trim();
                     if (/^#+ [^ ]+/.test(trimed_line))
@@ -1101,17 +1101,22 @@ declare interface ObjectConstructor {
                 {
                     previousLine: undefined
                 };
-                skipEscape(source.split("\n"), function(line){
-                    if (undefined === globalState.config.title || "" === globalState.config.title)
+                skipEscape
+                (
+                    source.split("\n"),
+                    (line : string) : string =>
                     {
-                        if (line.match(/^\=+$/) && (undefined !== context.previousLine && "" !== context.previousLine))
+                        if (undefined === globalState.config.title || "" === globalState.config.title)
                         {
-                            globalState.config.title = context.previousLine;
+                            if (line.match(/^\=+$/) && (undefined !== context.previousLine && "" !== context.previousLine))
+                            {
+                                globalState.config.title = context.previousLine;
+                            }
+                            context.previousLine = line;
                         }
-                        context.previousLine = line;
+                        return line;
                     }
-                    return line;
-                });
+                );
             }
 
             if (undefined === globalState.config.title || "" === globalState.config.title)

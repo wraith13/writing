@@ -1007,10 +1007,7 @@ declare interface ObjectConstructor {
             {
                 anchors.forEach
                 (
-                    function(i)
-                    {
-                        line = line.split(i.anchor).join(i.page);
-                    }
+                    i =>  line = line.split(i.anchor).join(i.page)
                 );
                 return line;
             }
@@ -1077,14 +1074,11 @@ declare interface ObjectConstructor {
             return source;
         }
     };
-    const translateForMathJax = function(source : string) : string
-    {
-        return source.replace
+    const translateForMathJax = (source : string) : string => source.replace
         (
             /\n\$\$\n([\W\w]*?)\n\$\$\n/g,
             "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n"
         );
-    };
     const applyTitle = function(source : string) : void
     {
         if (undefined === globalState.config.title || "" === globalState.config.title)
@@ -1129,8 +1123,8 @@ declare interface ObjectConstructor {
                     .replace(/(^|\n)#+\s+(.*)([\W\w]*)/, "$2")
                     .replace(/<.*?>/g, "")
                     .split("\n")
-                    .map(function(i){ return i.trim(); })
-                    .filter(function(i) { return 0 < i.length; })[0]
+                    .map(i => i.trim())
+                    .filter(i => 0 < i.length)[0]
                     || "untitled"
                 )
                 .replace(/\s+/g," ")
@@ -1147,44 +1141,30 @@ declare interface ObjectConstructor {
         document.title = globalState.config.title;
         (document.getElementById("twitter-card-title") as HTMLMetaElement).content = globalState.config.title;
     };
-    const applyIcon = function(baseUrl : string) : void
-    {
-        appendIcon
+    const applyIcon = (baseUrl : string) : void => appendIcon
         (
             globalState.config.favicon ?
                 makeAbsoluteUrl(baseUrl, globalState.config.favicon):
                 makeAbsoluteUrl(location.href, "writinghex.128.png")
         );
-    };
-    const applyTheme = function(baseUrl : string) : void
-    {
+    const applyTheme = (baseUrl : string) : void =>
         (globalState.config.theme || ["@theme/default.css"]).forEach
         (
-            function(i)
-            {
-                appendTheme(makeRebaseUrl(baseUrl, i));
-            }
+            i => appendTheme(makeRebaseUrl(baseUrl, i))
         );
-    };
-    const applyStyle = function(source : string) : string
-    {
-        return applyOption
+    const applyStyle = (source : string) : string => applyOption
         (
             source,
             "STYLE",
-            function(option)
-            {
-                makeDomNode
+            option => makeDomNode
                 (
                     {
                         parent: document.head,
                         tag: "style",
                         innerHTML: option,
                     }
-                );
-            }
+                )
         );
-    };
     const applyWallPaper = function(baseUrl : string) : void
     {
         if (globalState.config.wallpaper)

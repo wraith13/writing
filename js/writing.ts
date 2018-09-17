@@ -2098,6 +2098,17 @@ declare interface ObjectConstructor {
             }
         );
     };
+    const isHtml = (source : string) : boolean => /[^`]\<\/html\>($|[^`])/.test
+    (
+        skipEscapeBlock
+        (
+            source.replace(/<!--.*?-->/g, ""),
+            undefined,
+            (_block : string) : string => undefined,
+        )
+        .replace(/\s/g, "")
+        .toLowerCase()
+    );
     const startup = async function() : Promise<void>
     {
         await loadJson();
@@ -2132,16 +2143,24 @@ declare interface ObjectConstructor {
         {
             hideSystemLoadingError();
             const source = await loadDocument(globalState.documentBaseUrl);
-            hideLoading();
-            tryOrThrough("GoogleAnalytics", loadGoogleAnalytics);
-            try
+
+            if (isHtml(source))
             {
-                await render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
+                location.href = globalState.documentBaseUrl +"#" +location.hash;
             }
-            catch(err)
+            else
             {
-                showRenderingError();
-                console.error(`🚫 ${err}`);
+                hideLoading();
+                tryOrThrough("GoogleAnalytics", loadGoogleAnalytics);
+                try
+                {
+                    await render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source);
+                }
+                catch(err)
+                {
+                    showRenderingError();
+                    console.error(`🚫 ${err}`);
+                }
             }
         }
     };

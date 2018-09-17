@@ -801,9 +801,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             return line;
         });
         return skipEscape(lines, function (line) {
-            anchors.forEach(function (i) {
-                line = line.split(i.anchor).join(i.page);
-            });
+            anchors.forEach(function (i) { return line = line.split(i.anchor).join(i.page); });
             return line;
         }).join("\n");
     };
@@ -845,9 +843,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             return source;
         }
     };
-    var translateForMathJax = function (source) {
-        return source.replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n");
-    };
+    var translateForMathJax = function (source) { return source.replace(/\n\$\$\n([\W\w]*?)\n\$\$\n/g, "\n<pre class=\"mathjax\">\n$$$$\n$1\n$$$$\n</pre>\n"); };
     var applyTitle = function (source) {
         if (undefined === globalState.config.title || "" === globalState.config.title) {
             var matches = /(^|\n)#\s+(.*)([\W\w]*)/.exec(source);
@@ -892,25 +888,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         document.title = globalState.config.title;
         document.getElementById("twitter-card-title").content = globalState.config.title;
     };
-    var applyIcon = function (baseUrl) {
-        appendIcon(globalState.config.favicon ?
-            makeAbsoluteUrl(baseUrl, globalState.config.favicon) :
-            makeAbsoluteUrl(location.href, "writinghex.128.png"));
-    };
+    var applyIcon = function (baseUrl) { return appendIcon(globalState.config.favicon ?
+        makeAbsoluteUrl(baseUrl, globalState.config.favicon) :
+        makeAbsoluteUrl(location.href, "writinghex.128.png")); };
     var applyTheme = function (baseUrl) {
-        (globalState.config.theme || ["@theme/default.css"]).forEach(function (i) {
-            appendTheme(makeRebaseUrl(baseUrl, i));
-        });
+        return (globalState.config.theme || ["@theme/default.css"]).forEach(function (i) { return appendTheme(makeRebaseUrl(baseUrl, i)); });
     };
-    var applyStyle = function (source) {
-        return applyOption(source, "STYLE", function (option) {
-            makeDomNode({
-                parent: document.head,
-                tag: "style",
-                innerHTML: option,
-            });
-        });
-    };
+    var applyStyle = function (source) { return applyOption(source, "STYLE", function (option) { return makeDomNode({
+        parent: document.head,
+        tag: "style",
+        innerHTML: option,
+    }); }); };
     var applyWallPaper = function (baseUrl) {
         if (globalState.config.wallpaper) {
             document.body.classList.add("with-wallpaper");
@@ -1645,6 +1633,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             });
         });
     };
+    var isHtml = function (source) { return /[^`]\<\/html\>($|[^`])/.test(skipEscapeBlock(source.replace(/<!--.*?-->/g, ""), undefined, function (_block) { return undefined; })
+        .replace(/\s/g, "")
+        .toLowerCase()); };
     var startup = function () {
         return __awaiter(this, void 0, void 0, function () {
             var source, err_2;
@@ -1660,40 +1651,44 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         globalState.config.baseUrl = makeAbsoluteUrl(location.href, globalState.config.baseUrl);
                         loadUrlParameters();
                         if (!("@system-loading-error" === globalState.urlParameters.sourceUrl.toLowerCase())) return [3 /*break*/, 2];
-                        return [3 /*break*/, 10];
+                        return [3 /*break*/, 11];
                     case 2:
                         if (!("@loading" === globalState.urlParameters.sourceUrl.toLowerCase())) return [3 /*break*/, 3];
                         hideSystemLoadingError();
-                        return [3 /*break*/, 10];
+                        return [3 /*break*/, 11];
                     case 3:
                         if (!("@rendering" === globalState.urlParameters.sourceUrl.toLowerCase())) return [3 /*break*/, 4];
                         hideSystemLoadingError();
                         hideLoading();
-                        return [3 /*break*/, 10];
+                        return [3 /*break*/, 11];
                     case 4:
                         if (!("@rendering-error" === globalState.urlParameters.sourceUrl.toLowerCase())) return [3 /*break*/, 5];
                         showRenderingError();
-                        return [3 /*break*/, 10];
+                        return [3 /*break*/, 11];
                     case 5:
                         hideSystemLoadingError();
                         return [4 /*yield*/, loadDocument(globalState.documentBaseUrl)];
                     case 6:
                         source = _c.sent();
+                        if (!isHtml(source)) return [3 /*break*/, 7];
+                        location.href = globalState.documentBaseUrl + "#" + location.hash;
+                        return [3 /*break*/, 11];
+                    case 7:
                         hideLoading();
                         tryOrThrough("GoogleAnalytics", loadGoogleAnalytics);
-                        _c.label = 7;
-                    case 7:
-                        _c.trys.push([7, 9, , 10]);
-                        return [4 /*yield*/, render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source)];
+                        _c.label = 8;
                     case 8:
-                        _c.sent();
-                        return [3 /*break*/, 10];
+                        _c.trys.push([8, 10, , 11]);
+                        return [4 /*yield*/, render(globalState.urlParameters.renderer, globalState.documentBaseUrl, source)];
                     case 9:
+                        _c.sent();
+                        return [3 /*break*/, 11];
+                    case 10:
                         err_2 = _c.sent();
                         showRenderingError();
                         console.error("\uD83D\uDEAB " + err_2);
-                        return [3 /*break*/, 10];
-                    case 10: return [2 /*return*/];
+                        return [3 /*break*/, 11];
+                    case 11: return [2 /*return*/];
                 }
             });
         });

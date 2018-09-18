@@ -24,10 +24,7 @@ declare interface ObjectConstructor {
     };
     const explicitFragmentIdPattern = /\{\#(.*?)\}$/;
 
-    const timeout = async function(wait : number) : Promise<void>
-    {
-        return new Promise<void>(resolve => setTimeout(resolve, wait));
-    };
+    const timeout = async (wait : number) : Promise<void> => new Promise<void>(resolve => setTimeout(resolve, wait));
     const tryOrThrough = function(title : string, f : () => void) : void
     {
         try
@@ -79,10 +76,7 @@ declare interface ObjectConstructor {
         Object.assign(target, source);
         return target;
     };
-    const deepCopy = function(source : object) : object
-    {
-        return JSON.parse(JSON.stringify(source));
-    };
+    const deepCopy = (source : object) : object => JSON.parse(JSON.stringify(source));
     const recursiveAssign = function(target : object, source : object) : void
     {
         for(const key in source)
@@ -245,7 +239,7 @@ declare interface ObjectConstructor {
         document.body.classList.add("writing-HTML-document-rendering-error");
         
         //  画面をクリックしたら復元(エラーがあってもとにかく表示された方が嬉しい場面もあるので)
-        document.getElementById("writing-HTML-document-rendering-error-panel").onclick = async function()
+        document.getElementById("writing-HTML-document-rendering-error-panel").onclick = async () =>
         {
             document.body.classList.remove("writing-HTML-document-rendering-error");
             await hideRendering();
@@ -325,36 +319,27 @@ declare interface ObjectConstructor {
         }
         makeDomNode(responseDiv);
     };
-    const appendLink = function(args : object) : void
-    {
-        makeDomNode
+    const appendLink = (args : object) : Node => makeDomNode
+    (
+        objectAssign
         (
-            objectAssign
-            (
-                deepCopy(args),
-                {
-                    parent: document.head,
-                    tag: "link"
-                }
-            )
-        );
-    };
-    const appendTheme = function(href : string, id : string = undefined) : void
-    {
-        appendLink
-        (
+            deepCopy(args),
             {
-                rel: "stylesheet",
-                type: "text/css",
-                href: href,
-                id: id
+                parent: document.head,
+                tag: "link"
             }
-        );
-    };
-    const appendHighlightTheme = function() : void
-    {
-        appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
-    };
+        )
+    );
+    const appendTheme = (href : string, id : string = undefined) : Node => appendLink
+    (
+        {
+            rel: "stylesheet",
+            type: "text/css",
+            href: href,
+            id: id
+        }
+    );
+    const appendHighlightTheme = () : Node => appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
     const appendIcon = function(href : string) : void
     {
         appendLink
@@ -375,22 +360,19 @@ declare interface ObjectConstructor {
         );
         (document.getElementById("twitter-card-image") as HTMLMetaElement).content = href;
     };
-    const loadScript = async function(src : string) : Promise<void>
-    {
-        return new Promise<void>
+    const loadScript = async (src : string) : Promise<void> => new Promise<void>
+    (
+        (resolve, reject) => makeDomNode
         (
-            (resolve, reject) => makeDomNode
-            (
-                {
-                    parent: document.head,
-                    tag: "script",
-                    src: src,
-                    onload: resolve,
-                    onerror: reject,
-                }
-            )
-        );
-    };
+            {
+                parent: document.head,
+                tag: "script",
+                src: src,
+                onload: resolve,
+                onerror: reject,
+            }
+        )
+    );
     const loadHighlightScript = async function() : Promise<void>
     {
         await loadScript("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js");

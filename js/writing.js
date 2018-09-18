@@ -35,17 +35,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 (function () {
+    var _this = this;
     var globalState = {
         "config": {}
     };
     var explicitFragmentIdPattern = /\{\#(.*?)\}$/;
-    var timeout = function (wait) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_c) {
-                return [2 /*return*/, new Promise(function (resolve) { return setTimeout(resolve, wait); })];
-            });
-        });
-    };
+    var timeout = function (wait) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_c) {
+        return [2 /*return*/, new Promise(function (resolve) { return setTimeout(resolve, wait); })];
+    }); }); };
     var tryOrThrough = function (title, f) {
         try {
             f();
@@ -101,9 +98,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         Object.assign(target, source);
         return target;
     };
-    var deepCopy = function (source) {
-        return JSON.parse(JSON.stringify(source));
-    };
+    var deepCopy = function (source) { return JSON.parse(JSON.stringify(source)); };
     var recursiveAssign = function (target, source) {
         for (var key in source) {
             if (source.hasOwnProperty(key)) {
@@ -238,22 +233,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         });
     };
     var showRenderingError = function () {
+        var _this = this;
         document.body.classList.add("writing-HTML-document-rendering-error");
         //  画面をクリックしたら復元(エラーがあってもとにかく表示された方が嬉しい場面もあるので)
-        document.getElementById("writing-HTML-document-rendering-error-panel").onclick = function () {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_c) {
-                    switch (_c.label) {
-                        case 0:
-                            document.body.classList.remove("writing-HTML-document-rendering-error");
-                            return [4 /*yield*/, hideRendering()];
-                        case 1:
-                            _c.sent();
-                            return [2 /*return*/];
-                    }
-                });
+        document.getElementById("writing-HTML-document-rendering-error-panel").onclick = function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        document.body.classList.remove("writing-HTML-document-rendering-error");
+                        return [4 /*yield*/, hideRendering()];
+                    case 1:
+                        _c.sent();
+                        return [2 /*return*/];
+                }
             });
-        };
+        }); };
     };
     var showError = function (arg) {
         return __awaiter(this, void 0, void 0, function () {
@@ -320,24 +314,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         }
         makeDomNode(responseDiv);
     };
-    var appendLink = function (args) {
-        makeDomNode(objectAssign(deepCopy(args), {
-            parent: document.head,
-            tag: "link"
-        }));
-    };
+    var appendLink = function (args) { return makeDomNode(objectAssign(deepCopy(args), {
+        parent: document.head,
+        tag: "link"
+    })); };
     var appendTheme = function (href, id) {
         if (id === void 0) { id = undefined; }
-        appendLink({
+        return appendLink({
             rel: "stylesheet",
             type: "text/css",
             href: href,
             id: id
         });
     };
-    var appendHighlightTheme = function () {
-        appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css");
-    };
+    var appendHighlightTheme = function () { return appendTheme("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"); };
     var appendIcon = function (href) {
         appendLink({
             rel: "shortcut icon",
@@ -351,19 +341,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         });
         document.getElementById("twitter-card-image").content = href;
     };
-    var loadScript = function (src) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_c) {
-                return [2 /*return*/, new Promise(function (resolve, reject) { return makeDomNode({
-                        parent: document.head,
-                        tag: "script",
-                        src: src,
-                        onload: resolve,
-                        onerror: reject,
-                    }); })];
-            });
+    var loadScript = function (src) { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_c) {
+            return [2 /*return*/, new Promise(function (resolve, reject) { return makeDomNode({
+                    parent: document.head,
+                    tag: "script",
+                    src: src,
+                    onload: resolve,
+                    onerror: reject,
+                }); })];
         });
-    };
+    }); };
     var loadHighlightScript = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_c) {

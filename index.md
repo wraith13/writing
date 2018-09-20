@@ -2,7 +2,7 @@
 
 <!--[NOWRITING]-->
 <link rel="canonical" href="https://wraith13.github.io/writing/" />
-この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/">https://wraith13.github.io/writing/</a>
+この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/">https://wraith13.github.io/writing/?@index.md</a>
 <!--[/NOWRITING]-->
 
 <!--[WRTING-CONFING]
@@ -20,18 +20,7 @@
 <!--[NOREVEAL/]<span style="font-size:0.7em;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal) | [edit](https://github.com/wraith13/writing/edit/master/index.md?)</span>-->
 <!--[REVEAL/]<span style="display:block;margin-left:auto;margin-right:auto;font-size:0.6em;width:450px;text-align:center;white-space:pre;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal) | [edit](https://github.com/wraith13/writing/edit/master/index.md)</span>-->
 
-<!--[WRITING/]
-<iframe src="javascript:document.write('<body style=margin:0;padding:0px;font-size:3.0rem;overflow:hidden;>today: ' +new Date().getFullYear() +'-' + +(new Date().getMonth() +1) +'-' +new Date().getDate() +'(' +'日月火水木金土'.substr(new Date().getDay(), 1) +')</body>')" style="height:4.0rem; width:60.0rem;border-style:none;"></iframe>
--->
-
-- [README](README.md)
-- [@wraith13](wraith13.md)
-
-## [splatoon2 基礎講座](splatoon2/index.md)
-
-## etc
-
-- [オススメの VSCODE 拡張](etc/recommend.vscode.extension.md)
+## [README](README.md)
 
 <!--[WRITING/]
 ## instant

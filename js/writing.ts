@@ -885,7 +885,7 @@ declare interface ObjectConstructor {
                             {
                                 const url = match[4];
                                 const absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-                                const relativeUrl = makeRelativeUrl(absoluteUrl);
+                                const relativeUrl = makeSystemRelativeUrl(absoluteUrl); // 画像をいまこの場で表示する必要があるので、 makeRelativeUrl ではなく makeSystemRelativeUrl でなければならない。
                                 part = part.replace(match[0], "<" +match[1] +"img" +match[2] +"src=" +match[3] +relativeUrl +match[5] +">");
                             }
                         }

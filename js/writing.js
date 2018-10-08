@@ -729,7 +729,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     while (null !== (match = img_re.exec(part))) {
                         var url = match[4];
                         var absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-                        var relativeUrl = makeRelativeUrl(absoluteUrl);
+                        var relativeUrl = makeSystemRelativeUrl(absoluteUrl); // 画像をいまこの場で表示する必要があるので、 makeRelativeUrl ではなく makeSystemRelativeUrl でなければならない。
                         part = part.replace(match[0], "<" + match[1] + "img" + match[2] + "src=" + match[3] + relativeUrl + match[5] + ">");
                     }
                 }

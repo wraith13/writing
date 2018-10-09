@@ -1,2 +1,2 @@
 tsc -P .
-lessc ./theme/default.less ./theme/default.css
+lessc ./theme/default.less ./theme/default.css --source-map

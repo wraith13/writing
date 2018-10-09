@@ -125,11 +125,19 @@ blockquote
 @markdown-min-width-with-index: 45.0rem;
 @markdown-size-a-screen-max-width: 60.0rem;
 @writing-phi: 1.6180339887;
-@markdown-header-font-size: ((((100vw - 60.0rem) / 180.0) + 1.0rem) * 3.6);
+@markdown-header-font-size: ((((100vw - 60.0rem) / 180.0) + 1.0rem) * 1.8);
 @markdown-content-width: (100vw / @writing-phi);
 @markdown-index-width: ((100vw - @markdown-content-width) / @writing-phi);
 @markdown-content-horizontal-padding: ((100vw - @markdown-content-width) * (1.0 - (1.0 / @writing-phi)) / 2.0);
 
+@markdown-default-base-color: #FFFFFF;
+@markdown-default-main-color: #444461;
+@markdown-white-base-color: #FFFFFF;
+@markdown-deep-main-color: #446161;
+@markdown-wine-main-color: #614444;
+@markdown-abyss-main-color: #444461;
+@markdown-violet-main-color: #614461;
+@markdown-gold-main-color: #616144;
 body.markdown
 {
     &,
@@ -138,6 +146,8 @@ body.markdown
         overflow-x: hidden;
         padding: 0;
         margin: 0px;
+        color: @markdown-default-main-color;
+        background-color: @markdown-default-base-color;
     }
     font-size: 1.0rem;
     .wallpaper
@@ -190,8 +200,9 @@ body.markdown
             width: @markdown-index-width;
             min-height: 100vh;
         
-            background-color: #EEEEEE;
-            opacity: 0.8;
+            background-color: @markdown-default-main-color;
+            
+            x-opacity: 0.8;
         
             font-family: 'Noto Sans Japanese', 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
@@ -202,66 +213,68 @@ body.markdown
                 white-space: nowrap;
                 text-decoration: none;
                 line-height: 100%;
+                color: @markdown-default-base-color;
+                background-color: @markdown-default-main-color;
                 &:not(.current):hover
                 {
-                    color: #FFFFFF;
+                    color: @markdown-default-base-color;
                     background-color: #86812A;
                     text-decoration: underline;
                 }
                 &.current
                 {
-                    color: #FFFFFF;
-                    background-color: #4444DD;
+                    color: @markdown-default-main-color;
+                    background-color: @markdown-default-base-color;
                 }
                 &.level1
                 {
-                    padding: 14px 24px 14px 24px;
+                    padding: 18px 24px 18px 24px;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2);
                 }
                 &.level2
                 {
-                    padding: 12px 24px 12px 32px;
+                    padding: 16px 24px 16px 32px;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 1.0);
                 }
                 &.level3
                 {
-                    padding: 10px 24px 10px 40px;
+                    padding: 14px 24px 14px 40px;
                     font-size: 70%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.9);
                 }
                 &.level4
                 {
-                    padding: 8px 24px 8px 48px;
+                    padding: 12px 24px 12px 48px;
                     font-size: 60%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
                 }
                 &.level5
                 {
-                    padding: 6px 24px 6px 56px;
+                    padding: 10px 24px 10px 56px;
                     font-size: 50%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
                 }
                 &.level6
                 {
-                    padding: 4px 24px 4px 64px;
+                    padding: 8px 24px 8px 64px;
                     font-size: 40%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
                 }
                 &.level7
                 {
-                    padding: 4px 24px 4px 72px;
+                    padding: 8px 24px 8px 72px;
                     font-size: 35%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
                 }
                 &.level8
                 {
-                    padding: 4px 24px 4px 80px;
+                    padding: 8px 24px 8px 80px;
                     font-size: 30%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
                 }
                 &.level9
                 {
-                    padding: 4px 24px 4px 88px;
+                    padding: 8px 24px 8px 88px;
                     font-size: 30%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
                 }
@@ -329,17 +342,18 @@ body.markdown
     }
     &.with-wallpaperx div.content
     {
-        -text-shadow: 6px 6px 6px #FFFFFF, 6px -6px 6px #FFFFFF, -6px -6px 6px #FFFFFF, -6px 6px 6px #FFFFFF; 
-        text-shadow: 3px 3px 3px #FFFFFF, 3px -3px 3px #FFFFFF, -3px -3px 3px #FFFFFF, -3px 3px 3px #FFFFFF; 
+        -text-shadow: 6px 6px 6px @markdown-default-base-color, 6px -6px 6px @markdown-default-base-color, -6px -6px 6px @markdown-default-base-color, -6px 6px 6px @markdown-default-base-color; 
+        text-shadow: 3px 3px 3px @markdown-default-base-color, 3px -3px 3px @markdown-default-base-color, -3px -3px 3px @markdown-default-base-color, -3px 3px 3px @markdown-default-base-color; 
     }
     &.solid
     {
-        border-top-width: calc(@markdown-header-font-size + 28px);
-        border-top-color: #86812A;
+        border-top-width: calc(@markdown-header-font-size * 2.0);
+        border-top-color: @markdown-default-base-color;
         border-top-style: solid;
         div.index-frame div.index a.level1:first-child
         {
             font-size: calc(@markdown-header-font-size);
+            padding: calc(@markdown-header-font-size * 0.5);
         }
         div.content
         {
@@ -352,23 +366,143 @@ body.markdown
                 margin-top: 0px;
                 font-family: 'Noto Sans Japanese', 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 font-weight: normal;
-                padding: 14px 24px 14px 24px;
+                padding: calc(@markdown-header-font-size * 0.5);
                 font-size: calc(@markdown-header-font-size);
                 line-height: 100%;
-                color: #FFFFFF;
-                background-color: #86812A;
-                x-margin-top: calc(0px - (@markdown-header-font-size + 28px));
+                color: @markdown-default-main-color;
+                background-color: @markdown-default-base-color;
+                x-margin-top: calc(0px - (@markdown-header-font-size * 2.0));
             }
         }
         div.content,
         &.writing-HTML-document-rendering.writing-HTML-document-rendering-slide-out div.content
         {
-            x-margin-top: calc(0px - (@markdown-header-font-size + 28px));
+            x-margin-top: calc(0px - (@markdown-header-font-size * 2.0));
         }
         &.writing-HTML-document-rendering div.content,
         #writing-HTML-document-rendering-panel
         {
             margin-top: 0px;
+        }
+    }
+    &.white-base
+    {
+        &,
+        table
+        {
+            background-color: @markdown-white-base-color;
+        }
+        div.index-frame div.index a
+        {
+            color: @markdown-white-base-color;
+            &:not(.current):hover
+            {
+                color: @markdown-white-base-color;
+            }
+            &.current
+            {
+                background-color: @markdown-white-base-color;
+            }
+        }
+    }
+    &.deep-main
+    {
+        &,
+        table
+        {
+            color: @markdown-deep-main-color;
+        }
+        div.index-frame div.index
+        {
+            background-color: @markdown-deep-main-color;
+        }
+        div.index-frame div.index a
+        {
+            background-color: @markdown-deep-main-color;
+            &.current
+            {
+                color: @markdown-deep-main-color;
+            }
+        }
+    }
+    &.wine-main
+    {
+        &,
+        table
+        {
+            color: @markdown-wine-main-color;
+        }
+        div.index-frame div.index
+        {
+            background-color: @markdown-wine-main-color;
+        }
+        div.index-frame div.index a
+        {
+            background-color: @markdown-wine-main-color;
+            &.current
+            {
+                color: @markdown-wine-main-color;
+            }
+        }
+    }
+    &.wine-main
+    {
+        &,
+        table
+        {
+            color: @markdown-abyss-main-color;
+        }
+        div.index-frame div.index
+        {
+            background-color: @markdown-abyss-main-color;
+        }
+        div.index-frame div.index a
+        {
+            background-color: @markdown-abyss-main-color;
+            &.current
+            {
+                color: @markdown-abyss-main-color;
+            }
+        }
+    }
+    &.violet-main
+    {
+        &,
+        table
+        {
+            color: @markdown-violet-main-color;
+        }
+        div.index-frame div.index
+        {
+            background-color: @markdown-violet-main-color;
+        }
+        div.index-frame div.index a
+        {
+            background-color: @markdown-violet-main-color;
+            &.current
+            {
+                color: @markdown-violet-main-color;
+            }
+        }
+    }
+    &.gold-theme
+    {
+        &,
+        table
+        {
+            color: @markdown-gold-main-color;
+        }
+        div.index-frame div.index
+        {
+            background-color: @markdown-gold-main-color;
+        }
+        div.index-frame div.index a
+        {
+            background-color: @markdown-gold-main-color;
+            &.current
+            {
+                color: @markdown-gold-main-color;
+            }
         }
     }
     @media (min-width: @markdown-min-width-with-index)
@@ -411,6 +545,7 @@ body.markdown
         }
     }
 
+    /*
     &:not(.writing-HTML-document-rendering) div.index-frame
     {
         animation-name: index-fade;
@@ -420,6 +555,7 @@ body.markdown
         -webkit-animation-duration: 0.6s;
         -webkit-animation-timing-function: ease-in-out;
     }
+    */
 
     & pre.mathjax
     {

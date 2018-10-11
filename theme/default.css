@@ -336,6 +336,30 @@ body.markdown.solid.writing-HTML-document-rendering div.content,
 body.markdown.solid #writing-HTML-document-rendering-panel {
   margin-top: 0px;
 }
+body.markdown div.content a,
+body.markdown.deep-main div.content a,
+body.markdown.wine-main div.content a,
+body.markdown.wine-main div.content a,
+body.markdown.violet-main div.content a,
+body.markdown.gold-theme div.content a {
+  color: #000000;
+}
+body.markdown div.content a:hover,
+body.markdown.deep-main div.content a:hover,
+body.markdown.wine-main div.content a:hover,
+body.markdown.wine-main div.content a:hover,
+body.markdown.violet-main div.content a:hover,
+body.markdown.gold-theme div.content a:hover {
+  color: #BB2222;
+}
+body.markdown div.content a:active,
+body.markdown.deep-main div.content a:active,
+body.markdown.wine-main div.content a:active,
+body.markdown.wine-main div.content a:active,
+body.markdown.violet-main div.content a:active,
+body.markdown.gold-theme div.content a:active {
+  color: #BB22BB;
+}
 body.markdown.white-base,
 body.markdown.white-base table {
   background-color: #FFFFFF;

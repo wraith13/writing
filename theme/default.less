@@ -33,16 +33,14 @@ body:not(.remark-container) *:not(pre) > code
 a
 {
     color: #4444DD;
-}
-
-a:hover
-{
-    color: #DD4444;
-}
-
-a:active
-{
-    color: #DD44DD;
+    &:hover
+    {
+        color: #DD4444;
+    }
+    &:active
+    {
+        color: #DD44DD;
+    }
 }
 
 blockquote
@@ -383,6 +381,29 @@ body.markdown
         #writing-HTML-document-rendering-panel
         {
             margin-top: 0px;
+        }
+    }
+    &,
+    &.deep-main,
+    &.wine-main,
+    &.wine-main,
+    &.violet-main,
+    &.gold-theme
+    {
+        div.content
+        {
+            a
+            {
+                color: #000000;
+                &:hover
+                {
+                    color: #BB2222;
+                }
+                &:active
+                {
+                    color: #BB22BB;
+                }
+            }
         }
     }
     &.white-base

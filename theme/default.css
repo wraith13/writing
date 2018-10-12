@@ -206,45 +206,45 @@ body.markdown div.index-frame div.index a.current {
   background-color: #FFFFFF;
 }
 body.markdown div.index-frame div.index a.level1 {
-  padding: 18px 24px 18px 24px;
+  padding: 1em 24px 1em 24px;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 1.2);
 }
 body.markdown div.index-frame div.index a.level2 {
-  padding: 16px 24px 16px 32px;
+  padding: 1em 24px 1em 32px;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 1);
 }
 body.markdown div.index-frame div.index a.level3 {
-  padding: 14px 24px 14px 40px;
+  padding: 1em 24px 1em 40px;
   font-size: 70%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.9);
 }
 body.markdown div.index-frame div.index a.level4 {
-  padding: 12px 24px 12px 48px;
+  padding: 1em 24px 1em 48px;
   font-size: 60%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level5 {
-  padding: 10px 24px 10px 56px;
+  padding: 1em 24px 1em 56px;
   font-size: 50%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level6 {
-  padding: 8px 24px 8px 64px;
+  padding: 1em 24px 1em 64px;
   font-size: 40%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level7 {
-  padding: 8px 24px 8px 72px;
+  padding: 1em 24px 1em 72px;
   font-size: 35%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level8 {
-  padding: 8px 24px 8px 80px;
+  padding: 1em 24px 1em 80px;
   font-size: 30%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level9 {
-  padding: 8px 24px 8px 88px;
+  padding: 1em 24px 1em 88px;
   font-size: 30%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }

@@ -360,6 +360,15 @@ body.markdown.violet-main div.content a:active,
 body.markdown.gold-theme div.content a:active {
   color: #BB22BB;
 }
+body.markdown.deep-base div.content a {
+  color: #EEEEFF;
+}
+body.markdown.deep-base div.content a:hover {
+  color: #FF8888;
+}
+body.markdown.deep-base div.content a:active {
+  color: #FF88FF;
+}
 body.markdown.white-base,
 body.markdown.white-base table {
   background-color: #FFFFFF;
@@ -372,6 +381,44 @@ body.markdown.white-base div.index-frame div.index a:not(.current):hover {
 }
 body.markdown.white-base div.index-frame div.index a.current {
   background-color: #FFFFFF;
+}
+body.markdown.white-base div.content h1:first-child {
+  background-color: #FFFFFF;
+}
+body.markdown.white-main,
+body.markdown.white-main table {
+  color: #FFFFFF;
+}
+body.markdown.white-main div.index-frame div.index {
+  background-color: #FFFFFF;
+}
+body.markdown.white-main div.index-frame div.index a {
+  background-color: #FFFFFF;
+}
+body.markdown.white-main div.index-frame div.index a.current {
+  color: #FFFFFF;
+}
+body.markdown.white-main div.content h1:first-child {
+  color: #FFFFFF;
+}
+body.markdown.deep-base,
+body.markdown.deep-base table {
+  background-color: #446161;
+}
+body.markdown.deep-base.solid {
+  border-top-color: #446161;
+}
+body.markdown.deep-base div.index-frame div.index a {
+  color: #446161;
+}
+body.markdown.deep-base div.index-frame div.index a:not(.current):hover {
+  color: #446161;
+}
+body.markdown.deep-base div.index-frame div.index a.current {
+  background-color: #446161;
+}
+body.markdown.deep-base div.content h1:first-child {
+  background-color: #446161;
 }
 body.markdown.deep-main,
 body.markdown.deep-main table {
@@ -386,6 +433,9 @@ body.markdown.deep-main div.index-frame div.index a {
 body.markdown.deep-main div.index-frame div.index a.current {
   color: #446161;
 }
+body.markdown.deep-main div.content h1:first-child {
+  color: #446161;
+}
 body.markdown.wine-main,
 body.markdown.wine-main table {
   color: #614444;
@@ -397,6 +447,9 @@ body.markdown.wine-main div.index-frame div.index a {
   background-color: #614444;
 }
 body.markdown.wine-main div.index-frame div.index a.current {
+  color: #614444;
+}
+body.markdown.wine-main div.content h1:first-child {
   color: #614444;
 }
 body.markdown.wine-main,
@@ -410,6 +463,9 @@ body.markdown.wine-main div.index-frame div.index a {
   background-color: #444461;
 }
 body.markdown.wine-main div.index-frame div.index a.current {
+  color: #444461;
+}
+body.markdown.wine-main div.content h1:first-child {
   color: #444461;
 }
 body.markdown.violet-main,
@@ -425,17 +481,23 @@ body.markdown.violet-main div.index-frame div.index a {
 body.markdown.violet-main div.index-frame div.index a.current {
   color: #614461;
 }
-body.markdown.gold-theme,
-body.markdown.gold-theme table {
+body.markdown.violet-main div.content h1:first-child {
+  color: #614461;
+}
+body.markdown.gold-main,
+body.markdown.gold-main table {
   color: #616144;
 }
-body.markdown.gold-theme div.index-frame div.index {
+body.markdown.gold-main div.index-frame div.index {
   background-color: #616144;
 }
-body.markdown.gold-theme div.index-frame div.index a {
+body.markdown.gold-main div.index-frame div.index a {
   background-color: #616144;
 }
-body.markdown.gold-theme div.index-frame div.index a.current {
+body.markdown.gold-main div.index-frame div.index a.current {
+  color: #616144;
+}
+body.markdown.gold-main div.content h1:first-child {
   color: #616144;
 }
 @media (min-width: 45rem) {

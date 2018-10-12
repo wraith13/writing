@@ -131,6 +131,8 @@ blockquote
 @markdown-default-base-color: #FFFFFF;
 @markdown-default-main-color: #444461;
 @markdown-white-base-color: #FFFFFF;
+@markdown-white-main-color: #FFFFFF;
+@markdown-deep-base-color: #446161;
 @markdown-deep-main-color: #446161;
 @markdown-wine-main-color: #614444;
 @markdown-abyss-main-color: #444461;
@@ -406,6 +408,24 @@ body.markdown
             }
         }
     }
+    &.deep-base
+    {
+        div.content
+        {
+            a
+            {
+                color: #EEEEFF;
+                &:hover
+                {
+                    color: #FF8888;
+                }
+                &:active
+                {
+                    color: #FF88FF;
+                }
+            }
+        }
+    }
     &.white-base
     {
         &,
@@ -425,6 +445,71 @@ body.markdown
                 background-color: @markdown-white-base-color;
             }
         }
+        div.content
+        {
+            h1:first-child
+            {
+                background-color: @markdown-white-base-color;
+            }
+        }
+    }
+    &.white-main
+    {
+        &,
+        table
+        {
+            color: @markdown-white-main-color;
+        }
+        div.index-frame div.index
+        {
+            background-color: @markdown-white-main-color;
+        }
+        div.index-frame div.index a
+        {
+            background-color: @markdown-white-main-color;
+            &.current
+            {
+                color: @markdown-white-main-color;
+            }
+        }
+        div.content
+        {
+            h1:first-child
+            {
+                color: @markdown-white-main-color;
+            }
+        }
+    }
+    &.deep-base
+    {
+        &,
+        table
+        {
+            background-color: @markdown-deep-base-color;
+        }
+        &.solid
+        {
+            border-top-color: @markdown-deep-base-color;
+        }
+        div.index-frame div.index a
+        {
+            color: @markdown-deep-base-color;
+            &:not(.current):hover
+            {
+                color: @markdown-deep-base-color;
+            }
+            &.current
+            {
+                background-color: @markdown-deep-base-color;
+            }
+        }
+        div.content
+        {
+            h1:first-child
+            {
+                background-color: @markdown-deep-base-color;
+            }
+        }
     }
     &.deep-main
     {
@@ -441,6 +526,13 @@ body.markdown
         {
             background-color: @markdown-deep-main-color;
             &.current
+            {
+                color: @markdown-deep-main-color;
+            }
+        }
+        div.content
+        {
+            h1:first-child
             {
                 color: @markdown-deep-main-color;
             }
@@ -465,6 +557,13 @@ body.markdown
                 color: @markdown-wine-main-color;
             }
         }
+        div.content
+        {
+            h1:first-child
+            {
+                color: @markdown-wine-main-color;
+            }
+        }
     }
     &.wine-main
     {
@@ -481,6 +580,13 @@ body.markdown
         {
             background-color: @markdown-abyss-main-color;
             &.current
+            {
+                color: @markdown-abyss-main-color;
+            }
+        }
+        div.content
+        {
+            h1:first-child
             {
                 color: @markdown-abyss-main-color;
             }
@@ -505,8 +611,15 @@ body.markdown
                 color: @markdown-violet-main-color;
             }
         }
+        div.content
+        {
+            h1:first-child
+            {
+                color: @markdown-violet-main-color;
+            }
+        }
     }
-    &.gold-theme
+    &.gold-main
     {
         &,
         table
@@ -521,6 +634,13 @@ body.markdown
         {
             background-color: @markdown-gold-main-color;
             &.current
+            {
+                color: @markdown-gold-main-color;
+            }
+        }
+        div.content
+        {
+            h1:first-child
             {
                 color: @markdown-gold-main-color;
             }

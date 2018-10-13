@@ -206,45 +206,45 @@ body.markdown div.index-frame div.index a.current {
   background-color: #FFFFFF;
 }
 body.markdown div.index-frame div.index a.level1 {
-  padding: 1em 24px 1em 24px;
+  padding: 1em 1em 1em 1vw;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 1.2);
 }
 body.markdown div.index-frame div.index a.level2 {
-  padding: 1em 24px 1em 32px;
+  padding: 1em 1em 1em 2vw;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 1);
 }
 body.markdown div.index-frame div.index a.level3 {
-  padding: 1em 24px 1em 40px;
+  padding: 1em 1em 1em 3vw;
   font-size: 70%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.9);
 }
 body.markdown div.index-frame div.index a.level4 {
-  padding: 1em 24px 1em 48px;
+  padding: 1em 1em 1em 4vw;
   font-size: 60%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level5 {
-  padding: 1em 24px 1em 56px;
+  padding: 1em 1em 1em 5vw;
   font-size: 50%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level6 {
-  padding: 1em 24px 1em 64px;
+  padding: 1em 1em 1em 6vw;
   font-size: 40%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level7 {
-  padding: 1em 24px 1em 72px;
+  padding: 1em 1em 1em 7vw;
   font-size: 35%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level8 {
-  padding: 1em 24px 1em 80px;
+  padding: 1em 1em 1em 8vw;
   font-size: 30%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level9 {
-  padding: 1em 24px 1em 88px;
+  padding: 1em 1em 1em 9vw;
   font-size: 30%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
@@ -310,6 +310,7 @@ body.markdown.solid {
 body.markdown.solid div.index-frame div.index a.level1:first-child {
   font-size: calc(2.2vw);
   padding: calc(2.2vw * 0.5);
+  padding-left: 1vw;
 }
 body.markdown.solid div.content {
   padding-top: 0px;
@@ -322,6 +323,7 @@ body.markdown.solid div.content h1:first-child {
   font-family: 'Noto Sans Japanese', 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: normal;
   padding: calc(2.2vw * 0.5);
+  padding-left: 1vw;
   font-size: calc(2.2vw);
   line-height: 100%;
   color: #444461;

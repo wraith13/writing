@@ -452,22 +452,6 @@ body.markdown.wine-main div.index-frame div.index a.current {
 body.markdown.wine-main div.content h1:first-child {
   color: #614444;
 }
-body.markdown.wine-main,
-body.markdown.wine-main table {
-  color: #444461;
-}
-body.markdown.wine-main div.index-frame div.index {
-  background-color: #444461;
-}
-body.markdown.wine-main div.index-frame div.index a {
-  background-color: #444461;
-}
-body.markdown.wine-main div.index-frame div.index a.current {
-  color: #444461;
-}
-body.markdown.wine-main div.content h1:first-child {
-  color: #444461;
-}
 body.markdown.violet-main,
 body.markdown.violet-main table {
   color: #614461;

@@ -468,6 +468,12 @@ body.markdown.violet-main div.index-frame div.index a.current {
 body.markdown.violet-main div.content h1:first-child {
   color: #614461;
 }
+body.markdown.violet-accent div.content a:hover {
+  color: #614461;
+}
+body.markdown.violet-accent div.index-frame div.index a:not(.current):hover {
+  background-color: #614461;
+}
 body.markdown.gold-main,
 body.markdown.gold-main table {
   color: #616144;

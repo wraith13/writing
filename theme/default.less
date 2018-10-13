@@ -592,6 +592,26 @@ body.markdown
             }
         }
     }
+    &.violet-accent
+    {
+        div.content
+        {
+            a
+            {
+                &:hover
+                {
+                    color: @markdown-violet-main-color;
+                }
+            }
+        }
+        div.index-frame div.index a
+        {
+            &:not(.current):hover
+            {
+                background-color: @markdown-violet-main-color;
+            }
+        }
+    }
     &.gold-main
     {
         &,

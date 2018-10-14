@@ -207,53 +207,53 @@ body.markdown div.index-frame div.index a.current {
 }
 body.markdown div.index-frame div.index a.level1 {
   padding: 1em 1em 1em 1vw;
-  padding-left: calc(1vw + constant(safe-area-inset-left));
+  padding-left: calc(0vw + env(safe-area-inset-left));
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 1.2);
 }
 body.markdown div.index-frame div.index a.level2 {
   padding: 1em 1em 1em 2vw;
-  padding-left: calc(2vw + constant(safe-area-inset-left));
+  padding-left: calc(1vw + env(safe-area-inset-left));
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 1);
 }
 body.markdown div.index-frame div.index a.level3 {
   padding: 1em 1em 1em 3vw;
-  padding-left: calc(3vw + constant(safe-area-inset-left));
+  padding-left: calc(2vw + env(safe-area-inset-left));
   font-size: 70%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.9);
 }
 body.markdown div.index-frame div.index a.level4 {
   padding: 1em 1em 1em 4vw;
-  padding-left: calc(4vw + constant(safe-area-inset-left));
+  padding-left: calc(3vw + env(safe-area-inset-left));
   font-size: 60%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level5 {
   padding: 1em 1em 1em 5vw;
-  padding-left: calc(5vw + constant(safe-area-inset-left));
+  padding-left: calc(4vw + env(safe-area-inset-left));
   font-size: 50%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level6 {
   padding: 1em 1em 1em 6vw;
-  padding-left: calc(6vw + constant(safe-area-inset-left));
+  padding-left: calc(5vw + env(safe-area-inset-left));
   font-size: 40%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level7 {
   padding: 1em 1em 1em 7vw;
-  padding-left: calc(7vw + constant(safe-area-inset-left));
+  padding-left: calc(6vw + env(safe-area-inset-left));
   font-size: 35%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level8 {
   padding: 1em 1em 1em 8vw;
-  padding-left: calc(8vw + constant(safe-area-inset-left));
+  padding-left: calc(7vw + env(safe-area-inset-left));
   font-size: 30%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
 body.markdown div.index-frame div.index a.level9 {
   padding: 1em 1em 1em 9vw;
-  padding-left: calc(9vw + constant(safe-area-inset-left));
+  padding-left: calc(8vw + env(safe-area-inset-left));
   font-size: 30%;
   font-size: calc((((100vw - 60rem) / 180) + 1rem) * 0.8);
 }
@@ -320,7 +320,7 @@ body.markdown.solid div.index-frame div.index a.level1:first-child {
   font-size: calc(2.2vw);
   padding: calc(2.2vw * 0.5);
   padding-left: 1vw;
-  padding-left: calc(1vw + constant(safe-area-inset-left));
+  padding-left: calc(0vw + env(safe-area-inset-left));
 }
 body.markdown.solid div.content {
   padding-top: 0px;
@@ -334,7 +334,7 @@ body.markdown.solid div.content h1:first-child {
   font-weight: normal;
   padding: calc(2.2vw * 0.5);
   padding-left: 1vw;
-  padding-left: calc(1vw + constant(safe-area-inset-left));
+  padding-left: calc(0vw + env(safe-area-inset-left));
   font-size: calc(2.2vw);
   line-height: 100%;
   color: #444461;
@@ -352,12 +352,12 @@ body.markdown.solid #writing-HTML-document-rendering-panel {
     font-size: 2em;
     padding: calc(2em * 0.25);
     padding-left: 1vw;
-    padding-left: calc(1vw + constant(safe-area-inset-left));
+    padding-left: calc(0vw + env(safe-area-inset-left));
   }
   body.markdown.solid div.content h1:first-child {
     padding: calc(2em * 0.25);
     padding-left: 1vw;
-    padding-left: calc(1vw + constant(safe-area-inset-left));
+    padding-left: calc(0vw + env(safe-area-inset-left));
     font-size: 2em;
   }
 }

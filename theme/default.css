@@ -344,6 +344,23 @@ body.markdown.solid.writing-HTML-document-rendering div.content,
 body.markdown.solid #writing-HTML-document-rendering-panel {
   margin-top: 0px;
 }
+@media (max-width: 120rem) {
+  body.markdown.solid {
+    border-top-width: calc(2em * 2);
+  }
+  body.markdown.solid div.index-frame div.index a.level1:first-child {
+    font-size: 2em;
+    padding: calc(2em * 0.25);
+    padding-left: 1vw;
+    padding-left: calc(1vw + constant(safe-area-inset-left));
+  }
+  body.markdown.solid div.content h1:first-child {
+    padding: calc(2em * 0.25);
+    padding-left: 1vw;
+    padding-left: calc(1vw + constant(safe-area-inset-left));
+    font-size: 2em;
+  }
+}
 body.markdown div.content a,
 body.markdown.deep-main div.content a,
 body.markdown.wine-main div.content a,

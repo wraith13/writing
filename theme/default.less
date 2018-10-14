@@ -392,6 +392,30 @@ body.markdown
             margin-top: 0px;
         }
     }
+    @media (max-width: 120rem)
+    {
+        &.solid
+        {
+            border-top-width: calc(2em * 2.0);
+            div.index-frame div.index a.level1:first-child
+            {
+                font-size: 2em;
+                padding: calc(2em * 0.25);
+                padding-left: 1vw;
+                padding-left: calc(1vw + constant(safe-area-inset-left));
+            }
+            div.content
+            {
+                h1:first-child
+                {
+                    padding: calc(2em * 0.25);
+                    padding-left: 1vw;
+                    padding-left: calc(1vw + constant(safe-area-inset-left));
+                    font-size: 2em;
+                }
+            }
+        }
+    }
     &,
     &.deep-main,
     &.wine-main,

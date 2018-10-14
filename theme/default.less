@@ -229,52 +229,61 @@ body.markdown
                 &.level1
                 {
                     padding: 1em 1em 1em 1vw;
+                    padding-left: calc(1vw + constant(safe-area-inset-left));
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 1.2);
                 }
                 &.level2
                 {
                     padding: 1em 1em 1em 2vw;
+                    padding-left: calc(2vw + constant(safe-area-inset-left));
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 1.0);
                 }
                 &.level3
                 {
                     padding: 1em 1em 1em 3vw;
+                    padding-left: calc(3vw + constant(safe-area-inset-left));
                     font-size: 70%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.9);
                 }
                 &.level4
                 {
                     padding: 1em 1em 1em 4vw;
+                    padding-left: calc(4vw + constant(safe-area-inset-left));
                     font-size: 60%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
                 }
                 &.level5
                 {
                     padding: 1em 1em 1em 5vw;
+                    padding-left: calc(5vw + constant(safe-area-inset-left));
                     font-size: 50%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
                 }
                 &.level6
                 {
                     padding: 1em 1em 1em 6vw;
+                    padding-left: calc(6vw + constant(safe-area-inset-left));
                     font-size: 40%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
                 }
                 &.level7
                 {
                     padding: 1em 1em 1em 7vw;
+                    padding-left: calc(7vw + constant(safe-area-inset-left));
                     font-size: 35%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
                 }
                 &.level8
                 {
                     padding: 1em 1em 1em 8vw;
+                    padding-left: calc(8vw + constant(safe-area-inset-left));
                     font-size: 30%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
                 }
                 &.level9
                 {
                     padding: 1em 1em 1em 9vw;
+                    padding-left: calc(9vw + constant(safe-area-inset-left));
                     font-size: 30%;
                     font-size: calc((((100vw - 60.0rem) / 180.0) + 1.0rem) * 0.8);
                 }
@@ -355,6 +364,7 @@ body.markdown
             font-size: calc(@markdown-header-font-size);
             padding: calc(@markdown-header-font-size * 0.5);
             padding-left: 1vw;
+            padding-left: calc(1vw + constant(safe-area-inset-left));
         }
         div.content
         {
@@ -369,17 +379,12 @@ body.markdown
                 font-weight: normal;
                 padding: calc(@markdown-header-font-size * 0.5);
                 padding-left: 1vw;
+                padding-left: calc(1vw + constant(safe-area-inset-left));
                 font-size: calc(@markdown-header-font-size);
                 line-height: 100%;
                 color: @markdown-default-main-color;
                 background-color: @markdown-default-base-color;
-                x-margin-top: calc(0px - (@markdown-header-font-size * 2.0));
             }
-        }
-        div.content,
-        &.writing-HTML-document-rendering.writing-HTML-document-rendering-slide-out div.content
-        {
-            x-margin-top: calc(0px - (@markdown-header-font-size * 2.0));
         }
         &.writing-HTML-document-rendering div.content,
         #writing-HTML-document-rendering-panel

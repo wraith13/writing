@@ -98,7 +98,7 @@ blockquote > p {
   font-size: 30px;
 }
 .remark-slide pre.mathjax {
-  font-size: 1.0em;
+  font-size: 1em;
 }
 .reveal .slides {
   text-align: left;
@@ -115,10 +115,10 @@ blockquote > p {
 }
 .reveal pre.mathjax {
   box-shadow: initial;
-  font-size: 1.0em;
+  font-size: 1em;
 }
 body.markdown {
-  font-size: 1.0rem;
+  font-size: 1rem;
   /*
     &:not(.writing-HTML-document-rendering) div.index-frame
     {
@@ -270,7 +270,7 @@ body.markdown div.content {
   overflow-y: auto;
 }
 body.markdown div.content h1 {
-  font-size: 2.0em;
+  font-size: 2em;
   font-weight: bold;
 }
 body.markdown div.content h2 {
@@ -289,7 +289,7 @@ body.markdown div.content h9 {
 }
 @media (max-width: 60rem) {
   body.markdown div.content {
-    padding: 1.0rem;
+    padding: 1rem;
     width: calc(100vw - 2rem);
   }
   body.markdown div.content * {
@@ -298,13 +298,13 @@ body.markdown div.content h9 {
 }
 @media (min-width: 60rem) {
   body.markdown div.content {
-    padding: 2.0rem;
-    padding-left: calc(((100vw - 100vw / 1.61803399) / 2) + 1rem);
-    padding-right: calc(((100vw - 100vw / 1.61803399) / 2) + 1rem);
-    width: calc(100vw / 1.61803399 - 2rem);
+    padding: 2rem;
+    padding-left: calc(((100vw - 61.80339888vw) / 2) + 1rem);
+    padding-right: calc(((100vw - 61.80339888vw) / 2) + 1rem);
+    width: calc(61.80339888vw - 2rem);
   }
   body.markdown div.content * {
-    max-width: calc(100vw / 1.61803399 - 2rem);
+    max-width: calc(61.80339888vw - 2rem);
   }
 }
 body.markdown.with-wallpaperx div.content {
@@ -521,19 +521,19 @@ body.markdown.gold-main div.content h1:first-child {
     float: left;
     overflow-y: auto;
     margin-left: 23.60679775vw;
-    padding-left: calc((100vw - 100vw / 1.61803399) * (1 - (1 / 1.61803399)) / 2 + 1rem);
-    padding-right: calc((100vw - 100vw / 1.61803399) * (1 - (1 / 1.61803399)) / 2 + 1rem);
-    width: calc(100vw / 1.61803399 - 2rem);
+    padding-left: calc(7.29490169vw + 1rem);
+    padding-right: calc(7.29490169vw + 1rem);
+    width: calc(61.80339888vw - 2rem);
   }
   body.markdown.with-index div.content * {
-    max-width: calc(100vw / 1.61803399 - 2rem);
+    max-width: calc(61.80339888vw - 2rem);
   }
   body.markdown.with-index div.content pre {
     overflow-x: auto;
   }
   body.markdown.with-index.solid div.content h1:first-child {
-    margin-left: calc(0px - (((100vw - 100vw / 1.61803399) / 1.61803399 + (100vw - 100vw / 1.61803399) * (1 - (1 / 1.61803399)) / 2) + 1rem));
-    margin-right: calc(0px - ((100vw - 100vw / 1.61803399) * (1 - (1 / 1.61803399)) / 2 + 1rem));
+    margin-left: calc(0px - ((23.60679775vw + 7.29490169vw) + 1rem));
+    margin-right: calc(0px - (7.29490169vw + 1rem));
   }
   body.markdown:not(.writing-HTML-document-rendering) div.index-frame {
     display: block;
@@ -561,7 +561,7 @@ body.markdown table tr th {
 }
 body.markdown table tr th,
 body.markdown table tr td {
-  padding: 0.5em 1.0em;
+  padding: 0.5em 1em;
   border: 1px solid #dfe2e5;
 }
 @media (min-width: 360px) and (max-width: 720px) {
@@ -596,7 +596,7 @@ body.markdown table tr td {
 }
 @keyframes index-fade {
   from {
-    opacity: 0.0;
+    opacity: 0;
   }
   to {
     opacity: 0.8;
@@ -604,7 +604,7 @@ body.markdown table tr td {
 }
 @-webkit-keyframes index-fade {
   from {
-    opacity: 0.0;
+    opacity: 0;
   }
   to {
     opacity: 0.8;

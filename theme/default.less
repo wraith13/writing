@@ -130,14 +130,12 @@ blockquote
 
 @markdown-default-base-color: #FFFFFF;
 @markdown-default-main-color: #444461;
-@markdown-white-base-color: #FFFFFF;
-@markdown-white-main-color: #FFFFFF;
-@markdown-deep-base-color: #446161;
-@markdown-deep-main-color: #446161;
-@markdown-wine-main-color: #614444;
-@markdown-abyss-main-color: #444461;
-@markdown-violet-main-color: #614461;
-@markdown-gold-main-color: #616144;
+@markdown-white-color: #FFFFFF;
+@markdown-deep-color: #446161;
+@markdown-wine-color: #614444;
+@markdown-abyss-color: #444461;
+@markdown-violet-color: #614461;
+@markdown-gold-color: #616144;
 body.markdown
 {
     &,
@@ -462,25 +460,25 @@ body.markdown
         &,
         table
         {
-            background-color: @markdown-white-base-color;
+            background-color: @markdown-white-color;
         }
         div.index-frame div.index a
         {
-            color: @markdown-white-base-color;
+            color: @markdown-white-color;
             &:not(.current):hover
             {
-                color: @markdown-white-base-color;
+                color: @markdown-white-color;
             }
             &.current
             {
-                background-color: @markdown-white-base-color;
+                background-color: @markdown-white-color;
             }
         }
         div.content
         {
             h1:first-child
             {
-                background-color: @markdown-white-base-color;
+                background-color: @markdown-white-color;
             }
         }
     }
@@ -489,25 +487,25 @@ body.markdown
         &,
         table
         {
-            color: @markdown-white-main-color;
+            color: @markdown-white-color;
         }
         div.index-frame div.index
         {
-            background-color: @markdown-white-main-color;
+            background-color: @markdown-white-color;
         }
         div.index-frame div.index a
         {
-            background-color: @markdown-white-main-color;
+            background-color: @markdown-white-color;
             &.current
             {
-                color: @markdown-white-main-color;
+                color: @markdown-white-color;
             }
         }
         div.content
         {
             h1:first-child
             {
-                color: @markdown-white-main-color;
+                color: @markdown-white-color;
             }
         }
     }
@@ -516,29 +514,29 @@ body.markdown
         &,
         table
         {
-            background-color: @markdown-deep-base-color;
+            background-color: @markdown-deep-color;
         }
         &.solid
         {
-            border-top-color: @markdown-deep-base-color;
+            border-top-color: @markdown-deep-color;
         }
         div.index-frame div.index a
         {
-            color: @markdown-deep-base-color;
+            color: @markdown-deep-color;
             &:not(.current):hover
             {
-                color: @markdown-deep-base-color;
+                color: @markdown-deep-color;
             }
             &.current
             {
-                background-color: @markdown-deep-base-color;
+                background-color: @markdown-deep-color;
             }
         }
         div.content
         {
             h1:first-child
             {
-                background-color: @markdown-deep-base-color;
+                background-color: @markdown-deep-color;
             }
         }
     }
@@ -547,25 +545,25 @@ body.markdown
         &,
         table
         {
-            color: @markdown-deep-main-color;
+            color: @markdown-deep-color;
         }
         div.index-frame div.index
         {
-            background-color: @markdown-deep-main-color;
+            background-color: @markdown-deep-color;
         }
         div.index-frame div.index a
         {
-            background-color: @markdown-deep-main-color;
+            background-color: @markdown-deep-color;
             &.current
             {
-                color: @markdown-deep-main-color;
+                color: @markdown-deep-color;
             }
         }
         div.content
         {
             h1:first-child
             {
-                color: @markdown-deep-main-color;
+                color: @markdown-deep-color;
             }
         }
     }
@@ -574,25 +572,25 @@ body.markdown
         &,
         table
         {
-            color: @markdown-wine-main-color;
+            color: @markdown-wine-color;
         }
         div.index-frame div.index
         {
-            background-color: @markdown-wine-main-color;
+            background-color: @markdown-wine-color;
         }
         div.index-frame div.index a
         {
-            background-color: @markdown-wine-main-color;
+            background-color: @markdown-wine-color;
             &.current
             {
-                color: @markdown-wine-main-color;
+                color: @markdown-wine-color;
             }
         }
         div.content
         {
             h1:first-child
             {
-                color: @markdown-wine-main-color;
+                color: @markdown-wine-color;
             }
         }
     }
@@ -601,25 +599,25 @@ body.markdown
         &,
         table
         {
-            color: @markdown-violet-main-color;
+            color: @markdown-violet-color;
         }
         div.index-frame div.index
         {
-            background-color: @markdown-violet-main-color;
+            background-color: @markdown-violet-color;
         }
         div.index-frame div.index a
         {
-            background-color: @markdown-violet-main-color;
+            background-color: @markdown-violet-color;
             &.current
             {
-                color: @markdown-violet-main-color;
+                color: @markdown-violet-color;
             }
         }
         div.content
         {
             h1:first-child
             {
-                color: @markdown-violet-main-color;
+                color: @markdown-violet-color;
             }
         }
     }
@@ -631,7 +629,7 @@ body.markdown
             {
                 &:hover
                 {
-                    color: @markdown-violet-main-color;
+                    color: @markdown-violet-color;
                 }
             }
         }
@@ -639,7 +637,7 @@ body.markdown
         {
             &:not(.current):hover
             {
-                background-color: @markdown-violet-main-color;
+                background-color: @markdown-violet-color;
             }
         }
     }
@@ -648,25 +646,25 @@ body.markdown
         &,
         table
         {
-            color: @markdown-gold-main-color;
+            color: @markdown-gold-color;
         }
         div.index-frame div.index
         {
-            background-color: @markdown-gold-main-color;
+            background-color: @markdown-gold-color;
         }
         div.index-frame div.index a
         {
-            background-color: @markdown-gold-main-color;
+            background-color: @markdown-gold-color;
             &.current
             {
-                color: @markdown-gold-main-color;
+                color: @markdown-gold-color;
             }
         }
         div.content
         {
             h1:first-child
             {
-                color: @markdown-gold-main-color;
+                color: @markdown-gold-color;
             }
         }
     }

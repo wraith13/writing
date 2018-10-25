@@ -376,8 +376,7 @@ body.markdown
                 font-family: 'Noto Sans Japanese', 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 font-weight: normal;
                 padding: calc(@markdown-header-font-size * 0.5);
-                padding-left: 1vw;
-                padding-left: calc(1vw + env(safe-area-inset-left));
+                padding-left: 0vw;
                 font-size: calc(@markdown-header-font-size);
                 line-height: 100%;
                 color: @markdown-default-main-color;
@@ -407,8 +406,8 @@ body.markdown
                 h1:first-child
                 {
                     padding: calc(2em * 0.25);
-                    padding-left: 1vw;
-                    padding-left: calc(1vw + env(safe-area-inset-left));
+                    padding-left: 0vw;
+                    padding-left: calc(0vw + env(safe-area-inset-left));
                     font-size: 2em;
                 }
             }
@@ -699,6 +698,9 @@ body.markdown
                 {
                     margin-left: calc(0px - ((@markdown-index-width + @markdown-content-horizontal-padding) + 1.0rem));
                     margin-right: calc(0px - (@markdown-content-horizontal-padding + 1.0rem));
+                    padding: calc(2em * 0.25);
+                    padding-left: 1vw;
+                    padding-left: calc(1vw + env(safe-area-inset-left));
                 }
             }
         }

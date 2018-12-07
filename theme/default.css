@@ -333,11 +333,21 @@ body.markdown.solid div.content h1:first-child {
   font-family: 'Noto Sans Japanese', 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: normal;
   padding: calc(2.2vw * 0.5);
-  padding-left: 0vw;
   font-size: calc(2.2vw);
   line-height: 100%;
-  color: #444461;
-  background-color: #FFFFFF;
+  color: #FFFFFF;
+  background-color: #444461;
+  width: 100vw;
+  margin-left: -0.5em;
+  padding-left: 0.5em;
+}
+@media (min-width: 45rem) {
+  body.markdown.solid div.content h1:first-child {
+    margin-left: calc(((61.80339888vw - 100vw) / 2) - 1rem);
+    margin-right: calc(((61.80339888vw - 100vw) / 2) - 1rem);
+    padding-left: calc(((100vw - 61.80339888vw) / 2) + 1rem);
+    padding-right: calc(((100vw - 61.80339888vw) / 2) + 1rem);
+  }
 }
 body.markdown.solid.writing-HTML-document-rendering div.content,
 body.markdown.solid #writing-HTML-document-rendering-panel {
@@ -355,8 +365,8 @@ body.markdown.solid #writing-HTML-document-rendering-panel {
   }
   body.markdown.solid div.content h1:first-child {
     padding: calc(2em * 0.25);
-    padding-left: 0vw;
-    padding-left: calc(0vw + env(safe-area-inset-left));
+    padding-left: 0.5em;
+    padding-left: calc(0.5em + env(safe-area-inset-left));
     font-size: 2em;
   }
 }
@@ -536,6 +546,8 @@ body.markdown.gold-main div.content h1:first-child {
     padding: calc(2em * 0.25);
     padding-left: 1vw;
     padding-left: calc(1vw + env(safe-area-inset-left));
+    color: #444461;
+    background-color: #FFFFFF;
   }
   body.markdown:not(.writing-HTML-document-rendering) div.index-frame {
     display: block;

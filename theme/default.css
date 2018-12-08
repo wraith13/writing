@@ -357,16 +357,22 @@ body.markdown.solid #writing-HTML-document-rendering-panel {
   body.markdown.solid {
     border-top-width: calc(2em * 2);
   }
-  body.markdown.solid div.index-frame div.index a.level1:first-child {
+  body.markdown.solid.with-index div.index-frame div.index a.level1:first-child {
     font-size: 2em;
     padding: calc(2em * 0.25);
     padding-left: 1vw;
     padding-left: calc(1vw + env(safe-area-inset-left));
   }
-  body.markdown.solid div.content h1:first-child {
-    padding: calc(2em * 0.25);
+  body.markdown.solid.with-index div.content h1:first-child {
     padding-left: 0.5em;
     padding-left: calc(0.5em + env(safe-area-inset-left));
+  }
+  body.markdown.solid.with-index div.content h1:first-child {
+    font-size: 2em;
+  }
+  body.markdown.solid div.content h1:first-child {
+    padding-top: calc(2em * 0.25);
+    padding-bottom: calc(2em * 0.25);
     font-size: 2em;
   }
 }

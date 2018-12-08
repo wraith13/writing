@@ -400,27 +400,41 @@ body.markdown
         {
             margin-top: 0px;
         }
-    }
-    @media (max-width: 120rem)
-    {
-        &.solid
+        @media (max-width: 120rem)
         {
-            border-top-width: calc(2em * 2.0);
-            div.index-frame div.index a.level1:first-child
+            &.with-index
             {
-                font-size: 2em;
-                padding: calc(2em * 0.25);
-                padding-left: 1vw;
-                padding-left: calc(1vw + env(safe-area-inset-left));
-            }
-            div.content
-            {
-                h1:first-child
+                div.index-frame div.index a.level1:first-child
                 {
-                    padding: calc(2em * 0.25);
-                    padding-left: 0.5em;
-                    padding-left: calc(0.5em + env(safe-area-inset-left));
                     font-size: 2em;
+                    padding: calc(2em * 0.25);
+                    padding-left: 1vw;
+                    padding-left: calc(1vw + env(safe-area-inset-left));
+                }
+                div.content
+                {
+                    h1:first-child
+                    {
+                        padding-left: 0.5em;
+                        padding-left: calc(0.5em + env(safe-area-inset-left));
+                    }
+                    h1:first-child
+                    {
+                        font-size: 2em;
+                    }
+                }
+            }
+            &
+            {
+                border-top-width: calc(2em * 2.0);
+                div.content
+                {
+                    h1:first-child
+                    {
+                        padding-top: calc(2em * 0.25);
+                        padding-bottom: calc(2em * 0.25);
+                        font-size: 2em;
+                    }
                 }
             }
         }

@@ -68,6 +68,10 @@ h1 img
 
 - [twitter demo](twitter.md)
 
+## plantuml demo
+
+- [plantuml demo](plantuml.md)
+
 ## instant demo
 
 <blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">「乗り物に乗ってるときのタマヒュン対策」について書きました。<a href="https://t.co/UacBL1AIuI">https://t.co/UacBL1AIuI</a></p>&mdash; 👻 道化師 (@wraith13) <a href="https://twitter.com/wraith13/status/984799021679063041?ref_src=twsrc%5Etfw">2018年4月13日</a></blockquote>

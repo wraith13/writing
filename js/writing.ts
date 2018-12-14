@@ -1643,12 +1643,25 @@ declare interface ObjectConstructor {
             //  markdown-it
             await loadScript("js/markdown-it.js");
             await loadScript("js/markdown-it-emoji.js");
+
+            //  fxxking commonjs
+            const anyWindow : any = window;
+            anyWindow.module = {  };
+            await loadScript("js/markdown-it-plantuml/lib/deflate.js");
+            anyWindow.deflate = anyWindow.module.exports;
+            anyWindow.require = (_ : string) => anyWindow.deflate;
+            await loadScript("js/markdown-it-plantuml/index.js");
+            anyWindow["markdown-it-plantuml"] = anyWindow.module.exports;
+
             applyMarkdown
             (
                 function(markdown)
                 {
                     const markdownitWindow : any = window;
-                    return markdownitWindow.markdownit({ html: true, }).use(markdownitWindow.markdownitEmoji).render(markdown);
+                    return markdownitWindow.markdownit({ html: true, })
+                        .use(markdownitWindow.markdownitEmoji)
+                        .use(markdownitWindow["markdown-it-plantuml"])
+                        .render(markdown);
                 }
             );
         }

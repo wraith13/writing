@@ -14,8 +14,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -600,7 +600,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             }
         });
     };
-    var MarkdownHeaderFragmentMaker = (function () {
+    var MarkdownHeaderFragmentMaker = /** @class */ (function () {
         function MarkdownHeaderFragmentMaker() {
             this.links = [];
         }
@@ -645,7 +645,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     var getHeadingTags = function () {
         return getAllElements(document.body).filter(function (i) { return /^h\d+$/i.test(i.tagName); });
     };
-    var IndexItem = (function () {
+    var IndexItem = /** @class */ (function () {
         function IndexItem(level, title, link, anchor) {
             if (anchor === void 0) { anchor = null; }
             this.level = level;
@@ -967,7 +967,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             if (0 < index.length) {
                 globalState.activateOnScroll = function () {
                     document.body.onscroll =
-                        document.documentElement.onscroll =
+                        document.documentElement.onscroll = // これは IE 用
                             function () {
                                 var previouseContetIsOver = isOver_1(previousState_1.i);
                                 var nextContetIsOver = isOver_1(previousState_1.i + 1);
@@ -1061,7 +1061,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     };
     var render = function (renderer, baseUrl, source) {
         return __awaiter(this, void 0, void 0, function () {
-            var newUrl, currentUrlParamNames_1, referrerUrlParams, newUrl_1, urlArgs, isWriting, isMarked, isCommonMark, isMarkdownIt, isMarkdown, isRemark, isReveal, isEdit, message, applyMarkdown, config, linkMaker_1, markedRenderer, config, revealTheme, documentTheme, separator_1, separator_vertical_1, separator_notes_1, pasteMarkdown, revealTransition, forceTheme, config, defaultConfig, urlsDiv_1, textCounter_1, makeLink, defaultLink_1, markedLink_1, commonmarkLink_1, markdownitLink_1, remarkLink_1, revealLink_1, editLink_1, update, textarea_1;
+            var newUrl, currentUrlParamNames_1, referrerUrlParams, newUrl_1, urlArgs, isWriting, isMarked, isCommonMark, isMarkdownIt, isMarkdown, isRemark, isReveal, isEdit, message, applyMarkdown, config, linkMaker_1, markedRenderer, anyWindow_1, config, revealTheme, documentTheme, separator_1, separator_vertical_1, separator_notes_1, pasteMarkdown, revealTransition, forceTheme, config, defaultConfig, urlsDiv_1, textCounter_1, makeLink, defaultLink_1, markedLink_1, commonmarkLink_1, markdownitLink_1, remarkLink_1, revealLink_1, editLink_1, update, textarea_1;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -1239,6 +1239,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                                 + ' id="'
                                 + this.options.headerPrefix
                                 + linkMaker_1.makeFragment(raw)
+                                //+ raw.toLowerCase().replace(/[\!\"\#\$\%\&\'\(\)\*\+\,\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]/g,"").replace(/ /g,"-")
                                 + '">'
                                 + text.replace(explicitFragmentIdPattern, "")
                                 + '</h'
@@ -1261,7 +1262,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         });
                         _c.label = 4;
                     case 4:
-                        if (!isMarkdownIt) return [3 /*break*/, 7];
+                        if (!isMarkdownIt) return [3 /*break*/, 9];
                         //  markdown-it
                         return [4 /*yield*/, loadScript("js/markdown-it.js")];
                     case 5:
@@ -1270,13 +1271,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         return [4 /*yield*/, loadScript("js/markdown-it-emoji.js")];
                     case 6:
                         _c.sent();
+                        anyWindow_1 = window;
+                        anyWindow_1.module = {};
+                        return [4 /*yield*/, loadScript("js/markdown-it-plantuml/lib/deflate.js")];
+                    case 7:
+                        _c.sent();
+                        anyWindow_1.deflate = anyWindow_1.module.exports;
+                        anyWindow_1.require = function (_) { return anyWindow_1.deflate; };
+                        return [4 /*yield*/, loadScript("js/markdown-it-plantuml/index.js")];
+                    case 8:
+                        _c.sent();
+                        anyWindow_1["markdown-it-plantuml"] = anyWindow_1.module.exports;
                         applyMarkdown(function (markdown) {
                             var markdownitWindow = window;
-                            return markdownitWindow.markdownit({ html: true, }).use(markdownitWindow.markdownitEmoji).render(markdown);
+                            return markdownitWindow.markdownit({ html: true, })
+                                .use(markdownitWindow.markdownitEmoji)
+                                .use(markdownitWindow["markdown-it-plantuml"])
+                                .render(markdown);
                         });
-                        _c.label = 7;
-                    case 7:
-                        if (!isRemark) return [3 /*break*/, 12];
+                        _c.label = 9;
+                    case 9:
+                        if (!isRemark) return [3 /*break*/, 14];
                         //  theme
                         applyTheme(baseUrl);
                         //  style
@@ -1289,7 +1304,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         }).join("\n");
                         //  remark
                         return [4 /*yield*/, loadScript("js/remark-latest.min.js")];
-                    case 8:
+                    case 10:
                         //  remark
                         _c.sent();
                         config = JSON.parse((source + "<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
@@ -1301,20 +1316,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         remark.create(config);
                         //  MathJax
                         return [4 /*yield*/, tryOrThroughAsync("MathJax", loadMathJaxScript)];
-                    case 9:
+                    case 11:
                         //  MathJax
                         _c.sent();
                         //  twitter
                         return [4 /*yield*/, tryOrThroughAsync("twitter", loadTwitterScript)];
-                    case 10:
+                    case 12:
                         //  twitter
                         _c.sent();
                         return [4 /*yield*/, hideRendering()];
-                    case 11:
+                    case 13:
                         _c.sent();
-                        _c.label = 12;
-                    case 12:
-                        if (!isReveal) return [3 /*break*/, 17];
+                        _c.label = 14;
+                    case 14:
+                        if (!isReveal) return [3 /*break*/, 19];
                         //  reveal
                         appendTheme("css/reveal.css");
                         revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-THEME]league-->")[1].toLowerCase();
@@ -1362,10 +1377,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         };
                         pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(translateForSlide(source))));
                         return [4 /*yield*/, loadScript("lib/js/head.min.js")];
-                    case 13:
+                    case 15:
                         _c.sent();
                         return [4 /*yield*/, loadScript("js/reveal.js")];
-                    case 14:
+                    case 16:
                         _c.sent();
                         revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
                         console.log("reveal-transition: " + revealTransition);
@@ -1403,14 +1418,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         };
                         Reveal.initialize(objectAssign(defaultConfig, config));
                         return [4 /*yield*/, tryOrThroughAsync("twitter", loadTwitterScript)];
-                    case 15:
+                    case 17:
                         _c.sent();
                         return [4 /*yield*/, hideRendering()];
-                    case 16:
+                    case 18:
                         _c.sent();
-                        _c.label = 17;
-                    case 17:
-                        if (!isEdit) return [3 /*break*/, 19];
+                        _c.label = 19;
+                    case 19:
+                        if (!isEdit) return [3 /*break*/, 21];
                         //  edit
                         recursiveAssign(document.body.style, {
                             margin: "0",
@@ -1486,10 +1501,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         });
                         update();
                         return [4 /*yield*/, hideRendering()];
-                    case 18:
+                    case 20:
                         _c.sent();
-                        _c.label = 19;
-                    case 19: return [2 /*return*/];
+                        _c.label = 21;
+                    case 21: return [2 /*return*/];
                 }
             });
         });

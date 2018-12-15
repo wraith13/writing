@@ -339,7 +339,9 @@ body.markdown.solid div.content h1:first-child {
   background-color: #444461;
   width: 100vw;
   margin-left: -0.5em;
+  margin-right: -0.5em;
   padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 @media (min-width: 45rem) {
   body.markdown.solid div.content h1:first-child {

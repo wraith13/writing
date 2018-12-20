@@ -2,19 +2,9 @@
 //  The license of this file is Boost Software License, Version 1.0. ( Http://www.boost.org/LICENSE_1_0.txt ).
 //  このファイルのライセンスは Boost Software License, Version 1.0. ( http://www.boost.org/LICENSE_1_0.txt ) とします。
 
-declare const hljs: any;
-declare const marked: any;
 declare const remark: any;
-declare const commonmark: any;
-declare const Reveal: any;
-
-interface ArrayConstructor {
-    from<T, U>(arrayLike: ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): Array<U>;
-    from<T>(arrayLike: ArrayLike<T>): Array<T>;
-}
-declare interface ObjectConstructor {
-    assign(target: any, ...sources: any[]): any;
-}
+let hljs: any;
+let Reveal: any;
 
 (function()
 {
@@ -375,7 +365,7 @@ declare interface ObjectConstructor {
     );
     const loadHighlightScript = async function() : Promise<void>
     {
-        await loadScript("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js");
+        hljs = await window.module.load("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js");
         hljs.initHighlightingOnLoad();
         applyHighlight();
     };
@@ -1587,7 +1577,7 @@ declare interface ObjectConstructor {
         if (isMarked)
         {
             //  marked
-            await loadScript("js/marked.js");
+            const marked = await window.module.load("js/marked.js");
             let config : any = { gfm: true, tables: true };
             try
             {
@@ -1623,7 +1613,7 @@ declare interface ObjectConstructor {
         if (isCommonMark)
         {
             //  commonmark
-            await loadScript("js/commonmark.js");
+            const commonmark = await window.module.load("js/commonmark.js");
             applyMarkdown
             (
                 function(markdown)
@@ -1641,26 +1631,18 @@ declare interface ObjectConstructor {
         if (isMarkdownIt)
         {
             //  markdown-it
-            await loadScript("js/markdown-it.js");
-            await loadScript("js/markdown-it-emoji.js");
-
-            //  fxxking commonjs
-            const anyWindow : any = window;
-            anyWindow.module = {  };
-            await loadScript("js/markdown-it-plantuml/lib/deflate.js");
-            anyWindow.deflate = anyWindow.module.exports;
-            anyWindow.require = (_ : string) => anyWindow.deflate;
-            await loadScript("js/markdown-it-plantuml/index.js");
-            anyWindow["markdown-it-plantuml"] = anyWindow.module.exports;
+            await window.module.load("js/markdown-it.js", ["markdown-it"]);
+            await window.module.load("js/markdown-it-emoji.js", ["markdown-it-emoji"]);
+            await window.module.load("js/markdown-it-plantuml/lib/deflate.js", ["./lib/deflate.js"]);
+            await window.module.load("js/markdown-it-plantuml/index.js", ["markdown-it-plantuml"]);
 
             applyMarkdown
             (
                 function(markdown)
                 {
-                    const markdownitWindow : any = window;
-                    return markdownitWindow.markdownit({ html: true, })
-                        .use(markdownitWindow.markdownitEmoji)
-                        .use(markdownitWindow["markdown-it-plantuml"])
+                    return window.require("markdown-it")({ html: true, })
+                        .use(window.require("markdown-it-emoji"))
+                        .use(window.require("markdown-it-plantuml"))
                         .render(markdown);
                 }
             );
@@ -1777,7 +1759,10 @@ declare interface ObjectConstructor {
             };
             pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(translateForSlide(source))));
             await loadScript("lib/js/head.min.js");
-            await loadScript("js/reveal.js");
+            await window.module.load("plugin/markdown/marked.js",["./marked"]);
+            hljs = await window.module.load("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js");
+            Reveal = await window.module.load("js/reveal.js");
+            window.module.pauseCapture();
             
             const revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
             console.log("reveal-transition: " +revealTransition);

@@ -34,6 +34,118 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var _this = this;
+(function () {
+    var loadScript = function (src) { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, new Promise(function (resolve, reject) {
+                    var script = document.createElement("script");
+                    script.src = src;
+                    script.onload = function () { return resolve(); };
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                })];
+        });
+    }); };
+    var makeAbsoluteUrl = function (base, url) {
+        var baseParts = base.split("?")[0].split("/");
+        if (4 <= baseParts.length && "" !== baseParts[baseParts.length - 1]) {
+            // ファイル名部分の除去
+            baseParts = baseParts.slice(0, -1);
+        }
+        if (4 <= baseParts.length && "" === baseParts[baseParts.length - 1]) {
+            // 末尾の空要素を除去(しておかないと結合時に余分に / が挟まる)
+            baseParts = baseParts.slice(0, -1);
+        }
+        var urlParts = url.split("/");
+        if (0 <= urlParts[0].indexOf(":")) {
+            //  絶対パスなので base 側は全て破棄
+            baseParts = [];
+        }
+        else {
+            if ("" === urlParts[0]) {
+                urlParts = urlParts.slice(1);
+                if ("" === urlParts[0]) {
+                    //  プロトコルだけ利用
+                    baseParts = baseParts.slice(0, 1);
+                }
+                else {
+                    //  サーバー名まで利用
+                    baseParts = baseParts.slice(0, 3);
+                }
+            }
+            else {
+                while (true) {
+                    if ("." === urlParts[0]) {
+                        urlParts = urlParts.slice(1);
+                        continue;
+                    }
+                    if (".." === urlParts[0]) {
+                        urlParts = urlParts.slice(1);
+                        if (4 <= baseParts.length) {
+                            baseParts = baseParts.slice(0, -1);
+                        }
+                        continue;
+                    }
+                    break;
+                }
+            }
+        }
+        return baseParts.concat(urlParts).join("/");
+    };
+    var evil = {
+        modules: {},
+        mapping: {},
+        module: {
+            registerMapping: function (path, mapping) { return mapping.forEach(function (i) { return evil.mapping[i] = path; }); },
+            load: function (path, mapping) { return __awaiter(_this, void 0, void 0, function () {
+                var absolutePath, result;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            absolutePath = makeAbsoluteUrl(location.href, resolveMapping(path));
+                            window.module.readyToCapture();
+                            console.log("load(\"" + absolutePath + "\", " + JSON.stringify(mapping) + ")");
+                            return [4 /*yield*/, loadScript(absolutePath)];
+                        case 1:
+                            _a.sent();
+                            result = evil.module.capture(path, mapping);
+                            return [2 /*return*/, result];
+                    }
+                });
+            }); },
+            capture: function (path, mapping) {
+                if (mapping) {
+                    evil.module.registerMapping(path, mapping);
+                }
+                var absolutePath = makeAbsoluteUrl(location.href, resolveMapping(path));
+                window.module.exports.default = window.module.exports.default || window.module.exports;
+                var result = evil.modules[absolutePath] = window.module.exports;
+                window.module.pauseCapture();
+                return result;
+            },
+            readyToCapture: function () { return window.module.exports = window.exports = {}; },
+            pauseCapture: function () { return window.exports = undefined; },
+            exports: {},
+        },
+    };
+    var resolveMapping = function (path) {
+        return evil.mapping[path] || path;
+    };
+    window.require = function (path) {
+        var absolutePath = makeAbsoluteUrl(location.href, resolveMapping(path));
+        var result = evil.modules[absolutePath];
+        if (!result) {
+            console.error("\"" + path + "\" is not found! require() of evil-commonjs need to load() in advance.");
+            console.error("loaded modules: \"" + JSON.stringify(Object.keys(evil.modules)) + "\"");
+            console.error("module mapping: \"" + JSON.stringify(evil.mapping) + "\"");
+        }
+        return result;
+    };
+    window.module = evil.module;
+})();
+var hljs;
+var Reveal;
 (function () {
     var _this = this;
     var globalState = {
@@ -356,9 +468,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
-                    case 0: return [4 /*yield*/, loadScript("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")];
+                    case 0: return [4 /*yield*/, window.module.load("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")];
                     case 1:
-                        _c.sent();
+                        hljs = _c.sent();
                         hljs.initHighlightingOnLoad();
                         applyHighlight();
                         return [2 /*return*/];
@@ -1061,7 +1173,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     };
     var render = function (renderer, baseUrl, source) {
         return __awaiter(this, void 0, void 0, function () {
-            var newUrl, currentUrlParamNames_1, referrerUrlParams, newUrl_1, urlArgs, isWriting, isMarked, isCommonMark, isMarkdownIt, isMarkdown, isRemark, isReveal, isEdit, message, applyMarkdown, config, linkMaker_1, markedRenderer, anyWindow_1, config, revealTheme, documentTheme, separator_1, separator_vertical_1, separator_notes_1, pasteMarkdown, revealTransition, forceTheme, config, defaultConfig, urlsDiv_1, textCounter_1, makeLink, defaultLink_1, markedLink_1, commonmarkLink_1, markdownitLink_1, remarkLink_1, revealLink_1, editLink_1, update, textarea_1;
+            var newUrl, currentUrlParamNames_1, referrerUrlParams, newUrl_1, urlArgs, isWriting, isMarked, isCommonMark, isMarkdownIt, isMarkdown, isRemark, isReveal, isEdit, message, applyMarkdown, marked, config, linkMaker_1, markedRenderer, commonmark_1, config, revealTheme, documentTheme, separator_1, separator_vertical_1, separator_notes_1, pasteMarkdown, revealTransition, forceTheme, config, defaultConfig, urlsDiv_1, textCounter_1, makeLink, defaultLink_1, markedLink_1, commonmarkLink_1, markdownitLink_1, remarkLink_1, revealLink_1, editLink_1, update, textarea_1;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -1217,11 +1329,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                             });
                         };
                         if (!isMarked) return [3 /*break*/, 2];
-                        //  marked
-                        return [4 /*yield*/, loadScript("js/marked.js")];
+                        return [4 /*yield*/, window.module.load("js/marked.js")];
                     case 1:
-                        //  marked
-                        _c.sent();
+                        marked = _c.sent();
                         config = { gfm: true, tables: true };
                         try {
                             config = JSON.parse((source + "<!--[MARKED-CONFIG] { \"gfm\": true, \"tables\": true } -->").split("<!--[MARKED-CONFIG]")[1].split("-->")[0].trim());
@@ -1252,41 +1362,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         _c.label = 2;
                     case 2:
                         if (!isCommonMark) return [3 /*break*/, 4];
-                        //  commonmark
-                        return [4 /*yield*/, loadScript("js/commonmark.js")];
+                        return [4 /*yield*/, window.module.load("js/commonmark.js")];
                     case 3:
-                        //  commonmark
-                        _c.sent();
+                        commonmark_1 = _c.sent();
                         applyMarkdown(function (markdown) {
-                            return new commonmark.HtmlRenderer().render(new commonmark.Parser().parse(markdown));
+                            return new commonmark_1.HtmlRenderer().render(new commonmark_1.Parser().parse(markdown));
                         });
                         _c.label = 4;
                     case 4:
                         if (!isMarkdownIt) return [3 /*break*/, 9];
                         //  markdown-it
-                        return [4 /*yield*/, loadScript("js/markdown-it.js")];
+                        return [4 /*yield*/, window.module.load("js/markdown-it.js", ["markdown-it"])];
                     case 5:
                         //  markdown-it
                         _c.sent();
-                        return [4 /*yield*/, loadScript("js/markdown-it-emoji.js")];
+                        return [4 /*yield*/, window.module.load("js/markdown-it-emoji.js", ["markdown-it-emoji"])];
                     case 6:
                         _c.sent();
-                        anyWindow_1 = window;
-                        anyWindow_1.module = {};
-                        return [4 /*yield*/, loadScript("js/markdown-it-plantuml/lib/deflate.js")];
+                        return [4 /*yield*/, window.module.load("js/markdown-it-plantuml/lib/deflate.js", ["./lib/deflate.js"])];
                     case 7:
                         _c.sent();
-                        anyWindow_1.deflate = anyWindow_1.module.exports;
-                        anyWindow_1.require = function (_) { return anyWindow_1.deflate; };
-                        return [4 /*yield*/, loadScript("js/markdown-it-plantuml/index.js")];
+                        return [4 /*yield*/, window.module.load("js/markdown-it-plantuml/index.js", ["markdown-it-plantuml"])];
                     case 8:
                         _c.sent();
-                        anyWindow_1["markdown-it-plantuml"] = anyWindow_1.module.exports;
                         applyMarkdown(function (markdown) {
-                            var markdownitWindow = window;
-                            return markdownitWindow.markdownit({ html: true, })
-                                .use(markdownitWindow.markdownitEmoji)
-                                .use(markdownitWindow["markdown-it-plantuml"])
+                            return window.require("markdown-it")({ html: true, })
+                                .use(window.require("markdown-it-emoji"))
+                                .use(window.require("markdown-it-plantuml"))
                                 .render(markdown);
                         });
                         _c.label = 9;
@@ -1329,7 +1431,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         _c.sent();
                         _c.label = 14;
                     case 14:
-                        if (!isReveal) return [3 /*break*/, 19];
+                        if (!isReveal) return [3 /*break*/, 21];
                         //  reveal
                         appendTheme("css/reveal.css");
                         revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-THEME]league-->")[1].toLowerCase();
@@ -1379,9 +1481,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         return [4 /*yield*/, loadScript("lib/js/head.min.js")];
                     case 15:
                         _c.sent();
-                        return [4 /*yield*/, loadScript("js/reveal.js")];
+                        return [4 /*yield*/, window.module.load("plugin/markdown/marked.js", ["./marked"])];
                     case 16:
                         _c.sent();
+                        return [4 /*yield*/, window.module.load("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")];
+                    case 17:
+                        hljs = _c.sent();
+                        return [4 /*yield*/, window.module.load("js/reveal.js")];
+                    case 18:
+                        Reveal = _c.sent();
+                        window.module.pauseCapture();
                         revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
                         console.log("reveal-transition: " + revealTransition);
                         console.log("reveal-theme(forced by url param): " + Reveal.getQueryHash().theme);
@@ -1418,14 +1527,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         };
                         Reveal.initialize(objectAssign(defaultConfig, config));
                         return [4 /*yield*/, tryOrThroughAsync("twitter", loadTwitterScript)];
-                    case 17:
+                    case 19:
                         _c.sent();
                         return [4 /*yield*/, hideRendering()];
-                    case 18:
+                    case 20:
                         _c.sent();
-                        _c.label = 19;
-                    case 19:
-                        if (!isEdit) return [3 /*break*/, 21];
+                        _c.label = 21;
+                    case 21:
+                        if (!isEdit) return [3 /*break*/, 23];
                         //  edit
                         recursiveAssign(document.body.style, {
                             margin: "0",
@@ -1501,10 +1610,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         });
                         update();
                         return [4 /*yield*/, hideRendering()];
-                    case 20:
+                    case 22:
                         _c.sent();
-                        _c.label = 21;
-                    case 21: return [2 /*return*/];
+                        _c.label = 23;
+                    case 23: return [2 /*return*/];
                 }
             });
         });

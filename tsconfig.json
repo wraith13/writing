@@ -30,6 +30,7 @@
         "outFile": "js/writing.js"
     },
     "files": [
+        "js/evil-commonjs/index.ts",
         "js/writing.ts"
     ],
     "exclude": [

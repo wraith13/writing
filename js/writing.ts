@@ -1562,6 +1562,20 @@ let Reveal: any;
             //  twitter
             await tryOrThroughAsync("twitter", loadTwitterScript);
 
+            // mermaid
+            await tryOrThroughAsync
+            (
+                "mermaid",
+                async () =>
+                {
+                    const mermaid = await window.module.load("js/mermaid@8.0.0/mermaid.min.js");
+                    mermaid.initialize({startOnLoad: true, theme: 'forest'});
+                    mermaid.init({noteMargin: 10}, ".mermaid");
+                    mermaid.init({noteMargin: 10}, ".lang-mermaid");
+                    mermaid.init({noteMargin: 10}, ".language-mermaid");
+                }
+            );
+
             //  index
             applyIndex(source);
 

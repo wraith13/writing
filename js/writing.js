@@ -721,16 +721,17 @@ var Reveal;
                                     var mermaidSource = currentBlock_1.join("\n");
                                     currentLanguage_1 = language;
                                     currentBlock_1 = [];
-                                    var tempDiv = document.createElement("div");
-                                    tempDiv.id = "mermaid-" + mermaidCount_1++;
-                                    tempDiv.style.maxWidth = "30vw";
-                                    tempDiv.style.maxHeight = "30vh";
-                                    tempDiv.innerHTML = mermaidSource;
-                                    document.body.appendChild(tempDiv);
-                                    mermaid_1.init({ noteMargin: 10 }, "#" + tempDiv.id);
-                                    var svg = tempDiv.innerHTML;
-                                    document.body.removeChild(tempDiv);
-                                    return svg.replace("height=\"100%\"", ""); // height の指定を除去してやらないと上下にめっちゃ無駄なマージンがついてしまう。
+                                    var temporaryDiv = document.createElement("div");
+                                    temporaryDiv.id = "mermaid-" + mermaidCount_1++;
+                                    temporaryDiv.style.maxWidth = "60rem";
+                                    temporaryDiv.innerHTML = mermaidSource;
+                                    document.body.appendChild(temporaryDiv);
+                                    mermaid_1.init({ noteMargin: 10 }, "#" + temporaryDiv.id);
+                                    var svg = temporaryDiv.innerHTML;
+                                    document.body.removeChild(temporaryDiv);
+                                    return svg
+                                        .replace("<svg ", "<svg class=\"writing-mermaid\" ")
+                                        .replace("height=\"100%\"", ""); // height の指定を除去してやらないと上下にめっちゃ無駄なマージンがついてしまう。
                                     //本来的には↓このコードで上手く動作して欲しいが、これだと画面全体が使えることを前提としてフォントサイズが小さすぎる状態でレンダリングされてしまう。
                                     //return mermaid.render(`mermaid-${Date.now()}`, mermaidSource).replace("height=\"100%\"", "");
                                 }

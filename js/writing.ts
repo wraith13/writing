@@ -684,17 +684,18 @@ let Reveal: any;
                         currentLanguage = language;
                         currentBlock = [];
 
-                        const tempDiv : HTMLDivElement = document.createElement("div");
-                        tempDiv.id = `mermaid-${mermaidCount++}`;
-                        tempDiv.style.maxWidth = "30vw";
-                        tempDiv.style.maxHeight = "30vh";
-                        tempDiv.innerHTML = mermaidSource;
-                        document.body.appendChild(tempDiv);
-                        mermaid.init({noteMargin: 10}, "#" +tempDiv.id);
-                        let svg = tempDiv.innerHTML;
-                        document.body.removeChild(tempDiv);
+                        const temporaryDiv : HTMLDivElement = document.createElement("div");
+                        temporaryDiv.id = `mermaid-${mermaidCount++}`;
+                        temporaryDiv.style.maxWidth = "60rem";
+                        temporaryDiv.innerHTML = mermaidSource;
+                        document.body.appendChild(temporaryDiv);
+                        mermaid.init({noteMargin: 10}, "#" +temporaryDiv.id);
+                        let svg = temporaryDiv.innerHTML;
+                        document.body.removeChild(temporaryDiv);
 
-                        return svg.replace("height=\"100%\"", ""); // height の指定を除去してやらないと上下にめっちゃ無駄なマージンがついてしまう。
+                        return svg
+                            .replace("<svg ", "<svg class=\"writing-mermaid\" ")
+                            .replace("height=\"100%\"", ""); // height の指定を除去してやらないと上下にめっちゃ無駄なマージンがついてしまう。
 
                         //本来的には↓このコードで上手く動作して欲しいが、これだと画面全体が使えることを前提としてフォントサイズが小さすぎる状態でレンダリングされてしまう。
                         //return mermaid.render(`mermaid-${Date.now()}`, mermaidSource).replace("height=\"100%\"", "");

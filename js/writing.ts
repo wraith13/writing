@@ -525,11 +525,12 @@ let Reveal: any;
     const skipEscape = function
     (
         lines : string[],
-        map : (string, int) => string,
-        escapeMap : (string, int) => string = undefined
+        map : (line : string, line_number : number, language : string) => string,
+        escapeMap : (line : string, line_number : number, language : string) => string = undefined
     ) : string[]
     {
         let currentEscape = null;
+        let currentLanguage = null;
         return lines.map
         (
             (line : string, line_number : number) : string =>
@@ -541,6 +542,7 @@ let Reveal: any;
                     if (null === currentEscape)
                     {
                         currentEscape = escape;
+                        currentLanguage = line.trim().replace(escape, "").trim();
                     }
                     else
                     {
@@ -548,20 +550,21 @@ let Reveal: any;
                         line = currentEscape;
 
                         currentEscape = null;
+                        currentLanguage = null;
                     }
                 }
                 if (null === currentEscape || isEscape)
                 {
                     if (map)
                     {
-                        line = map(line, line_number);
+                        line = map(line, line_number, currentLanguage);
                     }
                 }
                 else
                 {
                     if (escapeMap)
                     {
-                        line = escapeMap(line, line_number);
+                        line = escapeMap(line, line_number, currentLanguage);
                     }
                 }
                 return line;
@@ -571,8 +574,8 @@ let Reveal: any;
     const skipEscapeBlock = function
     (
         source : string,
-        map : (string) => string,
-        escapeMap : (string) => string = undefined,
+        map : (line : string) => string,
+        escapeMap : (line : string) => string = undefined,
         finish : () => void = undefined
     ) : string
     {
@@ -582,7 +585,7 @@ let Reveal: any;
         skipEscape
         (
             source.split("\n"),
-            (line : string) : string =>
+            (line : string, _line_number : number, _language : string) : string =>
             {
                 if (isInEscape)
                 {
@@ -599,7 +602,7 @@ let Reveal: any;
                 current.push(line);
                 return line;
             },
-            (line : string) : string =>
+            (line : string, _line_number : number, _language : string) : string =>
             {
                 if (!isInEscape)
                 {
@@ -644,6 +647,92 @@ let Reveal: any;
         }
         return blocks.join("\n");
     };
+    const applyMermaid = async function(source : string) : Promise<string>
+    {
+        const mermaidLanguageName = "!mermaid";
+        let hasMermaidCode = false;
+        const lines = source.split("\n");
+        skipEscape
+        (
+            lines,
+            (line : string, _line_number : number, language : string) : string =>
+            {
+                if (mermaidLanguageName === language)
+                {
+                    hasMermaidCode = true;
+                }
+                return line;
+            }
+        );
+        if (hasMermaidCode)
+        {
+            let currentBlock : string[] = [];
+            let currentLanguage : string = null;
+            const mermaid = await window.module.load("js/mermaid@8.0.0/mermaid.min.js");
+            mermaid.initialize({startOnLoad: false, theme: 'forest'});
+            let mermaidCount = 0;
+    
+            return skipEscape
+            (
+                lines,
+                (line : string, _line_number : number, language : string) : string =>
+                {
+                    if (mermaidLanguageName === currentLanguage)
+                    {
+                        const mermaidSource = currentBlock.join("\n");
+
+                        currentLanguage = language;
+                        currentBlock = [];
+
+                        const tempDiv : HTMLDivElement = document.createElement("div");
+                        tempDiv.id = `mermaid-${mermaidCount++}`;
+                        tempDiv.style.maxWidth = "30vw";
+                        tempDiv.style.maxHeight = "30vh";
+                        tempDiv.innerHTML = mermaidSource;
+                        document.body.appendChild(tempDiv);
+                        mermaid.init({noteMargin: 10}, "#" +tempDiv.id);
+                        let svg = tempDiv.innerHTML;
+                        document.body.removeChild(tempDiv);
+
+                        return svg.replace("height=\"100%\"", ""); // height の指定を除去してやらないと上下にめっちゃ無駄なマージンがついてしまう。
+
+                        //本来的には↓このコードで上手く動作して欲しいが、これだと画面全体が使えることを前提としてフォントサイズが小さすぎる状態でレンダリングされてしまう。
+                        //return mermaid.render(`mermaid-${Date.now()}`, mermaidSource).replace("height=\"100%\"", "");
+                    }
+                    else
+                    {
+                        currentLanguage = language;
+                        if (mermaidLanguageName === currentLanguage)
+                        {
+                            return null;
+                        }
+                        else
+                        {
+                            return line;
+                        }
+                    }
+                },
+                (line : string, _line_number : number, _language : string) : string =>
+                {
+                    if (mermaidLanguageName === currentLanguage)
+                    {
+                        currentBlock.push(line);
+                        return null;
+                    }
+                    else
+                    {
+                        return line;
+                    }
+                }
+            )
+            .filter(line => null !== line)
+            .join("\n");
+        }
+        else
+        {
+            return source;
+        }
+    }
     const applyOption = function
     (
         source : string,
@@ -1523,7 +1612,7 @@ let Reveal: any;
         //  favicon
         applyIcon(baseUrl);
 
-        const applyMarkdown = async function(markdownToHtml : (string) => string) : Promise<void>
+        const applyMarkdown = async function(markdownToHtml : (markdown : string) => string) : Promise<void>
         {
             document.body.classList.add("markdown");
 
@@ -1534,6 +1623,9 @@ let Reveal: any;
             //  style
             source = applyStyle(source);
             
+            // mermaid
+            source = await applyMermaid(source);
+
             //  wallpaper
             applyWallPaper(baseUrl);
             
@@ -1561,20 +1653,6 @@ let Reveal: any;
 
             //  twitter
             await tryOrThroughAsync("twitter", loadTwitterScript);
-
-            // mermaid
-            await tryOrThroughAsync
-            (
-                "mermaid",
-                async () =>
-                {
-                    const mermaid = await window.module.load("js/mermaid@8.0.0/mermaid.min.js");
-                    mermaid.initialize({startOnLoad: true, theme: 'forest'});
-                    mermaid.init({noteMargin: 10}, ".mermaid");
-                    mermaid.init({noteMargin: 10}, ".lang-mermaid");
-                    mermaid.init({noteMargin: 10}, ".language-mermaid");
-                }
-            );
 
             //  index
             applyIndex(source);
@@ -1681,6 +1759,9 @@ let Reveal: any;
                     return line;
                 }
             ).join("\n");
+ 
+            // mermaid
+            source = await applyMermaid(source);
             
             //  remark
             await loadScript("js/remark-latest.min.js");
@@ -1724,6 +1805,9 @@ let Reveal: any;
 
             //  style
             source = applyStyle(source);
+
+            // mermaid
+            source = await applyMermaid(source);
 
             makeDomNode
             (

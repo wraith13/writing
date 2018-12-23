@@ -617,27 +617,30 @@ var Reveal;
     var skipEscape = function (lines, map, escapeMap) {
         if (escapeMap === void 0) { escapeMap = undefined; }
         var currentEscape = null;
+        var currentLanguage = null;
         return lines.map(function (line, line_number) {
             var escape = "$$" === line.trim() ? "$$" : line.trim().replace(/^(```+|~~~+).*/, "$1").replace(/^[`~]{0,2}(([^`~].*)|$)/, "");
             var isEscape = null === currentEscape && ("" !== escape) || (null !== currentEscape && currentEscape.substr(0, 1) === escape.substr(0, 1) && currentEscape.length <= escape.length);
             if (isEscape) {
                 if (null === currentEscape) {
                     currentEscape = escape;
+                    currentLanguage = line.trim().replace(escape, "").trim();
                 }
                 else {
                     // ここでこういう処理を挟むのは行儀が悪いけど、閉じが長すぎる場合にここで整形してしまう。
                     line = currentEscape;
                     currentEscape = null;
+                    currentLanguage = null;
                 }
             }
             if (null === currentEscape || isEscape) {
                 if (map) {
-                    line = map(line, line_number);
+                    line = map(line, line_number, currentLanguage);
                 }
             }
             else {
                 if (escapeMap) {
-                    line = escapeMap(line, line_number);
+                    line = escapeMap(line, line_number, currentLanguage);
                 }
             }
             return line;
@@ -649,7 +652,7 @@ var Reveal;
         var blocks = [];
         var current = [];
         var isInEscape = false;
-        skipEscape(source.split("\n"), function (line) {
+        skipEscape(source.split("\n"), function (line, _line_number, _language) {
             if (isInEscape) {
                 var currentBlock = current.join("\n");
                 blocks.push(escapeMap ?
@@ -660,7 +663,7 @@ var Reveal;
             }
             current.push(line);
             return line;
-        }, function (line) {
+        }, function (line, _line_number, _language) {
             if (!isInEscape) {
                 var currentBlock = current.join("\n");
                 blocks.push(map ?
@@ -689,6 +692,72 @@ var Reveal;
             finish();
         }
         return blocks.join("\n");
+    };
+    var applyMermaid = function (source) {
+        return __awaiter(this, void 0, void 0, function () {
+            var mermaidLanguageName, hasMermaidCode, lines, currentBlock_1, currentLanguage_1, mermaid_1, mermaidCount_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        mermaidLanguageName = "!mermaid";
+                        hasMermaidCode = false;
+                        lines = source.split("\n");
+                        skipEscape(lines, function (line, _line_number, language) {
+                            if (mermaidLanguageName === language) {
+                                hasMermaidCode = true;
+                            }
+                            return line;
+                        });
+                        if (!hasMermaidCode) return [3 /*break*/, 2];
+                        currentBlock_1 = [];
+                        currentLanguage_1 = null;
+                        return [4 /*yield*/, window.module.load("js/mermaid@8.0.0/mermaid.min.js")];
+                    case 1:
+                        mermaid_1 = _c.sent();
+                        mermaid_1.initialize({ startOnLoad: false, theme: 'forest' });
+                        mermaidCount_1 = 0;
+                        return [2 /*return*/, skipEscape(lines, function (line, _line_number, language) {
+                                if (mermaidLanguageName === currentLanguage_1) {
+                                    var mermaidSource = currentBlock_1.join("\n");
+                                    currentLanguage_1 = language;
+                                    currentBlock_1 = [];
+                                    var tempDiv = document.createElement("div");
+                                    tempDiv.id = "mermaid-" + mermaidCount_1++;
+                                    tempDiv.style.maxWidth = "30vw";
+                                    tempDiv.style.maxHeight = "30vh";
+                                    tempDiv.innerHTML = mermaidSource;
+                                    document.body.appendChild(tempDiv);
+                                    mermaid_1.init({ noteMargin: 10 }, "#" + tempDiv.id);
+                                    var svg = tempDiv.innerHTML;
+                                    document.body.removeChild(tempDiv);
+                                    return svg.replace("height=\"100%\"", ""); // height の指定を除去してやらないと上下にめっちゃ無駄なマージンがついてしまう。
+                                    //本来的には↓このコードで上手く動作して欲しいが、これだと画面全体が使えることを前提としてフォントサイズが小さすぎる状態でレンダリングされてしまう。
+                                    //return mermaid.render(`mermaid-${Date.now()}`, mermaidSource).replace("height=\"100%\"", "");
+                                }
+                                else {
+                                    currentLanguage_1 = language;
+                                    if (mermaidLanguageName === currentLanguage_1) {
+                                        return null;
+                                    }
+                                    else {
+                                        return line;
+                                    }
+                                }
+                            }, function (line, _line_number, _language) {
+                                if (mermaidLanguageName === currentLanguage_1) {
+                                    currentBlock_1.push(line);
+                                    return null;
+                                }
+                                else {
+                                    return line;
+                                }
+                            })
+                                .filter(function (line) { return null !== line; })
+                                .join("\n")];
+                    case 2: return [2 /*return*/, source];
+                }
+            });
+        });
     };
     var applyOption = function (source, TAG, applyer, finish) {
         if (finish === void 0) { finish = undefined; }
@@ -1285,6 +1354,10 @@ var Reveal;
                                             applyTheme(baseUrl);
                                             //  style
                                             source = applyStyle(source);
+                                            return [4 /*yield*/, applyMermaid(source)];
+                                        case 1:
+                                            // mermaid
+                                            source = _c.sent();
                                             //  wallpaper
                                             applyWallPaper(baseUrl);
                                             source = translateRelativeLink(baseUrl, source);
@@ -1301,17 +1374,17 @@ var Reveal;
                                             }
                                             //  highlight
                                             return [4 /*yield*/, tryOrThroughAsync("highlight", loadHighlightScript)];
-                                        case 1:
+                                        case 2:
                                             //  highlight
                                             _c.sent();
                                             //  MathJax
                                             return [4 /*yield*/, tryOrThroughAsync("MathJax", loadMathJaxScript)];
-                                        case 2:
+                                        case 3:
                                             //  MathJax
                                             _c.sent();
                                             //  twitter
                                             return [4 /*yield*/, tryOrThroughAsync("twitter", loadTwitterScript)];
-                                        case 3:
+                                        case 4:
                                             //  twitter
                                             _c.sent();
                                             //  index
@@ -1321,7 +1394,7 @@ var Reveal;
                                                 applyFragmentId();
                                             }
                                             return [4 /*yield*/, hideRendering()];
-                                        case 4:
+                                        case 5:
                                             _c.sent();
                                             return [2 /*return*/];
                                     }
@@ -1393,7 +1466,7 @@ var Reveal;
                         });
                         _c.label = 9;
                     case 9:
-                        if (!isRemark) return [3 /*break*/, 14];
+                        if (!isRemark) return [3 /*break*/, 15];
                         //  theme
                         applyTheme(baseUrl);
                         //  style
@@ -1404,9 +1477,13 @@ var Reveal;
                             }
                             return line;
                         }).join("\n");
+                        return [4 /*yield*/, applyMermaid(source)];
+                    case 10:
+                        // mermaid
+                        source = _c.sent();
                         //  remark
                         return [4 /*yield*/, loadScript("js/remark-latest.min.js")];
-                    case 10:
+                    case 11:
                         //  remark
                         _c.sent();
                         config = JSON.parse((source + "<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
@@ -1418,20 +1495,20 @@ var Reveal;
                         remark.create(config);
                         //  MathJax
                         return [4 /*yield*/, tryOrThroughAsync("MathJax", loadMathJaxScript)];
-                    case 11:
+                    case 12:
                         //  MathJax
                         _c.sent();
                         //  twitter
                         return [4 /*yield*/, tryOrThroughAsync("twitter", loadTwitterScript)];
-                    case 12:
+                    case 13:
                         //  twitter
                         _c.sent();
                         return [4 /*yield*/, hideRendering()];
-                    case 13:
-                        _c.sent();
-                        _c.label = 14;
                     case 14:
-                        if (!isReveal) return [3 /*break*/, 21];
+                        _c.sent();
+                        _c.label = 15;
+                    case 15:
+                        if (!isReveal) return [3 /*break*/, 23];
                         //  reveal
                         appendTheme("css/reveal.css");
                         revealTheme = /<!--\[REVEAL-THEME\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-THEME]league-->")[1].toLowerCase();
@@ -1444,6 +1521,10 @@ var Reveal;
                         applyTheme(baseUrl);
                         //  style
                         source = applyStyle(source);
+                        return [4 /*yield*/, applyMermaid(source)];
+                    case 16:
+                        // mermaid
+                        source = _c.sent();
                         makeDomNode({
                             parent: document.head,
                             tag: "style",
@@ -1479,16 +1560,16 @@ var Reveal;
                         };
                         pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(translateForSlide(source))));
                         return [4 /*yield*/, loadScript("lib/js/head.min.js")];
-                    case 15:
+                    case 17:
                         _c.sent();
                         return [4 /*yield*/, window.module.load("plugin/markdown/marked.js", ["./marked"])];
-                    case 16:
+                    case 18:
                         _c.sent();
                         return [4 /*yield*/, window.module.load("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")];
-                    case 17:
+                    case 19:
                         hljs = _c.sent();
                         return [4 /*yield*/, window.module.load("js/reveal.js")];
-                    case 18:
+                    case 20:
                         Reveal = _c.sent();
                         window.module.pauseCapture();
                         revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source + "<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();
@@ -1527,14 +1608,14 @@ var Reveal;
                         };
                         Reveal.initialize(objectAssign(defaultConfig, config));
                         return [4 /*yield*/, tryOrThroughAsync("twitter", loadTwitterScript)];
-                    case 19:
+                    case 21:
                         _c.sent();
                         return [4 /*yield*/, hideRendering()];
-                    case 20:
+                    case 22:
                         _c.sent();
-                        _c.label = 21;
-                    case 21:
-                        if (!isEdit) return [3 /*break*/, 23];
+                        _c.label = 23;
+                    case 23:
+                        if (!isEdit) return [3 /*break*/, 25];
                         //  edit
                         recursiveAssign(document.body.style, {
                             margin: "0",
@@ -1610,10 +1691,10 @@ var Reveal;
                         });
                         update();
                         return [4 /*yield*/, hideRendering()];
-                    case 22:
+                    case 24:
                         _c.sent();
-                        _c.label = 23;
-                    case 23: return [2 /*return*/];
+                        _c.label = 25;
+                    case 25: return [2 /*return*/];
                 }
             });
         });

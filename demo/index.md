@@ -68,6 +68,10 @@ h1 img
 
 - [twitter demo](twitter.md)
 
+## mermaid demo
+
+- [mermaid demo](mermaid.md)
+
 ## plantuml demo
 
 - [plantuml demo](plantuml.md)

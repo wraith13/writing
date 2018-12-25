@@ -1,7 +1,7 @@
 # Reveal.js
 
 <!--[NOWRITING]-->
-この markdown の表示用URL: <https://wraith13.github.io/writing/?demo/reveal.md>
+この markdown の表示用URL: <https://wraith13.github.io/writing/?@demo/reveal.md>
 <!--[/NOWRITING]-->
 <!--[WRTING-CONFING]
 {

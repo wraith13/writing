@@ -1,5 +1,10 @@
 # mermaid demo
 
+<!--[NOWRITING]-->
+<link rel="canonical" href="https://wraith13.github.io/writing/?@demo/mermaid.md" />
+この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?@demo/mermaid.md">https://wraith13.github.io/writing/?@demo/mermaid.md</a>
+<!--[/NOWRITING]-->
+
 <!--[NOREVEAL/]<span style="font-size:0.7em;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal)</span>-->
 <!--[REVEAL/]<span style="display:block;margin-left:auto;margin-right:auto;font-size:0.6em;width:450px;text-align:center;white-space:pre;">[markdown](?markdown) | [remark](?remark) | [reveal](?reveal)</span>-->
 <!--[REVEAL-THEME] beige -->

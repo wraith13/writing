@@ -1,7 +1,7 @@
 # 江添亮の詳説C++17
 
 <!--[NOWRITING]-->
-この markdown の表示用URL: <https://wraith13.github.io/writing/?demo/cpp17book.md.txt>
+この markdown の表示用URL: <https://wraith13.github.io/writing/?@demo/cpp17book.md.txt>
 <!--[/NOWRITING]-->
 
 <!--[WRTING-CONFING]

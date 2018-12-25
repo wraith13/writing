@@ -1,8 +1,8 @@
 # demo:  fade
 
 <!--[NOWRITING]-->
-<link rel="canonical" href="https://wraith13.github.io/writing/?demo/fade.md" />
-この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?demo/fade.md">https://wraith13.github.io/writing/?demo/fade.md</a>
+<link rel="canonical" href="https://wraith13.github.io/writing/?@demo/fade.md" />
+この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?@demo/fade.md">https://wraith13.github.io/writing/?@demo/fade.md</a>
 <!--[/NOWRITING]-->
 <!--[WRTING-CONFING]
 {
@@ -31,7 +31,7 @@ layout: true
 これは `fade.css` のデモです。
 
 - markdown: <https://github.com/wraith13/writing/blob/master/demo/fade.md>
-- スライド: <https://wraith13.github.io/writing/?demo/fade.md>
+- スライド: <https://wraith13.github.io/writing/?@demo/fade.md>
 
 ---
 

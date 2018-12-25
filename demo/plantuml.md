@@ -1,8 +1,8 @@
 # plantuml demo
 
 <!--[NOWRITING]-->
-<link rel="canonical" href="https://wraith13.github.io/writing/?demo/plantuml.md" />
-この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?demo/plantuml.md">https://wraith13.github.io/writing/?demo/plantuml.md</a>
+<link rel="canonical" href="https://wraith13.github.io/writing/?@demo/plantuml.md" />
+この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?@demo/plantuml.md">https://wraith13.github.io/writing/?@demo/plantuml.md</a>
 <!--[/NOWRITING]-->
 
 <!--[WRTING-CONFING]

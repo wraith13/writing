@@ -1,8 +1,8 @@
 # demo:  default
 
 <!--[NOWRITING]-->
-<link rel="canonical" href="https://wraith13.github.io/writing/?demo/default.md" />
-この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?demo/default.md">https://wraith13.github.io/writing/?demo/default.md</a>
+<link rel="canonical" href="https://wraith13.github.io/writing/?@demo/default.md" />
+この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?@demo/default.md">https://wraith13.github.io/writing/?@demo/default.md</a>
 <!--[/NOWRITING]-->
 <!--[WRTING-CONFING]
 {
@@ -27,7 +27,7 @@ layout: true
 これは `default.css` のデモです。
 
 - markdown: <https://github.com/wraith13/writing/blob/master/demo/default.md>
-- スライド: <https://wraith13.github.io/writing/?demo/default.md>
+- スライド: <https://wraith13.github.io/writing/?@demo/default.md>
 
 ---
 

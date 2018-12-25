@@ -1,8 +1,8 @@
 # demo:  wine
 
 <!--[NOWRITING]-->
-<link rel="canonical" href="https://wraith13.github.io/writing/?demo/wine.md" />
-この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?demo/wine.md">https://wraith13.github.io/writing/?demo/wine.md</a>
+<link rel="canonical" href="https://wraith13.github.io/writing/?@demo/wine.md" />
+この markdown の表示用URL: <a rel="canonical" href="https://wraith13.github.io/writing/?@demo/wine.md">https://wraith13.github.io/writing/?@demo/wine.md</a>
 <!--[/NOWRITING]-->
 <!--[WRTING-CONFING]
 {
@@ -27,7 +27,7 @@ layout: true
 これは `wine.css` のデモです。
 
 - markdown: <https://github.com/wraith13/writing/blob/master/demo/wine.md>
-- スライド: <https://wraith13.github.io/writing/?demo/wine.md>
+- スライド: <https://wraith13.github.io/writing/?@demo/wine.md>
 
 ---
 

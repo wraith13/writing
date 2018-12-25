@@ -20,10 +20,18 @@ This markdown display URL: <a rel="canonical" href="https://wraith13.github.io/w
 
 ## feature
 
+<!--[NOWRITING]-->
 - ✅ Documents can be displayed using [marked](https://github.com/markedjs/marked), [commonmark](https://github.com/commonmark/commonmark.js), [markdown-it](https://github.com/markdown-it/markdown-it) rendering engines.
 - ✅ Slides can be displayed using [remark](https://github.com/gnab/remark), [reveal](https://github.com/hakimel/reveal.js/) rendering engines.
 - ✅ [External markdown and instant display possible](https://wraith13.github.io/writing/?@README.md#play-now).
+- ✅ Supports mathjax, [plantuml](https://wraith13.github.io/writing/?@demo/plantuml.md), [mermaid](https://wraith13.github.io/writing/?@demo/mermaid.md), [twitter](https://wraith13.github.io/writing/?@demo/twitter.md), google analytics.
+<!--[/NOWRITING]-->
+<!--[WRITING/]
+- ✅ Documents can be displayed using [marked](https://github.com/markedjs/marked), [commonmark](https://github.com/commonmark/commonmark.js), [markdown-it](https://github.com/markdown-it/markdown-it) rendering engines.
+- ✅ Slides can be displayed using [remark](https://github.com/gnab/remark), [reveal](https://github.com/hakimel/reveal.js/) rendering engines.
+- ✅ [External markdown and instant display possible](#play-now).
 - ✅ Supports mathjax, [plantuml](@demo/plantuml.md), [mermaid](@demo/mermaid.md), [twitter](@demo/twitter.md), google analytics.
+-->
 
 ## as demo
 

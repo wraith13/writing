@@ -361,6 +361,19 @@ var Reveal;
             });
         }); };
     };
+    var makeErrorDiv = function (arg) {
+        return makeDomNode({
+            tag: "div",
+            style: {
+                color: "#AA3322",
+                backgroundColor: "#442211",
+                fontSize: "1.5rem",
+                padding: "0.4rem",
+                textAlign: "center",
+            },
+            children: arg,
+        });
+    };
     var showError = function (arg) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_c) {
@@ -369,18 +382,7 @@ var Reveal;
                         recursiveAssign(document.body.style, {
                             margin: "0px",
                         });
-                        makeDomNode({
-                            parent: document.body,
-                            tag: "div",
-                            style: {
-                                color: "#AA3322",
-                                backgroundColor: "#442211",
-                                fontSize: "1.5rem",
-                                padding: "0.4rem",
-                                textAlign: "center",
-                            },
-                            children: arg,
-                        });
+                        document.body.appendChild(makeErrorDiv(arg));
                         return [4 /*yield*/, hideRendering(true)];
                     case 1:
                         _c.sent();
@@ -726,7 +728,15 @@ var Reveal;
                                     temporaryDiv.style.maxWidth = "60rem";
                                     temporaryDiv.innerHTML = mermaidSource;
                                     document.body.appendChild(temporaryDiv);
-                                    mermaid_1.init({ noteMargin: 10 }, "#" + temporaryDiv.id);
+                                    try {
+                                        mermaid_1.init({ noteMargin: 10 }, "#" + temporaryDiv.id);
+                                    }
+                                    catch (error) {
+                                        var errorDiv = makeErrorDiv("🚫 ERROR: mermaid is not support your web browser...");
+                                        errorDiv.style.textAlign = "left";
+                                        temporaryDiv.innerHTML = errorDiv.outerHTML;
+                                        console.error("\uD83D\uDEAB mermaid: " + error);
+                                    }
                                     var svg = temporaryDiv.innerHTML;
                                     document.body.removeChild(temporaryDiv);
                                     return svg

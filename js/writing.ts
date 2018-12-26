@@ -235,19 +235,11 @@ let Reveal: any;
             await hideRendering();
         };
     };
-    const showError = async function(arg) : Promise<void>
+    const makeErrorDiv = function(arg : any) : Node
     {
-        recursiveAssign
-        (
-            document.body.style,
-            {
-                margin: "0px",
-            }
-        );
-        makeDomNode
+        return makeDomNode
         (
             {
-                parent: document.body,
                 tag: "div",
                 style:
                 {
@@ -260,6 +252,17 @@ let Reveal: any;
                 children: arg,
             }
         );
+    };
+    const showError = async function(arg : any) : Promise<void>
+    {
+        recursiveAssign
+        (
+            document.body.style,
+            {
+                margin: "0px",
+            }
+        );
+        document.body.appendChild(makeErrorDiv(arg));
         await hideRendering(true);
     };
     const showLoadingError = function(sourceUrl, request) : void
@@ -689,7 +692,17 @@ let Reveal: any;
                         temporaryDiv.style.maxWidth = "60rem";
                         temporaryDiv.innerHTML = mermaidSource;
                         document.body.appendChild(temporaryDiv);
-                        mermaid.init({noteMargin: 10}, "#" +temporaryDiv.id);
+                        try
+                        {
+                            mermaid.init({noteMargin: 10}, "#" +temporaryDiv.id);
+                        }
+                        catch(error)
+                        {
+                            var errorDiv = <HTMLDivElement>makeErrorDiv("🚫 ERROR: mermaid is not support your web browser...");
+                            errorDiv.style.textAlign = "left";
+                            temporaryDiv.innerHTML = errorDiv.outerHTML;
+                            console.error(`🚫 mermaid: ${error}`);
+                        }
                         let svg = temporaryDiv.innerHTML;
                         document.body.removeChild(temporaryDiv);
 

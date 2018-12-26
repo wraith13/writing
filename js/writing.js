@@ -701,7 +701,7 @@ var Reveal;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        mermaidLanguageName = "!mermaid";
+                        mermaidLanguageName = "mermaid";
                         hasMermaidCode = false;
                         lines = source.split("\n");
                         skipEscape(lines, function (line, _line_number, language) {

@@ -652,7 +652,7 @@ let Reveal: any;
     };
     const applyMermaid = async function(source : string) : Promise<string>
     {
-        const mermaidLanguageName = "!mermaid";
+        const mermaidLanguageName = "mermaid";
         let hasMermaidCode = false;
         const lines = source.split("\n");
         skipEscape

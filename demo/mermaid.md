@@ -26,7 +26,7 @@
 ## flowchart source
 
 ~~~
-```!mermaid
+```mermaid
 graph TD;
     A-->B;
     A-->C;
@@ -37,7 +37,7 @@ graph TD;
 
 ## flowchart figure
 
-```!mermaid
+```mermaid
 graph TD;
     A-->B;
     A-->C;
@@ -48,7 +48,7 @@ graph TD;
 ## sequence diagram source
 
 ~~~
-```!mermaid
+```mermaid
 sequenceDiagram
     participant Alice
     participant Bob
@@ -65,7 +65,7 @@ sequenceDiagram
 
 ## sequence diagram figure
 
-```!mermaid
+```mermaid
 sequenceDiagram
     participant Alice
     participant Bob
@@ -82,7 +82,7 @@ sequenceDiagram
 ## gantt diagram source
 
 ~~~
-```!mermaid
+```mermaid
 gantt
         dateFormat  YYYY-MM-DD
         title Adding GANTT diagram functionality to mermaid
@@ -103,7 +103,7 @@ gantt
 
 ## gantt diagram figure
 
-```!mermaid
+```mermaid
 gantt
         dateFormat  YYYY-MM-DD
         title Adding GANTT diagram functionality to mermaid
@@ -124,7 +124,7 @@ gantt
 ## class diagram source
 
 ~~~
-```!mermaid
+```mermaid
 classDiagram
 Class01 <|-- AveryLongClass : Cool
 Class03 *-- Class04
@@ -144,7 +144,7 @@ Class08 <--> C2: Cool label
 
 ## class diagram figure
 
-```!mermaid
+```mermaid
 classDiagram
 Class01 <|-- AveryLongClass : Cool
 Class03 *-- Class04
@@ -164,7 +164,7 @@ Class08 <--> C2: Cool label
 ## git graph source
 
 ~~~
-```!mermaid
+```mermaid
 gitGraph:
 options
 {
@@ -186,7 +186,7 @@ merge newbranch
 
 ## git graph figure
 
-```!mermaid
+```mermaid
 gitGraph:
 options
 {

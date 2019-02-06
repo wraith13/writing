@@ -506,7 +506,7 @@ var Reveal;
     };
     var makeAbsoluteUrl = function (base, url) {
         if ("@" === url.substr(0, 1)) {
-            return makeAbsoluteUrl(location.href, url.substr(1));
+            return makeAbsoluteUrl(globalState.systemRootUrl || location.href, url.substr(1));
         }
         if ("#" === url.substr(0, 1)) {
             return base.split("#")[0] + url;
@@ -1853,6 +1853,8 @@ var Reveal;
                             globalState.config.baseUrl += "/";
                         }
                         globalState.config.baseUrl = makeAbsoluteUrl(location.href, globalState.config.baseUrl);
+                        globalState.systemRootUrl = makeAbsoluteUrl(location.href, "@dummy").replace(/dummy$/, "");
+                        console.log("globalState.systemRootUrl: " + globalState.systemRootUrl);
                         loadUrlParameters();
                         if (!("@system-loading-error" === globalState.urlParameters.sourceUrl.toLowerCase())) return [3 /*break*/, 2];
                         return [3 /*break*/, 11];

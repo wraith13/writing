@@ -181,7 +181,7 @@ let Reveal: any;
                     element.addEventListener(key, arg.eventListener[key]);
                 }
             }
-       }
+        }
         if (undefined !== arg.parent)
         {
             arg.parent.appendChild(element);
@@ -384,7 +384,11 @@ let Reveal: any;
     {
         if ("@" === url.substr(0, 1))
         {
-            return makeAbsoluteUrl(location.href, url.substr(1));
+            return makeAbsoluteUrl
+            (
+                globalState.systemRootUrl || location.href,
+                url.substr(1)
+            );
         }
         if ("#" === url.substr(0, 1))
         {
@@ -2210,6 +2214,8 @@ let Reveal: any;
             globalState.config.baseUrl += "/";
         }
         globalState.config.baseUrl = makeAbsoluteUrl(location.href, globalState.config.baseUrl);
+        globalState.systemRootUrl = makeAbsoluteUrl(location.href, "@dummy").replace(/dummy$/, "");
+        console.log(`globalState.systemRootUrl: ${globalState.systemRootUrl}`);
         loadUrlParameters();
         if ("@system-loading-error" === globalState.urlParameters.sourceUrl.toLowerCase())
         {

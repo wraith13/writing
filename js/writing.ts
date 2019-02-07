@@ -366,7 +366,24 @@ let Reveal: any;
             }
         )
     );
-    const loadModule = (url: string, mapping ? : string[]) =>  window.module.load(makeSystemUrl(url), mapping);
+    //const loadModule = (url: string, mapping ? : string[]) =>  window.module.load(makeSystemUrl(url), mapping);
+    const loadModule = (url: string, mapping ? : string[]) =>
+    {
+        if ("@" === url.substr(0, 1))
+        {
+            return window.module.load
+            (
+                makeSystemUrl(url),
+                mapping ?
+                    mapping.concat(url.substr(1)):
+                    [url.substr(1)]
+            );
+        }
+        else
+        {
+            return window.module.load(url, mapping);
+        }
+    };
     const loadHighlightScript = async function() : Promise<void>
     {
         hljs = await loadModule("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js");
@@ -1779,7 +1796,7 @@ let Reveal: any;
                     return line;
                 }
             ).join("\n");
- 
+
             // mermaid
             source = await applyMermaid(source);
             

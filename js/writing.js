@@ -466,11 +466,22 @@ var Reveal;
                 }); })];
         });
     }); };
+    //const loadModule = (url: string, mapping ? : string[]) =>  window.module.load(makeSystemUrl(url), mapping);
+    var loadModule = function (url, mapping) {
+        if ("@" === url.substr(0, 1)) {
+            return window.module.load(makeSystemUrl(url), mapping ?
+                mapping.concat(url.substr(1)) :
+                [url.substr(1)]);
+        }
+        else {
+            return window.module.load(url, mapping);
+        }
+    };
     var loadHighlightScript = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
-                    case 0: return [4 /*yield*/, window.module.load("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")];
+                    case 0: return [4 /*yield*/, loadModule("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")];
                     case 1:
                         hljs = _c.sent();
                         hljs.initHighlightingOnLoad();
@@ -504,6 +515,7 @@ var Reveal;
             });
         });
     };
+    var makeSystemUrl = function (url) { return makeAbsoluteUrl(null, url); };
     var makeAbsoluteUrl = function (base, url) {
         if ("@" === url.substr(0, 1)) {
             return makeAbsoluteUrl(globalState.systemRootUrl || location.href, url.substr(1));
@@ -713,7 +725,7 @@ var Reveal;
                         if (!hasMermaidCode) return [3 /*break*/, 2];
                         currentBlock_1 = [];
                         currentLanguage_1 = null;
-                        return [4 /*yield*/, window.module.load("js/mermaid@8.0.0/mermaid.min.js")];
+                        return [4 /*yield*/, loadModule("@js/mermaid@8.0.0/mermaid.min.js")];
                     case 1:
                         mermaid_1 = _c.sent();
                         mermaid_1.initialize({ startOnLoad: false, theme: 'forest' });
@@ -1413,7 +1425,7 @@ var Reveal;
                             });
                         };
                         if (!isMarked) return [3 /*break*/, 2];
-                        return [4 /*yield*/, window.module.load("js/marked.js")];
+                        return [4 /*yield*/, loadModule("@js/marked.js")];
                     case 1:
                         marked = _c.sent();
                         config = { gfm: true, tables: true };
@@ -1446,7 +1458,7 @@ var Reveal;
                         _c.label = 2;
                     case 2:
                         if (!isCommonMark) return [3 /*break*/, 4];
-                        return [4 /*yield*/, window.module.load("js/commonmark.js")];
+                        return [4 /*yield*/, loadModule("@js/commonmark.js")];
                     case 3:
                         commonmark_1 = _c.sent();
                         applyMarkdown(function (markdown) {
@@ -1456,17 +1468,17 @@ var Reveal;
                     case 4:
                         if (!isMarkdownIt) return [3 /*break*/, 9];
                         //  markdown-it
-                        return [4 /*yield*/, window.module.load("js/markdown-it.js", ["markdown-it"])];
+                        return [4 /*yield*/, loadModule("@js/markdown-it.js", ["markdown-it"])];
                     case 5:
                         //  markdown-it
                         _c.sent();
-                        return [4 /*yield*/, window.module.load("js/markdown-it-emoji.js", ["markdown-it-emoji"])];
+                        return [4 /*yield*/, loadModule("@js/markdown-it-emoji.js", ["markdown-it-emoji"])];
                     case 6:
                         _c.sent();
-                        return [4 /*yield*/, window.module.load("js/markdown-it-plantuml/lib/deflate.js", ["./lib/deflate.js"])];
+                        return [4 /*yield*/, loadModule("@js/markdown-it-plantuml/lib/deflate.js", ["./lib/deflate.js"])];
                     case 7:
                         _c.sent();
-                        return [4 /*yield*/, window.module.load("js/markdown-it-plantuml/index.js", ["markdown-it-plantuml"])];
+                        return [4 /*yield*/, loadModule("@js/markdown-it-plantuml/index.js", ["markdown-it-plantuml"])];
                     case 8:
                         _c.sent();
                         applyMarkdown(function (markdown) {
@@ -1493,7 +1505,7 @@ var Reveal;
                         // mermaid
                         source = _c.sent();
                         //  remark
-                        return [4 /*yield*/, loadScript("js/remark-latest.min.js")];
+                        return [4 /*yield*/, loadScript(makeSystemUrl("@js/remark-latest.min.js"))];
                     case 11:
                         //  remark
                         _c.sent();
@@ -1570,16 +1582,16 @@ var Reveal;
                             });
                         };
                         pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(translateForSlide(source))));
-                        return [4 /*yield*/, loadScript("lib/js/head.min.js")];
+                        return [4 /*yield*/, loadScript(makeSystemUrl("@lib/js/head.min.js"))];
                     case 17:
                         _c.sent();
-                        return [4 /*yield*/, window.module.load("plugin/markdown/marked.js", ["./marked"])];
+                        return [4 /*yield*/, loadModule("@plugin/markdown/marked.js", ["./marked"])];
                     case 18:
                         _c.sent();
-                        return [4 /*yield*/, window.module.load("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")];
+                        return [4 /*yield*/, loadModule("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")];
                     case 19:
                         hljs = _c.sent();
-                        return [4 /*yield*/, window.module.load("js/reveal.js")];
+                        return [4 /*yield*/, loadModule("@js/reveal.js")];
                     case 20:
                         Reveal = _c.sent();
                         window.module.pauseCapture();

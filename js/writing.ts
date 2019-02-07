@@ -366,9 +366,10 @@ let Reveal: any;
             }
         )
     );
+    const loadModule = (url: string, mapping ? : string[]) =>  window.module.load(makeSystemUrl(url), mapping);
     const loadHighlightScript = async function() : Promise<void>
     {
-        hljs = await window.module.load("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js");
+        hljs = await loadModule("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js");
         hljs.initHighlightingOnLoad();
         applyHighlight();
     };
@@ -380,6 +381,7 @@ let Reveal: any;
     {
         await loadScript("//platform.twitter.com/widgets.js");
     };
+    const makeSystemUrl = (url : string): string => makeAbsoluteUrl(null, url);
     const makeAbsoluteUrl = function(base : string, url : string) : string
     {
         if ("@" === url.substr(0, 1))
@@ -675,7 +677,7 @@ let Reveal: any;
         {
             let currentBlock : string[] = [];
             let currentLanguage : string = null;
-            const mermaid = await window.module.load("js/mermaid@8.0.0/mermaid.min.js");
+            const mermaid = await loadModule("@js/mermaid@8.0.0/mermaid.min.js");
             mermaid.initialize({startOnLoad: false, theme: 'forest'});
             let mermaidCount = 0;
     
@@ -1687,7 +1689,7 @@ let Reveal: any;
         if (isMarked)
         {
             //  marked
-            const marked = await window.module.load("js/marked.js");
+            const marked = await loadModule("@js/marked.js");
             let config : any = { gfm: true, tables: true };
             try
             {
@@ -1723,7 +1725,7 @@ let Reveal: any;
         if (isCommonMark)
         {
             //  commonmark
-            const commonmark = await window.module.load("js/commonmark.js");
+            const commonmark = await loadModule("@js/commonmark.js");
             applyMarkdown
             (
                 function(markdown)
@@ -1741,10 +1743,10 @@ let Reveal: any;
         if (isMarkdownIt)
         {
             //  markdown-it
-            await window.module.load("js/markdown-it.js", ["markdown-it"]);
-            await window.module.load("js/markdown-it-emoji.js", ["markdown-it-emoji"]);
-            await window.module.load("js/markdown-it-plantuml/lib/deflate.js", ["./lib/deflate.js"]);
-            await window.module.load("js/markdown-it-plantuml/index.js", ["markdown-it-plantuml"]);
+            await loadModule("@js/markdown-it.js", ["markdown-it"]);
+            await loadModule("@js/markdown-it-emoji.js", ["markdown-it-emoji"]);
+            await loadModule("@js/markdown-it-plantuml/lib/deflate.js", ["./lib/deflate.js"]);
+            await loadModule("@js/markdown-it-plantuml/index.js", ["markdown-it-plantuml"]);
 
             applyMarkdown
             (
@@ -1782,7 +1784,7 @@ let Reveal: any;
             source = await applyMermaid(source);
             
             //  remark
-            await loadScript("js/remark-latest.min.js");
+            await loadScript(makeSystemUrl("@js/remark-latest.min.js"));
             const config = JSON.parse((source+"<!--[REMARK-CONFIG] { } -->").split("<!--[REMARK-CONFIG]")[1].split("-->")[0].trim());
             source = skipEscapeBlock
             (
@@ -1874,10 +1876,10 @@ let Reveal: any;
                 );
             };
             pasteMarkdown(translateRelativeLink(baseUrl, translateLinkWithinPageForReveal(translateForSlide(source))));
-            await loadScript("lib/js/head.min.js");
-            await window.module.load("plugin/markdown/marked.js",["./marked"]);
-            hljs = await window.module.load("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js");
-            Reveal = await window.module.load("js/reveal.js");
+            await loadScript(makeSystemUrl("@lib/js/head.min.js"));
+            await loadModule("@plugin/markdown/marked.js",["./marked"]);
+            hljs = await loadModule("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js");
+            Reveal = await loadModule("@js/reveal.js");
             window.module.pauseCapture();
             
             const revealTransition = /<!--\[REVEAL-TRANSITION\]\s*(.*?)\s*-->/.exec(source +"<!--[REVEAL-TRANSITION]concave-->")[1].toLowerCase();

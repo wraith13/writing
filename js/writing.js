@@ -616,7 +616,7 @@ var Reveal;
         }
         return result;
     };
-    var makeRelativeUrl = function (url) {
+    var makeDocumentRelativeUrl = function (url) {
         return makeBaseRelativeUrl(globalState.config.baseUrl, url);
     };
     var makeSystemRelativeUrl = function (url) {
@@ -875,11 +875,11 @@ var Reveal;
     };
     var translateRelativeUrl = function (baseUrl, url) {
         if ("?" === url.substr(0, 1)) {
-            return url + "&" + encodeURIComponent(makeRelativeUrl(baseUrl));
+            return url + "&" + encodeURIComponent(makeDocumentRelativeUrl(baseUrl));
         }
         else if ("#" !== url.substr(0, 1)) {
             var absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-            var relativeUrl = makeRelativeUrl(absoluteUrl);
+            var relativeUrl = makeDocumentRelativeUrl(absoluteUrl);
             if (/.*\.md(\.txt)?(#.*)?$/i.test(absoluteUrl)) {
                 var thisPath = globalState.documentBaseUrl.split("#")[0].split("?")[0];
                 if (thisPath !== absoluteUrl.split("#")[0].split("?")[0]) {
@@ -933,7 +933,7 @@ var Reveal;
                     while (null !== (match = img_re.exec(part))) {
                         var url = match[4];
                         var absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-                        var relativeUrl = makeSystemRelativeUrl(absoluteUrl); // 画像をいまこの場で表示する必要があるので、 makeRelativeUrl ではなく makeSystemRelativeUrl でなければならない。
+                        var relativeUrl = makeSystemRelativeUrl(absoluteUrl); // 画像をいまこの場で表示する必要があるので、 makeDocumentRelativeUrl ではなく makeSystemRelativeUrl でなければならない。
                         part = part.replace(match[0], "<" + match[1] + "img" + match[2] + "src=" + match[3] + relativeUrl + match[5] + ">");
                     }
                 }

@@ -532,13 +532,17 @@ let Reveal: any;
         }
         return result;
     };
+    const makeViewRelativeUrl = function(url : string) : string
+    {
+        return makeBaseRelativeUrl(location.href.split("#")[0], url);
+    };
     const makeDocumentRelativeUrl = function(url : string) : string
     {
         return makeBaseRelativeUrl(globalState.config.baseUrl, url);
     };
     const makeSystemRelativeUrl = function(url : string) : string
     {
-        return makeBaseRelativeUrl(location.href.split("#")[0], url);
+        return makeBaseRelativeUrl(globalState.systemRootUrl, url);
     };
     const makeRebaseUrl = function(base : string, url : string) : string
     {
@@ -546,7 +550,7 @@ let Reveal: any;
         {
             return url;
         }
-        return makeSystemRelativeUrl(makeAbsoluteUrl(base, url));
+        return makeViewRelativeUrl(makeAbsoluteUrl(base, url));
     };
     const skipEscape = function
     (
@@ -1001,7 +1005,7 @@ let Reveal: any;
                             {
                                 const url = match[4];
                                 const absoluteUrl = makeAbsoluteUrl(baseUrl, url);
-                                const relativeUrl = makeSystemRelativeUrl(absoluteUrl); // 画像をいまこの場で表示する必要があるので、 makeDocumentRelativeUrl ではなく makeSystemRelativeUrl でなければならない。
+                                const relativeUrl = makeViewRelativeUrl(absoluteUrl); // 画像をいまこの場で表示する必要があるので、 makeDocumentRelativeUrl ではなく makeViewRelativeUrl でなければならない。
                                 part = part.replace(match[0], "<" +match[1] +"img" +match[2] +"src=" +match[3] +relativeUrl +match[5] +">");
                             }
                         }

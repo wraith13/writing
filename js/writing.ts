@@ -2173,7 +2173,7 @@ let Reveal: any;
                         const name = script.getAttribute("data-let");
                         const sourceUrl = script.src;
                         console.log("📥 loading json(" +name +"): " +sourceUrl);
-                                    const request = new XMLHttpRequest();
+                        const request = new XMLHttpRequest();
                         request.open('GET', sourceUrl, true);
                         request.onreadystatechange = function()
                         {

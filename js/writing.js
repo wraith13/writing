@@ -1,9 +1,10 @@
 'use strict';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -105,7 +106,7 @@ var _this = this;
                         case 0:
                             absolutePath = makeAbsoluteUrl(location.href, resolveMapping(path));
                             window.module.readyToCapture();
-                            console.log("load(\"" + absolutePath + "\", " + JSON.stringify(mapping) + ")");
+                            console.log("load(\"".concat(absolutePath, "\", ").concat(JSON.stringify(mapping), ")"));
                             return [4 /*yield*/, loadScript(absolutePath)];
                         case 1:
                             _a.sent();
@@ -136,9 +137,9 @@ var _this = this;
         var absolutePath = makeAbsoluteUrl(location.href, resolveMapping(path));
         var result = evil.modules[absolutePath];
         if (!result) {
-            console.error("\"" + path + "\" is not found! require() of evil-commonjs need to load() in advance.");
-            console.error("loaded modules: \"" + JSON.stringify(Object.keys(evil.modules)) + "\"");
-            console.error("module mapping: \"" + JSON.stringify(evil.mapping) + "\"");
+            console.error("\"".concat(path, "\" is not found! require() of evil-commonjs need to load() in advance."));
+            console.error("loaded modules: \"".concat(JSON.stringify(Object.keys(evil.modules)), "\""));
+            console.error("module mapping: \"".concat(JSON.stringify(evil.mapping), "\""));
         }
         return result;
     };
@@ -160,7 +161,7 @@ var Reveal;
             f();
         }
         catch (err) {
-            console.error("\uD83D\uDEAB " + title + ": " + err);
+            console.error("\uD83D\uDEAB ".concat(title, ": ").concat(err));
         }
     };
     var tryOrThroughAsync = function (title, f) {
@@ -176,7 +177,7 @@ var Reveal;
                         return [3 /*break*/, 3];
                     case 2:
                         err_1 = _c.sent();
-                        console.error("\uD83D\uDEAB " + title + ": " + err_1);
+                        console.error("\uD83D\uDEAB ".concat(title, ": ").concat(err_1));
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -739,7 +740,7 @@ var Reveal;
                                     currentLanguage_1 = language;
                                     currentBlock_1 = [];
                                     var temporaryDiv = document.createElement("div");
-                                    temporaryDiv.id = "mermaid-" + mermaidCount_1++;
+                                    temporaryDiv.id = "mermaid-".concat(mermaidCount_1++);
                                     temporaryDiv.style.maxWidth = "60rem";
                                     temporaryDiv.innerHTML = mermaidSource;
                                     document.body.appendChild(temporaryDiv);
@@ -750,7 +751,7 @@ var Reveal;
                                         var errorDiv = makeErrorDiv("🚫 ERROR: mermaid is not support your web browser...");
                                         errorDiv.style.textAlign = "left";
                                         temporaryDiv.innerHTML = errorDiv.outerHTML;
-                                        console.error("\uD83D\uDEAB mermaid: " + error);
+                                        console.error("\uD83D\uDEAB mermaid: ".concat(error));
                                     }
                                     var svg = temporaryDiv.innerHTML;
                                     document.body.removeChild(temporaryDiv);
@@ -1457,7 +1458,7 @@ var Reveal;
                         };
                         config.renderer = markedRenderer;
                         marked.setOptions(config);
-                        applyMarkdown(marked);
+                        applyMarkdown(marked.parse);
                         _c.label = 2;
                     case 2:
                         if (!isCommonMark) return [3 /*break*/, 4];
@@ -1869,7 +1870,7 @@ var Reveal;
                         }
                         globalState.config.baseUrl = makeAbsoluteUrl(location.href, globalState.config.baseUrl);
                         globalState.systemRootUrl = makeAbsoluteUrl(location.href, "@dummy").replace(/dummy$/, "");
-                        console.log("globalState.systemRootUrl: " + globalState.systemRootUrl);
+                        console.log("globalState.systemRootUrl: ".concat(globalState.systemRootUrl));
                         loadUrlParameters();
                         if (!("@system-loading-error" === globalState.urlParameters.sourceUrl.toLowerCase())) return [3 /*break*/, 2];
                         return [3 /*break*/, 11];
@@ -1907,7 +1908,7 @@ var Reveal;
                     case 10:
                         err_2 = _c.sent();
                         showRenderingError();
-                        console.error("\uD83D\uDEAB " + err_2);
+                        console.error("\uD83D\uDEAB ".concat(err_2));
                         return [3 /*break*/, 11];
                     case 11: return [2 /*return*/];
                 }

@@ -1741,7 +1741,7 @@ let Reveal: any;
             config.renderer = markedRenderer;
             marked.setOptions(config);
 
-            applyMarkdown(marked);
+            applyMarkdown(marked.parse);
         }
         if (isCommonMark)
         {
